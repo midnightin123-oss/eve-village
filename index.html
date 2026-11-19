@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>이브 빌리지</title>
+<meta name="description" content="늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을">
+<meta property="og:type" content="website">
+<meta property="og:title" content="이브 빌리지">
+<meta property="og:description" content="늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을. 놀러 와!">
+<meta property="og:image" content="https://midnightin123-oss.github.io/eve-village/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://midnightin123-oss.github.io/eve-village/">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#1b1a2a;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent;}
   #view{position:fixed;inset:0;overflow:hidden;}
@@ -36,6 +44,13 @@
   #title input{width:240px;border:0;border-radius:999px;padding:12px 16px;font-size:16px;text-align:center;background:rgba(255,250,240,.95);color:#3e322b;outline:none;}
   #title button{border:0;border-radius:999px;padding:12px 30px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
   #err{font-size:13px;color:#ffc2b0;min-height:16px;}
+  #dressBtn{position:fixed;top:calc(52px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none;}
+  #dress{position:fixed;left:0;right:0;bottom:0;z-index:12;background:rgba(36,28,42,.92);backdrop-filter:blur(8px);color:#fff4e2;padding:16px 16px calc(16px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0;display:none;max-height:60vh;overflow:auto;}
+  #dress h3{margin:0 0 4px;font-size:15px;font-weight:600;}
+  #dress .row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px;}
+  #dress .sw{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.25);}
+  #dress .sw.on{border:3px solid #ffe08a;}
+  #dress .done{width:100%;border:0;border-radius:999px;padding:12px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
   #load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#2c2840;color:#f3ead8;font-size:16px;transition:opacity .8s;z-index:20;}
 </style>
 <script type="importmap">
@@ -44,7 +59,7 @@
 </head>
 <body>
 <div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="tags"></div><div id="tap"></div></div></div>
-<div id="place">광장</div><div id="who">1명 접속 중</div>
+<div id="place">광장</div><button id="dressBtn">꾸미기</button><div id="dress"></div><div id="who">1명 접속 중</div>
 <form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
 <div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
@@ -165,9 +180,23 @@ transformed.x+=wl*sL*sp*0.16*uWalk*lk;transformed.y+=wl*max(0.,sL*cos(uPhase))*0
 float wa=smoothstep(0.15,0.185,abs(position.z))*smoothstep(-0.34,-0.29,position.y)*(1.-smoothstep(-0.09,-0.04,position.y));
 transformed.x+=wa*(-sign(position.z))*sp*0.12*uWalk*clamp((-0.05-position.y)/0.25,0.,1.);
 if(position.y<hip){float th=1.35*uSit;float dx=transformed.x,dy=transformed.y-hip;float rx=dx*cos(th)-dy*sin(th);float ry=dx*sin(th)+dy*cos(th);transformed.x=mix(transformed.x,rx,wl);transformed.y=mix(transformed.y,hip+ry,wl);}`;
-function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uPhase:{value:0},uWalk:{value:0},uSit:{value:0}};
+// 꾸미기 팔레트 (첫 번째가 기본색)
+const BASE={k:[226,171,123],h:[119,76,49],s:[227,195,152],p:[142,144,95],o:[145,97,65]};
+const PAL={h:{t:'머리색',c:['#774c31','#2b2522','#e0b860','#e7a0b0','#8fb8d8','#c9c6cc','#c8703a']},
+  s:{t:'윗옷',c:['#e3c398','#f4f1ea','#a8c8e0','#f0b8c0','#b5dcc5','#f0d890','#4a5a80','#c0463c']},
+  p:{t:'바지',c:['#8e905f','#5a7898','#cdb48e','#3a3838','#7a5636','#b0503c']},
+  k:{t:'피부',c:['#e2ab7b','#f3cfb4','#d9a27a','#a8724c']},
+  o:{t:'신발',c:['#916141','#f2efe8','#3a3838','#c0463c']}};
+const regionTex=new THREE.TextureLoader().load(window.MODELS.region);regionTex.magFilter=regionTex.minFilter=THREE.NearestFilter;regionTex.generateMipmaps=false;regionTex.flipY=false;
+const hex3=(h)=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+function tintFor(key,idx){const c=hex3(PAL[key].c[idx]||PAL[key].c[0]),b=BASE[key];return idx?new THREE.Vector3(...[0,1,2].map(i=>Math.pow(c[i]/b[i],2.2))):new THREE.Vector3(1,1,1);} // 선형 색공간 기준 비율
+function setLook(c,look){look=Object.assign({h:0,s:0,p:0,k:0,o:0},look||{});c.look=look;const t=c.u.uTints.value;t[0].copy(tintFor('k',look.k));t[1].copy(tintFor('h',look.h));t[2].copy(tintFor('s',look.s));t[3].copy(tintFor('p',look.p));t[4].copy(tintFor('o',look.o));}
+function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
   m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='uniform float uPhase;uniform float uWalk;uniform float uSit;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM);
-    sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+    sh.fragmentShader='uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+    float rg=texture2D(uRegion,vMapUv).r;vec3 tn=vec3(1.);
+    if(rg<0.13)tn=uTints[0];else if(rg<0.32)tn=uTints[1];else if(rg<0.45)tn=vec3(1.);else if(rg<0.62)tn=uTints[2];else if(rg<0.87)tn=uTints[3];else tn=uTints[4];
+    diffuseColor.rgb=min(diffuseColor.rgb*tn,vec3(1.));
     float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,0.85);`);};
   m.customProgramCacheKey=()=>'villagerDeform';return {m,u};}
 const shCan=document.createElement('canvas');shCan.width=shCan.height=64;const sx=shCan.getContext('2d');const sgr=sx.createRadialGradient(32,32,0,32,32,32);sgr.addColorStop(0,'rgba(30,15,35,.5)');sgr.addColorStop(1,'rgba(30,15,35,0)');sx.fillStyle=sgr;sx.fillRect(0,0,64,64);
@@ -177,7 +206,7 @@ function makeChar(name,x,y,isMe){const g=new THREE.Group(),tilt=new THREE.Group(
   const body=gltf.scene.clone(true);const cm=charMaterial();body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;turn.add(body);
   const sh=new THREE.Mesh(new THREE.PlaneGeometry(0.8,0.8),shMat);sh.scale.y=0.42;sh.position.set(0,0.01,-0.5);g.add(sh);scene.add(g);
   const tag=document.createElement('div');tag.className='tag'+(isMe?' me':'');tag.textContent=name;tagsEl.appendChild(tag);
-  return {name,g,turn,body,u:cm.u,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
+  return {name,g,turn,body,u:cm.u,look:null,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
 function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();}
 const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
 function say(c,text){if(c.bub)c.bub.remove();const b=document.createElement('div');b.className='bub';b.textContent=text;tagsEl.appendChild(b);c.bub=b;c.bubT=5.5;}
@@ -248,13 +277,13 @@ const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),c
       D.onChildRemoved(pres,s=>{this.all.delete(s.key);this.dropPeer(s.key);updateWho();});
       return {ok:true};}catch(e){console.warn('firebase 연결 실패',e);return {ok:false,msg:'서버에 연결하지 못했어'};}},
   write(extra){if(!this.online||!me)return;const D=this.fn;
-    D.set(D.ref(this.db,'presence/'+this.uid),Object.assign({name:me.name,sid:this.sid,place:placeKey,x:+me.x.toFixed(2),y:+me.y.toFixed(2),tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:-1,t:D.serverTimestamp()},extra||{}));},
+    D.set(D.ref(this.db,'presence/'+this.uid),Object.assign({name:me.name,sid:this.sid,look:me.look||{},place:placeKey,x:+me.x.toFixed(2),y:+me.y.toFixed(2),tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:-1,t:D.serverTimestamp()},extra||{}));},
   move(tx,ty,seatIdx){this.write({tx:+tx.toFixed(2),ty:+ty.toFixed(2),seat:seatIdx??-1});this.lastSync=performance.now();},
   tick(){if(!this.online||!me)return;const moving=me.path&&me.path.length;if(moving&&performance.now()-this.lastSync>2500){const d=me.path[me.path.length-1];this.move(d[0],d[1],me.seat?P.seats.indexOf(me.seat):-1);}},
   onPeer(uid,d){if(!d)return;this.all.set(uid,d);if(uid===this.uid)return;this.applyPeer(uid,d);updateWho();},
   applyPeer(uid,d){if(d.place!==placeKey){this.dropPeer(uid);return;}let c=this.peers.get(uid);
     if(!c){c=makeChar(d.name||'이웃',d.x,d.y,false);this.peers.set(uid,c);}
-    c.tag.textContent=d.name||'이웃';
+    c.tag.textContent=d.name||'이웃';if(JSON.stringify(c.look)!==JSON.stringify(d.look||{}))setLook(c,d.look);
     if(Math.hypot((c.x-d.x)*AR,c.y-d.y)>10){c.x=d.x;c.y=d.y;}
     const seat=d.seat>=0?P.seats[d.seat]:null;goTo(c,seat?seat.x:d.tx,seat?seat.y:d.ty,seat);},
   dropPeer(uid){const c=this.peers.get(uid);if(c){removeChar(c);this.peers.delete(uid);}},
@@ -270,7 +299,7 @@ const NPC_NAMES={plaza:['솔이','도토리'],beach:['노을','조개','바람']
 let npcs=[];
 function spawnNpcs(){npcs.forEach(removeChar);npcs=[];if(Net.online)return;
   NPC_NAMES[placeKey].forEach((n,i)=>{let x,y,k=0;do{x=20+Math.random()*60;y=50+Math.random()*35;k++;}while(!walkable(x,y)&&k<200);
-    const c=makeChar(n,x,y,false);c.speed=0.07+Math.random()*0.03;c.wait=1+Math.random()*3;
+    const c=makeChar(n,x,y,false);setLook(c,{h:Math.floor(Math.random()*7),s:Math.floor(Math.random()*8),p:Math.floor(Math.random()*6),k:Math.floor(Math.random()*4),o:Math.floor(Math.random()*4)});c.speed=0.07+Math.random()*0.03;c.wait=1+Math.random()*3;
     if(placeKey==='beach'&&i<2){const s=P.seats[i*3];c.x=s.x;c.y=s.y;c.sitting=true;c.seat=s;faceTo(c,...s.look);c.wait=9999;}
     npcs.push(c);});}
 function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.floor(Math.random()*LINES[placeKey].length)]);c.lineT=10+Math.random()*14;}
@@ -287,7 +316,7 @@ function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x
 
 /* ===================== 7. 입력 ===================== */
 const tapEl=document.getElementById('tap');let panX=0,panY=0;
-document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching)return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
+document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='block')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
   const seat=P.seats.find(s=>Math.hypot((s.x-nx)*AR,s.y-ny)<3.6&&!npcs.some(n=>n.seat===s)&&![...Net.peers.values()].some(n=>n.seat===s&&n.sitting));
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
@@ -304,10 +333,22 @@ document.getElementById('load').style.opacity=0;setTimeout(()=>document.getEleme
 document.getElementById('go').addEventListener('click',async()=>{const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
   const pw=document.getElementById('pw').value;if(FIREBASE_CONFIG&&pw.length<6){document.getElementById('err').textContent='비밀번호는 6자 이상이어야 해';return;}
-  const goBtn=document.getElementById('go');goBtn.textContent='들어가는 중…';goBtn.disabled=true;const r=await Net.init(n,pw);if(!r.ok){document.getElementById('err').textContent=r.msg;goBtn.textContent='입장하기';goBtn.disabled=false;return;}document.getElementById('title').remove();me=makeChar(n,36,72,true);enter('plaza',[36,72],[36,60]);setTimeout(()=>{say(me,'안녕!');Net.chat('안녕!');},400);});
+  const goBtn=document.getElementById('go');goBtn.textContent='들어가는 중…';goBtn.disabled=true;const r=await Net.init(n,pw);if(!r.ok){document.getElementById('err').textContent=r.msg;goBtn.textContent='입장하기';goBtn.disabled=false;return;}document.getElementById('title').remove();me=makeChar(n,36,72,true);const saved=loadLook();setLook(me,saved||{});dressBtn.style.display='block';enter('plaza',[36,72],[36,60]);setTimeout(()=>{say(me,'안녕!');Net.chat('안녕!');if(!saved)openDress();},400);});
 nm.addEventListener('input',()=>document.getElementById('err').textContent='');document.getElementById('pw').addEventListener('input',()=>document.getElementById('err').textContent='');
 if(!FIREBASE_CONFIG)document.getElementById('pw').style.display='none';
 
+/* ===================== 8-b. 꾸미기 ===================== */
+const dressEl=document.getElementById('dress'),dressBtn=document.getElementById('dressBtn');
+function loadLook(){try{return JSON.parse(localStorage.getItem('ev_look')||'null');}catch(e){return null;}}
+function saveLook(l){try{localStorage.setItem('ev_look',JSON.stringify(l));}catch(e){}}
+function openDress(){dressEl.innerHTML='';const look=Object.assign({},me.look);
+  ['h','s','p','k','o'].forEach(key=>{const t=document.createElement('h3');t.textContent=PAL[key].t;dressEl.appendChild(t);const row=document.createElement('div');row.className='row';
+    PAL[key].c.forEach((col,i)=>{const b=document.createElement('button');b.className='sw'+(look[key]===i?' on':'');b.style.background=col;b.setAttribute('aria-label',PAL[key].t+' '+(i+1));
+      b.addEventListener('pointerup',e=>{e.stopPropagation();look[key]=i;setLook(me,look);row.querySelectorAll('.sw').forEach((x,j)=>x.classList.toggle('on',j===i));});row.appendChild(b);});dressEl.appendChild(row);});
+  const done=document.createElement('button');done.className='done';done.textContent='다 골랐어';done.addEventListener('pointerup',e=>{e.stopPropagation();dressEl.style.display='none';saveLook(me.look);Net.write({tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:me.seat?P.seats.indexOf(me.seat):-1});});
+  dressEl.appendChild(done);dressEl.style.display='block';}
+dressEl.addEventListener('pointerup',e=>e.stopPropagation());
+dressBtn.addEventListener('pointerup',e=>{e.stopPropagation();openDress();});
 /* ===================== 9. 게임 루프 ===================== */
 let last=performance.now();
 function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
