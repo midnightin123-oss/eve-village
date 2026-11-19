@@ -41,7 +41,7 @@
   .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
   .seatm b{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);font:700 11px/1 -apple-system,'Apple SD Gothic Neo',sans-serif;background:rgba(255,248,234,.95);color:#6a4232;padding:4px 8px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 6px rgba(60,30,40,.25);}
   @keyframes seatp{0%,100%{box-shadow:0 0 8px 1px rgba(255,205,130,.5)}50%{box-shadow:0 0 16px 5px rgba(255,215,140,.85)}}
-  #standBtn{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(64px + env(safe-area-inset-bottom));border:0;padding:10px 22px;border-radius:999px;background:#e8a457;color:#3a2420;font:700 14px -apple-system,'Apple SD Gothic Neo',sans-serif;box-shadow:0 4px 14px rgba(40,20,30,.35);z-index:6;display:none;}
+  #standBtn{position:fixed;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top));border:0;padding:10px 22px;border-radius:999px;background:#e8a457;color:#3a2420;font:700 14px -apple-system,'Apple SD Gothic Neo',sans-serif;box-shadow:0 4px 14px rgba(40,20,30,.35);z-index:6;display:none;}
   #chat{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:5;}
   #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
   #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
@@ -87,12 +87,13 @@
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js"></script>
 <script src="chars.js"></script>
+<script>Object.assign(window.MAPS,{library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_black.png"});</script>
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 /* ===================== 1. 장소 데이터 (좌표는 그림 기준 %) ===================== */
-const AR=2016/1140;
+let AR=2016/1140;const AR0=AR;
 const E=(cx,cy,rx,ry)=>({t:'e',cx,cy,rx,ry:ry??rx});
 const PLACES={
   plaza:{label:'광장',img:'plaza',size:0.092,
@@ -101,7 +102,7 @@ const PLACES={
           [[58,58],[66,58],[71,50],[70,40],[68,32],[73,31],[75,40],[75,51],[69,63],[59,64]]],
     block:[E(35,57,6.6,5.6),E(63.5,47,7.5,8.6),E(25,67.5,4.3,2.6),E(47,64,4.3,2.6),E(18.2,72,0.9,1.2),E(52.7,46.5,0.9,1.2),E(40,40,3,2.4)],
     seats:[{x:24.3,y:67.4,look:[35,51]},{x:26.8,y:68.8,look:[35,51]},{x:45.6,y:65.5,look:[35,51]},{x:48.3,y:63.6,look:[35,51]}],
-    exits:[{poly:[[49,80],[58,80],[57,87],[49,87]],to:'beach',spawn:[23,74],face:[30,70]}],
+    exits:[{poly:[[49,80],[58,80],[57,87],[49,87]],to:'beach',spawn:[23,74],face:[30,70]},{poly:[[44.5,38],[50,38],[50,41.2],[44.5,41.2]],to:'library',spawn:[71,90],face:[60,70]}],
     glows:[[33,25,9,'255,190,110'],[52.5,43,8,'255,190,110'],[18.5,63,8,'255,190,110'],[12,47,6,'255,170,90'],[63,49,6,'255,170,90'],[80,27,5,'255,170,90'],[83,50,5,'255,170,90'],[47,18,7,'255,180,100']],
     occ:[{p:[[29,52],[30,49],[31.5,46],[33,41],[33.8,37],[35,37],[36.2,41],[38,46],[39.8,49],[41,52],[41,58],[38,61.8],[32,61.8],[29,58]],b:61},
          {p:[[21.3,66],[25,64.3],[29.2,66.8],[29.2,71],[27,74.2],[23,72.4],[21.3,69]],b:73},
@@ -145,14 +146,35 @@ const PLACES={
          {p:[[42.6,56.5],[46.3,56.5],[46,61.5],[43,61.5]],b:61.2},
          {p:[[55,58],[58.3,58],[58,63],[55.3,63]],b:62.8},
          {p:[[56.2,78.5],[60.8,78.5],[60.5,86],[56.5,86]],b:85.5}],
-    flies:false,sea:{x0:30,x1:100,y0:22,y1:44}}
+    flies:false,sea:{x0:30,x1:100,y0:22,y1:44}},
+  library:{label:'도서관',img:'library',ar:2336/3504,sizeW:0.10,spd:0.75,gx:136,gy:204,
+    walk:[[[1,66],[6,62],[14,61.8],[38,61.5],[42,58.2],[69,57.8],[70.5,62],[70.5,66.5],[80,67.5],[84,63.5],[99,63],[99,90],[95,92],[92,99.5],[10,99.5],[6,94],[1,88]],
+          [[73,34.8],[76,38],[80,42],[81.5,48],[80,53],[76,57],[71,61],[71,69],[80,69],[80,64],[83,60],[87,56],[89,51],[88,45],[84,39],[79,34.8]],
+          [[5,32.6],[72,32.4],[80,33.2],[95,34.2],[98,37.6],[84,36.2],[76,35.6],[40,35.2],[5,35.6]]],
+    block:[],
+    seats:[{x:15,y:66.5,look:[30,63]},{x:49,y:61.8,look:[36,67]},
+           {x:36,y:67,look:[25,55],behind:true},{x:47,y:66,look:[30,55],behind:true},
+           {x:43,y:89.5,look:[37,80]},{x:55,y:84.5,look:[49,76]},{x:22,y:81,look:[28,92],behind:true},{x:34,y:78.5,look:[40,90],behind:true},
+           {x:16,y:30.5,look:[16,20],behind:true},{x:27,y:30.5,look:[27,20],behind:true},{x:50.5,y:30.2,look:[50,45],behind:true},
+           {x:72,y:28.5,look:[70,45],behind:true},{x:90.5,y:31.5,look:[78,34],behind:true}],
+    exits:[{poly:[[66,93],[77,93],[77,99.5],[66,99.5]],to:'plaza',spawn:[47.3,44.5],face:[47.3,60]}],
+    glows:[[25,54,30,'255,140,55',true],[86,69,8,'255,200,120'],[40,80,9,'255,200,120'],[88,25,7,'255,200,120'],[51,22,6,'255,200,120'],[71.5,48,5,'255,200,120'],[20,14,7,'255,190,110'],[45,10,7,'255,190,110'],[66,12,7,'255,190,110']],
+    occ:[{p:[[6,61],[13,60.5],[20.5,63.5],[20.5,70.5],[17,71.2],[7,68]],b:70.8},
+         {p:[[43,57.3],[50,56.8],[54.8,58.3],[54.8,64.3],[50,64.8],[43.3,62]],b:64.4},
+         {p:[[25.3,62.4],[40,62.4],[55,62.8],[58.2,64.3],[58.2,69.5],[33,74.2],[26.3,71.5]],b:73.8},
+         {p:[[10,84],[17,80],[37,77],[37,74],[45,74],[46,76.5],[60,75.5],[64,78],[66,83],[64,89],[47,93],[41,96.5],[34,96.5],[22,92],[11,89.5]],b:96},
+         {p:[[75,65],[82,63.5],[90,66],[98,70],[97,79],[93,84],[98,87],[92,90],[80,90],[72,87],[78,84],[76,77]],b:89.5},
+         {p:[[0,32.3],[20,31.2],[45,31],[60,31.2],[74,31.4],[76.5,35.5],[60,36],[40,35.7],[20,36.1],[0,37.5]],b:36.4},
+         {p:[[79,32.6],[84,32.8],[100,38],[100,42.5],[83,37.4],[78.5,36.6]],b:41}],
+    flies:false,sea:null,book:{x:85,y:78}},
 };
 const inPoly=(x,y,p)=>{let c=false;for(let i=0,j=p.length-1;i<p.length;j=i++){const[xi,yi]=p[i],[xj,yj]=p[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)c=!c;}return c;};
 const inE=(x,y,e)=>((x-e.cx)/e.rx)**2+((y-e.cy)/e.ry)**2<=1;
 let P=PLACES.plaza,placeKey='plaza';
 // 걸을 수 있는 칸 지도 (물건 실제 바닥 면적 + 캐릭터 몸 두께만큼 여유)
-const GX=window.NAV.GX,GY=window.NAV.GY,GRID={};
-for(const k of ['plaza','beach']){const bin=atob(window.NAV[k]);const g=new Uint8Array(GX*GY);for(let i=0;i<GX*GY;i++){g[i]=(bin.charCodeAt(i>>3)>>(7-(i&7)))&1;}GRID[k]=g;}
+let GX=window.NAV.GX,GY=window.NAV.GY;const GRID={},GDIM={};
+for(const k of Object.keys(PLACES)){const gx=PLACES[k].gx||window.NAV.GX,gy=PLACES[k].gy||window.NAV.GY;GDIM[k]=[gx,gy];const bin=atob(window.NAV[k]);const g=new Uint8Array(gx*gy);for(let i=0;i<gx*gy;i++){g[i]=(bin.charCodeAt(i>>3)>>(7-(i&7)))&1;}GRID[k]=g;}
+function useGrid(k){[GX,GY]=GDIM[k];}
 const cellOk=(cx,cy)=>cx>=0&&cy>=0&&cx<GX&&cy<GY&&GRID[placeKey][cy*GX+cx]===1;
 const walkable=(x,y)=>cellOk(Math.floor(x/100*GX),Math.floor(y/100*GY));
 const cellOf=(x,y)=>[Math.max(0,Math.min(GX-1,Math.floor(x/100*GX))),Math.max(0,Math.min(GY-1,Math.floor(y/100*GY)))];
@@ -258,8 +280,8 @@ function makeChar(name,x,y,isMe){const g=new THREE.Group(),tilt=new THREE.Group(
 function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();}
 const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
 function say(c,text){if(c.bub)c.bub.remove();const b=document.createElement('div');b.className='bub';b.textContent=text;tagsEl.appendChild(b);c.bub=b;c.bubT=5.5;}
-function seatZ(s){let z=s.y;(P.occ||[]).forEach(o=>{if(inPoly(s.x,s.y,o.p))z=Math.max(z,o.b);});return z+0.6;}
-const charH=(y)=>SH*P.size*(0.78+0.45*y/100);
+function seatZ(s){if(s.behind)return s.y;let z=s.y;(P.occ||[]).forEach(o=>{if(inPoly(s.x,s.y,o.p))z=Math.max(z,o.b);});return z+0.6;}
+const charH=(y)=>(P.sizeW?SW*P.sizeW:SH*P.size)*(0.78+0.45*y/100);
 function place(c,t){const px=c.x/100*SW,py=c.y/100*SH,s=charH(c.y);const zy=c.sitting&&c.seat?seatZ(c.seat)/100*SH:py;c.g.position.set(px,-py,zy*ZK);c.g.scale.setScalar(s);
   const moving=!!(c.path&&c.path.length);
   const dt=c._dt||0.016;c.wW+=((moving?1:0)-c.wW)*Math.min(1,dt*10);c.sW+=((c.sitting?1:0)-c.sW)*Math.min(1,dt*8);
@@ -273,10 +295,10 @@ function place(c,t){const px=c.x/100*SW,py=c.y/100*SH,s=charH(c.y);const zy=c.si
 function stepChar(c,dt){if(c.bubT>0){c.bubT-=dt;if(c.bubT<=0&&c.bub){c.bub.remove();c.bub=null;}}
   if(!c.path||!c.path.length){if(c.target){c.target=null;if(c.seat){c.x=c.seat.x;c.y=c.seat.y;c.sitting=true;faceTo(c,...c.seat.look);}}return;}
   c.target=c.path[0];const[tx,ty]=c.target;const dx=tx-c.x,dy=ty-c.y;const d=Math.hypot(dx*AR,dy);
-  const s=c.speed*100*dt*(0.85+0.3*c.y/100);
+  const s=c.speed*100*dt*(0.85+0.3*c.y/100)*(P.spd||1);
   if(d<=s){c.x=tx;c.y=ty;c.path.shift();if(!c.path.length){c.target=null;if(c.seat){c.x=c.seat.x;c.y=c.seat.y;c.sitting=true;faceTo(c,...c.seat.look);}}return;}
   c.x+=dx*AR/d*s/AR;c.y+=dy/d*s;faceTo(c,tx,ty);}
-function goTo(c,x,y,seat){c.sitting=false;c.seat=seat||null;const p=findPath(c.x,c.y,x,y);if(p&&p.length){c.path=p;c.target=p[0];}else{c.path=null;c.target=null;if(seat){c.x=seat.x;c.y=seat.y;c.sitting=true;faceTo(c,...seat.look);}}}
+function goTo(c,x,y,seat){c.sitting=false;c.seat=seat||null;const p=findPath(c.x,c.y,x,y);if(p&&p.length){if(seat){const l=p[p.length-1];if(Math.hypot(l[0]-seat.x,l[1]-seat.y)>0.05)p.push([seat.x,seat.y]);}c.path=p;c.target=p[0];}else{c.path=null;c.target=null;if(seat){c.x=seat.x;c.y=seat.y;c.sitting=true;faceTo(c,...seat.look);}}}
 /* ===================== 3-b. 가려짐: 그림 조각을 깊이 순서대로 덮기 ===================== */
 let occGroup=new THREE.Group();scene.add(occGroup);const texCache={};
 function mapTex(key){if(!texCache[key]){const t=new THREE.TextureLoader().load(window.MAPS[key]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;texCache[key]=t;}return texCache[key];}
@@ -359,9 +381,9 @@ const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),c
   chat(text){if(!this.online)return;const D=this.fn;D.push(D.ref(this.db,'chat/'+placeKey),{uid:this.uid,name:me.name,text,ts:Date.now()});}};
 function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d.place===placeKey)n++;});}else n+=npcs.length;
   document.getElementById('who').textContent=n+'명이 '+P.label+'에 있어요';}
-const LINES={plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
+const LINES={library:['여기 2층 창가 자리 최고야','벽난로 따뜻하다…','무슨 책 읽어?','쉿, 도서관이야','해먹에서 자고 싶다'],plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
              beach:['모닥불 따뜻해','파도 소리 들려?','여기 앉아도 돼요?','해 지는 거 봐','마시멜로 구울까']};
-const NPC_NAMES={plaza:['솔이','도토리'],beach:['노을','조개','바람']};
+const NPC_NAMES={library:['책벌레','모과'],plaza:['솔이','도토리'],beach:['노을','조개','바람']};
 let npcs=[];
 function spawnNpcs(){npcs.forEach(removeChar);npcs=[];if(Net.online)return;
   NPC_NAMES[placeKey].forEach((n,i)=>{let x,y,k=0;do{x=20+Math.random()*60;y=50+Math.random()*35;k++;}while(!walkable(x,y)&&k<200);
@@ -373,8 +395,8 @@ function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.flo
 
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
-let me=null,switching=false;
-function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();
+let me=null,switching=false,snapPan=true;
+function enter(key,spawn,face){placeKey=key;P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){switching=true;fade.style.opacity=1;
@@ -384,6 +406,7 @@ function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x
 const tapEl=document.getElementById('tap');let panX=0,panY=0;
 document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
+  if(P.book&&Math.hypot((P.book.x-nx)*AR,P.book.y-ny)<7){say(me,'책 꺼내기는 곧 열려요');}
   let seat=null,sd=4.5;P.seats.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<sd&&!seatTaken(s)){sd=d;seat=s;}});
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
   goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
@@ -394,7 +417,7 @@ document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault()
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
 const nm=document.getElementById('nm');nm.value=saved;
-mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();buildSeats();
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach','library','mask_library','fx_library'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();buildSeats();
 document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
 document.getElementById('go').addEventListener('click',async()=>{Snd.start();const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
@@ -419,6 +442,8 @@ const Snd={ctx:null,on:true,L:{},
     let m;
     if(placeKey==='beach'){const d=me?Math.hypot((me.x-52)*AR,me.y-63):40;const f=Math.max(0,1-d/45);
       m={waves:[0.95-0.45*f,18000],fire:[1.8*f,18000],wind:[0.22,18000],trees:[0.1,6000],crickets:[0.04,9000]};}
+    else if(placeKey==='library'){const d=me?Math.hypot((me.x-25)*AR,me.y-56):40;const f=Math.max(0,1-d/38);
+      m={waves:[0.12,500],fire:[0.25+1.4*f,18000],wind:[0.1,1200],trees:[0.16,2200],crickets:[0.03,3000]};}
     else m={waves:[0.32,650],fire:[0,18000],wind:[0.12,2500],trees:[0.5,18000],crickets:[0.18,18000]};
     const k=Math.min(1,dt*1.2);
     for(const n in this.L){const L=this.L[n],[v,f]=m[n]||[0,18000];const tv=this.on?v:0;
@@ -477,7 +502,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;place(c,t);}});
   const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
-  panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
+  if(snapPan&&me){panX=tx;panY=ty;snapPan=false;}else{panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;
   updateSeats();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
