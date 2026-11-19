@@ -124,9 +124,9 @@ const PLACES={
           [[3,55],[12,53],[22,70],[18,80],[13,76]],
           [[26,52],[43,52],[43,58],[26,59]]],
     block:[E(52,63.5,6.2,4.6),E(45.5,71,5.2,2.4),E(60.5,71,4.6,2.6),E(38,62,3.4,4.2),E(63,57,3.4,4.2),E(34,71,3.4,2.8),E(69.5,60,3.4,2.8),E(65,77,3.6,3.2),E(44.5,58.5,1.6,1.6),E(56.5,60,1.6,1.6),E(58,82,2,2),E(54.2,49,1,1.2),E(71,50,1,1.2)],
-    seats:[{x:38,y:61,look:[52,63]},{x:63,y:56,look:[52,63]},{x:45.5,y:70,look:[52,63]},{x:60.5,y:70,look:[52,63]},{x:44.5,y:58,look:[52,63]},{x:56.5,y:59.5,look:[52,63]},
+    seats:[{x:39.5,y:63.3,look:[52,63]},{x:62.2,y:58,look:[52,63]},{x:45.5,y:70,look:[52,63]},{x:60.5,y:70,look:[52,63]},{x:44.5,y:58,look:[52,63]},{x:56.5,y:59.5,look:[52,63]},
            {x:42,y:83,look:[52,63]},{x:48,y:84.5,look:[52,63]},{x:74,y:67,look:[52,63]},{x:79,y:68.5,look:[52,63]},{x:51,y:53,look:[52,63]},{x:55,y:53.5,look:[52,63]},
-           {x:58,y:81.5,look:[52,63]},{x:31,y:53,look:[31,40]},{x:35.5,y:53,look:[35.5,40]},{x:39.5,y:53,look:[39.5,40]}],
+           {x:58,y:81.5,look:[52,63]}],
     exits:[{poly:[[2,50],[9,50],[9,58],[2,60]],to:'plaza',spawn:[55,70],face:[45,60]}],
     glows:[[52,61,11,'255,160,70',true],[24,27,6,'255,190,110'],[24.5,45,5,'255,190,110'],[35,19,6,'255,190,110'],[55,36,8,'255,200,120'],[72,24,7,'255,190,110'],[69.5,33,4,'255,190,110'],[24.5,52,4,'255,190,110']],
     occ:[{p:[[17,30],[30,22.5],[44.5,32],[43.5,50.5],[30,51.5],[17.5,52.5]],b:50.5},
@@ -305,7 +305,7 @@ const seatsEl=document.getElementById('seats'),standBtn=document.getElementById(
 function seatTaken(s){return npcs.some(n=>n.seat===s&&n!==me)||[...Net.peers.values()].some(n=>n.seat===s&&n.sitting);}
 function buildSeats(){seatsEl.innerHTML='';seatEls=P.seats.map(s=>{const d=document.createElement('div');d.className='seatm';const w=0.028*SW;d.style.width=w+'px';d.style.height=(w*0.5)+'px';d.style.left=s.x+'%';d.style.top=s.y+'%';d.innerHTML='<b>앉기</b>';seatsEl.appendChild(d);return d;});}
 function updateSeats(){if(!me)return;const ms=me.sitting;
-  let best=-1,bd=1e9;const vis=P.seats.map((s,i)=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);const show=!ms&&me.seat!==s&&d<24&&!seatTaken(s);if(show&&d<bd){bd=d;best=i;}return show;});
+  let best=-1,bd=1e9;const vis=P.seats.map((s,i)=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);const show=!ms&&me.seat!==s&&d<7&&!seatTaken(s);if(show&&d<bd){bd=d;best=i;}return show;});
   P.seats.forEach((s,i)=>{const el=seatEls[i];if(!el)return;const v=vis[i]?'1':'0';if(el.style.opacity!==v)el.style.opacity=v;const lb=i===best?'visible':'hidden';if(el.firstChild.style.visibility!==lb)el.firstChild.style.visibility=lb;});
   const sb=ms?'block':'none';if(standBtn.style.display!==sb)standBtn.style.display=sb;}
 function standUp(){if(!me||!me.sitting)return;const s=me.seat;me.sitting=false;me.seat=null;const c=nearestOk(...cellOf(s.x,s.y));if(c){const[px,py]=cellPt(...c);me.path=[[px,py]];me.target=me.path[0];Net.move(px,py,-1);}else Net.move(me.x,me.y,-1);}
@@ -408,7 +408,7 @@ if(!FIREBASE_CONFIG)document.getElementById('pw').style.display='none';
 const SND_FILES={waves:90,fire:60,wind:55,trees:52,crickets:60},SND_PAD=0.1;
 const Snd={ctx:null,on:true,L:{},
   start(){if(this.ctx)return;let C;try{C=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}this.ctx=C;if(C.state==='suspended')C.resume();
-    const master=C.createGain();master.gain.value=0.9;master.connect(C.destination);this.master=master;
+    const comp=C.createDynamicsCompressor();comp.threshold.value=-10;comp.ratio.value=4;comp.connect(C.destination);const master=C.createGain();master.gain.value=0.9;master.connect(comp);this.master=master;
     for(const [k,len] of Object.entries(SND_FILES)){
       const g=C.createGain();g.gain.value=0;const lp=C.createBiquadFilter();lp.type='lowpass';lp.frequency.value=18000;lp.Q.value=0.5;lp.connect(g).connect(master);
       const L=this.L[k]={g,lp,ready:false};
@@ -417,9 +417,9 @@ const Snd={ctx:null,on:true,L:{},
   update(dt,t){if(!this.ctx)return;
     // 장소별 비율 (lp: 높을수록 가까이, 낮으면 멀리서 들리는 소리)
     let m;
-    if(placeKey==='beach'){const d=me?Math.hypot((me.x-52)*AR,me.y-63):40;const f=Math.max(0,1-d/40);
-      m={waves:[0.95,18000],fire:[f*f*1.1,18000],wind:[0.22,18000],trees:[0.1,6000],crickets:[0.12,9000]};}
-    else m={waves:[0.32,650],fire:[0,18000],wind:[0.12,2500],trees:[0.5,18000],crickets:[0.55,18000]};
+    if(placeKey==='beach'){const d=me?Math.hypot((me.x-52)*AR,me.y-63):40;const f=Math.max(0,1-d/45);
+      m={waves:[0.95-0.45*f,18000],fire:[1.8*f,18000],wind:[0.22,18000],trees:[0.1,6000],crickets:[0.04,9000]};}
+    else m={waves:[0.32,650],fire:[0,18000],wind:[0.12,2500],trees:[0.5,18000],crickets:[0.18,18000]};
     const k=Math.min(1,dt*1.2);
     for(const n in this.L){const L=this.L[n],[v,f]=m[n]||[0,18000];const tv=this.on?v:0;
       L.g.gain.value+=(tv-L.g.gain.value)*k;L.lp.frequency.value+=(f-L.lp.frequency.value)*k;}}};
