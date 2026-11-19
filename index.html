@@ -21,6 +21,9 @@
   #c{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
   .glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;animation:flick 1.6s ease-in-out infinite alternate;}
   @keyframes flick{0%{opacity:.55;transform:translate(-50%,-50%) scale(.94)}35%{opacity:.85}60%{opacity:.65;transform:translate(-50%,-50%) scale(1.04)}100%{opacity:.9;transform:translate(-50%,-50%) scale(.98)}}
+  .twk{position:absolute;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:#fff2c4;box-shadow:0 0 6px 2px rgba(255,214,130,.8);animation:tw 1.8s ease-in-out infinite;opacity:0;}
+  .drop{position:absolute;width:2px;height:7px;margin-left:-1px;border-radius:2px;background:rgba(235,248,255,.85);animation:fall 0.9s linear infinite;opacity:0;}
+  @keyframes fall{0%{transform:translateY(-10px);opacity:0}20%{opacity:.9}100%{transform:translateY(10px);opacity:0}}
   .spark{position:absolute;width:4px;height:2px;border-radius:2px;background:#fff6d8;animation:tw 2.4s ease-in-out infinite;opacity:0;}
   @keyframes tw{0%,100%{opacity:0}50%{opacity:.9}}
   .fly{position:absolute;width:5px;height:5px;border-radius:50%;background:#f4ffb0;box-shadow:0 0 8px 3px rgba(240,255,160,.5);animation:drift 6s ease-in-out infinite alternate;}
@@ -70,7 +73,7 @@
 </script>
 </head>
 <body>
-<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="tags"></div><div id="tap"></div></div></div>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="tags"></div><div id="tap"></div></div></div>
 <div id="place">광장</div><button id="dressBtn">꾸미기</button><div id="dress"></div><div id="who">1명 접속 중</div>
 <form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
@@ -95,7 +98,7 @@ const PLACES={
     seats:[{x:25.5,y:68,look:[23.5,76]},{x:47,y:64.5,look:[48.8,72]}],
     exits:[{poly:[[49,80],[58,80],[57,87],[49,87]],to:'beach',spawn:[23,74],face:[30,70]}],
     glows:[[33,25,9,'255,190,110'],[52.5,43,8,'255,190,110'],[18.5,63,8,'255,190,110'],[12,47,6,'255,170,90'],[63,49,6,'255,170,90'],[80,27,5,'255,170,90'],[83,50,5,'255,170,90'],[47,18,7,'255,180,100']],
-    occ:[{p:[[29,52],[30,48],[34,45],[35,42.5],[36,45],[40,48],[41,52],[41,58],[38,61.8],[32,61.8],[29,58]],b:61},
+    occ:[{p:[[29,52],[30,49],[31.5,46],[33,41],[33.8,37],[35,37],[36.2,41],[38,46],[39.8,49],[41,52],[41,58],[38,61.8],[32,61.8],[29,58]],b:61},
          {p:[[21.3,66],[25,64.3],[29.2,66.8],[29.2,71],[27,74.2],[23,72.4],[21.3,69]],b:73},
          {p:[[42.8,63.5],[48,60.3],[51.2,62.5],[50.8,65.2],[46,69.2],[42.8,66.2]],b:68},
          {p:[[17,59.5],[20,59.5],[19.4,77.5],[17.4,77.5]],b:77},
@@ -107,8 +110,10 @@ const PLACES={
          {p:[[35.5,0],[61,0],[61,22],[57.5,36.5],[40,36.5],[35.5,30]],b:36.5},
          {p:[[9,8],[25,6],[31,16],[31,31],[27,34.5],[12,34.5],[9,26]],b:34},
          {p:[[70,20],[74,14.5],[80,17],[84.5,22],[84.5,33.5],[72,36.5],[70,30]],b:34.5},
-         {p:[[76.5,42],[81,38],[86,40],[89.5,46],[89.5,57],[80,58.5],[76.5,54]],b:57}],
-    flies:true,sea:null},
+         {p:[[76.5,42],[81,38],[86,40],[89.5,46],[89.5,57],[80,58.5],[76.5,54]],b:57},
+         {p:[[20.4,68.4],[25.4,68.4],[25.4,75],[20.4,75]],b:74.6}],
+    flies:true,sea:null,
+    tree:{star:[34.4,38.6],box:[[34.4,39.5],[31.4,51.5],[37.6,51.5]],jets:[[32.3,54.4],[34.9,55],[37.8,53.8]]}},
   beach:{label:'해변',img:'beach',size:0.108,
     walk:[[[18,72],[22,62],[20,58],[30,59],[42,56],[46,50],[52,48],[60,47],[68,49],[75,53],[82,58],[90,64],[88,70],[80,74],[75,80],[72,92],[40,95],[28,92],[22,84]],
           [[3,55],[12,53],[22,70],[18,80],[13,76]],
@@ -163,7 +168,7 @@ function findPath(x0,y0,x1,y1){let s=nearestOk(...cellOf(x0,y0)),g=nearestOk(...
   return out.map(c=>cellPt(...c));}
 
 /* ===================== 2. 화면 / 렌더러 ===================== */
-const stage=document.getElementById('stage'),mapImg=document.getElementById('map'),fx=document.getElementById('fx'),tagsEl=document.getElementById('tags');
+const stage=document.getElementById('stage'),mapImg=document.getElementById('map'),fx=document.getElementById('fxTop'),tagsEl=document.getElementById('tags');
 let SW=1,SH=1;
 const canvas=document.getElementById('c');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
@@ -172,12 +177,29 @@ const scene=new THREE.Scene();
 const camera=new THREE.OrthographicCamera(0,1,0,-1,-4e6,4e6);
 const ZK=1000; // 깊이 배율: 발끝 y로 앞뒤를 정함
 function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth){SW=innerWidth;SH=SW/AR;}stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(SW,SH,false);camera.right=SW;camera.bottom=-SH;camera.updateProjectionMatrix();}
-layout();addEventListener('resize',()=>{layout();if(typeof buildOcc==='function')buildOcc();});
+layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();});
 // 해질녘 조명 (밤은 나중에 추가)
 scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
 const key=new THREE.DirectionalLight(0xffb070,0.55);key.position.set(1,1,1);scene.add(key);
 const fill=new THREE.DirectionalLight(0xb9a6e0,0.3);fill.position.set(-1,0.5,0.6);scene.add(fill);
 
+/* ===================== 2-b. 배경: 바람에 흔들리는 나뭇잎, 일렁이는 바다, 밀려오는 물거품 ===================== */
+const rawTex={};function rtex(k){if(!rawTex[k]){rawTex[k]=new THREE.TextureLoader().load(window.MAPS[k]);rawTex[k].minFilter=THREE.LinearFilter;rawTex[k].generateMipmaps=false;}return rawTex[k];}
+const bgMat=new THREE.ShaderMaterial({uniforms:{uMap:{value:null},uFx:{value:null},uTime:{value:0}},depthWrite:false,
+  vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:`uniform sampler2D uMap,uFx;uniform float uTime;varying vec2 vUv;
+  void main(){vec4 f=texture2D(uFx,vUv);vec2 uv=vUv;float w=f.r,aq=f.g;
+    float gust=0.6+0.4*sin(uTime*0.35+vUv.x*3.0);
+    uv.x+=w*0.0011*gust*sin(uTime*1.7+vUv.y*38.0+vUv.x*21.0);uv.y+=w*0.0006*gust*sin(uTime*1.3+vUv.x*30.0);
+    uv.y+=aq*0.0016*sin(uTime*1.25+vUv.x*55.0+vUv.y*160.0);uv.x+=aq*0.0010*sin(uTime*0.9+vUv.y*120.0);
+    vec3 c=texture2D(uMap,uv).rgb;
+    float s=aq*pow(max(0.,sin(uTime*1.6+vUv.x*95.0+vUv.y*310.0)*sin(uTime*0.7+vUv.x*41.0-vUv.y*170.0)),6.0);c+=s*0.35*vec3(1.,.86,.7);
+    float fo=f.b*(0.5+0.5*sin(uTime*1.05-vUv.y*180.0+vUv.x*20.0));c=mix(c,vec3(1.,.95,.92),fo*0.18);
+    gl_FragColor=vec4(c,1.);}`});
+const bgMesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),bgMat);bgMesh.renderOrder=-1;scene.add(bgMesh);
+function layoutBg(){bgMesh.scale.set(SW,SH,1);bgMesh.position.set(SW/2,-SH/2,-3.5e6);}
+function setBg(key){bgMat.uniforms.uMap.value=rtex(key);bgMat.uniforms.uFx.value=rtex('fx_'+key);}
+layoutBg();mapImg.style.visibility='hidden';
 /* ===================== 3. 캐릭터 ===================== */
 function soften(mat,sat){mat.onBeforeCompile=(sh)=>{sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
   float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,${sat.toFixed(2)});`);};return mat;}
@@ -254,8 +276,12 @@ function buildFx(){fx.innerHTML='';
   P.glows.forEach(([x,y,r,col,fire])=>{const g=document.createElement('div');g.className='glow';const R=r/100*SW;g.style.left=x+'%';g.style.top=y+'%';g.style.width=g.style.height=R+'px';
     g.style.background=`radial-gradient(circle,rgba(${col},${fire?.55:.35}) 0%,rgba(${col},0) 70%)`;g.style.animationDuration=(fire?0.7:1.8+Math.random()*1.2)+'s';g.style.animationDelay=(-Math.random()*2)+'s';fx.appendChild(g);});
   if(P.flies)[[12,30],[20,22],[60,24],[76,18],[6,58],[58,50],[82,62],[16,84],[44,88],[28,26],[64,74],[92,44]].forEach(([x,y],i)=>{const d=document.createElement('div');d.className='fly';d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(i*0.6)+'s';fx.appendChild(d);});
-  if(P.sea)for(let i=0;i<46;i++){const d=document.createElement('div');d.className='spark';const s=P.sea;const x=s.x0+Math.random()*(s.x1-s.x0),y=s.y0+Math.pow(Math.random(),0.7)*(s.y1-s.y0);if(x>74&&y>36)continue;d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(Math.random()*2.4)+'s';d.style.animationDuration=(1.6+Math.random()*1.6)+'s';fx.appendChild(d);} }
-
+  if(P.tree){const T=P.tree;
+    const st=document.createElement('div');st.className='glow';st.style.left=T.star[0]+'%';st.style.top=T.star[1]+'%';st.style.width=st.style.height=(0.045*SW)+'px';st.style.background='radial-gradient(circle,rgba(255,226,140,.75) 0%,rgba(255,200,110,0) 70%)';st.style.animationDuration='2.6s';fx.appendChild(st);
+    const [a,b,c]=T.box;for(let i=0;i<16;i++){let u=Math.random(),v=Math.random();if(u+v>1){u=1-u;v=1-v;}const x=a[0]+(b[0]-a[0])*u+(c[0]-a[0])*v,y=a[1]+(b[1]-a[1])*u+(c[1]-a[1])*v;
+      const d=document.createElement('div');d.className='twk';d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(-Math.random()*1.8)+'s';d.style.animationDuration=(1.4+Math.random()*1.4)+'s';fx.appendChild(d);}
+    T.jets.forEach(([x,y],j)=>{for(let k=0;k<3;k++){const d=document.createElement('div');d.className='drop';d.style.left=(x+(k-1)*0.25)+'%';d.style.top=(y-1.2)+'%';d.style.animationDelay=(-(j*0.3+k*0.3))+'s';fx.appendChild(d);}});}
+}
 /* ===================== 5. 이웃 (지금은 예시 주민, 나중에 서버 연결) ===================== */
 // ===== 같이 접속 (파이어베이스 Realtime Database) =====
 // ▼ 파이어베이스 콘솔 > 프로젝트 설정 > 내 앱 에서 복사한 설정을 여기에 붙여넣기. 비워두면 혼자 보는 연습 모드(예시 주민)로 돌아감.
@@ -320,7 +346,7 @@ function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.flo
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false;
-function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];placeEl.textContent=P.label;buildFx();buildOcc();
+function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){switching=true;fade.style.opacity=1;
@@ -340,7 +366,7 @@ document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault()
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
 const nm=document.getElementById('nm');nm.value=saved;
-mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');mapImg.src=window.MAPS.plaza;buildFx();buildOcc();
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();
 document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
 document.getElementById('go').addEventListener('click',async()=>{const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
@@ -400,7 +426,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
-  renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
+  bgMat.uniforms.uTime.value=t;renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
 </body>
