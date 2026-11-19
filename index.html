@@ -37,6 +37,11 @@
   @keyframes tap{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(1.4)}}
   #place{position:fixed;top:calc(12px + env(safe-area-inset-top));left:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
+  #seats{position:absolute;inset:0;pointer-events:none;}
+  .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
+  .seatm b{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translateX(-50%);font:700 11px/1 -apple-system,'Apple SD Gothic Neo',sans-serif;background:rgba(255,248,234,.95);color:#6a4232;padding:4px 8px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 6px rgba(60,30,40,.25);}
+  @keyframes seatp{0%,100%{box-shadow:0 0 8px 1px rgba(255,205,130,.5)}50%{box-shadow:0 0 16px 5px rgba(255,215,140,.85)}}
+  #standBtn{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(64px + env(safe-area-inset-bottom));border:0;padding:10px 22px;border-radius:999px;background:#e8a457;color:#3a2420;font:700 14px -apple-system,'Apple SD Gothic Neo',sans-serif;box-shadow:0 4px 14px rgba(40,20,30,.35);z-index:6;display:none;}
   #chat{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:5;}
   #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
   #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
@@ -73,9 +78,9 @@
 </script>
 </head>
 <body>
-<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="tags"></div><div id="tap"></div></div></div>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div></div>
 <div id="place">광장</div><button id="dressBtn">꾸미기</button><button id="sndBtn" style="position:fixed;top:calc(92px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none">소리 끄기</button><div id="dress"></div><div id="who">1명 접속 중</div>
-<form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
+<button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
 <div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
@@ -95,7 +100,7 @@ const PLACES={
           [[52,72],[56,65],[62,67],[60,74],[57,86],[49,86],[50,78]],
           [[58,58],[66,58],[71,50],[70,40],[68,32],[73,31],[75,40],[75,51],[69,63],[59,64]]],
     block:[E(35,57,6.6,5.6),E(63.5,47,7.5,8.6),E(25,67.5,4.3,2.6),E(47,64,4.3,2.6),E(18.2,72,0.9,1.2),E(52.7,46.5,0.9,1.2),E(40,40,3,2.4)],
-    seats:[{x:25.5,y:68,look:[23.5,76]},{x:47,y:64.5,look:[48.8,72]}],
+    seats:[{x:24.3,y:67.4,look:[35,51]},{x:26.8,y:68.8,look:[35,51]},{x:45.6,y:65.5,look:[35,51]},{x:48.3,y:63.6,look:[35,51]}],
     exits:[{poly:[[49,80],[58,80],[57,87],[49,87]],to:'beach',spawn:[23,74],face:[30,70]}],
     glows:[[33,25,9,'255,190,110'],[52.5,43,8,'255,190,110'],[18.5,63,8,'255,190,110'],[12,47,6,'255,170,90'],[63,49,6,'255,170,90'],[80,27,5,'255,170,90'],[83,50,5,'255,170,90'],[47,18,7,'255,180,100']],
     occ:[{p:[[29,52],[30,49],[31.5,46],[33,41],[33.8,37],[35,37],[36.2,41],[38,46],[39.8,49],[41,52],[41,58],[38,61.8],[32,61.8],[29,58]],b:61},
@@ -117,7 +122,6 @@ const PLACES={
   beach:{label:'해변',img:'beach',size:0.108,
     walk:[[[18,72],[22,62],[20,58],[30,59],[42,56],[46,50],[52,48],[60,47],[68,49],[75,53],[82,58],[90,64],[88,70],[80,74],[75,80],[72,92],[40,95],[28,92],[22,84]],
           [[3,55],[12,53],[22,70],[18,80],[13,76]],
-          [[76,49],[94,40],[97,46],[80,55]],[[72,55],[78,49.5],[81,54],[76,59]],
           [[26,52],[43,52],[43,58],[26,59]]],
     block:[E(52,63.5,6.2,4.6),E(45.5,71,5.2,2.4),E(60.5,71,4.6,2.6),E(38,62,3.4,4.2),E(63,57,3.4,4.2),E(34,71,3.4,2.8),E(69.5,60,3.4,2.8),E(65,77,3.6,3.2),E(44.5,58.5,1.6,1.6),E(56.5,60,1.6,1.6),E(58,82,2,2),E(54.2,49,1,1.2),E(71,50,1,1.2)],
     seats:[{x:38,y:61,look:[52,63]},{x:63,y:56,look:[52,63]},{x:45.5,y:70,look:[52,63]},{x:60.5,y:70,look:[52,63]},{x:44.5,y:58,look:[52,63]},{x:56.5,y:59.5,look:[52,63]},
@@ -154,7 +158,8 @@ const walkable=(x,y)=>cellOk(Math.floor(x/100*GX),Math.floor(y/100*GY));
 const cellOf=(x,y)=>[Math.max(0,Math.min(GX-1,Math.floor(x/100*GX))),Math.max(0,Math.min(GY-1,Math.floor(y/100*GY)))];
 const cellPt=(cx,cy)=>[(cx+0.5)/GX*100,(cy+0.5)/GY*100];
 function nearestOk(cx,cy){if(cellOk(cx,cy))return [cx,cy];for(let r=1;r<40;r++){let best=null,bd=1e9;for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;if(cellOk(cx+dx,cy+dy)){const d=dx*dx+dy*dy;if(d<bd){bd=d;best=[cx+dx,cy+dy];}}}if(best)return best;}return null;}
-function los(ax,ay,bx,by){const n=Math.ceil(Math.hypot(bx-ax,by-ay)*2)+1;for(let i=0;i<=n;i++){const t=i/n;if(!cellOk(Math.floor(ax+(bx-ax)*t),Math.floor(ay+(by-ay)*t)))return false;}return true;}
+function los(ax,ay,bx,by){const L=Math.hypot(bx-ax,by-ay),n=Math.ceil(L*4)+1,px=L?-(by-ay)/L*0.5:0,py=L?(bx-ax)/L*0.5:0;
+  for(let i=0;i<=n;i++){const t=i/n,x=ax+(bx-ax)*t,y=ay+(by-ay)*t;if(!cellOk(Math.floor(x),Math.floor(y))||!cellOk(Math.floor(x+px),Math.floor(y+py))||!cellOk(Math.floor(x-px),Math.floor(y-py)))return false;}return true;}
 function findPath(x0,y0,x1,y1){let s=nearestOk(...cellOf(x0,y0)),g=nearestOk(...cellOf(x1,y1));if(!s||!g)return null;
   const N=GX*GY,si=s[1]*GX+s[0],gi=g[1]*GX+g[0];const G=new Float32Array(N).fill(1e9),from=new Int32Array(N).fill(-1),closed=new Uint8Array(N);
   const open=[si];G[si]=0;const h=(i)=>{const dx=Math.abs(i%GX-g[0]),dy=Math.abs((i/GX|0)-g[1]);return Math.max(dx,dy)+0.414*Math.min(dx,dy);};
@@ -177,7 +182,7 @@ const scene=new THREE.Scene();
 const camera=new THREE.OrthographicCamera(0,1,0,-1,-4e6,4e6);
 const ZK=1000; // 깊이 배율: 발끝 y로 앞뒤를 정함
 function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth){SW=innerWidth;SH=SW/AR;}stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(SW,SH,false);camera.right=SW;camera.bottom=-SH;camera.updateProjectionMatrix();}
-layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();});
+layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();if(typeof buildSeats==='function')buildSeats();});
 // 해질녘 조명 (밤은 나중에 추가)
 scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
 const key=new THREE.DirectionalLight(0xffb070,0.55);key.position.set(1,1,1);scene.add(key);
@@ -295,6 +300,16 @@ function buildFx(){fx.innerHTML='';
       const d=document.createElement('div');d.className='twk';d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(-Math.random()*1.8)+'s';d.style.animationDuration=(1.4+Math.random()*1.4)+'s';fx.appendChild(d);}
 }
 }
+/* ===================== 4-b. 앉을 자리 표시 ===================== */
+const seatsEl=document.getElementById('seats'),standBtn=document.getElementById('standBtn');let seatEls=[];
+function seatTaken(s){return npcs.some(n=>n.seat===s&&n!==me)||[...Net.peers.values()].some(n=>n.seat===s&&n.sitting);}
+function buildSeats(){seatsEl.innerHTML='';seatEls=P.seats.map(s=>{const d=document.createElement('div');d.className='seatm';const w=0.028*SW;d.style.width=w+'px';d.style.height=(w*0.5)+'px';d.style.left=s.x+'%';d.style.top=s.y+'%';d.innerHTML='<b>앉기</b>';seatsEl.appendChild(d);return d;});}
+function updateSeats(){if(!me)return;const ms=me.sitting;
+  let best=-1,bd=1e9;const vis=P.seats.map((s,i)=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);const show=!ms&&me.seat!==s&&d<24&&!seatTaken(s);if(show&&d<bd){bd=d;best=i;}return show;});
+  P.seats.forEach((s,i)=>{const el=seatEls[i];if(!el)return;const v=vis[i]?'1':'0';if(el.style.opacity!==v)el.style.opacity=v;const lb=i===best?'visible':'hidden';if(el.firstChild.style.visibility!==lb)el.firstChild.style.visibility=lb;});
+  const sb=ms?'block':'none';if(standBtn.style.display!==sb)standBtn.style.display=sb;}
+function standUp(){if(!me||!me.sitting)return;const s=me.seat;me.sitting=false;me.seat=null;const c=nearestOk(...cellOf(s.x,s.y));if(c){const[px,py]=cellPt(...c);me.path=[[px,py]];me.target=me.path[0];Net.move(px,py,-1);}else Net.move(me.x,me.y,-1);}
+standBtn.addEventListener('pointerup',e=>{e.stopPropagation();standUp();});standBtn.addEventListener('pointerdown',e=>e.stopPropagation());
 /* ===================== 5. 이웃 (지금은 예시 주민, 나중에 서버 연결) ===================== */
 // ===== 같이 접속 (파이어베이스 Realtime Database) =====
 // ▼ 파이어베이스 콘솔 > 프로젝트 설정 > 내 앱 에서 복사한 설정을 여기에 붙여넣기. 비워두면 혼자 보는 연습 모드(예시 주민)로 돌아감.
@@ -359,7 +374,7 @@ function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.flo
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false;
-function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();
+function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){switching=true;fade.style.opacity=1;
@@ -369,7 +384,7 @@ function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x
 const tapEl=document.getElementById('tap');let panX=0,panY=0;
 document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
-  const seat=P.seats.find(s=>Math.hypot((s.x-nx)*AR,s.y-ny)<3.6&&!npcs.some(n=>n.seat===s)&&![...Net.peers.values()].some(n=>n.seat===s&&n.sitting));
+  let seat=null,sd=4.5;P.seats.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<sd&&!seatTaken(s)){sd=d;seat=s;}});
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
   goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
 // 출구 쪽은 걸을 수 있게
@@ -379,7 +394,7 @@ document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault()
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
 const nm=document.getElementById('nm');nm.value=saved;
-mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();buildSeats();
 document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
 document.getElementById('go').addEventListener('click',async()=>{Snd.start();const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
@@ -463,7 +478,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
-  Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
+  updateSeats();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
 </body>
