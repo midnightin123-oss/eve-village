@@ -45,12 +45,24 @@
   #title button{border:0;border-radius:999px;padding:12px 30px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
   #err{font-size:13px;color:#ffc2b0;min-height:16px;}
   #dressBtn{position:fixed;top:calc(52px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none;}
-  #dress{position:fixed;left:0;right:0;bottom:0;z-index:12;background:rgba(36,28,42,.92);backdrop-filter:blur(8px);color:#fff4e2;padding:16px 16px calc(16px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0;display:none;max-height:60vh;overflow:auto;}
-  #dress h3{margin:0 0 4px;font-size:15px;font-weight:600;}
-  #dress .row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px;}
-  #dress .sw{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.25);}
-  #dress .sw.on{border:3px solid #ffe08a;}
-  #dress .done{width:100%;border:0;border-radius:999px;padding:12px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
+  #dress{position:fixed;inset:0;z-index:12;display:none;flex-direction:column;background:linear-gradient(180deg,#f6d9c4 0%,#e9c6c9 45%,#2e2638 45.1%);color:#fff4e2;}
+  #dress .stage{position:relative;height:45%;min-height:220px;}
+  #dress .stage canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;}
+  #dress .ttl{position:absolute;top:calc(14px + env(safe-area-inset-top));left:0;right:0;text-align:center;color:#5a3f36;font-size:15px;font-weight:700;}
+  #dress .hint{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#7a5a50;font-size:12px;}
+  #dress .tabs{display:flex;gap:6px;padding:12px 14px 6px;overflow-x:auto;}
+  #dress .tab{flex:0 0 auto;border:0;border-radius:999px;padding:8px 14px;font-size:14px;background:rgba(255,255,255,.1);color:#fff4e2;}
+  #dress .tab.on{background:#fff4e2;color:#3e2f2a;font-weight:700;}
+  #dress .body{flex:1;overflow:auto;padding:6px 16px 8px;}
+  #dress h4{margin:10px 0 8px;font-size:13px;font-weight:600;opacity:.75;}
+  #dress .grid{display:flex;flex-wrap:wrap;gap:10px;}
+  #dress .sw{width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,.25);}
+  #dress .sw.on{border:3px solid #ffe08a;box-shadow:0 0 0 2px rgba(255,224,138,.35);}
+  #dress .item{width:66px;height:66px;border-radius:14px;border:2px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff4e2;font-size:12px;display:flex;align-items:center;justify-content:center;text-align:center;}
+  #dress .item.on{border:3px solid #ffe08a;}
+  #dress .item.soon{opacity:.35;border-style:dashed;}
+  #dress .foot{padding:10px 16px calc(14px + env(safe-area-inset-bottom));}
+  #dress .done{width:100%;border:0;border-radius:999px;padding:13px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
   #load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#2c2840;color:#f3ead8;font-size:16px;transition:opacity .8s;z-index:20;}
 </style>
 <script type="importmap">
@@ -316,7 +328,7 @@ function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x
 
 /* ===================== 7. 입력 ===================== */
 const tapEl=document.getElementById('tap');let panX=0,panY=0;
-document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='block')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
+document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
   const seat=P.seats.find(s=>Math.hypot((s.x-nx)*AR,s.y-ny)<3.6&&!npcs.some(n=>n.seat===s)&&![...Net.peers.values()].some(n=>n.seat===s&&n.sitting));
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
@@ -341,12 +353,42 @@ if(!FIREBASE_CONFIG)document.getElementById('pw').style.display='none';
 const dressEl=document.getElementById('dress'),dressBtn=document.getElementById('dressBtn');
 function loadLook(){try{return JSON.parse(localStorage.getItem('ev_look')||'null');}catch(e){return null;}}
 function saveLook(l){try{localStorage.setItem('ev_look',JSON.stringify(l));}catch(e){}}
-function openDress(){dressEl.innerHTML='';const look=Object.assign({},me.look);
-  ['h','s','p','k','o'].forEach(key=>{const t=document.createElement('h3');t.textContent=PAL[key].t;dressEl.appendChild(t);const row=document.createElement('div');row.className='row';
-    PAL[key].c.forEach((col,i)=>{const b=document.createElement('button');b.className='sw'+(look[key]===i?' on':'');b.style.background=col;b.setAttribute('aria-label',PAL[key].t+' '+(i+1));
-      b.addEventListener('pointerup',e=>{e.stopPropagation();look[key]=i;setLook(me,look);row.querySelectorAll('.sw').forEach((x,j)=>x.classList.toggle('on',j===i));});row.appendChild(b);});dressEl.appendChild(row);});
-  const done=document.createElement('button');done.className='done';done.textContent='다 골랐어';done.addEventListener('pointerup',e=>{e.stopPropagation();dressEl.style.display='none';saveLook(me.look);Net.write({tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:me.seat?P.seats.indexOf(me.seat):-1});});
-  dressEl.appendChild(done);dressEl.style.display='block';}
+// 옷장 구조: 카테고리마다 "스타일"(나중에 디자인한 옷·머리 추가 자리) + "색"
+const WARDROBE=[{key:'h',label:'머리',styles:[{id:'basic',name:'기본 머리'}]},
+  {key:'s',label:'윗옷',styles:[{id:'basic',name:'기본 티셔츠'}]},
+  {key:'p',label:'바지',styles:[{id:'basic',name:'기본 바지'}]},
+  {key:'o',label:'신발',styles:[{id:'basic',name:'기본 신발'}]},
+  {key:'k',label:'피부',styles:null}];
+let pv=null;
+function initPreview(canvas){const r=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});r.useLegacyLights=true;r.setPixelRatio(Math.min(2,devicePixelRatio));r.setClearColor(0,0);
+  const sc=new THREE.Scene();sc.add(new THREE.HemisphereLight(0xfff2e6,0x8a6a70,0.8));const k=new THREE.DirectionalLight(0xffd2a8,0.7);k.position.set(1,1.4,1.2);sc.add(k);
+  const cam=new THREE.PerspectiveCamera(26,1,0.1,50);cam.position.set(0,0.75,3.6);cam.lookAt(0,0.42,0);
+  const cm=charMaterial();const body=gltf.scene.clone(true);body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;
+  const spin=new THREE.Group();spin.add(body);sc.add(spin);
+  const shadow=new THREE.Mesh(new THREE.CircleGeometry(0.32,24),new THREE.MeshBasicMaterial({color:0x5a3f46,transparent:true,opacity:0.18}));shadow.rotation.x=-Math.PI/2;shadow.position.y=0.002;sc.add(shadow);
+  pv={r,sc,cam,spin,body,u:cm.u,ang:-1.2,drag:null,canvas};
+  canvas.addEventListener('pointerdown',e=>{pv.drag={x:e.clientX,a:pv.ang};canvas.setPointerCapture(e.pointerId);});
+  canvas.addEventListener('pointermove',e=>{if(pv.drag)pv.ang=pv.drag.a+(e.clientX-pv.drag.x)*0.012;});
+  canvas.addEventListener('pointerup',()=>{pv.drag=null;});}
+function previewLook(look){if(!pv)return;const fake={u:pv.u};setLook(fake,look);}
+function previewFrame(t){if(!pv||dressEl.style.display!=='flex')return;const c=pv.canvas;const w=c.clientWidth,hh=c.clientHeight;
+  if(pv.w!==w||pv.h!==hh){pv.w=w;pv.h=hh;pv.r.setSize(w,hh,false);pv.cam.aspect=w/hh;pv.cam.updateProjectionMatrix();}
+  if(!pv.drag)pv.ang+=0.004;pv.spin.rotation.y=pv.ang;pv.body.position.y=0.5+Math.sin(t*2.2)*0.008;pv.r.render(pv.sc,pv.cam);}
+function openDress(){const look=Object.assign({h:0,s:0,p:0,k:0,o:0},me.look);let tab=0;
+  dressEl.innerHTML='<div class="stage"><canvas></canvas><div class="ttl">'+me.name+'의 옷장</div><div class="hint">좌우로 밀면 돌아가요</div></div><div class="tabs"></div><div class="body"></div><div class="foot"><button class="done">다 골랐어</button></div>';
+  initPreview(dressEl.querySelector('canvas'));previewLook(look);
+  const tabs=dressEl.querySelector('.tabs'),body=dressEl.querySelector('.body');
+  function draw(){tabs.innerHTML='';WARDROBE.forEach((w,i)=>{const b=document.createElement('button');b.className='tab'+(i===tab?' on':'');b.textContent=w.label;b.addEventListener('pointerup',e=>{e.stopPropagation();tab=i;draw();});tabs.appendChild(b);});
+    const w=WARDROBE[tab];body.innerHTML='';
+    if(w.styles){const t=document.createElement('h4');t.textContent='스타일';body.appendChild(t);const g=document.createElement('div');g.className='grid';
+      w.styles.forEach(s=>{const it=document.createElement('div');it.className='item on';it.textContent=s.name;g.appendChild(it);});
+      for(let i=0;i<3;i++){const it=document.createElement('div');it.className='item soon';it.textContent='곧 추가';g.appendChild(it);}body.appendChild(g);}
+    const t2=document.createElement('h4');t2.textContent='색';body.appendChild(t2);const g2=document.createElement('div');g2.className='grid';
+    PAL[w.key].c.forEach((col,i)=>{const b=document.createElement('button');b.className='sw'+(look[w.key]===i?' on':'');b.style.background=col;b.setAttribute('aria-label',w.label+' 색 '+(i+1));
+      b.addEventListener('pointerup',e=>{e.stopPropagation();look[w.key]=i;previewLook(look);setLook(me,look);g2.querySelectorAll('.sw').forEach((x,j)=>x.classList.toggle('on',j===i));});g2.appendChild(b);});body.appendChild(g2);}
+  draw();
+  dressEl.querySelector('.done').addEventListener('pointerup',e=>{e.stopPropagation();dressEl.style.display='none';saveLook(me.look);if(pv){pv.r.dispose();pv=null;}Net.write({tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:me.seat?P.seats.indexOf(me.seat):-1});});
+  dressEl.style.display='flex';}
 dressEl.addEventListener('pointerup',e=>e.stopPropagation());
 dressBtn.addEventListener('pointerup',e=>{e.stopPropagation();openDress();});
 /* ===================== 9. 게임 루프 ===================== */
@@ -358,7 +400,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
-  renderer.render(scene,camera);requestAnimationFrame(frame);}
+  renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
 </body>
