@@ -185,20 +185,29 @@ const fill=new THREE.DirectionalLight(0xb9a6e0,0.3);fill.position.set(-1,0.5,0.6
 
 /* ===================== 2-b. 배경: 바람에 흔들리는 나뭇잎, 일렁이는 바다, 밀려오는 물거품 ===================== */
 const rawTex={};function rtex(k){if(!rawTex[k]){rawTex[k]=new THREE.TextureLoader().load(window.MAPS[k]);rawTex[k].minFilter=THREE.LinearFilter;rawTex[k].generateMipmaps=false;}return rawTex[k];}
-const bgMat=new THREE.ShaderMaterial({uniforms:{uMap:{value:null},uFx:{value:null},uTime:{value:0}},depthWrite:false,
+// 해변: 구글 플로우로 만든 진짜 움직임 영상을 '움직이는 곳'에만 겹침 (원본 그림 화질은 그대로)
+const vidEl=document.createElement('video');vidEl.src='beach_loop.mp4';vidEl.muted=true;vidEl.loop=true;vidEl.playsInline=true;vidEl.setAttribute('playsinline','');vidEl.setAttribute('muted','');vidEl.preload='auto';
+const vidTex=new THREE.VideoTexture(vidEl);vidTex.minFilter=THREE.LinearFilter;vidTex.magFilter=THREE.LinearFilter;vidTex.generateMipmaps=false;
+let vidOk=false,vidWant=false;vidEl.addEventListener('playing',()=>{vidOk=true;});vidEl.addEventListener('error',()=>{vidOk=false;});
+function vidSync(){if(vidWant){if(vidEl.paused){const p=vidEl.play();if(p&&p.catch)p.catch(()=>{});}}else if(!vidEl.paused)vidEl.pause();}
+addEventListener('pointerdown',vidSync);
+const VIDU={uVid:{value:vidTex},uVm:{value:null},uVidOn:{value:0}};
+const VID_GLSL='uniform sampler2D uVid,uVm;uniform float uVidOn;vec3 vidMix(vec3 c,vec2 uv){if(uVidOn<=0.0)return c;float m=texture2D(uVm,uv).r*uVidOn;return mix(c,texture2D(uVid,uv).rgb,m);}';
+const bgMat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:null},uFx:{value:null},uTime:{value:0}},VIDU),depthWrite:false,
   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
   fragmentShader:`uniform sampler2D uMap,uFx;uniform float uTime;varying vec2 vUv;
-  void main(){vec4 f=texture2D(uFx,vUv);vec2 uv=vUv;float w=f.r,aq=f.g;
+${VID_GLSL}
+  void main(){vec4 f=texture2D(uFx,vUv)*(1.0-uVidOn);vec2 uv=vUv;float w=f.r,aq=f.g;
     float gust=0.6+0.4*sin(uTime*0.35+vUv.x*3.0);
     uv.x+=w*0.0011*gust*sin(uTime*1.7+vUv.y*38.0+vUv.x*21.0);uv.y+=w*0.0006*gust*sin(uTime*1.3+vUv.x*30.0);
     uv.y+=aq*0.0016*sin(uTime*1.25+vUv.x*55.0+vUv.y*160.0);uv.x+=aq*0.0010*sin(uTime*0.9+vUv.y*120.0);
     vec3 c=texture2D(uMap,uv).rgb;
     float s=aq*pow(max(0.,sin(uTime*1.6+vUv.x*95.0+vUv.y*310.0)*sin(uTime*0.7+vUv.x*41.0-vUv.y*170.0)),6.0);c+=s*0.35*vec3(1.,.86,.7);
     float fo=f.b*(0.5+0.5*sin(uTime*1.05-vUv.y*180.0+vUv.x*20.0));c=mix(c,vec3(1.,.95,.92),fo*0.18);
-    gl_FragColor=vec4(c,1.);}`});
+    c=vidMix(c,vUv);gl_FragColor=vec4(c,1.);}`});
 const bgMesh=new THREE.Mesh(new THREE.PlaneGeometry(1,1),bgMat);bgMesh.renderOrder=-1;scene.add(bgMesh);
 function layoutBg(){bgMesh.scale.set(SW,SH,1);bgMesh.position.set(SW/2,-SH/2,-3.5e6);}
-function setBg(key){bgMat.uniforms.uMap.value=rtex(key);bgMat.uniforms.uFx.value=rtex('fx_'+key);}
+function setBg(key){bgMat.uniforms.uMap.value=rtex(key);bgMat.uniforms.uFx.value=rtex('fx_'+key);vidWant=!!window.MAPS['vm_'+key];if(vidWant)VIDU.uVm.value=rtex('vm_'+key);else{VIDU.uVidOn.value=0;vidOk=false;}vidSync();}
 layoutBg();mapImg.style.visibility='hidden';
 /* ===================== 3. 캐릭터 ===================== */
 function soften(mat,sat){mat.onBeforeCompile=(sh)=>{sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
@@ -267,7 +276,11 @@ function goTo(c,x,y,seat){c.sitting=false;c.seat=seat||null;const p=findPath(c.x
 let occGroup=new THREE.Group();scene.add(occGroup);const texCache={};
 function mapTex(key){if(!texCache[key]){const t=new THREE.TextureLoader().load(window.MAPS[key]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;texCache[key]=t;}return texCache[key];}
 function buildOcc(){scene.remove(occGroup);occGroup=new THREE.Group();scene.add(occGroup);
-  const mat=new THREE.MeshBasicMaterial({map:mapTex(P.img),alphaMap:mapTex('mask_'+P.img),alphaTest:0.5,toneMapped:false});
+  const mat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:rtex(P.img)},uMask:{value:rtex('mask_'+P.img)}},VIDU),
+    vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+    fragmentShader:`uniform sampler2D uMap,uMask;varying vec2 vUv;
+${VID_GLSL}
+ void main(){if(texture2D(uMask,vUv).g<0.5)discard;gl_FragColor=vec4(vidMix(texture2D(uMap,vUv).rgb,vUv),1.);}`});
   (P.occ||[]).forEach(o=>{const sh=new THREE.Shape(o.p.map(([x,y])=>new THREE.Vector2(x/100*SW,-y/100*SH)));const g=new THREE.ShapeGeometry(sh);
     const pos=g.attributes.position,uv=[];for(let i=0;i<pos.count;i++){uv.push(pos.getX(i)/SW,1+pos.getY(i)/SH);}g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
     const m=new THREE.Mesh(g,mat);m.position.z=o.b/100*SH*ZK;occGroup.add(m);});}
@@ -366,7 +379,7 @@ document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault()
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
 const nm=document.getElementById('nm');nm.value=saved;
-mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();
 document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
 document.getElementById('go').addEventListener('click',async()=>{Snd.start();const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
@@ -464,7 +477,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
-  Snd.update(dt,t);bgMat.uniforms.uTime.value=t;renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
+  Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
 </body>
