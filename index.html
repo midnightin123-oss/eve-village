@@ -18,7 +18,13 @@
   #stage{position:absolute;left:0;top:0;will-change:transform;}
   #map{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none;pointer-events:none;}
   #fx,#tags{position:absolute;inset:0;pointer-events:none;}
-  #c{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+  #c{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;}
+  #fg{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;}
+  #fg .lf{position:absolute;filter:blur(5px) brightness(.55) saturate(.8);opacity:.92;}
+  #fg .bk{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,210,140,.42) 0%,rgba(255,190,120,.18) 45%,rgba(255,180,110,0) 70%);filter:blur(3px);animation:bkd 9s ease-in-out infinite alternate;}
+  @keyframes bkd{0%{transform:translate(0,0);opacity:.55}100%{transform:translate(18px,-26px);opacity:1}}
+  .dust{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffe6b0;box-shadow:0 0 5px 1px rgba(255,214,150,.7);animation:dust 7s linear infinite;opacity:0;}
+  @keyframes dust{0%{transform:translate(0,0);opacity:0}15%{opacity:.9}85%{opacity:.7}100%{transform:translate(24px,-70px);opacity:0}}
   .glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;animation:flick 1.6s ease-in-out infinite alternate;}
   @keyframes flick{0%{opacity:.55;transform:translate(-50%,-50%) scale(.94)}35%{opacity:.85}60%{opacity:.65;transform:translate(-50%,-50%) scale(1.04)}100%{opacity:.9;transform:translate(-50%,-50%) scale(.98)}}
   .twk{position:absolute;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:#fff2c4;box-shadow:0 0 6px 2px rgba(255,214,130,.8);animation:tw 1.8s ease-in-out infinite;opacity:0;}
@@ -78,7 +84,7 @@
 </script>
 </head>
 <body>
-<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div></div>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div>
 <div id="place">광장</div><button id="dressBtn">꾸미기</button><button id="sndBtn" style="position:fixed;top:calc(92px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none">소리 끄기</button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
@@ -87,7 +93,7 @@
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js"></script>
 <script src="chars.js"></script>
-<script>Object.assign(window.MAPS,{library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_black.png"});</script>
+<script>Object.assign(window.MAPS,{library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png"});</script>
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -147,7 +153,8 @@ const PLACES={
          {p:[[55,58],[58.3,58],[58,63],[55.3,63]],b:62.8},
          {p:[[56.2,78.5],[60.8,78.5],[60.5,86],[56.5,86]],b:85.5}],
     flies:false,sea:{x0:30,x1:100,y0:22,y1:44}},
-  library:{label:'도서관',img:'library',ar:2336/3504,sizeW:0.10,spd:0.75,gx:136,gy:204,
+  library:{label:'도서관',img:'library',ar:2336/3504,sizeW:0.10,spd:0.75,gx:136,gy:204,charVh:0.16,fg:1.28,dust:true,
+    leaves:[[-2,96,34,11,false],[103,93,30,29,true],[-5,58,22,7,false],[105,64,24,41,true],[8,2,26,5,false],[93,4,24,13,true],[48,104,20,3,false]],
     walk:[[[1,66],[6,62],[14,61.8],[38,61.5],[42,58.2],[69,57.8],[70.5,62],[70.5,66.5],[80,67.5],[84,63.5],[99,63],[99,90],[95,92],[92,99.5],[10,99.5],[6,94],[1,88]],
           [[73,34.8],[76,38],[80,42],[81.5,48],[80,53],[76,57],[71,61],[71,69],[80,69],[80,64],[83,60],[87,56],[89,51],[88,45],[84,39],[79,34.8]],
           [[5,32.6],[72,32.4],[80,33.2],[95,34.2],[98,37.6],[84,36.2],[76,35.6],[40,35.2],[5,35.6]]],
@@ -197,13 +204,16 @@ function findPath(x0,y0,x1,y1){let s=nearestOk(...cellOf(x0,y0)),g=nearestOk(...
 /* ===================== 2. 화면 / 렌더러 ===================== */
 const stage=document.getElementById('stage'),mapImg=document.getElementById('map'),fx=document.getElementById('fxTop'),tagsEl=document.getElementById('tags');
 let SW=1,SH=1;
-const canvas=document.getElementById('c');
+const canvas=document.getElementById('c');let panX=0,panY=0,leadX=0,leadY=0;const fgEl=document.getElementById('fg');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
 renderer.useLegacyLights=true;renderer.setPixelRatio(Math.min(2,devicePixelRatio));renderer.setClearColor(0,0);
 const scene=new THREE.Scene();
 const camera=new THREE.OrthographicCamera(0,1,0,-1,-4e6,4e6);
 const ZK=1000; // 깊이 배율: 발끝 y로 앞뒤를 정함
-function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth){SW=innerWidth;SH=SW/AR;}stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(SW,SH,false);camera.right=SW;camera.bottom=-SH;camera.updateProjectionMatrix();}
+function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth){SW=innerWidth;SH=SW/AR;}
+  if(P&&P.charVh){const t=innerHeight*P.charVh/(P.sizeW*1.05);if(SW<t){SW=t;SH=SW/AR;}} // 가까운 시점: 캐릭터가 화면 높이의 일정 비율이 되도록 확대
+  stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(innerWidth,innerHeight);setCam(panX,panY);}
+function setCam(x,y){camera.left=x;camera.right=x+innerWidth;camera.top=-y;camera.bottom=-(y+innerHeight);camera.updateProjectionMatrix();canvas.style.transform=`translate(${x}px,${y}px)`;}
 layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();if(typeof buildSeats==='function')buildSeats();});
 // 해질녘 조명 (밤은 나중에 추가)
 scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
@@ -312,7 +322,16 @@ ${VID_GLSL}
     const pos=g.attributes.position,uv=[];for(let i=0;i<pos.count;i++){uv.push(pos.getX(i)/SW,1+pos.getY(i)/SH);}g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
     const m=new THREE.Mesh(g,mat);m.position.z=o.b/100*SH*ZK;occGroup.add(m);});}
 /* ===================== 4. 효과 (불빛, 반딧불, 바다 반짝임) ===================== */
-function buildFx(){fx.innerHTML='';
+function leafSVG(seed,flip){let r=seed;const rnd=()=>{r=(r*16807)%2147483647;return r/2147483647;};let p='';
+  for(let i=0;i<7;i++){const a=(flip?Math.PI:0)+(rnd()-0.5)*2.2,L=55+rnd()*40,cx=100+Math.cos(a)*L*0.55,cy=100+Math.sin(a)*L*0.55,w=14+rnd()*10;
+    const tx=100+Math.cos(a)*L,ty=100+Math.sin(a)*L,nx=-Math.sin(a)*w,ny=Math.cos(a)*w;const g=['#3f5a2c','#4d6b33','#35502a','#56763a'][i%4];
+    p+=`<polygon points="100,100 ${cx+nx},${cy+ny} ${tx},${ty}" fill="${g}"/><polygon points="100,100 ${cx-nx},${cy-ny} ${tx},${ty}" fill="${g}" opacity=".82"/>`;}
+  return `<svg viewBox="0 0 200 200" width="100%" height="100%">${p}</svg>`;}
+function buildFg(){fgEl.innerHTML='';if(!P.fg){fgEl.style.transform='';return;}const F=P.fg,FW=SW*F,FH=SH*F;fgEl.style.width=FW+'px';fgEl.style.height=FH+'px';
+  (P.leaves||[]).forEach(([x,y,s,seed,flip])=>{const d=document.createElement('div');d.className='lf';const S=s/100*FW;d.style.width=d.style.height=S+'px';d.style.left=(x/100*FW-S/2)+'px';d.style.top=(y/100*FH-S/2)+'px';d.innerHTML=leafSVG(seed,flip);fgEl.appendChild(d);});
+  for(let i=0;i<14;i++){const d=document.createElement('div');d.className='bk';const S=(0.05+Math.random()*0.07)*FW;d.style.width=d.style.height=S+'px';d.style.left=(Math.random()*FW)+'px';d.style.top=(Math.random()*FH)+'px';d.style.animationDelay=(-Math.random()*9)+'s';d.style.animationDuration=(7+Math.random()*6)+'s';fgEl.appendChild(d);}}
+function buildFx(){fx.innerHTML='';buildFg();
+  if(P.dust)for(let i=0;i<46;i++){const d=document.createElement('div');d.className='dust';d.style.left=(5+Math.random()*90)+'%';d.style.top=(8+Math.random()*86)+'%';d.style.animationDelay=(-Math.random()*7)+'s';d.style.animationDuration=(5+Math.random()*5)+'s';fx.appendChild(d);}
   P.glows.forEach(([x,y,r,col,fire])=>{const g=document.createElement('div');g.className='glow';const R=r/100*SW;g.style.left=x+'%';g.style.top=y+'%';g.style.width=g.style.height=R+'px';
     g.style.background=`radial-gradient(circle,rgba(${col},${fire?.55:.35}) 0%,rgba(${col},0) 70%)`;g.style.animationDuration=(fire?0.7:1.8+Math.random()*1.2)+'s';g.style.animationDelay=(-Math.random()*2)+'s';fx.appendChild(g);});
   if(P.flies)[[12,30],[20,22],[60,24],[76,18],[6,58],[58,50],[82,62],[16,84],[44,88],[28,26],[64,74],[92,44]].forEach(([x,y],i)=>{const d=document.createElement('div');d.className='fly';d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(i*0.6)+'s';fx.appendChild(d);});
@@ -403,7 +422,7 @@ function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x
   setTimeout(()=>{enter(ex.to,ex.spawn,ex.face);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},460);return;}}}
 
 /* ===================== 7. 입력 ===================== */
-const tapEl=document.getElementById('tap');let panX=0,panY=0;
+const tapEl=document.getElementById('tap');
 document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex')return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
   if(P.book&&Math.hypot((P.book.x-nx)*AR,P.book.y-ny)<7){say(me,'책 꺼내기는 곧 열려요');}
@@ -500,9 +519,12 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   if(me){stepChar(me,dt);checkExit();}
   npcs.forEach(c=>{npcThink(c,dt);stepChar(c,dt);});Net.peers.forEach(c=>stepChar(c,dt));Net.tick();
   [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;place(c,t);}});
-  const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
+  let lx=0,ly=0;if(me&&me.target&&!me.sitting&&P.charVh){const dx=(me.target[0]-me.x)/100*SW,dy=(me.target[1]-me.y)/100*SH,d=Math.hypot(dx,dy)||1;lx=dx/d*innerWidth*0.14;ly=dy/d*innerHeight*0.12;}
+  leadX+=(lx-leadX)*Math.min(1,dt*1.6);leadY+=(ly-leadY)*Math.min(1,dt*1.6);
+  const fx0=(me?me.x/100*SW:SW/2)+leadX,fy0=(me?me.y/100*SH-charH(me.y)*0.4:SH/2)+leadY;
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
-  if(snapPan&&me){panX=tx;panY=ty;snapPan=false;}else{panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;
+  if(snapPan&&me){panX=tx;panY=ty;snapPan=false;leadX=leadY=0;}else{const k=1-Math.pow(0.0025,dt);panX+=(tx-panX)*k;panY+=(ty-panY)*k;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;setCam(panX,panY);
+  if(P.fg)fgEl.style.transform=`translate(${-panX*P.fg}px,${-panY*P.fg}px)`;
   updateSeats();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
