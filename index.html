@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>이브 빌리지</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#1b1a2a;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent;}
+  #view{position:fixed;inset:0;overflow:hidden;}
+  #stage{position:absolute;left:0;top:0;will-change:transform;}
+  #map{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none;pointer-events:none;}
+  #fx,#tags{position:absolute;inset:0;pointer-events:none;}
+  #c{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+  .glow{position:absolute;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;animation:flick 1.6s ease-in-out infinite alternate;}
+  @keyframes flick{0%{opacity:.55;transform:translate(-50%,-50%) scale(.94)}35%{opacity:.85}60%{opacity:.65;transform:translate(-50%,-50%) scale(1.04)}100%{opacity:.9;transform:translate(-50%,-50%) scale(.98)}}
+  .spark{position:absolute;width:4px;height:2px;border-radius:2px;background:#fff6d8;animation:tw 2.4s ease-in-out infinite;opacity:0;}
+  @keyframes tw{0%,100%{opacity:0}50%{opacity:.9}}
+  .fly{position:absolute;width:5px;height:5px;border-radius:50%;background:#f4ffb0;box-shadow:0 0 8px 3px rgba(240,255,160,.5);animation:drift 6s ease-in-out infinite alternate;}
+  @keyframes drift{0%{transform:translate(0,0);opacity:.15}50%{opacity:.9}100%{transform:translate(16px,-14px);opacity:.25}}
+  .tag{position:absolute;transform:translate(-50%,-100%);font-size:12px;font-weight:600;color:#fff8ec;text-shadow:0 1px 2px rgba(40,20,30,.8);white-space:nowrap;}
+  .tag.me{color:#ffe08a;}
+  .bub{position:absolute;transform:translate(-50%,-100%);max-width:180px;padding:7px 11px;border-radius:14px;background:rgba(255,250,240,.95);color:#3e322b;font-size:13px;line-height:1.35;box-shadow:0 2px 8px rgba(30,15,30,.25);word-break:keep-all;overflow-wrap:anywhere;transition:opacity .4s;}
+  .bub:after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:rgba(255,250,240,.95);}
+  #tap{position:absolute;width:26px;height:12px;margin:-6px 0 0 -13px;border:2px solid rgba(255,250,235,.9);border-radius:50%;opacity:0;pointer-events:none;}
+  #tap.go{animation:tap .6s ease-out;}
+  @keyframes tap{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(1.4)}}
+  #place{position:fixed;top:calc(12px + env(safe-area-inset-top));left:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
+  #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
+  #chat{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:5;}
+  #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
+  #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
+  #fade{position:fixed;inset:0;background:#1b1a2a;opacity:0;pointer-events:none;transition:opacity .45s;z-index:8;}
+  #title{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(27,22,40,.55);backdrop-filter:blur(3px);color:#fff4e2;text-align:center;padding:24px;}
+  #title h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.5px;text-shadow:0 2px 10px rgba(0,0,0,.4);}
+  #title p{margin:0;font-size:14px;opacity:.9;}
+  #title input{width:240px;border:0;border-radius:999px;padding:12px 16px;font-size:16px;text-align:center;background:rgba(255,250,240,.95);color:#3e322b;outline:none;}
+  #title button{border:0;border-radius:999px;padding:12px 30px;font-size:16px;background:#e8a35a;color:#3a2412;font-weight:700;}
+  #err{font-size:13px;color:#ffc2b0;min-height:16px;}
+  #load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#2c2840;color:#f3ead8;font-size:16px;transition:opacity .8s;z-index:20;}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="tags"></div><div id="tap"></div></div></div>
+<div id="place">광장</div><div id="who">1명 접속 중</div>
+<form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
+<div id="fade"></div>
+<div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
+<div id="load">마을 불러오는 중…</div>
+<script src="maps.js"></script>
+<script src="chars.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/* ===================== 1. 장소 데이터 (좌표는 그림 기준 %) ===================== */
+const AR=2016/1140;
+const E=(cx,cy,rx,ry)=>({t:'e',cx,cy,rx,ry:ry??rx});
+const PLACES={
+  plaza:{label:'광장',img:'plaza',size:0.092,
+    walk:[[[11,60],[15,55],[21,52],[22,44],[25,39],[30,37],[36,37],[44,40],[47,40],[50,42],[54,46],[55,56],[60,60],[58,66],[53,74],[48,78],[36,80],[22,78],[14,72]],
+          [[52,72],[56,65],[62,67],[60,74],[57,86],[49,86],[50,78]],
+          [[58,58],[66,58],[71,50],[70,40],[68,32],[73,31],[75,40],[75,51],[69,63],[59,64]]],
+    block:[E(35,57,6.6,5.6),E(63.5,47,7.5,8.6),E(25,67.5,4.3,2.6),E(47,64,4.3,2.6),E(18.2,72,0.9,1.2),E(52.7,46.5,0.9,1.2),E(40,40,3,2.4)],
+    seats:[{x:25.5,y:68,look:[23.5,76]},{x:47,y:64.5,look:[48.8,72]}],
+    exits:[{poly:[[49,80],[58,80],[57,87],[49,87]],to:'beach',spawn:[23,74],face:[30,70]}],
+    glows:[[33,25,9,'255,190,110'],[52.5,43,8,'255,190,110'],[18.5,63,8,'255,190,110'],[12,47,6,'255,170,90'],[63,49,6,'255,170,90'],[80,27,5,'255,170,90'],[83,50,5,'255,170,90'],[47,18,7,'255,180,100']],
+    occ:[{p:[[29,52],[30,48],[34,45],[35,42.5],[36,45],[40,48],[41,52],[41,58],[38,61.8],[32,61.8],[29,58]],b:61},
+         {p:[[21.3,66],[25,64.3],[29.2,66.8],[29.2,71],[27,74.2],[23,72.4],[21.3,69]],b:73},
+         {p:[[42.8,63.5],[48,60.3],[51.2,62.5],[50.8,65.2],[46,69.2],[42.8,66.2]],b:68},
+         {p:[[17,59.5],[20,59.5],[19.4,77.5],[17.4,77.5]],b:77},
+         {p:[[51.2,40.5],[54.3,40.5],[53.5,56.5],[52,56.5]],b:56},
+         {p:[[31.8,23],[34.8,23],[34,38.5],[32.6,38.5]],b:38},
+         {p:[[36.3,30.5],[43.2,30.5],[43.2,44],[36.3,44]],b:43.5},
+         {p:[[55,40],[60,33.5],[66,34.5],[70.5,40],[70.5,55],[63,59],[55.8,58],[54.8,50]],b:57.5},
+         {p:[[1,38],[6,32],[12,31.5],[18,35],[22.5,42],[22.5,55],[15,58.5],[3,56]],b:56},
+         {p:[[35.5,0],[61,0],[61,22],[57.5,36.5],[40,36.5],[35.5,30]],b:36.5},
+         {p:[[9,8],[25,6],[31,16],[31,31],[27,34.5],[12,34.5],[9,26]],b:34},
+         {p:[[70,20],[74,14.5],[80,17],[84.5,22],[84.5,33.5],[72,36.5],[70,30]],b:34.5},
+         {p:[[76.5,42],[81,38],[86,40],[89.5,46],[89.5,57],[80,58.5],[76.5,54]],b:57}],
+    flies:true,sea:null},
+  beach:{label:'해변',img:'beach',size:0.108,
+    walk:[[[18,72],[22,62],[20,58],[30,59],[42,56],[46,50],[52,48],[60,47],[68,49],[75,53],[82,58],[90,64],[88,70],[80,74],[75,80],[72,92],[40,95],[28,92],[22,84]],
+          [[3,55],[12,53],[22,70],[18,80],[13,76]],
+          [[76,49],[94,40],[97,46],[80,55]],[[72,55],[78,49.5],[81,54],[76,59]],
+          [[26,52],[43,52],[43,58],[26,59]]],
+    block:[E(52,63.5,6.2,4.6),E(45.5,71,5.2,2.4),E(60.5,71,4.6,2.6),E(38,62,3.4,4.2),E(63,57,3.4,4.2),E(34,71,3.4,2.8),E(69.5,60,3.4,2.8),E(65,77,3.6,3.2),E(44.5,58.5,1.6,1.6),E(56.5,60,1.6,1.6),E(58,82,2,2),E(54.2,49,1,1.2),E(71,50,1,1.2)],
+    seats:[{x:38,y:61,look:[52,63]},{x:63,y:56,look:[52,63]},{x:45.5,y:70,look:[52,63]},{x:60.5,y:70,look:[52,63]},{x:44.5,y:58,look:[52,63]},{x:56.5,y:59.5,look:[52,63]},
+           {x:42,y:83,look:[52,63]},{x:48,y:84.5,look:[52,63]},{x:74,y:67,look:[52,63]},{x:79,y:68.5,look:[52,63]},{x:51,y:53,look:[52,63]},{x:55,y:53.5,look:[52,63]},
+           {x:58,y:81.5,look:[52,63]},{x:31,y:53,look:[31,40]},{x:35.5,y:53,look:[35.5,40]},{x:39.5,y:53,look:[39.5,40]}],
+    exits:[{poly:[[2,50],[9,50],[9,58],[2,60]],to:'plaza',spawn:[55,70],face:[45,60]}],
+    glows:[[52,61,11,'255,160,70',true],[24,27,6,'255,190,110'],[24.5,45,5,'255,190,110'],[35,19,6,'255,190,110'],[55,36,8,'255,200,120'],[72,24,7,'255,190,110'],[69.5,33,4,'255,190,110'],[24.5,52,4,'255,190,110']],
+    occ:[{p:[[17,30],[30,22.5],[44.5,32],[43.5,50.5],[30,51.5],[17.5,52.5]],b:50.5},
+         {p:[[15.3,45.5],[27.3,44.5],[27.3,57.3],[15.3,56.3]],b:56.5},
+         {p:[[41.8,40],[47,40],[47,52.3],[41.8,52.3]],b:52},
+         {p:[[53,15.5],[55.8,15.5],[55.6,50.5],[53.3,50.5]],b:50},
+         {p:[[69.8,19],[74.2,19],[74,34],[72.5,34],[72.5,55.5],[70,55.5]],b:55},
+         {p:[[33.8,57],[38,54],[41.3,56.5],[42.3,62],[40.3,69.5],[35,66.5],[33.8,62]],b:66},
+         {p:[[59,52.5],[63,49.8],[66,52],[66.3,58],[64.5,63.3],[59.3,61]],b:61.5},
+         {p:[[29.8,66.5],[37.3,66.5],[37.3,76],[29.8,76]],b:75.5},
+         {p:[[65.3,55],[72.3,55],[72.3,66.3],[65.3,66.3]],b:65.5},
+         {p:[[40.3,68],[44,67],[50,69],[50,74.5],[46,75.2],[40.3,72.5]],b:74.5},
+         {p:[[56.3,67],[62,65.5],[64.3,67.5],[63.5,72],[58,74],[56.3,71]],b:73},
+         {p:[[46.3,59],[52,56.5],[57.8,59],[58.3,66],[52,70],[46.3,66]],b:69},
+         {p:[[61.3,71],[68.5,71],[68.5,81.3],[61.3,81.3]],b:80.5},
+         {p:[[42.6,56.5],[46.3,56.5],[46,61.5],[43,61.5]],b:61.2},
+         {p:[[55,58],[58.3,58],[58,63],[55.3,63]],b:62.8},
+         {p:[[56.2,78.5],[60.8,78.5],[60.5,86],[56.5,86]],b:85.5}],
+    flies:false,sea:{x0:30,x1:100,y0:22,y1:44}}
+};
+const inPoly=(x,y,p)=>{let c=false;for(let i=0,j=p.length-1;i<p.length;j=i++){const[xi,yi]=p[i],[xj,yj]=p[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)c=!c;}return c;};
+const inE=(x,y,e)=>((x-e.cx)/e.rx)**2+((y-e.cy)/e.ry)**2<=1;
+let P=PLACES.plaza,placeKey='plaza';
+// 걸을 수 있는 칸 지도 (물건 실제 바닥 면적 + 캐릭터 몸 두께만큼 여유)
+const GX=window.NAV.GX,GY=window.NAV.GY,GRID={};
+for(const k of ['plaza','beach']){const bin=atob(window.NAV[k]);const g=new Uint8Array(GX*GY);for(let i=0;i<GX*GY;i++){g[i]=(bin.charCodeAt(i>>3)>>(7-(i&7)))&1;}GRID[k]=g;}
+const cellOk=(cx,cy)=>cx>=0&&cy>=0&&cx<GX&&cy<GY&&GRID[placeKey][cy*GX+cx]===1;
+const walkable=(x,y)=>cellOk(Math.floor(x/100*GX),Math.floor(y/100*GY));
+const cellOf=(x,y)=>[Math.max(0,Math.min(GX-1,Math.floor(x/100*GX))),Math.max(0,Math.min(GY-1,Math.floor(y/100*GY)))];
+const cellPt=(cx,cy)=>[(cx+0.5)/GX*100,(cy+0.5)/GY*100];
+function nearestOk(cx,cy){if(cellOk(cx,cy))return [cx,cy];for(let r=1;r<40;r++){let best=null,bd=1e9;for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;if(cellOk(cx+dx,cy+dy)){const d=dx*dx+dy*dy;if(d<bd){bd=d;best=[cx+dx,cy+dy];}}}if(best)return best;}return null;}
+function los(ax,ay,bx,by){const n=Math.ceil(Math.hypot(bx-ax,by-ay)*2)+1;for(let i=0;i<=n;i++){const t=i/n;if(!cellOk(Math.floor(ax+(bx-ax)*t),Math.floor(ay+(by-ay)*t)))return false;}return true;}
+function findPath(x0,y0,x1,y1){let s=nearestOk(...cellOf(x0,y0)),g=nearestOk(...cellOf(x1,y1));if(!s||!g)return null;
+  const N=GX*GY,si=s[1]*GX+s[0],gi=g[1]*GX+g[0];const G=new Float32Array(N).fill(1e9),from=new Int32Array(N).fill(-1),closed=new Uint8Array(N);
+  const open=[si];G[si]=0;const h=(i)=>{const dx=Math.abs(i%GX-g[0]),dy=Math.abs((i/GX|0)-g[1]);return Math.max(dx,dy)+0.414*Math.min(dx,dy);};
+  const fs=new Float32Array(N).fill(1e9);fs[si]=h(si);let it=0;
+  while(open.length&&it++<20000){let bi=0;for(let i=1;i<open.length;i++)if(fs[open[i]]<fs[open[bi]])bi=i;const cur=open.splice(bi,1)[0];if(cur===gi)break;closed[cur]=1;
+    const cx=cur%GX,cy=cur/GX|0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const nx=cx+dx,ny=cy+dy;if(!cellOk(nx,ny))continue;if(dx&&dy&&(!cellOk(cx+dx,cy)||!cellOk(cx,cy+dy)))continue;
+      const ni=ny*GX+nx;if(closed[ni])continue;const ng=G[cur]+(dx&&dy?1.414:1);if(ng<G[ni]){G[ni]=ng;from[ni]=cur;fs[ni]=ng+h(ni);if(!open.includes(ni))open.push(ni);}}}
+  if(from[gi]===-1&&gi!==si)return null;const cells=[];for(let i=gi;i!==-1;i=from[i]){cells.push([i%GX,i/GX|0]);if(i===si)break;}cells.reverse();
+  // 꺾이는 점만 남겨 부드럽게
+  const out=[];let a=cells[0];for(let i=1;i<cells.length;i++){if(!los(a[0]+0.5,a[1]+0.5,cells[i][0]+0.5,cells[i][1]+0.5)){out.push(cells[i-1]);a=cells[i-1];}}out.push(cells[cells.length-1]);
+  return out.map(c=>cellPt(...c));}
+
+/* ===================== 2. 화면 / 렌더러 ===================== */
+const stage=document.getElementById('stage'),mapImg=document.getElementById('map'),fx=document.getElementById('fx'),tagsEl=document.getElementById('tags');
+let SW=1,SH=1;
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.useLegacyLights=true;renderer.setPixelRatio(Math.min(2,devicePixelRatio));renderer.setClearColor(0,0);
+const scene=new THREE.Scene();
+const camera=new THREE.OrthographicCamera(0,1,0,-1,-4e6,4e6);
+const ZK=1000; // 깊이 배율: 발끝 y로 앞뒤를 정함
+function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth){SW=innerWidth;SH=SW/AR;}stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(SW,SH,false);camera.right=SW;camera.bottom=-SH;camera.updateProjectionMatrix();}
+layout();addEventListener('resize',()=>{layout();if(typeof buildOcc==='function')buildOcc();});
+// 해질녘 조명 (밤은 나중에 추가)
+scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
+const key=new THREE.DirectionalLight(0xffb070,0.55);key.position.set(1,1,1);scene.add(key);
+const fill=new THREE.DirectionalLight(0xb9a6e0,0.3);fill.position.set(-1,0.5,0.6);scene.add(fill);
+
+/* ===================== 3. 캐릭터 ===================== */
+function soften(mat,sat){mat.onBeforeCompile=(sh)=>{sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+  float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,${sat.toFixed(2)});`);};return mat;}
+function b64buf(b){const bin=atob(b);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u.buffer;}
+const gltf=await new Promise((res,rej)=>new GLTFLoader().parse(b64buf(window.MODELS.villager),'',res,rej));
+let baseMap=null;gltf.scene.traverse(o=>{if(o.isMesh)baseMap=o.material.map;});
+// 동숲식 몸짓: 팔다리를 고무처럼 휘지 않고, 다리는 번갈아 딛고 팔은 반대로 살짝 흔들기 (정점 셰이더)
+const DEFORM=`vec3 transformed=vec3(position);
+float hip=-0.30;float wl=smoothstep(hip+0.03,hip-0.05,position.y);float sL=clamp(position.z/0.035,-1.,1.);
+float sp=sin(uPhase);float lk=clamp((hip-position.y)/0.2,0.,1.);
+transformed.x+=wl*sL*sp*0.16*uWalk*lk;transformed.y+=wl*max(0.,sL*cos(uPhase))*0.035*uWalk*lk;
+float wa=smoothstep(0.15,0.185,abs(position.z))*smoothstep(-0.34,-0.29,position.y)*(1.-smoothstep(-0.09,-0.04,position.y));
+transformed.x+=wa*(-sign(position.z))*sp*0.12*uWalk*clamp((-0.05-position.y)/0.25,0.,1.);
+if(position.y<hip){float th=1.35*uSit;float dx=transformed.x,dy=transformed.y-hip;float rx=dx*cos(th)-dy*sin(th);float ry=dx*sin(th)+dy*cos(th);transformed.x=mix(transformed.x,rx,wl);transformed.y=mix(transformed.y,hip+ry,wl);}`;
+function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uPhase:{value:0},uWalk:{value:0},uSit:{value:0}};
+  m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='uniform float uPhase;uniform float uWalk;uniform float uSit;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM);
+    sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+    float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,0.85);`);};
+  m.customProgramCacheKey=()=>'villagerDeform';return {m,u};}
+const shCan=document.createElement('canvas');shCan.width=shCan.height=64;const sx=shCan.getContext('2d');const sgr=sx.createRadialGradient(32,32,0,32,32,32);sgr.addColorStop(0,'rgba(30,15,35,.5)');sgr.addColorStop(1,'rgba(30,15,35,0)');sx.fillStyle=sgr;sx.fillRect(0,0,64,64);
+const shMat=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shCan),transparent:true,depthWrite:false});
+const PITCH=0.8;
+function makeChar(name,x,y,isMe){const g=new THREE.Group(),tilt=new THREE.Group(),turn=new THREE.Group();tilt.rotation.x=PITCH;g.add(tilt);tilt.add(turn);
+  const body=gltf.scene.clone(true);const cm=charMaterial();body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;turn.add(body);
+  const sh=new THREE.Mesh(new THREE.PlaneGeometry(0.8,0.8),shMat);sh.scale.y=0.42;sh.position.set(0,0.01,-0.5);g.add(sh);scene.add(g);
+  const tag=document.createElement('div');tag.className='tag'+(isMe?' me':'');tag.textContent=name;tagsEl.appendChild(tag);
+  return {name,g,turn,body,u:cm.u,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
+function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();}
+const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
+function say(c,text){if(c.bub)c.bub.remove();const b=document.createElement('div');b.className='bub';b.textContent=text;tagsEl.appendChild(b);c.bub=b;c.bubT=5.5;}
+function seatZ(s){let z=s.y;(P.occ||[]).forEach(o=>{if(inPoly(s.x,s.y,o.p))z=Math.max(z,o.b);});return z+0.6;}
+const charH=(y)=>SH*P.size*(0.78+0.45*y/100);
+function place(c,t){const px=c.x/100*SW,py=c.y/100*SH,s=charH(c.y);const zy=c.sitting&&c.seat?seatZ(c.seat)/100*SH:py;c.g.position.set(px,-py,zy*ZK);c.g.scale.setScalar(s);
+  const moving=!!(c.path&&c.path.length);
+  const dt=c._dt||0.016;c.wW+=((moving?1:0)-c.wW)*Math.min(1,dt*10);c.sW+=((c.sitting?1:0)-c.sW)*Math.min(1,dt*8);
+  if(moving)c.walk+=dt*(7+40*c.speed);
+  c.u.uPhase.value=c.walk;c.u.uWalk.value=c.wW;c.u.uSit.value=c.sW;
+  const ph=c.walk;c.body.position.y=0.5+Math.abs(Math.sin(ph))*0.03*c.wW-0.2*c.sW+(1-c.wW)*(1-c.sW)*Math.sin(t*2.2+c.x)*0.006;
+  c.body.rotation.x=Math.sin(ph)*0.07*c.wW;c.body.rotation.z=-0.06*c.wW;
+  let d=c.face-c.turn.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));c.turn.rotation.y+=d*0.2;
+  const top=py-s*(c.sitting?0.78:0.98);c.tag.style.left=px+'px';c.tag.style.top=top+'px';
+  if(c.bub){c.bub.style.left=px+'px';c.bub.style.top=(top-18)+'px';}}
+function stepChar(c,dt){if(c.bubT>0){c.bubT-=dt;if(c.bubT<=0&&c.bub){c.bub.remove();c.bub=null;}}
+  if(!c.path||!c.path.length){if(c.target){c.target=null;if(c.seat){c.x=c.seat.x;c.y=c.seat.y;c.sitting=true;faceTo(c,...c.seat.look);}}return;}
+  c.target=c.path[0];const[tx,ty]=c.target;const dx=tx-c.x,dy=ty-c.y;const d=Math.hypot(dx*AR,dy);
+  const s=c.speed*100*dt*(0.85+0.3*c.y/100);
+  if(d<=s){c.x=tx;c.y=ty;c.path.shift();if(!c.path.length){c.target=null;if(c.seat){c.x=c.seat.x;c.y=c.seat.y;c.sitting=true;faceTo(c,...c.seat.look);}}return;}
+  c.x+=dx*AR/d*s/AR;c.y+=dy/d*s;faceTo(c,tx,ty);}
+function goTo(c,x,y,seat){c.sitting=false;c.seat=seat||null;const p=findPath(c.x,c.y,x,y);if(p&&p.length){c.path=p;c.target=p[0];}else{c.path=null;c.target=null;if(seat){c.x=seat.x;c.y=seat.y;c.sitting=true;faceTo(c,...seat.look);}}}
+/* ===================== 3-b. 가려짐: 그림 조각을 깊이 순서대로 덮기 ===================== */
+let occGroup=new THREE.Group();scene.add(occGroup);const texCache={};
+function mapTex(key){if(!texCache[key]){const t=new THREE.TextureLoader().load(window.MAPS[key]);t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;texCache[key]=t;}return texCache[key];}
+function buildOcc(){scene.remove(occGroup);occGroup=new THREE.Group();scene.add(occGroup);
+  const mat=new THREE.MeshBasicMaterial({map:mapTex(P.img),alphaMap:mapTex('mask_'+P.img),alphaTest:0.5,toneMapped:false});
+  (P.occ||[]).forEach(o=>{const sh=new THREE.Shape(o.p.map(([x,y])=>new THREE.Vector2(x/100*SW,-y/100*SH)));const g=new THREE.ShapeGeometry(sh);
+    const pos=g.attributes.position,uv=[];for(let i=0;i<pos.count;i++){uv.push(pos.getX(i)/SW,1+pos.getY(i)/SH);}g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
+    const m=new THREE.Mesh(g,mat);m.position.z=o.b/100*SH*ZK;occGroup.add(m);});}
+/* ===================== 4. 효과 (불빛, 반딧불, 바다 반짝임) ===================== */
+function buildFx(){fx.innerHTML='';
+  P.glows.forEach(([x,y,r,col,fire])=>{const g=document.createElement('div');g.className='glow';const R=r/100*SW;g.style.left=x+'%';g.style.top=y+'%';g.style.width=g.style.height=R+'px';
+    g.style.background=`radial-gradient(circle,rgba(${col},${fire?.55:.35}) 0%,rgba(${col},0) 70%)`;g.style.animationDuration=(fire?0.7:1.8+Math.random()*1.2)+'s';g.style.animationDelay=(-Math.random()*2)+'s';fx.appendChild(g);});
+  if(P.flies)[[12,30],[20,22],[60,24],[76,18],[6,58],[58,50],[82,62],[16,84],[44,88],[28,26],[64,74],[92,44]].forEach(([x,y],i)=>{const d=document.createElement('div');d.className='fly';d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(i*0.6)+'s';fx.appendChild(d);});
+  if(P.sea)for(let i=0;i<46;i++){const d=document.createElement('div');d.className='spark';const s=P.sea;const x=s.x0+Math.random()*(s.x1-s.x0),y=s.y0+Math.pow(Math.random(),0.7)*(s.y1-s.y0);if(x>74&&y>36)continue;d.style.left=x+'%';d.style.top=y+'%';d.style.animationDelay=(Math.random()*2.4)+'s';d.style.animationDuration=(1.6+Math.random()*1.6)+'s';fx.appendChild(d);} }
+
+/* ===================== 5. 이웃 (지금은 예시 주민, 나중에 서버 연결) ===================== */
+// ===== 같이 접속 (파이어베이스 Realtime Database) =====
+// ▼ 파이어베이스 콘솔 > 프로젝트 설정 > 내 앱 에서 복사한 설정을 여기에 붙여넣기. 비워두면 혼자 보는 연습 모드(예시 주민)로 돌아감.
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyDGWIqLHgvWm7423Lx7mz7QdxHuDnarnt0",
+  authDomain:"eve-village.firebaseapp.com",
+  databaseURL:"https://eve-village-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"eve-village",
+  storageBucket:"eve-village.firebasestorage.app",
+  messagingSenderId:"1028668127265",
+  appId:"1:1028668127265:web:c0118c0b3a5cb5b41e0b60"};
+const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),chatOff:null,lastSync:0,
+  sid:Math.random().toString(36).slice(2),
+  async init(name,pw){if(!FIREBASE_CONFIG)return {ok:true,offline:true};
+    try{const V='https://www.gstatic.com/firebasejs/10.12.2/';
+      const [A,D,U]=await Promise.all([import(V+'firebase-app.js'),import(V+'firebase-database.js'),import(V+'firebase-auth.js')]);
+      const app=A.initializeApp(FIREBASE_CONFIG);const auth=U.getAuth(app);
+      // 이름을 가짜 이메일로 바꿔서 아이디처럼 씀 (한글 이름도 되게 16진수로 변환)
+      const hex=[...new TextEncoder().encode(name)].map(b=>b.toString(16).padStart(2,'0')).join('');const email='u'+hex+'@eve-village.app';
+      let cred;
+      try{cred=await U.createUserWithEmailAndPassword(auth,email,pw);}
+      catch(e){if(e.code==='auth/email-already-in-use'){try{cred=await U.signInWithEmailAndPassword(auth,email,pw);}catch(e2){return {ok:false,msg:'이미 있는 이름이에요. 비밀번호가 맞는지 확인해줘'};}}
+        else if(e.code==='auth/weak-password')return {ok:false,msg:'비밀번호는 6자 이상이어야 해'};
+        else return {ok:false,msg:'접속에 실패했어. 잠시 후 다시 해줘'};}
+      this.uid=cred.user.uid;this.db=D.getDatabase(app);this.fn=D;this.online=true;
+      const meRef=D.ref(this.db,'presence/'+this.uid);D.onDisconnect(meRef).remove();
+      // 같은 계정이 다른 기기에서 들어오면 이 창은 종료
+      D.onValue(D.ref(this.db,'presence/'+this.uid+'/sid'),s=>{const v=s.val();if(v===this.sid)this.mine=true;if(this.mine&&v&&v!==this.sid&&this.online){this.online=false;document.getElementById('kicked').style.display='flex';}});
+      const pres=D.ref(this.db,'presence');
+      D.onChildAdded(pres,s=>this.onPeer(s.key,s.val()));D.onChildChanged(pres,s=>this.onPeer(s.key,s.val()));
+      D.onChildRemoved(pres,s=>{this.all.delete(s.key);this.dropPeer(s.key);updateWho();});
+      return {ok:true};}catch(e){console.warn('firebase 연결 실패',e);return {ok:false,msg:'서버에 연결하지 못했어'};}},
+  write(extra){if(!this.online||!me)return;const D=this.fn;
+    D.set(D.ref(this.db,'presence/'+this.uid),Object.assign({name:me.name,sid:this.sid,place:placeKey,x:+me.x.toFixed(2),y:+me.y.toFixed(2),tx:+me.x.toFixed(2),ty:+me.y.toFixed(2),seat:-1,t:D.serverTimestamp()},extra||{}));},
+  move(tx,ty,seatIdx){this.write({tx:+tx.toFixed(2),ty:+ty.toFixed(2),seat:seatIdx??-1});this.lastSync=performance.now();},
+  tick(){if(!this.online||!me)return;const moving=me.path&&me.path.length;if(moving&&performance.now()-this.lastSync>2500){const d=me.path[me.path.length-1];this.move(d[0],d[1],me.seat?P.seats.indexOf(me.seat):-1);}},
+  onPeer(uid,d){if(!d)return;this.all.set(uid,d);if(uid===this.uid)return;this.applyPeer(uid,d);updateWho();},
+  applyPeer(uid,d){if(d.place!==placeKey){this.dropPeer(uid);return;}let c=this.peers.get(uid);
+    if(!c){c=makeChar(d.name||'이웃',d.x,d.y,false);this.peers.set(uid,c);}
+    c.tag.textContent=d.name||'이웃';
+    if(Math.hypot((c.x-d.x)*AR,c.y-d.y)>10){c.x=d.x;c.y=d.y;}
+    const seat=d.seat>=0?P.seats[d.seat]:null;goTo(c,seat?seat.x:d.tx,seat?seat.y:d.ty,seat);},
+  dropPeer(uid){const c=this.peers.get(uid);if(c){removeChar(c);this.peers.delete(uid);}},
+  refreshPlace(){[...this.peers.keys()].forEach(k=>this.dropPeer(k));this.all.forEach((d,uid)=>{if(uid!==this.uid)this.applyPeer(uid,d);});
+    if(!this.online)return;const D=this.fn;if(this.chatOff)this.chatOff();const since=Date.now()-5000;
+    this.chatOff=D.onChildAdded(D.query(D.ref(this.db,'chat/'+placeKey),D.limitToLast(15)),s=>{const m=s.val();if(!m||m.uid===this.uid||(m.ts||0)<since)return;const c=this.peers.get(m.uid);if(c)say(c,m.text);});},
+  chat(text){if(!this.online)return;const D=this.fn;D.push(D.ref(this.db,'chat/'+placeKey),{uid:this.uid,name:me.name,text,ts:Date.now()});}};
+function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d.place===placeKey)n++;});}else n+=npcs.length;
+  document.getElementById('who').textContent=n+'명이 '+P.label+'에 있어요';}
+const LINES={plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
+             beach:['모닥불 따뜻해','파도 소리 들려?','여기 앉아도 돼요?','해 지는 거 봐','마시멜로 구울까']};
+const NPC_NAMES={plaza:['솔이','도토리'],beach:['노을','조개','바람']};
+let npcs=[];
+function spawnNpcs(){npcs.forEach(removeChar);npcs=[];if(Net.online)return;
+  NPC_NAMES[placeKey].forEach((n,i)=>{let x,y,k=0;do{x=20+Math.random()*60;y=50+Math.random()*35;k++;}while(!walkable(x,y)&&k<200);
+    const c=makeChar(n,x,y,false);c.speed=0.07+Math.random()*0.03;c.wait=1+Math.random()*3;
+    if(placeKey==='beach'&&i<2){const s=P.seats[i*3];c.x=s.x;c.y=s.y;c.sitting=true;c.seat=s;faceTo(c,...s.look);c.wait=9999;}
+    npcs.push(c);});}
+function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.floor(Math.random()*LINES[placeKey].length)]);c.lineT=10+Math.random()*14;}
+  if(c.sitting)return;if(!c.path||!c.path.length){c.wait-=dt;if(c.wait<0){for(let i=0;i<60;i++){const x=10+Math.random()*80,y=40+Math.random()*50;if(walkable(x,y)){goTo(c,x,y);break;}}c.wait=2+Math.random()*5;}}}
+
+/* ===================== 6. 장소 이동 ===================== */
+const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
+let me=null,switching=false;
+function enter(key,spawn,face){placeKey=key;P=PLACES[key];mapImg.src=window.MAPS[P.img];placeEl.textContent=P.label;buildFx();buildOcc();
+  me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
+  Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
+function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){switching=true;fade.style.opacity=1;
+  setTimeout(()=>{enter(ex.to,ex.spawn,ex.face);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},460);return;}}}
+
+/* ===================== 7. 입력 ===================== */
+const tapEl=document.getElementById('tap');let panX=0,panY=0;
+document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching)return;const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
+  tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
+  const seat=P.seats.find(s=>Math.hypot((s.x-nx)*AR,s.y-ny)<3.6&&!npcs.some(n=>n.seat===s)&&![...Net.peers.values()].some(n=>n.seat===s&&n.sitting));
+  if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
+  goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
+// 출구 쪽은 걸을 수 있게
+const baseWalk=walkable;
+document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('msg');const t=inp.value.trim();if(!t||!me)return;say(me,t);Net.chat(t);inp.value='';inp.blur();});
+
+/* ===================== 8. 입장 화면 ===================== */
+let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
+const nm=document.getElementById('nm');nm.value=saved;
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');mapImg.src=window.MAPS.plaza;buildFx();buildOcc();
+document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
+document.getElementById('go').addEventListener('click',async()=>{const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
+  try{localStorage.setItem('sbv_name',n);}catch(e){}
+  const pw=document.getElementById('pw').value;if(FIREBASE_CONFIG&&pw.length<6){document.getElementById('err').textContent='비밀번호는 6자 이상이어야 해';return;}
+  const goBtn=document.getElementById('go');goBtn.textContent='들어가는 중…';goBtn.disabled=true;const r=await Net.init(n,pw);if(!r.ok){document.getElementById('err').textContent=r.msg;goBtn.textContent='입장하기';goBtn.disabled=false;return;}document.getElementById('title').remove();me=makeChar(n,36,72,true);enter('plaza',[36,72],[36,60]);setTimeout(()=>{say(me,'안녕!');Net.chat('안녕!');},400);});
+nm.addEventListener('input',()=>document.getElementById('err').textContent='');document.getElementById('pw').addEventListener('input',()=>document.getElementById('err').textContent='');
+if(!FIREBASE_CONFIG)document.getElementById('pw').style.display='none';
+
+/* ===================== 9. 게임 루프 ===================== */
+let last=performance.now();
+function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
+  if(me){stepChar(me,dt);checkExit();}
+  npcs.forEach(c=>{npcThink(c,dt);stepChar(c,dt);});Net.peers.forEach(c=>stepChar(c,dt));Net.tick();
+  [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;place(c,t);}});
+  const fx0=me?me.x/100*SW:SW/2,fy0=me?me.y/100*SH:SH/2;
+  const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
+  panX+=(tx-panX)*0.08;panY+=(ty-panY)*0.08;stage.style.transform=`translate(${-panX}px,${-panY}px)`;
+  renderer.render(scene,camera);requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
