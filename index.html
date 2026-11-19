@@ -389,39 +389,25 @@ nm.addEventListener('input',()=>document.getElementById('err').textContent='');d
 if(!FIREBASE_CONFIG)document.getElementById('pw').style.display='none';
 
 /* ===================== 8-a. 소리: 파도, 바람, 모닥불 (직접 합성, 파일 없음) ===================== */
-const Snd={ctx:null,on:true,g:{},
-  start(){if(this.ctx)return;let C;try{C=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}this.ctx=C;
-    const len=C.sampleRate*4,buf=C.createBuffer(1,len,C.sampleRate),d=buf.getChannelData(0);let last=0;
-    for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+0.02*w)/1.02;d[i]=last*3.5;} // 브라운 노이즈
-    const noise=()=>{const s=C.createBufferSource();s.buffer=buf;s.loop=true;s.loopStart=Math.random();s.start(0,Math.random()*3);return s;};
+// 소리: 실제 녹음(Moodist 수록 CC0·Pixabay 라이선스 자연음)을 끊김 없는 고리로 다듬어 장소별로 섞음
+const SND_FILES={waves:90,fire:60,wind:55,trees:52,crickets:60},SND_PAD=0.1;
+const Snd={ctx:null,on:true,L:{},
+  start(){if(this.ctx)return;let C;try{C=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}this.ctx=C;if(C.state==='suspended')C.resume();
     const master=C.createGain();master.gain.value=0.9;master.connect(C.destination);this.master=master;
-    // 파도: 낮은 웅웅 + 부서지는 쏴아
-    const wv=C.createGain();wv.gain.value=0;wv.connect(master);
-    const body=noise(),lp=C.createBiquadFilter();lp.type='lowpass';lp.frequency.value=420;const bodyG=C.createGain();bodyG.gain.value=0.0;body.connect(lp).connect(bodyG).connect(wv);
-    const hiss=noise(),hp=C.createBiquadFilter();hp.type='bandpass';hp.frequency.value=1800;hp.Q.value=0.6;const hissG=C.createGain();hissG.gain.value=0.0;hiss.connect(hp).connect(hissG).connect(wv);
-    this.g.wave=wv;this.wave={bodyG,hissG,lp,next:0};
-    // 바람
-    const wd=C.createGain();wd.gain.value=0;wd.connect(master);const wn=noise(),bp=C.createBiquadFilter();bp.type='bandpass';bp.frequency.value=500;bp.Q.value=0.9;const wG=C.createGain();wG.gain.value=0.5;wn.connect(bp).connect(wG).connect(wd);
-    this.g.wind=wd;this.wind={bp,wG};
-    // 모닥불: 낮게 타는 소리 + 탁탁 튀는 소리
-    const fr=C.createGain();fr.gain.value=0;fr.connect(master);const fn=noise(),flp=C.createBiquadFilter();flp.type='lowpass';flp.frequency.value=260;const fG=C.createGain();fG.gain.value=0.35;fn.connect(flp).connect(fG).connect(fr);
-    this.g.fire=fr;this.fireNext=0;
-    this.cbuf=C.createBuffer(1,Math.floor(C.sampleRate*0.03),C.sampleRate);const cd=this.cbuf.getChannelData(0);for(let i=0;i<cd.length;i++)cd[i]=(Math.random()*2-1)*Math.pow(1-i/cd.length,3);},
-  crackle(){const C=this.ctx;const s=C.createBufferSource();s.buffer=this.cbuf;s.playbackRate.value=0.6+Math.random()*1.2;const hp=C.createBiquadFilter();hp.type='highpass';hp.frequency.value=1200+Math.random()*2500;const g=C.createGain();g.gain.value=0.15+Math.random()*0.35;s.connect(hp).connect(g).connect(this.g.fire);s.start();},
-  update(dt,t){if(!this.ctx)return;const C=this.ctx,now=C.currentTime;
-    // 장소별 섞는 비율
-    let wave=0.12,wind=0.32,fire=0;
-    if(placeKey==='beach'){wave=0.85;wind=0.18;const d=me?Math.hypot((me.x-52)*AR,me.y-63):40;fire=Math.max(0,1-d/38)*0.9;}
-    if(!this.on){wave=wind=fire=0;}
-    const k=Math.min(1,dt*1.5);for(const [n,v] of [['wave',wave],['wind',wind],['fire',fire]]){const g=this.g[n].gain;g.value+=(v-g.value)*k;}
-    // 파도 한 번: 차오르고(2.5초) 부서지고(쏴아) 빠짐
-    const W=this.wave;if(now>W.next){const T=6+Math.random()*4,up=2.2+Math.random()*0.8,pk=0.55+Math.random()*0.45;
-      W.bodyG.gain.cancelScheduledValues(now);W.bodyG.gain.setValueAtTime(W.bodyG.gain.value,now);W.bodyG.gain.linearRampToValueAtTime(pk,now+up);W.bodyG.gain.linearRampToValueAtTime(0.12,now+T*0.9);
-      W.hissG.gain.cancelScheduledValues(now);W.hissG.gain.setValueAtTime(0.02,now);W.hissG.gain.linearRampToValueAtTime(0.06,now+up*0.9);W.hissG.gain.linearRampToValueAtTime(pk*0.5,now+up+0.25);W.hissG.gain.exponentialRampToValueAtTime(0.02,now+up+3.2);
-      W.lp.frequency.setValueAtTime(300,now);W.lp.frequency.linearRampToValueAtTime(700,now+up);W.lp.frequency.linearRampToValueAtTime(320,now+T*0.9);W.next=now+T;}
-    // 바람: 세기와 높이가 천천히 바뀜
-    this.wind.bp.frequency.value=420+180*Math.sin(t*0.13)+90*Math.sin(t*0.41);this.wind.wG.gain.value=0.35+0.25*(0.5+0.5*Math.sin(t*0.21+Math.sin(t*0.07)*2));
-    if(this.g.fire.gain.value>0.02&&now>this.fireNext){this.crackle();if(Math.random()<0.3)setTimeout(()=>this.crackle(),40+Math.random()*80);this.fireNext=now+0.05+Math.random()*0.45;}}};
+    for(const [k,len] of Object.entries(SND_FILES)){
+      const g=C.createGain();g.gain.value=0;const lp=C.createBiquadFilter();lp.type='lowpass';lp.frequency.value=18000;lp.Q.value=0.5;lp.connect(g).connect(master);
+      const L=this.L[k]={g,lp,ready:false};
+      fetch('snd/'+k+'.mp3').then(r=>r.arrayBuffer()).then(ab=>new Promise((res,rej)=>C.decodeAudioData(ab,res,rej))).then(buf=>{
+        const s=C.createBufferSource();s.buffer=buf;s.loop=true;s.loopStart=SND_PAD;s.loopEnd=SND_PAD+len;s.connect(lp);s.start(0,SND_PAD+Math.random()*len*0.9);L.ready=true;}).catch(()=>{});}},
+  update(dt,t){if(!this.ctx)return;
+    // 장소별 비율 (lp: 높을수록 가까이, 낮으면 멀리서 들리는 소리)
+    let m;
+    if(placeKey==='beach'){const d=me?Math.hypot((me.x-52)*AR,me.y-63):40;const f=Math.max(0,1-d/40);
+      m={waves:[0.95,18000],fire:[f*f*1.1,18000],wind:[0.22,18000],trees:[0.1,6000],crickets:[0.12,9000]};}
+    else m={waves:[0.32,650],fire:[0,18000],wind:[0.12,2500],trees:[0.5,18000],crickets:[0.55,18000]};
+    const k=Math.min(1,dt*1.2);
+    for(const n in this.L){const L=this.L[n],[v,f]=m[n]||[0,18000];const tv=this.on?v:0;
+      L.g.gain.value+=(tv-L.g.gain.value)*k;L.lp.frequency.value+=(f-L.lp.frequency.value)*k;}}};
 const sndBtn=document.getElementById('sndBtn');
 sndBtn.addEventListener('pointerup',e=>{e.stopPropagation();Snd.on=!Snd.on;sndBtn.textContent=Snd.on?'소리 끄기':'소리 켜기';if(Snd.ctx&&Snd.ctx.state==='suspended')Snd.ctx.resume();try{localStorage.setItem('ev_snd',Snd.on?'1':'0');}catch(_){}});
 try{if(localStorage.getItem('ev_snd')==='0'){Snd.on=false;sndBtn.textContent='소리 켜기';}}catch(_){}

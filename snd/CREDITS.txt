@@ -1,0 +1,3 @@
+Ambient sounds: recorded nature loops taken from Moodist (https://github.com/remvze/moodist) public/sounds.
+Those sounds are under the CC0 or Pixabay Content License, per the Moodist README.
+Trimmed, normalized, and made into seamless loops for Eve Village.
