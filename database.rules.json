@@ -21,6 +21,22 @@
         ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid"
       }
+    },
+    "residents": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "newData.hasChildren(['name']) && newData.child('name').isString() && newData.child('name').val().length <= 8"
+      }
+    },
+    "mail": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$id": {
+          ".write": "auth != null && !data.exists() && newData.child('from').val() === auth.uid",
+          ".validate": "newData.hasChildren(['k','from','ts']) && newData.child('text').isString() && newData.child('text').val().length <= 400"
+        }
+      }
     }
   }
 }
