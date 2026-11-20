@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>이브 빌리지</title>
 <meta name="description" content="늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을">
@@ -169,11 +170,11 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
-<div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120b</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
-<script src="maps.js"></script>
-<script src="chars.js"></script>
+<script src="maps.js?v=1120b"></script>
+<script src="chars.js?v=1120b"></script>
 <script>Object.assign(window.MAPS,{curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
 import * as THREE from 'three';
