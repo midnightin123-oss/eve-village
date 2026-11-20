@@ -112,6 +112,12 @@
   .pickBtn:after{content:'';position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-top-color:#fff4e2;border-bottom:0;}
   .glint{position:absolute;width:14px;height:14px;transform:translate(-50%,-50%);pointer-events:none;background:linear-gradient(#fff,#fff) center/2px 100% no-repeat,linear-gradient(#fff,#fff) center/100% 2px no-repeat;filter:drop-shadow(0 0 3px #fff3c4);animation:glint 4s ease-in-out infinite;opacity:0;}
   @keyframes glint{0%,70%,100%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(0)}80%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(45deg)}90%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(90deg)}}
+  #admBtn{position:fixed;top:calc(92px + env(safe-area-inset-top));right:14px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(40,25,40,.55);color:#fff4e6;font-size:17px;z-index:6;display:none;}
+  #admTag{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));transform:translateX(-50%);z-index:7;display:none;padding:3px 10px;border-radius:999px;background:#e0574a;color:#fff;font:12px 'Gowun Dodum',sans-serif;}
+  #adm .card{position:relative;width:min(86vw,340px);padding:16px;border-radius:16px;background:#2f2333;color:#fff4e6;font:13px 'Gowun Dodum',sans-serif;box-shadow:0 14px 30px rgba(0,0,0,.5);}
+  #adm h4{margin:0 0 10px;font-size:15px;font-weight:400;} #adm .row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  #adm button.b{border:0;border-radius:999px;padding:6px 11px;font:12px 'Gowun Dodum',sans-serif;background:#4b3a52;color:#fff4e6;}
+  #adm button.b.on{background:#e0574a;} #adm .lb{opacity:.65;font-size:11px;margin-top:10px;} #adm .st{opacity:.8;font-size:12px;}
   #toast{position:fixed;left:50%;top:calc(58px + env(safe-area-inset-top));transform:translate(-50%,-10px);opacity:0;transition:all .35s;z-index:15;white-space:nowrap;
     color:#fff8ec;font:15px 'Gowun Dodum',sans-serif;text-shadow:0 1px 3px rgba(40,15,20,.85),0 0 10px rgba(40,15,20,.5);display:flex;align-items:center;gap:6px;pointer-events:none;}
   #toast.on{opacity:1;transform:translate(-50%,0);}
@@ -177,10 +183,10 @@
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
-<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
+<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120e</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120f</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js?v=1120b"></script>
@@ -516,14 +522,15 @@ const KDAY=['일','월','화','수','목','금','토'];
 const toastEl=document.getElementById('toast');
 function toast(html,ms){toastEl.innerHTML=html;if(me&&me.tag&&!Bag.on&&!Note.on){const r=me.tag.getBoundingClientRect();toastEl.style.left=(r.left+r.width/2)+'px';toastEl.style.top=Math.max(50,r.top-30)+'px';}else{toastEl.style.left='50%';toastEl.style.top='';}toastEl.classList.add('on');clearTimeout(toastEl._t);toastEl._t=setTimeout(()=>toastEl.classList.remove('on'),ms||2600);}
 const Me={d:{sec:0,bag:{},diary:{}},ready:false,remote:false,_t:null,q:[],
-  lsKey(){return 'ev_me_'+(me?me.name:'guest');},
+  test:false,real:null,
+  lsKey(){return 'ev_me_'+(this.test?'test_':'')+(me?me.name:'guest');},
   async load(){let d=null;
     if(Net.online){try{const D=Net.fn;const s=await D.get(D.ref(Net.db,'users/'+Net.uid));d=s.val();this.remote=true;}catch(e){this.remote=false;console.warn('내 기록 서버 읽기 실패 → 이 기기에만 저장',e&&e.code);}}
     if(!d){try{d=JSON.parse(localStorage.getItem(this.lsKey())||'null');}catch(e){}}
     this.d=Object.assign({sec:0,bag:{},diary:{}},d||{});this.d.bag=this.d.bag||{};this.d.diary=this.d.diary||{};
     this.ready=true;this.hud();const q=this.q;this.q=[];q.forEach(f=>f());},
   save(){clearTimeout(this._t);this._t=setTimeout(()=>{try{localStorage.setItem(this.lsKey(),JSON.stringify(this.d));}catch(e){}
-    if(Net.online&&this.remote){const D=Net.fn;D.set(D.ref(Net.db,'users/'+Net.uid),this.d).catch(e=>{this.remote=false;console.warn('내 기록 서버 저장 실패',e&&e.code);});}},500);},
+    if(!this.test&&Net.online&&this.remote){const D=Net.fn;D.set(D.ref(Net.db,'users/'+Net.uid),this.d).catch(e=>{this.remote=false;console.warn('내 기록 서버 저장 실패',e&&e.code);});}},500);},
   day(k){k=k||ymd();return this.d.diary[k]||(this.d.diary[k]={e:[],st:0});},
   log(text,tag){if(!this.ready){this.q.push(()=>this.log(text,tag));return;}const g=this.day();
     if(tag){g.tg=g.tg||{};if(g.tg[tag])return;g.tg[tag]=1;}if((g.e||(g.e=[])).length>=40)return;g.e.push({t:Date.now(),x:text});this.save();if(Diary.on)Diary.render();},
@@ -590,7 +597,7 @@ bagEl.querySelector('.x').addEventListener('click',()=>Bag.close());bagEl.addEve
 bagBtn.addEventListener('click',()=>Bag.open());
 const Diary={get on(){return Note.on;},render(){Note.render();}};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-async function startMe(){await Me.load();buildSparks();bagBtn.style.display='block';
+async function startMe(){await Me.load();buildSparks();bagBtn.style.display='block';Admin.init();
   if(Me.stamp()){Me.log('오늘도 해질녘 마을에 왔다.','arrive');setTimeout(()=>toast('<img src="ui/stamp.webp" width="26" height="26">오늘의 해질녘 도장이 찍혔어!',3200),900);}
   Me.log(DLINE.visit[placeKey],'v_'+placeKey);}
 
@@ -659,6 +666,39 @@ const Shop={tray:{},line:'',
     shopBody.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const id=b.dataset.b;this.tray[id]--;if(this.tray[id]<=0)delete this.tray[id];this.line='마음이 바뀌었나? 괜찮아.';this.render();});
     const g=shopBody.querySelector('.go');if(g)g.onclick=()=>{let tot=0;for(const id in this.tray){const n=this.tray[id];tot+=ITEMS[id].sec*n;Me.addItem(id,-n);Me.log(`만물상에서 ${ITEMS[id].name}을(를) 시간으로 바꿨다.`,'sell_'+id);}
       Me.addSec(tot);this.tray={};this.line=rnd(KEEP.deal)+` (+${tot}초)`;this.render();};}};
+
+/* ===================== 관리자 (현디 전용) ===================== */
+const ADMIN_NAMES=['현디'];
+const admEl=document.getElementById('adm'),admBody=document.getElementById('admBody'),admBtn=document.getElementById('admBtn'),admTag=document.getElementById('admTag');
+const Admin={
+  isMe(){return me&&ADMIN_NAMES.includes(me.name);},
+  init(){if(!this.isMe())return;admBtn.style.display='block';},
+  open(){admEl.classList.add('on');this.render();},close(){admEl.classList.remove('on');},
+  setTest(on){if(on===Me.test)return;clearTimeout(Me._t);
+    if(on){Me.real=Me.d;Me.test=true;let d=null;try{d=JSON.parse(localStorage.getItem(Me.lsKey())||'null');}catch(e){}Me.d=d||JSON.parse(JSON.stringify(Me.real));}
+    else{Me.test=false;Me.d=Me.real||Me.d;Me.real=null;}
+    Me.d.bag=Me.d.bag||{};Me.d.diary=Me.d.diary||{};admTag.style.display=Me.test?'block':'none';Me.hud();buildSparks();toast(Me.test?'테스트 모드 시작':'플레이 모드로 돌아왔어',1800);this.render();},
+  act(k){const real=!Me.test;const need={sec:1,bag:1,pick:1,stamp:1,all:1};
+    if(real&&need[k]&&!confirm('플레이 모드야. 진짜 기록이 바뀌어. 계속할까?'))return;
+    const t=ymd();
+    if(k==='sec'){Me.d.sec=0;}
+    if(k==='bag'){Me.d.bag={};}
+    if(k==='pick'){if(Me.d.pick)delete Me.d.pick[t];buildSparks();}
+    if(k==='stamp'){const g=Me.d.diary[t];if(g)g.st=0;}
+    if(k==='all'){Me.d={sec:0,bag:{},diary:{}};buildSparks();}
+    if(k==='p100'){Me.d.sec=(Me.d.sec||0)+100;}
+    if(k==='kit'){['shell_w','shell_p','shell_v','wood','glass_g','conch','glass_b','star','pearl','bottle'].forEach(id=>Me.d.bag[id]=(Me.d.bag[id]||0)+1);}
+    if(k==='respawn'){if(Me.d.pick)delete Me.d.pick[t];buildSparks();}
+    if(k==='stampnow'){Me.stamp();}
+    Me.save();Me.hud();if(Bag.on)Bag.render();if(Note.on)Note.render();toast('완료',1000);this.render();},
+  render(){const b=(k,t,c)=>`<button class="b${c?' on':''}" data-k="${k}">${t}</button>`;const n=Object.values(Me.d.bag||{}).reduce((a,x)=>a+x,0);
+    admBody.innerHTML=`<h4>⚙ 관리자</h4><div class="row">${b('m_play','플레이',!Me.test)}${b('m_test','테스트',Me.test)}</div>
+      <div class="st">지금: ${Me.test?'테스트 (연습용 기록, 서버에 저장 안 됨)':'플레이 (진짜 기록)'} · ${(Me.d.sec||0)}초 · 물건 ${n}개 · 오늘 줍기 ${pickedToday()}/${PICK_MAX}</div>
+      <div class="lb">리셋</div><div class="row">${b('sec','초 0으로')}${b('bag','가방 비우기')}${b('pick','오늘 줍기 횟수')}${b('stamp','오늘 도장 지우기')}${b('all','전부 처음으로')}</div>
+      <div class="lb">치트</div><div class="row">${b('p100','+100초')}${b('kit','해변 물건 세트')}${b('respawn','해변 물건 다시 깔기')}${b('stampnow','오늘 도장 찍기')}</div>`;
+    admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else this.act(k);});}};
+admBtn.addEventListener('click',()=>Admin.open());admEl.querySelector('.x').addEventListener('click',()=>Admin.close());admEl.addEventListener('click',e=>{if(e.target===admEl)Admin.close();});
+
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false,snapPan=true;
