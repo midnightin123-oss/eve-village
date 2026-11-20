@@ -92,12 +92,31 @@
   #diary .money b{font-size:34px;color:#4b2e22;}
   #diary .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:10px;margin-top:6px;}
   #diary .slot{height:62px;border-radius:12px;border:2px dashed rgba(125,82,52,.35);background:rgba(255,248,232,.35);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:16px;text-align:center;position:relative;}
+  #diary .slot img{width:46px;height:46px;} #diary .slot.sel{border-style:solid;border-color:#c4523a;background:rgba(255,248,232,.7);}
   #diary .slot i{position:absolute;right:5px;bottom:2px;font-style:normal;font-size:14px;}
   @media (max-width:680px){#diary .book{width:84vw;height:76vh;} #diary .pg.r{display:none;} #diary .pg.l{border-radius:8px;} #diary .ribbons{right:-26px;} #diary .ribbons button{width:38px;height:54px;font-size:15px;}}
   #toast{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;transition:all .35s;z-index:15;background:#fff4e2;color:#5a3a2b;
     padding:10px 16px 10px 12px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:10px;font-family:'Gaegu',cursive;font-size:19px;pointer-events:none;}
   #toast.on{opacity:1;transform:translate(-50%,0);}
   #toast .ms{width:38px;height:38px;border-radius:50%;border:2px solid #c4523a;color:#c4523a;font-size:12px;line-height:13px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);font-weight:700;}
+  .pickup{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;pointer-events:none;}
+  .pickup:before,.pickup:after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+  .pickup:before{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(255,250,225,.95) 0%,rgba(255,222,150,.55) 30%,rgba(255,205,130,0) 70%);animation:pkup 1.6s ease-in-out infinite;}
+  .pickup:after{width:18px;height:18px;background:linear-gradient(#fff,#fff) center/2px 100% no-repeat,linear-gradient(#fff,#fff) center/100% 2px no-repeat;filter:drop-shadow(0 0 3px #fff3c4);animation:pkst 1.6s ease-in-out infinite;}
+  .pickup.near:before,.pickup.near:after{animation-duration:.8s;}
+  @keyframes pkup{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.75)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+  @keyframes pkst{0%,100%{opacity:.6;transform:translate(-50%,-50%) rotate(0deg) scale(.7)}50%{opacity:1;transform:translate(-50%,-50%) rotate(45deg) scale(1.1)}}
+  #shop{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(25,16,28,.5);backdrop-filter:blur(3px);}
+  #shop.on{display:flex;}
+  #shop .card{position:relative;width:min(88vw,460px);max-height:80vh;overflow:auto;padding:24px 22px 18px;border-radius:16px;font-family:'Gaegu','Nanum Pen Script',cursive;color:#3d2a3c;background:#e9d8c4;box-shadow:0 18px 40px rgba(20,8,20,.5),inset 0 0 0 3px rgba(110,60,110,.18);}
+  #shop .x{position:absolute;top:8px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:20px;}
+  #shop h3{margin:0 0 4px;font-size:27px;color:#5b2f5a;} #shop .who{font-size:18px;color:#6e4a6a;margin-bottom:10px;}
+  #shop .row{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px dashed rgba(91,47,90,.25);font-size:19px;}
+  #shop .row img{width:40px;height:40px;} #shop .row .nm{flex:1;} #shop .row .pr{color:#7a4f35;font-size:17px;}
+  #shop button.b{border:0;border-radius:999px;padding:5px 12px;font-family:inherit;font-size:16px;font-weight:700;background:#5b2f5a;color:#fff4e2;}
+  #shop button.b.alt{background:#e2c7a8;color:#5b2f5a;}
+  #shop .tot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:20px;gap:8px;flex-wrap:wrap;}
+  #shop .empty{color:#8a6a7a;font-size:18px;padding:10px 0;}
   #chat{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:5;}
   #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
   #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
@@ -136,7 +155,7 @@
 <body>
 <div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div>
 <div id="place">광장</div><button id="dressBtn">꾸미기</button><button id="walletBtn" class="hudpill"><svg viewBox="0 0 24 24" fill="none" stroke="#7a4f35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12M6 22h12M7 2c0 5 5 6 5 10s-5 5-5 10M17 2c0 5-5 6-5 10s5 5 5 10"/></svg><b>0</b>초</button><button id="diaryBtn" class="hudpill"><svg viewBox="0 0 24 24" fill="none" stroke="#7a4f35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 8h6"/></svg>일기장</button>
-<div id="diary"><div class="book"><button class="x" aria-label="닫기">×</button><div class="ribbons"><button data-t="today">오늘</button><button data-t="cal">달력</button><button data-t="bag">가방</button></div><div class="pg l" id="dpL"></div><div class="pg r" id="dpR"></div></div></div><div id="toast"></div><button id="sndBtn" style="position:fixed;top:calc(92px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none">소리 끄기</button><div id="dress"></div><div id="who">1명 접속 중</div>
+<div id="diary"><div class="book"><button class="x" aria-label="닫기">×</button><div class="ribbons"><button data-t="today">오늘</button><button data-t="cal">달력</button><button data-t="bag">가방</button></div><div class="pg l" id="dpL"></div><div class="pg r" id="dpR"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" style="position:fixed;top:calc(92px + env(safe-area-inset-top));right:14px;border:0;padding:6px 12px;border-radius:999px;background:rgba(255,250,240,.88);color:#4a3b33;font-size:13px;z-index:5;display:none">소리 끄기</button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
 <div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
@@ -153,7 +172,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 let AR=2016/1140;const AR0=AR;
 const E=(cx,cy,rx,ry)=>({t:'e',cx,cy,rx,ry:ry??rx});
 const PLACES={
-  plaza:{ar:16/9,bld:[{"img":"news","cx":12,"by":57,"w":11,"fp":[[7,49.5],[17,49.5],[17,55.5],[7,55.5]],"door":[14,58.5],"msg":"신문 가판대는 곧 열려요"},{"img":"cafe","cx":20.5,"by":37.5,"w":20,"fp":[[11.5,28],[30,28],[30,35],[11.5,35]],"door":[18,37.6],"msg":"카페는 곧 열려요"},{"img":"library","cx":48,"by":39,"w":25,"fp":[[37,31],[56.5,31],[56.5,37.2],[50.6,37.2],[50.6,35],[45.4,35],[45.4,37.2],[37,37.2]],"door":[48,39.4]},{"img":"curio2","cx":62.5,"by":59,"w":15,"fp":[[55.5,51],[69.5,51],[69.5,57.5],[55.5,57.5]],"door":[54,53.2],"msg":"만물상은 곧 열려요"},{"img":"post2","cx":83,"by":60,"w":15.5,"fp":[[75.5,53],[90,53],[90,58.5],[75.5,58.5]],"door":[73.5,57],"msg":"우체국은 곧 열려요"}],label:'광장',img:'plaza',size:0.092,
+  plaza:{ar:16/9,bld:[{"img":"news","cx":12,"by":57,"w":11,"fp":[[7,49.5],[17,49.5],[17,55.5],[7,55.5]],"door":[14,58.5],"msg":"신문 가판대는 곧 열려요"},{"img":"cafe","cx":20.5,"by":37.5,"w":20,"fp":[[11.5,28],[30,28],[30,35],[11.5,35]],"door":[18,37.6],"msg":"카페는 곧 열려요"},{"img":"library","cx":48,"by":39,"w":25,"fp":[[37,31],[56.5,31],[56.5,37.2],[50.6,37.2],[50.6,35],[45.4,35],[45.4,37.2],[37,37.2]],"door":[48,39.4]},{"img":"curio2","cx":62.5,"by":59,"w":15,"fp":[[55.5,51],[69.5,51],[69.5,57.5],[55.5,57.5]],"door":[54,53.2],"act":"shop"},{"img":"post2","cx":83,"by":60,"w":15.5,"fp":[[75.5,53],[90,53],[90,58.5],[75.5,58.5]],"door":[73.5,57],"msg":"우체국은 곧 열려요"}],label:'광장',img:'plaza',size:0.092,
     walk:[[[3,45],[6,38.5],[12,36.4],[29,36.4],[33,38.2],[37,38.8],[57,38.8],[62,37],[66,34],[72,30],[80,26],[87,21],[90.5,19.5],[92,23.5],[86,27.5],[78,32],[73,36],[71,42],[73,48],[78,51.5],[88,52],[89,57],[87,62],[80,62.8],[70,62.5],[63,64.5],[60,67],[58,74],[50,78],[36,80],[22,78],[14,72],[11,64],[6,60],[3,55]],[[52,72],[56,65],[62,67],[60,74],[57,86],[49,86],[50,78]]],
     block:[E(35,57,6.6,5.6),E(25,67.5,4.3,2.6),E(47,64,4.3,2.6),E(18.2,72,0.9,1.2),E(52.7,46.5,0.9,1.2),E(40,40,3,2.4)],
     seats:[{x:24.3,y:67.4,look:[35,51]},{x:26.8,y:68.8,look:[35,51]},{x:45.6,y:65.5,look:[35,51]},{x:48.3,y:63.6,look:[35,51]}],
@@ -448,7 +467,18 @@ function npcThink(c,dt){c.lineT-=dt;if(c.lineT<0){say(c,LINES[placeKey][Math.flo
 
 
 /* ===================== 5-b. 내 기록: 지갑(초)·가방·일기장 ===================== */
-const ITEMS={};   // 물건 목록 (해변 줍기·가게 단계에서 채움): id → {name, svg}
+const ITEMS={  // 물건: 이름, 만물상 시세(초), 해변에서 나올 확률 가중치, 사연
+  shell_w:{name:'하얀 조개',sec:4,w:22,txt:'파도가 가장 많이 데려오는 조개. 귀에 대면 아주 작은 파도 소리가 난다.'},
+  shell_p:{name:'분홍 조개',sec:5,w:20,txt:'노을빛이 스며든 것처럼 발그레한 조개.'},
+  shell_v:{name:'보라 조개',sec:9,w:10,txt:'해가 완전히 지기 직전, 바다가 잠깐 보랏빛일 때만 밀려온다는 조개.'},
+  wood:{name:'유목 조각',sec:6,w:16,txt:'먼 바다를 오래 떠돌다 온 나무 조각. 어디서 왔을까.'},
+  glass_g:{name:'초록 바다유리',sec:8,w:14,txt:'누군가의 오래된 병이 파도에 닳고 닳아 보석이 됐다.'},
+  conch:{name:'소라 껍데기',sec:12,w:8,txt:'귀에 대면 바다 대신 누군가의 콧노래가 들린다는 소문이 있다.'},
+  glass_b:{name:'파란 바다유리',sec:20,w:5,txt:'초록보다 훨씬 드문 파란 조각. 하늘 한 조각을 주운 기분.'},
+  star:{name:'작은 불가사리',sec:25,w:4,txt:'모래 위에서 낮잠 자던 별. 살살 다뤄주자.'},
+  pearl:{name:'진주',sec:60,w:1,txt:'이 마을 바다에서 진주를 주운 사람은 손에 꼽는다고.'},
+  bottle:{name:'유리병 속 쪽지',sec:0,w:0.8,nosell:true,txt:'마개가 꽉 닫혀 열리지 않는다. 안에 뭐라고 적혀 있을까…'}};
+const itemImg=(id,sz)=>`<img src="items/${id}.webp" alt="" width="${sz||46}" height="${sz||46}" draggable="false">`;
 const ymd=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 const KDAY=['일','월','화','수','목','금','토'];
 const walletEl=document.getElementById('walletBtn'),diaryBtn=document.getElementById('diaryBtn'),toastEl=document.getElementById('toast');
@@ -493,26 +523,56 @@ const Diary={on:false,tab:'today',sel:null,
       for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];c+=`<div class="d${g&&g.st?' st':''}${kk===k?' today':''}${kk===(this.sel||k)?' sel':''}" data-k="${kk}">${d}</div>`;}
       L=`<div class="tape"></div><h3>${y}년 ${m+1}월</h3><div class="sub">동그라미는 마을에 온 날</div><div class="cal">${c}</div>`;
       const sk=this.sel||k;R=`<div class="tape"></div><h3>${this.dateTitle(sk)}</h3>${this.entries(sk)}`;}
-    else{const ids=Object.keys(Me.d.bag);let s='';ids.forEach(id=>{const it=ITEMS[id]||{name:id};s+=`<div class="slot" title="${esc(it.name)}">${it.svg||esc(it.name)}<i>${Me.d.bag[id]}</i></div>`;});
+    else{const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0);let s='';ids.forEach(id=>{const it=ITEMS[id]||{name:id};s+=`<div class="slot${this.item===id?' sel':''}" data-id="${id}" title="${esc(it.name)}">${ITEMS[id]?itemImg(id):esc(it.name)}<i>${Me.d.bag[id]}</i></div>`;});
       for(let i=ids.length;i<12;i++)s+='<div class="slot"></div>';
       L=`<div class="tape"></div><h3>가방</h3><div class="money">${walletEl.querySelector('svg').outerHTML.replace('<svg','<svg width="30" height="30"')}<b>${(Me.d.sec||0).toLocaleString()}</b>초</div><div class="sub">멈춘 시간 조각. 만물상에서 조개를 '초'로 바꿀 수 있대.</div><div class="slots">${s}</div>`;
-      R=`<div class="tape"></div><h3>가방 속 메모</h3><div class="empty">${ids.length?'물건을 누르면 사연을 볼 수 있어.':'아직 가방이 비어 있어.<br>해변에서 뭔가 주워볼까?'}</div>`;}
+      const it=this.item&&ITEMS[this.item]&&Me.d.bag[this.item]?ITEMS[this.item]:null;
+      R=`<div class="tape"></div><h3>가방 속 메모</h3>`+(it?`<div style="text-align:center;margin:6px 0">${itemImg(this.item,96)}</div><h3 style="font-size:24px">${esc(it.name)} <span class="sub">× ${Me.d.bag[this.item]}</span></h3><div>${esc(it.txt)}</div><div class="sub" style="margin-top:8px">${it.nosell?'만물상에서도 안 받아주는 물건.':'만물상 시세: 하나에 '+it.sec+'초'}</div>`:`<div class="empty">${ids.length?'물건을 누르면 사연을 볼 수 있어.':'아직 가방이 비어 있어.<br>해변에서 뭔가 주워볼까?'}</div>`);}
     const narrow=matchMedia('(max-width:680px)').matches;
     document.getElementById('dpL').innerHTML=narrow?L+'<div style="height:18px"></div>'+R.replace('<div class="tape"></div>',''):L;document.getElementById('dpR').innerHTML=R;
-    document.querySelectorAll('#diary .cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.render();});}};
+    document.querySelectorAll('#diary .cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.render();});
+    document.querySelectorAll('#diary .slot[data-id]').forEach(el=>el.onclick=()=>{this.item=el.dataset.id;this.render();});}};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 document.querySelectorAll('#diary .ribbons button').forEach(b=>b.addEventListener('click',()=>{Diary.tab=b.dataset.t;Diary.sel=null;Diary.render();}));
 document.querySelector('#diary .x').addEventListener('click',()=>Diary.close());
 document.getElementById('diary').addEventListener('click',e=>{if(e.target.id==='diary')Diary.close();});
 diaryBtn.addEventListener('click',()=>Diary.open('today'));walletEl.addEventListener('click',()=>Diary.open('bag'));
-async function startMe(){await Me.load();walletEl.style.display='flex';diaryBtn.style.display='flex';
+async function startMe(){await Me.load();buildSparks();walletEl.style.display='flex';diaryBtn.style.display='flex';
   if(Me.stamp()){Me.log('오늘도 해질녘 마을에 왔다.','arrive');setTimeout(()=>toast('<div class="ms">이브<br>도장</div>오늘의 해질녘 도장을 받았어!',3200),900);}
   Me.log(DLINE.visit[placeKey],'v_'+placeKey);}
+
+/* ===================== 5-c. 해변 줍기 & 만물상 교환 ===================== */
+const PICK_MAX=10,PICK_N=4;let sparks=[];
+function pickedToday(){return (Me.d.pick&&Me.d.pick[ymd()])||0;}
+function rollItem(){const ids=Object.keys(ITEMS).filter(k=>ITEMS[k].w>0);let s=ids.reduce((a,k)=>a+ITEMS[k].w,0),r=Math.random()*s;for(const k of ids){r-=ITEMS[k].w;if(r<=0)return k;}return ids[0];}
+function spawnSpark(){for(let i=0;i<80;i++){const x=12+Math.random()*80,y=58+Math.random()*34;
+    if(walkable(x,y)&&!P.seats.some(s=>Math.hypot((s.x-x)*AR,s.y-y)<5)&&!sparks.some(s=>Math.hypot((s.x-x)*AR,s.y-y)<10)){const el=document.createElement('div');el.className='pickup';el.style.left=x+'%';el.style.top=y+'%';fx.appendChild(el);sparks.push({x,y,el});return;}}}
+function buildSparks(){sparks.forEach(s=>s.el.remove());sparks=[];if(placeKey!=='beach'||!Me.ready)return;const left=PICK_MAX-pickedToday();for(let i=0;i<Math.min(PICK_N,left);i++)spawnSpark();}
+let sparkT=0;
+function tickSparks(dt){if(placeKey!=='beach'||!me)return;sparks.forEach(s=>s.el.classList.toggle('near',Math.hypot((s.x-me.x)*AR,s.y-me.y)<6));
+  sparkT-=dt;if(sparkT<=0){sparkT=70+Math.random()*60;if(Me.ready&&sparks.length<PICK_N&&pickedToday()+sparks.length<PICK_MAX)spawnSpark();}}
+function pickSpark(s){if(!sparks.includes(s))return;if(pickedToday()>=PICK_MAX){say(me,'오늘은 바다가 더 줄 게 없대. 내일 또 와야지');return;}
+  s.el.remove();sparks=sparks.filter(q=>q!==s);const id=rollItem(),it=ITEMS[id];Me.addItem(id,1);Me.d.pick=Me.d.pick||{};Me.d.pick[ymd()]=pickedToday()+1;Me.save();
+  toast(`${itemImg(id,40)}<span><b>${it.name}</b>을(를) 주웠다!<br><small style="font-size:15px">오늘 ${pickedToday()}/${PICK_MAX}</small></span>`,2600);
+  Me.log(`해변에서 ${it.name}을(를) 주웠다.`,'p_'+id);if(id==='pearl')say(me,'헉, 진주다…!');}
+function sparkAt(nx,ny){if(placeKey!=='beach')return null;let b=null,bd=4.2;sparks.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<bd){bd=d;b=s;}});return b;}
+const shopEl=document.getElementById('shop'),shopBody=document.getElementById('shopBody');
+shopEl.querySelector('.x').addEventListener('click',()=>shopEl.classList.remove('on'));shopEl.addEventListener('click',e=>{if(e.target===shopEl)shopEl.classList.remove('on');});
+const Shop={open(){shopEl.classList.add('on');this.render();},
+  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]&&!ITEMS[id].nosell);
+    const rows=ids.map(id=>{const it=ITEMS[id],n=Me.d.bag[id];return `<div class="row">${itemImg(id,40)}<span class="nm">${it.name} <span class="pr">× ${n}</span></span><span class="pr">${it.sec}초</span><button class="b alt" data-s="${id}" data-n="1">1개</button><button class="b" data-s="${id}" data-n="${n}">모두</button></div>`;}).join('');
+    const all=ids.reduce((a,id)=>a+ITEMS[id].sec*Me.d.bag[id],0);
+    shopBody.innerHTML=`<h3>만물상</h3><div class="who">"오호, 바다에서 온 것들이군. 멈춘 시간으로 바꿔줄까?"</div>`+(rows||'<div class="empty">바꿀 만한 게 없네. 해변 모래사장에 반짝이는 걸 주워 와봐.</div>')+
+      `<div class="tot"><span>가진 시간 <b>${(Me.d.sec||0).toLocaleString()}</b>초</span>${all?`<button class="b" data-all="1">전부 바꾸기 (+${all}초)</button>`:''}</div><div class="who" style="margin-top:14px;font-size:16px;opacity:.75">미스터리 상품과 분실물 코너는 곧 열려요.</div>`;
+    shopBody.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>this.sell(b.dataset.s,+b.dataset.n));
+    const ab=shopBody.querySelector('[data-all]');if(ab)ab.onclick=()=>{const tot=all;ids.forEach(id=>this.sell(id,Me.d.bag[id],true));toast(`<span>+${tot}초를 받았어</span>`,1600);this.render();};},
+  sell(id,n,quiet){const it=ITEMS[id];n=Math.min(n,Me.d.bag[id]||0);if(!it||it.nosell||n<=0)return;Me.addItem(id,-n);Me.addSec(it.sec*n);
+    Me.log(`만물상에서 ${it.name}을(를) 시간으로 바꿨다.`,'sell_'+id);if(!quiet){this.render();toast(`${itemImg(id,36)}<span>+${it.sec*n}초</span>`,1400);}}};
 
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false,snapPan=true;
-function enter(key,spawn,face){placeKey=key;if(Me.ready&&DLINE.visit[key])Me.log(DLINE.visit[key],'v_'+key);P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();
+function enter(key,spawn,face){placeKey=key;if(Me.ready&&DLINE.visit[key])Me.log(DLINE.visit[key],'v_'+key);P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();buildSparks();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 let msgCool=0;
@@ -526,7 +586,8 @@ document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switchi
   if(P.book&&Math.hypot((P.book.x-nx)*AR,P.book.y-ny)<7){say(me,'책 꺼내기는 곧 열려요');}
   me.onArrive=null;
   if(P.bld){let hit=null;for(const b of [...P.bld].sort((a,b)=>b.by-a.by)){const hw=b.w/2,top=b.by-(b._h||b.w*AR);if(nx>b.cx-hw&&nx<b.cx+hw&&ny>top&&ny<b.by&&!inPoly(nx,ny,P.walk[0])){hit=b;break;}}
-    if(hit&&hit.door){goTo(me,hit.door[0],hit.door[1]);Net.move(hit.door[0],hit.door[1],-1);if(hit.msg){const m=hit.msg;me.onArrive=()=>say(me,m);}return;}}
+    if(hit&&hit.door){goTo(me,hit.door[0],hit.door[1]);Net.move(hit.door[0],hit.door[1],-1);if(hit.act==='shop')me.onArrive=()=>Shop.open();else if(hit.msg){const m=hit.msg;me.onArrive=()=>say(me,m);}return;}}
+  {const sp=sparkAt(nx,ny);if(sp){goTo(me,sp.x,sp.y);Net.move(sp.x,sp.y,-1);me.onArrive=()=>pickSpark(sp);return;}}
   let seat=null,sd=4.5;P.seats.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<sd&&!seatTaken(s)){sd=d;seat=s;}});
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
   goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
@@ -626,7 +687,7 @@ function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now
   const tx=Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   if(snapPan&&me){panX=tx;panY=ty;snapPan=false;leadX=leadY=0;}else{const k=1-Math.pow(0.0025,dt);panX+=(tx-panX)*k;panY+=(ty-panY)*k;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;setCam(panX,panY);
   if(P.fg)fgEl.style.transform=`translate(${-panX*P.fg}px,${-panY*P.fg}px)`;
-  updateSeats();bobCandles(t);Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
+  updateSeats();bobCandles(t);tickSparks(dt);Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 </script>
 </body>
