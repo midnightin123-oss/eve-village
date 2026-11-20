@@ -180,7 +180,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120c</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120d</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js?v=1120b"></script>
@@ -643,7 +643,7 @@ const Shop={tray:{},line:'',
     const tr=Object.keys(this.tray).filter(id=>this.tray[id]>0);
     const tc=tr.map(id=>`<button class="cell" data-b="${id}">${itemImg(id,64)}<i>${this.tray[id]}</i></button>`).join('');
     const tot=tr.reduce((s,id)=>s+ITEMS[id].sec*this.tray[id],0);
-    shopBody.innerHTML=`<div class="pan"><div class="hd"><img src="ui/i_bag.webp" width="22" height="22" alt="">내 가방</div><div class="grid">${cells||'<div style="grid-column:1/-1;opacity:.7;padding:10px 4px">비어 있어</div>'}</div><div class="sub">팔 물건을 누르면 오른쪽으로 옮겨져</div></div>
+    shopBody.innerHTML=`<div class="pan"><div class="hd"><img src="ui/i_bag.webp" width="22" height="22" alt="">내 가방</div><div class="grid">${cells||'<div style="grid-column:1/-1;opacity:.7;padding:10px 4px">비어 있어</div>'}</div><div class="sub">내놓을 물건을 골라봐. 달무리가 그 물건에 깃든 시간을 재어줄 거야</div></div>
       <div class="pan k"><div class="hd">🌙 만물상 주인 달무리</div><div class="say">${esc(ids.length?this.line:KEEP.empty)}</div><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
       <div class="ft"><span>받을 시간 <b>${tot}</b>초</span><button class="go"${tot?'':' disabled'}>바꾸기</button></div><div class="sub">가진 시간 ${(Me.d.sec||0).toLocaleString()}초</div></div>`;
     shopBody.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const id=b.dataset.a,it=ITEMS[id];
