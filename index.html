@@ -93,7 +93,7 @@
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js"></script>
 <script src="chars.js"></script>
-<script>Object.assign(window.MAPS,{plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio:"bld/curio.webp",b_post:"bld/post.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
+<script>Object.assign(window.MAPS,{plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -102,7 +102,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 let AR=2016/1140;const AR0=AR;
 const E=(cx,cy,rx,ry)=>({t:'e',cx,cy,rx,ry:ry??rx});
 const PLACES={
-  plaza:{ar:16/9,bld:[{"img":"news","cx":12,"by":57,"w":11,"fp":[[7,49.5],[17,49.5],[17,55.5],[7,55.5]],"door":[14,58.5],"msg":"신문 가판대는 곧 열려요"},{"img":"cafe","cx":20.5,"by":37.5,"w":20,"fp":[[11.5,28],[30,28],[30,35],[11.5,35]],"door":[18,37.6],"msg":"카페는 곧 열려요"},{"img":"library","cx":48,"by":39,"w":25,"fp":[[37,31],[56.5,31],[56.5,37.2],[50.6,37.2],[50.6,35],[45.4,35],[45.4,37.2],[37,37.2]],"door":[48,39.4]},{"img":"curio","cx":62.5,"by":59,"w":15,"fp":[[55.5,51],[69.5,51],[69.5,57.5],[55.5,57.5]],"door":[59.7,59.6],"msg":"만물상은 곧 열려요"},{"img":"post","cx":83,"by":60,"w":15.5,"fp":[[75.5,53],[90,53],[90,58.5],[75.5,58.5]],"door":[81,60.6],"msg":"우체국은 곧 열려요"}],label:'광장',img:'plaza',size:0.092,
+  plaza:{ar:16/9,bld:[{"img":"news","cx":12,"by":57,"w":11,"fp":[[7,49.5],[17,49.5],[17,55.5],[7,55.5]],"door":[14,58.5],"msg":"신문 가판대는 곧 열려요"},{"img":"cafe","cx":20.5,"by":37.5,"w":20,"fp":[[11.5,28],[30,28],[30,35],[11.5,35]],"door":[18,37.6],"msg":"카페는 곧 열려요"},{"img":"library","cx":48,"by":39,"w":25,"fp":[[37,31],[56.5,31],[56.5,37.2],[50.6,37.2],[50.6,35],[45.4,35],[45.4,37.2],[37,37.2]],"door":[48,39.4]},{"img":"curio2","cx":62.5,"by":59,"w":15,"fp":[[55.5,51],[69.5,51],[69.5,57.5],[55.5,57.5]],"door":[54,53.2],"msg":"만물상은 곧 열려요"},{"img":"post2","cx":83,"by":60,"w":15.5,"fp":[[75.5,53],[90,53],[90,58.5],[75.5,58.5]],"door":[73.5,57],"msg":"우체국은 곧 열려요"}],label:'광장',img:'plaza',size:0.092,
     walk:[[[3,45],[6,38.5],[12,36.4],[29,36.4],[33,38.2],[37,38.8],[57,38.8],[62,37],[66,34],[72,30],[80,26],[87,21],[90.5,19.5],[92,23.5],[86,27.5],[78,32],[73,36],[71,42],[73,48],[78,51.5],[88,52],[89,57],[87,62],[80,62.8],[70,62.5],[63,64.5],[60,67],[58,74],[50,78],[36,80],[22,78],[14,72],[11,64],[6,60],[3,55]],[[52,72],[56,65],[62,67],[60,74],[57,86],[49,86],[50,78]]],
     block:[E(35,57,6.6,5.6),E(25,67.5,4.3,2.6),E(47,64,4.3,2.6),E(18.2,72,0.9,1.2),E(52.7,46.5,0.9,1.2),E(40,40,3,2.4)],
     seats:[{x:24.3,y:67.4,look:[35,51]},{x:26.8,y:68.8,look:[35,51]},{x:45.6,y:65.5,look:[35,51]},{x:48.3,y:63.6,look:[35,51]}],
@@ -423,7 +423,7 @@ document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault()
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=localStorage.getItem('sbv_name')||'';}catch(e){}
 const nm=document.getElementById('nm');nm.value=saved;
-mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach','library','mask_library','fx_library','candles','b_news','b_cafe','b_library','b_curio','b_post','b_pub'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();buildSeats();
+mapTex('plaza');mapTex('beach');mapTex('mask_plaza');mapTex('mask_beach');['plaza','beach','fx_plaza','fx_beach','mask_plaza','mask_beach','vm_beach','library','mask_library','fx_library','candles','b_news','b_cafe','b_library','b_curio2','b_post2','b_pub'].forEach(rtex);mapImg.src=window.MAPS.plaza;setBg('plaza');buildFx();buildOcc();buildSeats();
 document.getElementById('load').style.opacity=0;setTimeout(()=>document.getElementById('load').remove(),900);
 document.getElementById('go').addEventListener('click',async()=>{Snd.start();const n=nm.value.trim();if(!n){document.getElementById('err').textContent='이름을 적어줘';return;}
   try{localStorage.setItem('sbv_name',n);}catch(e){}
