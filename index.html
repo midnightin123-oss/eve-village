@@ -51,10 +51,10 @@
   #standBtn{position:fixed;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top));border:0;padding:10px 22px;border-radius:999px;background:#e8a457;color:#3a2420;font:700 14px -apple-system,'Apple SD Gothic Neo',sans-serif;box-shadow:0 4px 14px rgba(40,20,30,.35);z-index:6;display:none;}
 
   /* ---- 아래 아이콘·가방·수첩 ---- */
-  .icobtn{position:fixed;right:12px;width:58px;height:58px;border:0;padding:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,248,236,.95),rgba(236,214,190,.92));box-shadow:0 4px 12px rgba(30,15,25,.35),inset 0 0 0 2px rgba(150,95,60,.25);z-index:6;display:none;}
-  .icobtn img{width:46px;height:46px;margin-top:2px;pointer-events:none;}
+  .icobtn{position:fixed;right:12px;width:46px;height:46px;border:0;padding:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,248,236,.95),rgba(236,214,190,.92));box-shadow:0 4px 12px rgba(30,15,25,.35),inset 0 0 0 2px rgba(150,95,60,.25);z-index:6;display:none;}
+  .icobtn img{width:36px;height:36px;margin-top:2px;pointer-events:none;}
   .icobtn:active{transform:scale(.94);}
-  #bagBtn{bottom:calc(132px + env(safe-area-inset-bottom));}
+  #bagBtn{bottom:calc(116px + env(safe-area-inset-bottom));}
   #dressBtn{bottom:calc(64px + env(safe-area-inset-bottom));top:auto;}
   #sndBtn{position:fixed;top:calc(50px + env(safe-area-inset-top));right:12px;width:42px;height:42px;border:0;padding:0;border-radius:50%;background:rgba(255,250,240,.88);z-index:5;display:none;box-shadow:0 2px 8px rgba(30,15,25,.25);}
   #sndBtn img{width:34px;height:34px;margin-top:2px;pointer-events:none;}
@@ -62,16 +62,24 @@
   .ov.on{display:flex;}
   .ov .x{position:absolute;top:-6px;right:-6px;width:40px;height:40px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:22px;line-height:40px;box-shadow:0 4px 10px rgba(0,0,0,.3);z-index:4;}
   #bagUI .bag{position:relative;width:min(92vw,78vh,640px);aspect-ratio:1100/1101;background:url(ui/bag.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));}
-  #bagUI .pk{position:absolute;width:14.5%;aspect-ratio:1;transform:translate(-50%,-50%);border:0;padding:0;background:none;}
-  #bagUI .pk img{width:100%;height:100%;filter:drop-shadow(0 3px 3px rgba(40,15,15,.45));pointer-events:none;}
-  #bagUI .pk i{position:absolute;right:-4%;bottom:2%;min-width:24px;padding:0 6px;border-radius:999px;background:#fff4e2;color:#5a3a2b;font:700 14px/22px 'Gaegu',cursive;font-style:normal;box-shadow:0 2px 4px rgba(0,0,0,.3);}
-  #bagUI .pk b{position:absolute;left:50%;bottom:-22%;transform:translateX(-50%);white-space:nowrap;font:700 17px/22px 'Gaegu',cursive;color:#fff4e2;text-shadow:0 1px 3px rgba(40,10,10,.8);}
-  #bagUI .pk.sel img{filter:drop-shadow(0 0 8px rgba(255,236,170,.95));}
-  #bagUI .pg{position:absolute;bottom:2.5%;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
-  #bagUI .pg button{border:0;border-radius:999px;padding:4px 12px;font:700 16px 'Gaegu',cursive;background:#fff4e2;color:#5a3a2b;}
-  #bagInfo{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);width:84%;z-index:3;padding:12px 16px 12px 12px;border-radius:12px;background:#f1e2c8;color:#4a3426;box-shadow:0 10px 22px rgba(0,0,0,.35);
+  #bagUI .inv{position:absolute;left:9%;right:9%;top:25%;bottom:11%;border-radius:18px;padding:4.5%;box-sizing:border-box;
+    background:linear-gradient(180deg,#f3e6d2,#e8d6bd);box-shadow:inset 0 3px 10px rgba(90,50,30,.35),0 0 0 3px rgba(120,70,40,.35);display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:4%;}
+  #bagUI .cell{position:relative;border:0;padding:0;border-radius:12px;background:rgba(255,252,246,.75);box-shadow:inset 0 0 0 2px rgba(150,100,65,.22),0 2px 0 rgba(150,100,65,.15);display:flex;align-items:center;justify-content:center;}
+  #bagUI .cell img{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(60,30,20,.3));pointer-events:none;}
+  #bagUI .cell i{position:absolute;right:5%;bottom:4%;font:700 15px/18px 'Gaegu',cursive;font-style:normal;color:#6a4230;}
+  #bagUI .cell.sel{background:#fff6e0;box-shadow:inset 0 0 0 3px #d39a5c;}
+  #bagUI .base{position:absolute;left:50%;bottom:-17%;transform:translateX(-50%);display:flex;gap:18px;}
+  #bagUI .base button{white-space:nowrap;border:0;padding:6px 14px 6px 8px;border-radius:999px;background:#fff4e2;color:#5a3a2b;font:700 18px 'Gaegu',cursive;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  #bagUI .base img{width:34px;height:34px;}
+  #bagUI .pg{position:absolute;bottom:3.5%;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
+  #bagUI .pg button{border:0;border-radius:999px;padding:2px 12px;font:700 16px 'Gaegu',cursive;background:#fff4e2;color:#5a3a2b;}
+  #bagInfo{position:absolute;left:50%;bottom:12%;transform:translateX(-50%);width:80%;z-index:3;padding:12px 16px 12px 12px;border-radius:12px;background:#f1e2c8;color:#4a3426;box-shadow:0 10px 22px rgba(0,0,0,.35);
     font-family:'Gaegu',cursive;font-size:18px;line-height:22px;display:none;gap:12px;align-items:center;}
   #bagInfo.on{display:flex;} #bagInfo img{width:64px;height:64px;flex:0 0 auto;} #bagInfo h4{margin:0 0 2px;font-size:22px;} #bagInfo small{color:#8a6247;font-size:15px;}
+  #wallet .wc{position:relative;width:min(80vw,320px);padding:26px 20px 22px;border-radius:22px;background:#f3e6d2;text-align:center;font-family:'Gaegu',cursive;color:#4a3426;box-shadow:0 18px 40px rgba(0,0,0,.45);}
+  #wallet .clock svg{width:72%;}
+  #wallet .wn{font-size:24px;margin-top:4px;} #wallet .wn b{font-size:52px;}
+  #wallet .wsub{font-size:18px;color:#8a6247;}
   #note .nb{position:relative;height:min(88vh,140vw);aspect-ratio:960/1439;background:url(ui/note.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));font-family:'Gaegu','Nanum Pen Script',cursive;color:#4a3426;}
   #note .pc{position:absolute;left:11%;right:14%;top:11%;bottom:9%;overflow:auto;}
   #note .tb{position:absolute;left:89.5%;width:10%;height:7.6%;border:0;padding:0;background:none;color:#fff8ee;font:700 min(17px,3.6vw) 'Gaegu',cursive;text-shadow:0 1px 2px rgba(60,25,10,.6);}
@@ -149,7 +157,8 @@
 <body>
 <div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div>
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
-<div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div></div></div>
+<div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
+<div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" fill="#fbf2e2" stroke="#8a5a3e" stroke-width="6"/><circle id="wArc" cx="100" cy="100" r="70" fill="none" stroke="#e8955f" stroke-width="16" stroke-linecap="round" transform="rotate(-90 100 100)" stroke-dasharray="0 440"/><line id="wHand" x1="100" y1="100" x2="100" y2="40" stroke="#5a3a2b" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#5a3a2b"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><button class="tb" data-t="cal">달력</button><button class="tb" data-t="day">일기</button><button class="tb" data-t="fr">친구</button><div class="pc" id="notePc"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
@@ -507,7 +516,14 @@ const Note={on:false,tab:'cal',sel:null,ym:null,
   close(){this.on=false;noteEl.classList.remove('on');},
   dt(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);},
   title(k){const dt=this.dt(k);return `${dt.getMonth()+1}월 ${dt.getDate()}일 ${KDAY[dt.getDay()]}요일`;},
-  list(k){const g=Me.d.diary[k];if(!g||!g.e||!g.e.length)return '<div class="empty">이 날은 아무것도 적혀 있지 않아.</div>';return '<ul>'+g.e.map(e=>`<li>${esc(e.x)}</li>`).join('')+'</ul>';},
+  list(k){const L=this.sum(k);if(!L.length)return '<div class="empty">이 날은 아무것도 적혀 있지 않아.</div>';return '<ul>'+L.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>';},
+  sum(k){const g=Me.d.diary[k];if(!g||!g.tg)return [];const T=Object.keys(g.tg),NM={plaza:'광장',beach:'해변',library:'도서관'};const by=p=>T.filter(t=>t.startsWith(p)).map(t=>t.slice(p.length));
+    const L=[];const v=by('v_').map(x=>NM[x]).filter(Boolean);if(v.length)L.push(v.join(', ')+(v.length>1?'을 돌아다녔다.':'에 들렀다.'));
+    const s=by('s_');if(s.includes('beach'))L.push('모닥불 곁에 앉아 파도 소리를 들었다.');else if(s.includes('library'))L.push('도서관에 앉아 잠깐 쉬었다.');else if(s.length)L.push('벤치에 앉아 트리 불빛을 봤다.');
+    if(by('c_').length)L.push('이웃들과 이야기를 나눴다.');
+    const p=by('p_').map(x=>ITEMS[x]&&ITEMS[x].name).filter(Boolean),pn=(Me.d.pick&&Me.d.pick[k])||0;if(pn)L.push(`해변에서 ${p.slice(0,2).join(', ')}${p.length>2?' 등':''} ${pn}개를 주웠다.`);
+    if(by('sell_').length)L.push('만물상에서 주운 것들을 시간으로 바꿨다.');
+    return L.slice(0,4);},
   render(){noteEl.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.t===this.tab));
     const k=ymd();let H='';
     if(this.tab==='cal'){const base=this.ym||new Date();const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
@@ -530,22 +546,25 @@ noteEl.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>{Note.t
 noteEl.querySelector('.x').addEventListener('click',()=>Note.close());noteEl.addEventListener('click',e=>{if(e.target===noteEl)Note.close();});
 // ---- 가방: 지갑·수첩 + 물건 주머니 ----
 const bagEl=document.getElementById('bagUI'),bagBtn=document.getElementById('bagBtn'),pocketsEl=document.getElementById('pockets'),bagInfo=document.getElementById('bagInfo');
-const POCK=(()=>{const xs=[19,40,60.5,81],ys=[36.5,56.5,76];const o=[];ys.forEach(y=>xs.forEach(x=>o.push([x,y])));return o;})();
 const Bag={on:false,page:0,sel:null,
   open(){this.on=true;this.sel=null;bagEl.classList.add('on');this.render();},close(){this.on=false;bagEl.classList.remove('on');},
-  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);const per=10,pages=Math.max(1,Math.ceil(ids.length/per));this.page=Math.min(this.page,pages-1);
+  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);const per=12,pages=Math.max(1,Math.ceil(ids.length/per));this.page=Math.min(this.page,pages-1);
     const show=ids.slice(this.page*per,this.page*per+per);let s='';
-    s+=`<button class="pk" data-a="wallet" style="left:${POCK[0][0]}%;top:${POCK[0][1]}%"><img src="ui/i_wallet.webp" alt=""><b>${(Me.d.sec||0).toLocaleString()}초</b></button>`;
-    s+=`<button class="pk" data-a="note" style="left:${POCK[1][0]}%;top:${POCK[1][1]}%"><img src="ui/i_note.webp" alt=""><b>수첩</b></button>`;
-    show.forEach((id,i)=>{const p=POCK[i+2];s+=`<button class="pk${this.sel===id?' sel':''}" data-id="${id}" style="left:${p[0]}%;top:${p[1]}%">${itemImg(id,96)}<i>${Me.d.bag[id]}</i></button>`;});
+    for(let i=0;i<per;i++){const id=show[i];s+=id?`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${itemImg(id,96)}<i>${Me.d.bag[id]}</i></button>`:'<div class="cell"></div>';}
     pocketsEl.innerHTML=s;
     document.getElementById('bagPg').innerHTML=pages>1?`<button data-p="-1">‹</button><button>${this.page+1}/${pages}</button><button data-p="1">›</button>`:'';
     document.querySelectorAll('#bagPg [data-p]').forEach(b=>b.onclick=()=>{this.page=(this.page+(+b.dataset.p)+pages)%pages;this.render();});
-    pocketsEl.querySelectorAll('.pk').forEach(el=>el.onclick=()=>{const a=el.dataset.a;if(a==='note'){this.close();Note.open('cal');return;}
-      if(a==='wallet'){this.info(`<img src="ui/i_wallet.webp" alt=""><div><h4>지갑 · ${(Me.d.sec||0).toLocaleString()}초</h4>멈춘 시간 조각. 만물상에서 바다에서 주운 것들을 '초'로 바꿀 수 있어.</div>`);return;}
-      const id=el.dataset.id,it=ITEMS[id];this.sel=id;this.render();this.info(`${itemImg(id,64)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}<br><small>${it.nosell?'만물상에서도 안 받아주는 물건.':'만물상 시세: 하나에 '+it.sec+'초'}</small></div>`);});
+    pocketsEl.querySelectorAll('.cell[data-id]').forEach(el=>el.onclick=()=>{const id=el.dataset.id,it=ITEMS[id];if(this.sel===id){this.sel=null;this.render();return;}this.sel=id;this.render();
+      this.info(`${itemImg(id,64)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}<br><small>${it.nosell?'만물상에서도 안 받아주는 물건.':'만물상 시세: 하나에 '+it.sec+'초'}</small></div>`);});
     if(!this.sel)bagInfo.classList.remove('on');},
   info(html){bagInfo.innerHTML=html;bagInfo.classList.add('on');}};
+bagEl.querySelectorAll('.base button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.a==='note'){Bag.close();Note.open('cal');}else{Bag.close();Wallet.open();}}));
+const walletOv=document.getElementById('wallet');
+const Wallet={open(){walletOv.classList.add('on');const tgt=Me.d.sec||0,dur=1300,t0=performance.now();const arc=document.getElementById('wArc'),hand=document.getElementById('wHand'),num=document.getElementById('wNum');
+    const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3),v=Math.round(tgt*e);num.textContent=v.toLocaleString();
+      const f=((v%60)/60)||(v&&v%60===0?1:0);arc.setAttribute('stroke-dasharray',(440*f).toFixed(1)+' 440');hand.setAttribute('transform','rotate('+(e*360*Math.max(1,Math.ceil(tgt/60)))+' 100 100)');if(k<1&&walletOv.classList.contains('on'))requestAnimationFrame(step);};requestAnimationFrame(step);},
+  close(){walletOv.classList.remove('on');}};
+walletOv.querySelector('.x').addEventListener('click',()=>Wallet.close());walletOv.addEventListener('click',e=>{if(e.target===walletOv)Wallet.close();});
 bagEl.querySelector('.x').addEventListener('click',()=>Bag.close());bagEl.addEventListener('click',e=>{if(e.target===bagEl)Bag.close();});
 bagBtn.addEventListener('click',()=>Bag.open());
 const Diary={get on(){return Note.on;},render(){Note.render();}};
@@ -577,7 +596,8 @@ function buildSparks(){sparks.forEach(clearSpark);sparks=[];scene.remove(pickGro
 function relayoutSparks(){if(placeKey!=='beach')return;scene.remove(pickGroup);pickGroup=new THREE.Group();scene.add(pickGroup);sparks.forEach(s=>placeSparkMesh(s));}
 let sparkT=0;
 function tickSparks(dt){if(placeKey!=='beach'||!me)return;
-  sparks.forEach(s=>{const near=Math.hypot((s.x-me.x)*AR,s.y-me.y)<6.5&&!me.sitting;
+  let nb=null,nd=6.5;if(!me.sitting)sparks.forEach(s=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);if(d<nd){nd=d;nb=s;}});
+  sparks.forEach(s=>{const near=s===nb;
     if(near&&!s.btn){const b=document.createElement('button');b.className='pickBtn';b.textContent='줍기';b.style.left=s.x+'%';b.style.top=(s.y-2.2)+'%';
       const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();faceTo(me,s.x,s.y);pickSpark(s);});tagsEl.appendChild(b);s.btn=b;}
     else if(!near&&s.btn){s.btn.remove();s.btn=null;}});
