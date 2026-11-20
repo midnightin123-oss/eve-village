@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>이브 빌리지</title>
 <meta name="description" content="늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을">
@@ -51,61 +51,71 @@
   #standBtn{position:fixed;left:50%;transform:translateX(-50%);top:calc(12px + env(safe-area-inset-top));border:0;padding:10px 22px;border-radius:999px;background:#e8a457;color:#3a2420;font:700 14px -apple-system,'Apple SD Gothic Neo',sans-serif;box-shadow:0 4px 14px rgba(40,20,30,.35);z-index:6;display:none;}
 
   /* ---- 아래 아이콘·가방·수첩 ---- */
-  .icobtn{position:fixed;right:12px;width:46px;height:46px;border:0;padding:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,248,236,.95),rgba(236,214,190,.92));box-shadow:0 4px 12px rgba(30,15,25,.35),inset 0 0 0 2px rgba(150,95,60,.25);z-index:6;display:none;}
-  .icobtn img{width:36px;height:36px;margin-top:2px;pointer-events:none;}
+  .icobtn{position:fixed;right:10px;width:50px;height:50px;border:0;padding:0;background:none;z-index:6;display:none;}
+  .icobtn img{width:50px;height:50px;pointer-events:none;filter:drop-shadow(0 3px 4px rgba(20,8,15,.45));}
   .icobtn:active{transform:scale(.94);}
   #bagBtn{bottom:calc(116px + env(safe-area-inset-bottom));}
   #dressBtn{bottom:calc(64px + env(safe-area-inset-bottom));top:auto;}
-  #sndBtn{position:fixed;top:calc(50px + env(safe-area-inset-top));right:12px;width:42px;height:42px;border:0;padding:0;border-radius:50%;background:rgba(255,250,240,.88);z-index:5;display:none;box-shadow:0 2px 8px rgba(30,15,25,.25);}
-  #sndBtn img{width:34px;height:34px;margin-top:2px;pointer-events:none;}
+  #sndBtn{position:fixed;top:calc(46px + env(safe-area-inset-top));right:10px;width:42px;height:42px;border:0;padding:0;background:none;z-index:5;display:none;}
+  #sndBtn img{width:42px;height:42px;pointer-events:none;filter:drop-shadow(0 3px 4px rgba(20,8,15,.45));}
   .ov{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(22,14,24,.55);backdrop-filter:blur(3px);}
   .ov.on{display:flex;}
   .ov .x{position:absolute;top:-6px;right:-6px;width:40px;height:40px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:22px;line-height:40px;box-shadow:0 4px 10px rgba(0,0,0,.3);z-index:4;}
-  #bagUI .bag{position:relative;width:min(92vw,78vh,640px);aspect-ratio:1100/1101;background:url(ui/bag.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));}
+  #bagUI .bag{position:relative;width:min(92vw,64vh,600px);margin-bottom:9vh;aspect-ratio:1100/1101;background:url(ui/bag.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));}
   #bagUI .inv{position:absolute;left:9%;right:9%;top:25%;bottom:11%;border-radius:18px;padding:4.5%;box-sizing:border-box;
-    background:linear-gradient(180deg,#f3e6d2,#e8d6bd);box-shadow:inset 0 3px 10px rgba(90,50,30,.35),0 0 0 3px rgba(120,70,40,.35);display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:4%;}
-  #bagUI .cell{position:relative;border:0;padding:0;border-radius:12px;background:rgba(255,252,246,.75);box-shadow:inset 0 0 0 2px rgba(150,100,65,.22),0 2px 0 rgba(150,100,65,.15);display:flex;align-items:center;justify-content:center;}
+    background:rgba(70,35,25,.42);backdrop-filter:blur(2px);box-shadow:inset 0 3px 12px rgba(30,12,8,.45);display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:4%;}
+  #bagUI .cell{position:relative;border:0;padding:0;border-radius:12px;background:rgba(255,236,210,.14);box-shadow:inset 0 0 0 1.5px rgba(255,225,190,.22);display:flex;align-items:center;justify-content:center;}
   #bagUI .cell img{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(60,30,20,.3));pointer-events:none;}
-  #bagUI .cell i{position:absolute;right:5%;bottom:4%;font:700 15px/18px 'Gaegu',cursive;font-style:normal;color:#6a4230;}
-  #bagUI .cell.sel{background:#fff6e0;box-shadow:inset 0 0 0 3px #d39a5c;}
-  #bagUI .base{position:absolute;left:50%;bottom:-17%;transform:translateX(-50%);display:flex;gap:18px;}
-  #bagUI .base button{white-space:nowrap;border:0;padding:6px 14px 6px 8px;border-radius:999px;background:#fff4e2;color:#5a3a2b;font:700 18px 'Gaegu',cursive;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.3);}
-  #bagUI .base img{width:34px;height:34px;}
+  #bagUI .cell i{position:absolute;right:6%;bottom:4%;font:13px/16px 'Gowun Dodum',sans-serif;font-style:normal;color:#fff4e2;text-shadow:0 1px 2px rgba(0,0,0,.7);}
+  #bagUI .cell.sel{background:rgba(255,236,210,.3);box-shadow:inset 0 0 0 2px rgba(255,214,150,.8);}
+  #bagUI .base{gap:34px !important;position:absolute;left:50%;bottom:-19%;transform:translateX(-50%);display:flex;gap:18px;}
+  #bagUI .base button{white-space:nowrap;border:0;padding:0;background:none;color:#fff4e2;font:15px 'Gowun Dodum',sans-serif;display:flex;flex-direction:column;align-items:center;gap:2px;text-shadow:0 1px 3px rgba(0,0,0,.8);}
+  #bagUI .base img{width:56px;height:56px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.45));}
   #bagUI .pg{position:absolute;bottom:3.5%;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
   #bagUI .pg button{border:0;border-radius:999px;padding:2px 12px;font:700 16px 'Gaegu',cursive;background:#fff4e2;color:#5a3a2b;}
   #bagInfo{position:absolute;left:50%;bottom:12%;transform:translateX(-50%);width:80%;z-index:3;padding:12px 16px 12px 12px;border-radius:12px;background:#f1e2c8;color:#4a3426;box-shadow:0 10px 22px rgba(0,0,0,.35);
-    font-family:'Gaegu',cursive;font-size:18px;line-height:22px;display:none;gap:12px;align-items:center;}
-  #bagInfo.on{display:flex;} #bagInfo img{width:64px;height:64px;flex:0 0 auto;} #bagInfo h4{margin:0 0 2px;font-size:22px;} #bagInfo small{color:#8a6247;font-size:15px;}
-  #wallet .wc{position:relative;width:min(80vw,320px);padding:26px 20px 22px;border-radius:22px;background:#f3e6d2;text-align:center;font-family:'Gaegu',cursive;color:#4a3426;box-shadow:0 18px 40px rgba(0,0,0,.45);}
-  #wallet .clock svg{width:72%;}
-  #wallet .wn{font-size:24px;margin-top:4px;} #wallet .wn b{font-size:52px;}
-  #wallet .wsub{font-size:18px;color:#8a6247;}
-  #note .nb{position:relative;height:min(88vh,140vw);aspect-ratio:960/1439;background:url(ui/note.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));font-family:'Gaegu','Nanum Pen Script',cursive;color:#4a3426;}
-  #note .pc{position:absolute;left:11%;right:14%;top:11%;bottom:9%;overflow:auto;}
-  #note .tb{position:absolute;left:89.5%;width:10%;height:7.6%;border:0;padding:0;background:none;color:#fff8ee;font:700 min(17px,3.6vw) 'Gaegu',cursive;text-shadow:0 1px 2px rgba(60,25,10,.6);}
-  #note .tb.on{filter:brightness(1.15);font-size:17px;}
-  #note .tb[data-t=cal]{top:21.6%;} #note .tb[data-t=day]{top:35.6%;} #note .tb[data-t=fr]{top:49.6%;}
-  #note h3{margin:0;font-size:min(30px,6.5vw);font-weight:700;color:#4a2c20;display:flex;align-items:center;justify-content:space-between;}
-  #note h3 button{border:0;background:none;font:700 26px 'Gaegu',cursive;color:#8a5a3e;padding:0 6px;}
-  #note .sub{font-size:min(18px,4.2vw);color:#8a6247;margin:2px 0 8px;}
+    font-family:'Gowun Dodum',sans-serif;font-size:13px;line-height:19px;display:none;gap:10px;align-items:center;}
+  #bagInfo.on{display:flex;} #bagInfo img{width:48px;height:48px;flex:0 0 auto;} #bagInfo h4{margin:0 0 2px;font-size:15px;} #bagInfo small{color:#8a6247;font-size:15px;}
+  #wallet .wc{position:relative;width:min(78vw,340px);text-align:center;font-family:'Gowun Dodum',sans-serif;color:#fff6ea;text-shadow:0 2px 6px rgba(20,8,15,.7);}
+  #wallet .clock{position:relative;width:100%;aspect-ratio:500/545;}
+  #wallet .clock img{width:100%;height:100%;filter:drop-shadow(0 14px 24px rgba(0,0,0,.5));}
+  #wallet .clock svg{position:absolute;left:21.5%;top:30.3%;width:57%;}
+  #wallet .wn{font-size:20px;margin-top:6px;} #wallet .wn b{font-size:44px;font-weight:400;}
+  #wallet .wsub{font-size:14px;opacity:.85;}
+  #wallet .x{top:2%;right:2%;}
+  #note .nb{position:relative;width:min(94vw,124vh,1000px);aspect-ratio:1400/917;background:url(ui/spread.webp) center/100% 100% no-repeat;filter:drop-shadow(0 18px 30px rgba(10,5,10,.45));font-family:'Gowun Dodum',sans-serif;color:#5a3d33;}
+  #note .pg{position:absolute;top:7%;bottom:8%;overflow:auto;}
+  #note .pg.l{left:6%;width:39%;} #note .pg.r{left:55%;width:37%;}
+  #note .tabs{position:absolute;top:2%;right:6%;display:flex;gap:6px;z-index:2;}
+  #note .tabs button{border:0;border-radius:999px;padding:3px 10px;font:13px 'Gowun Dodum',sans-serif;background:rgba(200,120,100,.18);color:#8a4f44;}
+  #note .tabs button.on{background:#d98c78;color:#fff;}
+  #note h3{margin:0;font-size:clamp(15px,2.4vw,22px);font-weight:400;color:#4f3128;display:flex;align-items:center;justify-content:space-between;}
+  #note h3 button{border:0;background:none;font-size:clamp(16px,2.4vw,22px);color:#b07060;padding:0 6px;}
+  #note .sub{font-size:clamp(11px,1.4vw,13px);color:#a07a6c;margin:2px 0 8px;}
   #note .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;}
-  #note .cal .h{font-size:min(16px,3.8vw);color:#9b7458;padding-bottom:2px;}
-  #note .cal .d{position:relative;aspect-ratio:1;font-size:min(18px,4.2vw);line-height:1.5;border-radius:8px;cursor:pointer;}
-  #note .cal .d.sel{background:rgba(255,236,200,.55);box-shadow:inset 0 0 0 1px rgba(160,100,60,.25);}
-  #note .cal .d.today{font-weight:700;color:#c4523a;}
-  #note .cal .d img{position:absolute;left:50%;top:50%;width:132%;height:132%;transform:translate(-50%,-50%) rotate(var(--r));opacity:.86;mix-blend-mode:multiply;pointer-events:none;}
-  #note ul{list-style:none;margin:6px 0 0;padding:0;font-size:min(20px,4.6vw);line-height:1.6;}
-  #note li{position:relative;padding-left:20px;} #note li:before{content:'';position:absolute;left:3px;top:.7em;width:8px;height:8px;border-radius:50%;background:#d88a5c;}
-  #note .empty{color:#9b7458;font-size:min(19px,4.4vw);margin-top:6px;}
-  #note .mini{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:min(18px,4.2vw);}
-  #note .mini img{width:54px;height:54px;mix-blend-mode:multiply;opacity:.9;transform:rotate(-10deg);}
+  #note .cal .h{font-size:clamp(10px,1.3vw,12px);color:#b08a7c;padding-bottom:2px;}
+  #note .cal .d{position:relative;aspect-ratio:1;font-size:clamp(11px,1.5vw,14px);line-height:1.7;border-radius:8px;cursor:pointer;}
+  #note .cal .d.sel{background:rgba(217,140,120,.16);}
+  #note .cal .d.today{color:#c2563f;font-weight:700;}
+  #note .cal .d img{position:absolute;left:50%;top:50%;width:115%;height:115%;transform:translate(-50%,-50%) rotate(var(--r));opacity:.85;mix-blend-mode:multiply;pointer-events:none;}
+  #note ul{list-style:none;margin:8px 0 0;padding:0;font-size:clamp(12px,1.6vw,15px);line-height:1.9;}
+  #note li{position:relative;padding-left:16px;} #note li:before{content:'';position:absolute;left:2px;top:.8em;width:6px;height:6px;border-radius:50%;background:#e0a08a;}
+  #note .empty{color:#b08a7c;font-size:clamp(12px,1.5vw,14px);margin-top:8px;line-height:1.8;}
+  #note .mini{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:clamp(11px,1.4vw,13px);color:#a07a6c;}
+  #note .mini img{width:40px;height:40px;mix-blend-mode:multiply;opacity:.85;transform:rotate(-10deg);}
+  #note .flip{display:none;}
+  @media (max-width:680px){#note .nb{width:92vw;aspect-ratio:700/917;background-size:200% 100%;background-position:0 0;}
+    #note .nb.rt{background-position:100% 0;} #note .pg.l{left:12%;width:80%;} #note .pg.r{left:10%;width:78%;display:none;}
+    #note .nb.rt .pg.l{display:none;} #note .nb.rt .pg.r{display:block;}
+    #note .flip{display:block;position:absolute;bottom:2.5%;left:50%;transform:translateX(-50%);border:0;border-radius:999px;padding:4px 14px;font:13px 'Gowun Dodum',sans-serif;background:#d98c78;color:#fff;z-index:2;}
+    #note h3{font-size:19px;} #note .sub{font-size:12px;} #note .cal .h{font-size:11px;} #note .cal .d{font-size:13px;} #note ul{font-size:14px;} #note .empty{font-size:13px;}}
   .wiv{position:absolute;width:5.2%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;}
-  .pickBtn{position:absolute;transform:translate(-50%,-100%);border:0;border-radius:999px;padding:4px 11px;background:#fff4e2;color:#5a3a2b;font:700 15px 'Gaegu',cursive;box-shadow:0 3px 8px rgba(0,0,0,.3);pointer-events:auto;white-space:nowrap;}
+  .pickBtn{position:absolute;transform:translate(-50%,-100%);border:0;border-radius:999px;padding:2px 8px;background:#fff4e2;color:#5a3a2b;font:12px 'Gowun Dodum',sans-serif;box-shadow:0 3px 8px rgba(0,0,0,.3);pointer-events:auto;white-space:nowrap;}
   .pickBtn:after{content:'';position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-top-color:#fff4e2;border-bottom:0;}
   .glint{position:absolute;width:14px;height:14px;transform:translate(-50%,-50%);pointer-events:none;background:linear-gradient(#fff,#fff) center/2px 100% no-repeat,linear-gradient(#fff,#fff) center/100% 2px no-repeat;filter:drop-shadow(0 0 3px #fff3c4);animation:glint 4s ease-in-out infinite;opacity:0;}
   @keyframes glint{0%,70%,100%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(0)}80%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(45deg)}90%{opacity:0;transform:translate(-50%,-50%) scale(.5) rotate(90deg)}}
-  #toast{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top));transform:translate(-50%,-20px);opacity:0;transition:all .35s;z-index:15;background:#fff4e2;color:#5a3a2b;
-    padding:10px 16px 10px 12px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.25);display:flex;align-items:center;gap:10px;font-family:'Gaegu',cursive;font-size:19px;pointer-events:none;}
+  #toast{position:fixed;left:50%;top:calc(58px + env(safe-area-inset-top));transform:translate(-50%,-10px);opacity:0;transition:all .35s;z-index:15;white-space:nowrap;
+    color:#fff8ec;font:15px 'Gowun Dodum',sans-serif;text-shadow:0 1px 3px rgba(40,15,20,.85),0 0 10px rgba(40,15,20,.5);display:flex;align-items:center;gap:6px;pointer-events:none;}
   #toast.on{opacity:1;transform:translate(-50%,0);}
   #toast img{flex:0 0 auto;} #toast .ms{width:38px;height:38px;border-radius:50%;border:2px solid #c4523a;color:#c4523a;font-size:12px;line-height:13px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);font-weight:700;}
   #shop{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(25,16,28,.5);backdrop-filter:blur(3px);}
@@ -158,8 +168,8 @@
 <div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div>
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
-<div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" fill="#fbf2e2" stroke="#8a5a3e" stroke-width="6"/><circle id="wArc" cx="100" cy="100" r="70" fill="none" stroke="#e8955f" stroke-width="16" stroke-linecap="round" transform="rotate(-90 100 100)" stroke-dasharray="0 440"/><line id="wHand" x1="100" y1="100" x2="100" y2="40" stroke="#5a3a2b" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#5a3a2b"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
-<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><button class="tb" data-t="cal">달력</button><button class="tb" data-t="day">일기</button><button class="tb" data-t="fr">친구</button><div class="pc" id="notePc"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
+<div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
+<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div><button class="flip">일기 보기 ›</button></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
 <div id="title"><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
@@ -509,10 +519,10 @@ const DLINE={visit:{plaza:'광장 분수 트리 앞을 천천히 걸었다.',bea
   sit:{plaza:'광장 벤치에 앉아 트리 불빛을 바라봤다.',beach:'모닥불 곁에 앉아 파도 소리를 들었다.',library:'도서관 한쪽에 앉아 잠깐 쉬었다.'},
   chat:{plaza:'광장에서 이웃들에게 말을 걸었다.',beach:'해변에서 누군가와 이야기를 나눴다.',library:'도서관에서 작게 소곤소곤 이야기했다.'}};
 // ---- 수첩: 달력 / 일기 / 친구 ----
-const noteEl=document.getElementById('note'),notePc=document.getElementById('notePc');
+const noteEl=document.getElementById('note'),noteNb=noteEl.querySelector('.nb'),noteL=document.getElementById('noteL'),noteR=document.getElementById('noteR');
 const seedRot=(k)=>{let s=0;for(const c of k)s=(s*31+c.charCodeAt(0))%997;return (s%46)-23;};
-const Note={on:false,tab:'cal',sel:null,ym:null,
-  open(tab){this.on=true;if(tab)this.tab=tab;noteEl.classList.add('on');this.render();},
+const Note={on:false,tab:'day',sel:null,ym:null,
+  open(){this.on=true;this.sel=null;noteNb.classList.remove('rt');noteEl.classList.add('on');this.render();},
   close(){this.on=false;noteEl.classList.remove('on');},
   dt(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);},
   title(k){const dt=this.dt(k);return `${dt.getMonth()+1}월 ${dt.getDate()}일 ${KDAY[dt.getDay()]}요일`;},
@@ -524,25 +534,20 @@ const Note={on:false,tab:'cal',sel:null,ym:null,
     const p=by('p_').map(x=>ITEMS[x]&&ITEMS[x].name).filter(Boolean),pn=(Me.d.pick&&Me.d.pick[k])||0;if(pn)L.push(`해변에서 ${p.slice(0,2).join(', ')}${p.length>2?' 등':''} ${pn}개를 주웠다.`);
     if(by('sell_').length)L.push('만물상에서 주운 것들을 시간으로 바꿨다.');
     return L.slice(0,4);},
-  render(){noteEl.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.t===this.tab));
-    const k=ymd();let H='';
-    if(this.tab==='cal'){const base=this.ym||new Date();const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
-      let c=KDAY.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<first;i++)c+='<div></div>';
-      for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];const st=g&&g.st;
-        c+=`<div class="d${kk===k?' today':''}${kk===(this.sel||k)?' sel':''}" data-k="${kk}">${d}${st?`<img src="ui/stamp.webp" alt="" style="--r:${seedRot(kk)}deg">`:''}</div>`;}
-      const n=Object.values(Me.d.diary).filter(x=>x&&x.st).length,sk=this.sel||k;
-      H=`<h3><button data-m="-1">‹</button>${y}년 ${m+1}월<button data-m="1">›</button></h3><div class="sub" style="text-align:center">해질녘 도장 ${n}개</div><div class="cal">${c}</div>
-         <div style="margin-top:12px"><h3 style="font-size:min(22px,5vw)">${this.title(sk)}</h3>${this.list(sk)}</div>`;}
-    else if(this.tab==='day'){const sk=this.sel||k;const g=Me.d.diary[sk];
-      H=`<h3><button data-d="-1">‹</button><span>${this.title(sk)}</span><button data-d="1">›</button></h3><div class="sub">${sk===k?'오늘도 해질녘, 영원한 이브':'그날의 해질녘'}</div>${this.list(sk)}
-         ${g&&g.st?`<div class="mini"><img src="ui/stamp.webp" alt="">이 날도 마을에 왔다.</div>`:''}`;}
-    else{const fr=Me.d.friends||{};const ids=Object.keys(fr);
-      H=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들. 친해진 정도는 나만 볼 수 있어.</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');}
-    notePc.innerHTML=H;notePc.scrollTop=0;
-    notePc.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.render();});
-    notePc.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const base=this.ym||new Date();this.ym=new Date(base.getFullYear(),base.getMonth()+(+b.dataset.m),1);this.render();});
-    notePc.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=this.dt(this.sel||k);d.setDate(d.getDate()+(+b.dataset.d));const nk=ymd(d);if(nk<=k){this.sel=nk;this.render();}});}};
-noteEl.querySelectorAll('.tb').forEach(b=>b.addEventListener('click',()=>{Note.tab=b.dataset.t;Note.sel=null;Note.render();}));
+  render(){noteEl.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===this.tab));
+    const k=ymd(),sk=this.sel||k;
+    const base=this.ym||new Date();const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
+    let c=KDAY.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<first;i++)c+='<div></div>';
+    for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];c+=`<div class="d${kk===k?' today':''}${kk===sk?' sel':''}" data-k="${kk}">${d}${g&&g.st?`<img src="ui/stamp.webp" alt="" style="--r:${seedRot(kk)}deg">`:''}</div>`;}
+    const n=Object.values(Me.d.diary).filter(x=>x&&x.st).length;
+    noteL.innerHTML=`<h3><button data-m="-1">‹</button>${y}년 ${m+1}월<button data-m="1">›</button></h3><div class="sub" style="text-align:center">해질녘 도장 ${n}개</div><div class="cal">${c}</div>`;
+    if(this.tab==='day'){const g=Me.d.diary[sk];noteR.innerHTML=`<h3>${this.title(sk)}</h3><div class="sub">${sk===k?'오늘도 해질녘, 영원한 이브':'그날의 해질녘'}</div>${this.list(sk)}${g&&g.st?`<div class="mini"><img src="ui/stamp.webp" alt="">이 날도 마을에 왔다.</div>`:''}`;}
+    else{const fr=Me.d.friends||{};const ids=Object.keys(fr);noteR.innerHTML=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들 · 나만 볼 수 있어</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');}
+    noteEl.querySelector('.flip').textContent=noteNb.classList.contains('rt')?'‹ 달력 보기':(this.tab==='fr'?'친구 보기 ›':'일기 보기 ›');
+    noteL.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.tab='day';if(matchMedia('(max-width:680px)').matches)noteNb.classList.add('rt');this.render();});
+    noteL.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.ym=new Date(y,m+(+b.dataset.m),1);this.render();});}};
+noteEl.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{Note.tab=b.dataset.t;noteNb.classList.add('rt');Note.render();}));
+noteEl.querySelector('.flip').addEventListener('click',()=>{noteNb.classList.toggle('rt');Note.render();});
 noteEl.querySelector('.x').addEventListener('click',()=>Note.close());noteEl.addEventListener('click',e=>{if(e.target===noteEl)Note.close();});
 // ---- 가방: 지갑·수첩 + 물건 주머니 ----
 const bagEl=document.getElementById('bagUI'),bagBtn=document.getElementById('bagBtn'),pocketsEl=document.getElementById('pockets'),bagInfo=document.getElementById('bagInfo');
@@ -555,14 +560,14 @@ const Bag={on:false,page:0,sel:null,
     document.getElementById('bagPg').innerHTML=pages>1?`<button data-p="-1">‹</button><button>${this.page+1}/${pages}</button><button data-p="1">›</button>`:'';
     document.querySelectorAll('#bagPg [data-p]').forEach(b=>b.onclick=()=>{this.page=(this.page+(+b.dataset.p)+pages)%pages;this.render();});
     pocketsEl.querySelectorAll('.cell[data-id]').forEach(el=>el.onclick=()=>{const id=el.dataset.id,it=ITEMS[id];if(this.sel===id){this.sel=null;this.render();return;}this.sel=id;this.render();
-      this.info(`${itemImg(id,64)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}<br><small>${it.nosell?'만물상에서도 안 받아주는 물건.':'만물상 시세: 하나에 '+it.sec+'초'}</small></div>`);});
+      this.info(`${itemImg(id,48)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}</div>`);});
     if(!this.sel)bagInfo.classList.remove('on');},
   info(html){bagInfo.innerHTML=html;bagInfo.classList.add('on');}};
-bagEl.querySelectorAll('.base button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.a==='note'){Bag.close();Note.open('cal');}else{Bag.close();Wallet.open();}}));
+bagEl.querySelectorAll('.base button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.a==='note'){Bag.close();Note.open();}else{Bag.close();Wallet.open();}}));
 const walletOv=document.getElementById('wallet');
 const Wallet={open(){walletOv.classList.add('on');const tgt=Me.d.sec||0,dur=1300,t0=performance.now();const arc=document.getElementById('wArc'),hand=document.getElementById('wHand'),num=document.getElementById('wNum');
     const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3),v=Math.round(tgt*e);num.textContent=v.toLocaleString();
-      const f=((v%60)/60)||(v&&v%60===0?1:0);arc.setAttribute('stroke-dasharray',(440*f).toFixed(1)+' 440');hand.setAttribute('transform','rotate('+(e*360*Math.max(1,Math.ceil(tgt/60)))+' 100 100)');if(k<1&&walletOv.classList.contains('on'))requestAnimationFrame(step);};requestAnimationFrame(step);},
+      const f=Math.min(1,e*Math.min(1,tgt/600+0.15)*(tgt?1:0));const ang=f*2*Math.PI,r=92,x=100+r*Math.sin(ang),y=100-r*Math.cos(ang);arc.setAttribute('d',f>=0.999?'M100 8 A92 92 0 1 1 99.9 8 Z':(f<=0?'':`M100 100 L100 8 A92 92 0 ${ang>Math.PI?1:0} 1 ${x.toFixed(2)} ${y.toFixed(2)} Z`));hand.setAttribute('transform','rotate('+(e*360*Math.max(1,Math.ceil(tgt/60)))+' 100 100)');if(k<1&&walletOv.classList.contains('on'))requestAnimationFrame(step);};requestAnimationFrame(step);},
   close(){walletOv.classList.remove('on');}};
 walletOv.querySelector('.x').addEventListener('click',()=>Wallet.close());walletOv.addEventListener('click',e=>{if(e.target===walletOv)Wallet.close();});
 bagEl.querySelector('.x').addEventListener('click',()=>Bag.close());bagEl.addEventListener('click',e=>{if(e.target===bagEl)Bag.close();});
@@ -570,7 +575,7 @@ bagBtn.addEventListener('click',()=>Bag.open());
 const Diary={get on(){return Note.on;},render(){Note.render();}};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 async function startMe(){await Me.load();buildSparks();bagBtn.style.display='block';
-  if(Me.stamp()){Me.log('오늘도 해질녘 마을에 왔다.','arrive');setTimeout(()=>toast('<img src="ui/stamp.webp" width="46" height="46" style="mix-blend-mode:multiply;transform:rotate(-12deg)">달력에 오늘의 해질녘 도장이 찍혔어!',3400),900);}
+  if(Me.stamp()){Me.log('오늘도 해질녘 마을에 왔다.','arrive');setTimeout(()=>toast('<img src="ui/stamp.webp" width="26" height="26">오늘의 해질녘 도장이 찍혔어!',3200),900);}
   Me.log(DLINE.visit[placeKey],'v_'+placeKey);}
 
 /* ===================== 5-c. 해변 줍기 & 만물상 교환 ===================== */
@@ -582,7 +587,7 @@ let pickGroup=new THREE.Group();scene.add(pickGroup);const pickMats={};
 function itemMat(id){if(pickMats[id])return pickMats[id];const t=rtex('it_'+id);return pickMats[id]=new THREE.ShaderMaterial({uniforms:{uMap:{value:t}},transparent:true,depthWrite:false,
   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
   fragmentShader:'uniform sampler2D uMap;varying vec2 vUv;void main(){vec4 c=texture2D(uMap,vUv);if(c.a<0.04)discard;gl_FragColor=vec4(c.rgb*vec3(1.0,0.95,0.9),c.a);}'});}
-function placeSparkMesh(s){const w=0.026*SW;const sh=new THREE.Mesh(new THREE.PlaneGeometry(w*1.1,w*0.38),new THREE.MeshBasicMaterial({map:getShadowTex(),transparent:true,depthWrite:false,toneMapped:false,opacity:0.8}));
+function placeSparkMesh(s){const w=0.017*SW;const sh=new THREE.Mesh(new THREE.PlaneGeometry(w*1.1,w*0.38),new THREE.MeshBasicMaterial({map:getShadowTex(),transparent:true,depthWrite:false,toneMapped:false,opacity:0.8}));
   sh.position.set(s.x/100*SW+w*0.06,-(s.y/100*SH+w*0.12),-3.43e6);
   const m=new THREE.Mesh(new THREE.PlaneGeometry(w,w),itemMat(s.id));m.rotation.z=s.rot;m.position.set(s.x/100*SW,-(s.y/100*SH-w*0.18),-3.42e6);
   pickGroup.add(sh);pickGroup.add(m);s.mesh=[sh,m];}
@@ -598,13 +603,13 @@ let sparkT=0;
 function tickSparks(dt){if(placeKey!=='beach'||!me)return;
   let nb=null,nd=6.5;if(!me.sitting)sparks.forEach(s=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);if(d<nd){nd=d;nb=s;}});
   sparks.forEach(s=>{const near=s===nb;
-    if(near&&!s.btn){const b=document.createElement('button');b.className='pickBtn';b.textContent='줍기';b.style.left=s.x+'%';b.style.top=(s.y-2.2)+'%';
+    if(near&&!s.btn){const b=document.createElement('button');b.className='pickBtn';b.textContent='줍기';b.style.left=s.x+'%';b.style.top=(s.y-1.6)+'%';
       const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();faceTo(me,s.x,s.y);pickSpark(s);});tagsEl.appendChild(b);s.btn=b;}
     else if(!near&&s.btn){s.btn.remove();s.btn=null;}});
   sparkT-=dt;if(sparkT<=0){sparkT=70+Math.random()*60;if(Me.ready&&sparks.length<PICK_N&&pickedToday()+sparks.length<PICK_MAX)spawnSpark();}}
 function pickSpark(s){if(!sparks.includes(s))return;if(pickedToday()>=PICK_MAX){say(me,'오늘은 바다가 더 줄 게 없대. 내일 또 와야지');return;}
   clearSpark(s);sparks=sparks.filter(q=>q!==s);const id=s.id,it=ITEMS[id];Me.addItem(id,1);Me.d.pick=Me.d.pick||{};Me.d.pick[ymd()]=pickedToday()+1;Me.save();
-  toast(`${itemImg(id,40)}<span><b>${it.name}</b>을(를) 주웠다!<br><small style="font-size:15px">오늘 ${pickedToday()}/${PICK_MAX}</small></span>`,2600);
+  toast(`${itemImg(id,26)}<span>${it.name}을(를) 주웠다! (${pickedToday()}/${PICK_MAX})</span>`,2400);
   Me.log(`해변에서 ${it.name}을(를) 주웠다.`,'p_'+id);if(id==='pearl')say(me,'헉, 진주다…!');}
 function sparkAt(nx,ny){if(placeKey!=='beach')return null;let b=null,bd=3.6;sparks.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<bd){bd=d;b=s;}});return b;}
 const shopEl=document.getElementById('shop'),shopBody=document.getElementById('shopBody');
