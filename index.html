@@ -116,17 +116,27 @@
     color:#fff8ec;font:15px 'Gowun Dodum',sans-serif;text-shadow:0 1px 3px rgba(40,15,20,.85),0 0 10px rgba(40,15,20,.5);display:flex;align-items:center;gap:6px;pointer-events:none;}
   #toast.on{opacity:1;transform:translate(-50%,0);}
   #toast img{flex:0 0 auto;} #toast .ms{width:38px;height:38px;border-radius:50%;border:2px solid #c4523a;color:#c4523a;font-size:12px;line-height:13px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);font-weight:700;}
-  #shop{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(25,16,28,.5);backdrop-filter:blur(3px);}
+  #shop{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(22,14,24,.55);backdrop-filter:blur(3px);}
   #shop.on{display:flex;}
-  #shop .card{position:relative;width:min(88vw,460px);max-height:80vh;overflow:auto;padding:24px 22px 18px;border-radius:16px;font-family:'Gaegu','Nanum Pen Script',cursive;color:#3d2a3c;background:#e9d8c4;box-shadow:0 18px 40px rgba(20,8,20,.5),inset 0 0 0 3px rgba(110,60,110,.18);}
-  #shop .x{position:absolute;top:8px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:20px;}
-  #shop h3{margin:0 0 4px;font-size:27px;color:#5b2f5a;} #shop .who{font-size:18px;color:#6e4a6a;margin-bottom:10px;}
-  #shop .row{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px dashed rgba(91,47,90,.25);font-size:19px;}
-  #shop .row img{width:40px;height:40px;} #shop .row .nm{flex:1;} #shop .row .pr{color:#7a4f35;font-size:17px;}
-  #shop button.b{border:0;border-radius:999px;padding:5px 12px;font-family:inherit;font-size:16px;font-weight:700;background:#5b2f5a;color:#fff4e2;}
-  #shop button.b.alt{background:#e2c7a8;color:#5b2f5a;}
-  #shop .tot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:20px;gap:8px;flex-wrap:wrap;}
-  #shop .empty{color:#8a6a7a;font-size:18px;padding:10px 0;}
+  #shop .card{position:relative;width:min(94vw,640px);} #shopBody{display:flex;gap:10px;align-items:stretch;} #shop .card{font-family:'Gowun Dodum',sans-serif;font-size:13px;color:#fff4e6;}
+  #shop .x{position:absolute;top:-14px;right:-8px;width:34px;height:34px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:18px;z-index:3;box-shadow:0 3px 8px rgba(0,0,0,.35);}
+  #shop .pan{flex:1;min-width:0;border-radius:16px;padding:12px;background:linear-gradient(180deg,#6b4330,#4e2f22);box-shadow:0 14px 30px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,220,180,.15);display:flex;flex-direction:column;}
+  #shop .pan.k{background:linear-gradient(180deg,#5a3157,#3b2140);}
+  #shop .hd{font-size:14px;margin:0 0 8px;opacity:.9;display:flex;align-items:center;gap:6px;}
+  #shop .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px;border-radius:12px;background:rgba(30,12,8,.35);box-shadow:inset 0 2px 8px rgba(0,0,0,.35);}
+  #shop .pan.k .grid{background:rgba(20,6,24,.35);min-height:62px;}
+  #shop .cell{position:relative;aspect-ratio:1;border:0;padding:0;border-radius:10px;background:rgba(255,236,210,.12);box-shadow:inset 0 0 0 1.5px rgba(255,225,190,.2);display:flex;align-items:center;justify-content:center;}
+  #shop .cell img{width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));pointer-events:none;}
+  #shop .cell i{position:absolute;right:5%;bottom:3%;font-style:normal;font-size:11px;text-shadow:0 1px 2px rgba(0,0,0,.8);}
+  #shop .cell.no{opacity:.35;}
+  #shop .say{position:relative;margin:4px 0 10px;padding:9px 11px;border-radius:12px;background:#fff4e6;color:#4a2a3e;line-height:1.5;min-height:38px;}
+  #shop .say:before{content:'';position:absolute;left:14px;top:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#fff4e6;}
+  #shop .ft{margin-top:auto;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  #shop .ft b{font-weight:400;font-size:15px;}
+  #shop .go{border:0;border-radius:999px;padding:7px 16px;font:13px 'Gowun Dodum',sans-serif;background:#f0b46c;color:#3b2140;}
+  #shop .go:disabled{opacity:.4;}
+  #shop .sub{font-size:11px;opacity:.7;margin-top:6px;}
+  @media (max-width:560px){#shop .card{width:92vw;} #shopBody{flex-direction:column;} #shop .grid{grid-template-columns:repeat(5,1fr);}}
   #chat{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:5;}
   #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
   #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
@@ -170,7 +180,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120b</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1120c</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js?v=1120b"></script>
@@ -620,17 +630,28 @@ function pickSpark(s){if(!sparks.includes(s))return;if(pickedToday()>=PICK_MAX){
 function sparkAt(nx,ny){if(placeKey!=='beach')return null;let b=null,bd=3.6;sparks.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<bd){bd=d;b=s;}});return b;}
 const shopEl=document.getElementById('shop'),shopBody=document.getElementById('shopBody');
 shopEl.querySelector('.x').addEventListener('click',()=>shopEl.classList.remove('on'));shopEl.addEventListener('click',e=>{if(e.target===shopEl)shopEl.classList.remove('on');});
-const Shop={open(){shopEl.classList.add('on');this.render();},
-  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]&&!ITEMS[id].nosell);
-    const rows=ids.map(id=>{const it=ITEMS[id],n=Me.d.bag[id];return `<div class="row">${itemImg(id,40)}<span class="nm">${it.name} <span class="pr">× ${n}</span></span><span class="pr">${it.sec}초</span><button class="b alt" data-s="${id}" data-n="1">1개</button><button class="b" data-s="${id}" data-n="${n}">모두</button></div>`;}).join('');
-    const all=ids.reduce((a,id)=>a+ITEMS[id].sec*Me.d.bag[id],0);
-    shopBody.innerHTML=`<h3>만물상</h3><div class="who">"오호, 바다에서 온 것들이군. 멈춘 시간으로 바꿔줄까?"</div>`+(rows||'<div class="empty">바꿀 만한 게 없네. 해변 모래사장에 반짝이는 걸 주워 와봐.</div>')+
-      `<div class="tot"><span>가진 시간 <b>${(Me.d.sec||0).toLocaleString()}</b>초</span>${all?`<button class="b" data-all="1">전부 바꾸기 (+${all}초)</button>`:''}</div><div class="who" style="margin-top:14px;font-size:16px;opacity:.75">미스터리 상품과 분실물 코너는 곧 열려요.</div>`;
-    shopBody.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>this.sell(b.dataset.s,+b.dataset.n));
-    const ab=shopBody.querySelector('[data-all]');if(ab)ab.onclick=()=>{const tot=all;ids.forEach(id=>this.sell(id,Me.d.bag[id],true));toast(`<span>+${tot}초를 받았어</span>`,1600);this.render();};},
-  sell(id,n,quiet){const it=ITEMS[id];n=Math.min(n,Me.d.bag[id]||0);if(!it||it.nosell||n<=0)return;Me.addItem(id,-n);Me.addSec(it.sec*n);
-    Me.log(`만물상에서 ${it.name}을(를) 시간으로 바꿨다.`,'sell_'+id);if(!quiet){this.render();toast(`${itemImg(id,36)}<span>+${it.sec*n}초</span>`,1400);}}};
-
+const KEEP={hi:['어서 와. 바다에서 뭘 가져왔나 볼까?','오호, 주머니가 묵직해 보이는군.','멈춘 시간이 필요한가? 물건부터 보여줘.'],
+  empty:'가방이 비었네. 해변 모래사장에서 반짝이는 걸 주워 와.',
+  pick:{shell_w:'하얀 조개군. 흔하지만 소리는 제일 맑지.',shell_p:'분홍 조개라… 노을이 스며들었군.',shell_v:'보라 조개! 해가 지기 직전에만 밀려오는 녀석이야.',wood:'유목이군. 먼 바다 냄새가 나.',glass_g:'초록 바다유리. 파도가 오래 다듬었어.',conch:'소라 껍데기라니, 귀에 대보면 누가 흥얼거린다지.',glass_b:'파란 바다유리! 이건 쉽게 안 나오지.',star:'불가사리군. 살살 다뤄줘.',pearl:'진주…? 정말 주운 거야? 대단한걸.'},
+  deal:['거래 성사! 시간은 잘 쓰라고.','좋은 물건이었어. 또 와.','멈춘 시간, 지갑에 넣어뒀다.']};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const Shop={tray:{},line:'',
+  open(){this.tray={};this.line=rnd(KEEP.hi);shopEl.classList.add('on');this.render();},
+  left(id){return (Me.d.bag[id]||0)-(this.tray[id]||0);},
+  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);
+    const cells=ids.map(id=>{const n=this.left(id),it=ITEMS[id];return `<button class="cell${it.nosell||n<=0?' no':''}" data-a="${id}">${itemImg(id,64)}<i>${n}</i></button>`;}).join('');
+    const tr=Object.keys(this.tray).filter(id=>this.tray[id]>0);
+    const tc=tr.map(id=>`<button class="cell" data-b="${id}">${itemImg(id,64)}<i>${this.tray[id]}</i></button>`).join('');
+    const tot=tr.reduce((s,id)=>s+ITEMS[id].sec*this.tray[id],0);
+    shopBody.innerHTML=`<div class="pan"><div class="hd"><img src="ui/i_bag.webp" width="22" height="22" alt="">내 가방</div><div class="grid">${cells||'<div style="grid-column:1/-1;opacity:.7;padding:10px 4px">비어 있어</div>'}</div><div class="sub">팔 물건을 누르면 오른쪽으로 옮겨져</div></div>
+      <div class="pan k"><div class="hd">🌙 만물상 주인 달무리</div><div class="say">${esc(ids.length?this.line:KEEP.empty)}</div><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
+      <div class="ft"><span>받을 시간 <b>${tot}</b>초</span><button class="go"${tot?'':' disabled'}>바꾸기</button></div><div class="sub">가진 시간 ${(Me.d.sec||0).toLocaleString()}초</div></div>`;
+    shopBody.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const id=b.dataset.a,it=ITEMS[id];
+      if(it.nosell){this.line='그건 안 받아. 그런 건 주인이 따로 있는 법이지.';this.render();return;}
+      if(this.left(id)<=0)return;this.tray[id]=(this.tray[id]||0)+1;this.line=`${KEEP.pick[id]||it.name+'이군.'} 하나에 ${it.sec}초 쳐주지.`;this.render();});
+    shopBody.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const id=b.dataset.b;this.tray[id]--;if(this.tray[id]<=0)delete this.tray[id];this.line='마음이 바뀌었나? 괜찮아.';this.render();});
+    const g=shopBody.querySelector('.go');if(g)g.onclick=()=>{let tot=0;for(const id in this.tray){const n=this.tray[id];tot+=ITEMS[id].sec*n;Me.addItem(id,-n);Me.log(`만물상에서 ${ITEMS[id].name}을(를) 시간으로 바꿨다.`,'sell_'+id);}
+      Me.addSec(tot);this.tray={};this.line=rnd(KEEP.deal)+` (+${tot}초)`;this.render();};}};
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false,snapPan=true;
