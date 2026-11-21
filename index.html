@@ -149,6 +149,7 @@
   #pst .row{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:6px;border-radius:12px;background:rgba(30,12,8,.3);}
   #pst .row .t{flex:1;min-width:0;line-height:1.35;}
   #pst .row .t i{display:block;font-style:normal;font-size:11px;opacity:.65;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #pst .grid.gp .cell{pointer-events:auto;cursor:pointer;}
   #pst .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:6px;border-radius:12px;background:rgba(30,12,8,.35);min-height:40px;}
   #pst .cell{position:relative;aspect-ratio:1;border:0;padding:0;border-radius:9px;background:rgba(255,236,210,.12);display:flex;align-items:center;justify-content:center;}
   #pst .cell img{width:80%;height:80%;object-fit:contain;pointer-events:none;}
@@ -235,7 +236,7 @@
   #pst .row[data-r]{cursor:pointer;}
   #pst .letter{padding:14px 14px 10px;border-radius:10px;color:#3e2a22;font:19px/1.4 'Nanum Pen Script','Gowun Dodum',sans-serif;background:repeating-linear-gradient(#fbf1de 0 26px,#ead8bb 26px 27px);min-height:120px;white-space:normal;word-break:keep-all;}
   #pst .letter .sig{text-align:right;margin-top:8px;}
-  #pst .grid .cell{pointer-events:none;}
+  #pst .grid.ro .cell{pointer-events:none;}
   #mbBadge{position:absolute;transform:translate(-50%,-100%);pointer-events:none;animation:mbB 1.6s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(255,220,140,.9));}
   #mbBadge img{width:28px;height:auto;display:block;}
   .cell.rcv{position:relative;}.cell.rcv .dot{position:absolute;right:6px;top:6px;width:9px;height:9px;border-radius:50%;background:#e8584a;}
@@ -325,10 +326,10 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122k</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122m</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
-<script src="maps.js?v=1122k"></script>
+<script src="maps.js?v=1122m"></script>
 <script src="chars.js?v=1120b"></script>
 <script>Object.assign(window.MAPS,{curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",post:"post/post.jpg?v=2",mask_post:"post/mask.png",fx_post:"post/fx.png",post_float:"post/float.png?v=2",camp:"grnd/camp.jpg",mask_camp:"post/mask.png",fx_camp:"post/fx.png",b_dome_on:"camp/dome_on.webp",b_dome_off:"camp/dome_off.webp",b_tipi_on:"camp/tipi_on.webp",b_tipi_off:"camp/tipi_off.webp",b_flag:"camp/flag.webp",b_mailbox:"camp/mailbox.webp",home:"home/room.jpg",mask_home:"post/mask.png",fx_home:"post/fx.png",b_h_bed:"home/bed.webp?v=2",b_h_bed_f:"home/bed_f.webp",b_h_bed_s_f:"home/bed_s_f.webp",b_h_armchair_f:"home/armchair_f.webp",b_h_armchair_s_f:"home/armchair_s_f.webp",b_h_rug:"home/rug.webp?v=2",b_h_stove:"home/stove.webp?v=2",b_h_table:"home/table.webp",b_h_chair:"home/chair.webp",b_h_armchair:"home/armchair.webp",b_h_rack:"home/rack.webp",b_h_shelf:"home/shelf.webp",b_h_plant:"home/plant.webp",b_h_lamp:"home/lamp.webp",b_h_side:"home/side.webp",b_h_chair_s:"home/chair_s.webp",b_h_armchair_s:"home/armchair_s.webp",b_h_shelf_s:"home/shelf_s.webp",b_h_rack_s:"home/rack_s.webp",b_h_stove_s:"home/stove_s.webp",b_h_bed_s:"home/bed_s.webp",b_h_win_sea:"home/win_sea.webp",b_h_win_forest:"home/win_forest.webp",b_h_win_sky:"home/win_sky.webp",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
@@ -900,8 +901,8 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
       h=`<div class="hd">편지 책상</div>${say}<div class="tabs">${[['l','편지'],['c','소포'],['p','펜팔'],['r','답장']].map(([k,n])=>`<button data-tab="${k}"${t===k?' class="on"':''}>${n}${k==='r'&&Camp.toReply().length?' •':''}</button>`).join('')}</div>`;
       if(t==='l')h+=`<label>받는 이웃</label>${this.sel()}<label>편지</label><textarea id="pTx" maxlength="400" placeholder="하고 싶은 말을 적어봐">${esc(this.draft.tx||'')}</textarea><div class="ft"><span class="sub" id="pN">${(this.draft.tx||'').length}/400</span><button class="go" data-do="seal">봉투에 넣기</button></div>`;
       if(t==='p')h+=`<label>내 별명 (상대에겐 이름 대신 이것만 보여)</label><input id="pPen" maxlength="8" value="${esc(P.pen)}" placeholder="예: 노을고양이"><label>펜팔 편지</label><textarea id="pTx" maxlength="400" placeholder="아직 모르는 누군가에게">${esc(this.draft.tx||'')}</textarea><div class="ft"><span class="sub" id="pN">${(this.draft.tx||'').length}/400</span><button class="go" data-do="seal">봉투에 넣기</button></div><div class="sub">누구에게 갈지는 창가의 바람이 정해.</div>`;
-      if(t==='r'){const L=Camp.inBag().filter(m=>m.k==='l'||m.k==='p').sort((a,b)=>(Camp.st(b).rp-Camp.st(a).rp)||(Camp.st(a).rd-Camp.st(b).rd)||((b.ts||0)-(a.ts||0))),m=L.find(x=>x.id===this.reTo);
-        if(!m)h+=L.length?`<label>가방에 있는 받은 편지</label>${L.map(x=>{const S=Camp.st(x);return `<div class="row${S.rp&&!S.rd?' new':''}" data-ro="${esc(x.id)}">${icImg(x.k,36)}<div class="t">${esc(Camp.mname(x))}<i>${esc((x.text||'').slice(0,34))}</i></div>${S.rd?'<span class="sub">답장함</span>':S.rp?'<em class="dot"></em>':''}</div>`;}).join('')}`:'<div class="sub" style="padding:10px 2px">아직 답장할 편지가 없어. 우체통에서 꺼낸 편지는 가방에 넣어두면 여기 떠.</div>';
+      if(t==='r'){const L=Camp.kept().sort((a,b)=>(Camp.st(b).rp-Camp.st(a).rp)||(Camp.st(a).rd-Camp.st(b).rd)||((b.ts||0)-(a.ts||0))),m=L.find(x=>x.id===this.reTo);
+        if(!m)h+=L.length?`<label>받은 편지 (가방 · 편지꽂이)</label>${L.map(x=>{const S=Camp.st(x);return `<div class="row${S.rp&&!S.rd?' new':''}" data-ro="${esc(x.id)}">${icImg(x.k,36)}<div class="t">${esc(Camp.mname(x))}<i>${esc((x.text||'').slice(0,34))}</i></div>${S.rd?'<span class="sub">답장함</span>':S.rp?'<em class="dot"></em>':''}</div>`;}).join('')}`:'<div class="sub" style="padding:10px 2px">아직 답장할 편지가 없어. 우체통에서 꺼낸 편지는 가방에 넣어두면 여기 떠.</div>';
         else{const pp=m.k==='p',who=pp?(m.pen||'누군가'):(m.fromName||'이웃');
           h+=`<div class="letter" style="font-size:13px;opacity:.85">${esc((m.text||'').slice(0,90))}${(m.text||'').length>90?'…':''}<div class="sig">— ${esc(who)}</div></div>
           ${pp?`<label>내 별명 (상대에겐 이것만 보여)</label><input id="pPen" maxlength="8" value="${esc(P.pen)}" placeholder="예: 노을고양이">`:''}
@@ -1009,11 +1010,13 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   myUid(){return Net.online&&!Me.test?Net.uid:'me';},
   mine(){for(const k in this.claims)if(this.claims[k]&&this.claims[k].uid===this.myUid())return +k;return null;},
   // 받은 우편물 상태(내 기록에만): dl=편지새가 우체통에 떨굼 · got=우체통에서 꺼내 가방에 넣음
-  st(m){const t=(Me.d.mst||{})[m.id]||{};return {dl:!!(t.dl||m.read),got:!!(t.got||m.read),rp:!!t.rp,rd:!!t.rd};},
+  st(m){const t=(Me.d.mst||{})[m.id]||{};return {dl:!!(t.dl||m.read),got:!!(t.got||m.read),rp:!!t.rp,rd:!!t.rd,rk:!!t.rk};},
   unSt(m,k){const t=(Me.d.mst||{})[m.id];if(t){delete t[k];Me.save();}},
-  toReply(){return this.inBag().filter(m=>(m.k==='l'||m.k==='p')&&this.st(m).rp&&!this.st(m).rd);},
+  kept(){return this.inbox.filter(m=>(m.k==='l'||m.k==='p')&&this.st(m).got);}, // 가방+편지꽂이의 받은 편지
+  onRack(){return this.kept().filter(m=>this.st(m).rk);},
+  toReply(){return this.kept().filter(m=>this.st(m).rp&&!this.st(m).rd);},
   setSt(m,k){const M=Me.d.mst||(Me.d.mst={});(M[m.id]||(M[m.id]={}))[k]=1;Me.save();},
-  inBag(){return this.inbox.filter(m=>this.st(m).got&&!(m.k==='c'&&m.took));},
+  inBag(){return this.inbox.filter(m=>this.st(m).got&&!this.st(m).rk&&!(m.k==='c'&&m.took));},
   count(){this.unread=this.inbox.filter(m=>!m.read).length;this.undl=this.inbox.filter(m=>!this.st(m).dl).length;this.ungot=this.inbox.filter(m=>!this.st(m).got).length;this.badge();},
   apply(){if(!this.base)return;const out=[];
     for(const b of this.base){const cl=this.claims[b.tent];b.img=(cl?cl.t:b.t)+'_'+(cl?'on':'off');b.tint=TPAL[cl?cl.c:b.c];b.dim=cl?0:1;out.push(b);
@@ -1098,14 +1101,14 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
     const a=pstBody.querySelector('[data-all]');if(a)a.onclick=()=>put(L);},
   mark(m,key){m[key]=true;if(Net.online&&!Me.test){const D=Net.fn;D.set(D.ref(Net.db,'mail/'+Net.uid+'/'+m.id+'/'+key),true).catch(e=>console.warn('표시 실패',e&&e.code));}else{const x=(Me.d.inbox||[]).find(y=>y.id===m.id);if(x)x[key]=true;Me.save();}this.count();},
   // 가방에서 꺼내 읽기 (답장은 우체국 책상에서)
-  read(m){if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
+  read(m,from){if(from!==undefined)this._from=from;else this._from='bag';from=this._from;if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
     let h=`<div class="hd">${esc(m.k==='p'?'펜팔 편지':m.k==='c'?'소포':'편지')}</div><div class="letter">${m.text?esc(m.text).replace(/\n/g,'<br>'):''}<div class="sig">— ${esc(who)}</div></div>`;
-    if(m.k==='c'){const it=m.items||{};h+=`<div class="grid">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 풀어서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">풀어서 가방에 넣기</button></div>`);}
+    if(m.k==='c'){const it=m.items||{};h+=`<div class="grid ro">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 풀어서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">풀어서 가방에 넣기</button></div>`);}
     else{const S=this.st(m);h+=S.rd?`<div class="sub" style="margin-top:6px">답장을 이미 썼어.</div>`:`<div class="ft" style="margin-top:6px"><span class="sub">${S.rp?'답장 표시해뒀어. 우체국 책상에 앉으면 바로 쓸 수 있어.':'답장은 우체국 책상에서 쓸 수 있어.'}</span><button class="${S.rp?'sm':'go'}" data-rp="1">${S.rp?'표시 지우기':'답장할래'}</button></div>`;}
-    h+=`<div style="margin-top:8px"><button class="sm" data-back="1">← 가방</button></div>`;
-    this.show(h);pstBody.querySelector('[data-back]').onclick=()=>{Post.close();Bag.open();};
-    const rp=pstBody.querySelector('[data-rp]');if(rp)rp.onclick=()=>{if(this.st(m).rp)this.unSt(m,'rp');else{this.setSt(m,'rp');Snd.syn('tap');}this.read(m);};
-    const tk=pstBody.querySelector('[data-take]');if(tk)tk.onclick=()=>{if(m.took)return;for(const id in (m.items||{}))if(ITEMS[id])Me.addItem(id,m.items[id]);this.mark(m,'took');Me.log(`${m.fromName||'이웃'}이 보낸 소포를 풀었다.`,'took_'+m.id);Me.save();Snd.syn('tap');this.read(m);};}};
+    h+=`<div style="margin-top:8px"><button class="sm" data-back="1">${from==='rack'?'← 편지꽂이':'← 가방'}</button></div>`;
+    this.show(h);pstBody.querySelector('[data-back]').onclick=()=>{if(from==='rack')Home.rack();else{Post.close();Bag.open();}};
+    const rp=pstBody.querySelector('[data-rp]');if(rp)rp.onclick=()=>{if(this.st(m).rp)this.unSt(m,'rp');else{this.setSt(m,'rp');Snd.syn('tap');}this.read(m,from);};
+    const tk=pstBody.querySelector('[data-take]');if(tk)tk.onclick=()=>{if(m.took)return;for(const id in (m.items||{}))if(ITEMS[id])Me.addItem(id,m.items[id]);this.mark(m,'took');Me.log(`${m.fromName||'이웃'}이 보낸 소포를 풀었다.`,'took_'+m.id);Me.save();Snd.syn('tap');this.read(m,from);};}};
 
 /* ===================== 텐트 안: 내 집 꾸미기 (자유 배치 · 벽에 붙이기 · 돌리기 · 앉기 · 눕기) ===================== */
 // 바닥: 뒷벽 아래 선(y 43.5)에서 시작, 옆벽은 y 63.5까지 비스듬히 벌어짐
@@ -1120,8 +1123,8 @@ const FURN={
   table:{n:'테이블',sw:0.95,fw:0.85,fd:0.6,ar:371/434,rot:[['f']]},
   chair:{n:'의자',sw:0.62,fw:0.55,fd:0.45,s:[0.67,0.62,0.45],ar:448/281,ars:483/326,seat:'chair',hip:{f:[0.5,0.58],s:[0.44,0.53]},rot:[['f'],['s'],['s',1]]},
   armchair:{n:'안락의자',sw:0.95,fw:0.85,fd:0.6,s:[0.75,0.7,0.65],ar:454/500,ars:495/429,seat:'chair',fr:{f:1,s:1},hip:{f:[0.5,0.55],s:[0.42,0.47]},rot:[['f'],['s'],['s',1]]},
-  rack:{n:'편지꽂이',sw:0.8,fw:0.75,fd:0.4,s:[0.7,0.65,0.6],ar:438/381,ars:566/433,act:'mail',rot:[['f'],['s'],['s',1]]},
-  shelf:{n:'수집 선반',sw:0.9,fw:0.85,fd:0.4,s:[0.62,0.55,0.75],ar:538/427,ars:580/316,rot:[['f'],['s'],['s',1]]},
+  rack:{n:'편지꽂이',sw:0.8,fw:0.75,fd:0.4,s:[0.7,0.65,0.6],ar:438/381,ars:566/433,use:'rack',rot:[['f'],['s'],['s',1]]},
+  shelf:{n:'수집 선반',use:'shelfPanel',sw:0.9,fw:0.85,fd:0.4,s:[0.62,0.55,0.75],ar:538/427,ars:580/316,rot:[['f'],['s'],['s',1]]},
   plant:{n:'화분',sw:0.62,fw:0.5,fd:0.4,ar:415/340,rot:[['f'],['f',1]]},
   lamp:{n:'스탠드',sw:0.55,fw:0.42,fd:0.35,ar:518/276,glow:[0.88,'255,210,140'],rot:[['f'],['f',1]]},
   side:{n:'협탁',sw:0.55,fw:0.5,fd:0.42,ar:309/306,rot:[['f']]},
@@ -1131,6 +1134,7 @@ const HOME_KINDS=['bed','shelf','rack','lamp','stove','rug','table','chair','arm
 const HENT=[40,91,60,100]; // 입구 앞은 비워둠
 const Home={edit:false,sel:null,drag:null,
   room(){let R=Me.d.room;if(!R||R.ver!==3)R=Me.d.room={ver:3,items:[],inv:HOME_KINDS.map(k=>({k})).concat(HVIEWS.map(v=>({k:'win',v})))};R.inv=R.inv||[];return R;},
+  shelf(){const R=this.room();return R.shelf||(R.shelf={});},
   nm(o){return o.k==='win'?josa(HVIEWN[o.v||'sea'],'이','가')+' 보이는 창':FURN[o.k].n;},
   U0(){return PLACES.home.size*(0.78+0.45*0.7)*150;}, // 캐릭터 키를 가로 %로
   view(o){const F=FURN[o.k],r=F.rot[(o.d||0)%F.rot.length];return {side:r[0]==='s',flip:!!r[1]};},
@@ -1159,7 +1163,11 @@ const Home={edit:false,sel:null,drag:null,
       if(F.wall){bld.push({img:'h_win_'+(o.v||'sea'),cx:o.x,by:o.y,w:d.w,fp:[[o.x,o.y]],z:o.y,noShadow:1,ho:o});continue;}
       const b={img:'h_'+o.k+(v.side?'_s':''),cx:o.x,by:o.y,w:d.sw,fp:[[o.x,o.y]],flip:v.flip,ho:o};
       if(F.flat){b.z=-50;b.noShadow=1;}
-      if(F.act==='mail'){b.door=[o.x,+Math.min(98,o.y+3.5).toFixed(2)];b.mail=Camp.mine();}
+      if(F.use){b.door=[o.x,+Math.min(98,o.y+3.5).toFixed(2)];b.use=F.use;}
+      // 수집 선반(정면): 진열한 물건을 칸마다 올려 보여줌 (3단 × 3칸)
+      if(o.k==='shelf'&&!v.side){const S=Object.keys(this.shelf()).filter(id=>this.shelf()[id]>0&&ITEMS[id]).slice(0,9),HH=d.sw*F.ar*(2/3);
+        S.forEach((id,i)=>{const px=[120,213,306][i%3],py=[203,328,447][Math.floor(i/3)];window.MAPS['b_it_'+id]=window.MAPS['b_it_'+id]||'items/'+id+'.webp';
+          bld.push({img:'it_'+id,cx:+(o.x+(px/427-0.5)*d.sw).toFixed(2),by:+(o.y-(1-py/538)*HH).toFixed(2),w:+(d.sw*0.19).toFixed(2),fp:[[o.x,o.y]],z:o.y+0.4,noShadow:1});});}
       bld.push(b);const hH=d.sw*(d.ar||F.ar)*(2/3);
       if(F.seat){const A=F.hip[v.side?'s':'f'],fx=v.flip?-1:1,sx=+(o.x+(A[0]-0.5)*d.sw*fx).toFixed(2),sy=+(o.y-(1-A[1])*hH).toFixed(2);
         // 앉는 방향: 정면 가구는 화면 쪽, 옆모습은 그림이 바라보는 쪽(왼쪽, 뒤집으면 오른쪽)
@@ -1179,6 +1187,27 @@ const Home={edit:false,sel:null,drag:null,
     PLACES.home.exits=[{poly:[[42,97.8],[58,97.8],[58,99.8],[42,99.8]],to:'camp',spawn:b.door,face:[b.door[0],b.door[1]+10]}];
     Snd.sfx('creak');travel('내 텐트 안으로',null,()=>{P=PLACES.home;this.build();enter('home',[50,93],[50,60]);},900);},
   onEnter(){const on=placeKey==='home';document.getElementById('decoBtn').style.display=on?'block':'none';if(!on&&this.edit)this.stop(true);if(on&&!this.room().items.length)setTimeout(()=>{if(placeKey==='home'&&!this.edit)say(me,'텅 비었네. 꾸미기를 눌러 가구를 놓아볼까?');},700);},
+  /* ---- 편지꽂이: 받은 편지를 꽂아 보관 · 수집 선반: 물건 진열 겸 보관 ---- */
+  rack(){const on=Camp.onRack(),bag=Camp.inBag().filter(m=>m.k==='l'||m.k==='p');
+    const row=(m,btns)=>`<div class="row${m.read?'':' new'}">${icImg(m.k,34)}<div class="t">${esc(Camp.mname(m))}<i>${esc((m.text||'').slice(0,30))}</i></div>${btns}</div>`;
+    Camp.show(`<div class="hd">편지꽂이</div><div class="sub" style="margin-bottom:8px">받은 편지를 꽂아두면 가방이 가벼워져. 언제든 여기서 다시 읽을 수 있어.</div>
+      <label>꽂혀 있는 편지 · ${on.length}통</label>${on.length?on.map(m=>row(m,`<button class="sm" data-rr="${esc(m.id)}">읽기</button><button class="sm" data-ro="${esc(m.id)}">꺼내기</button>`)).join(''):'<div class="sub" style="padding:6px 2px">아직 비어 있어.</div>'}
+      <label>가방에 있는 편지</label>${bag.length?bag.map(m=>row(m,`<button class="sm" data-ri="${esc(m.id)}">꽂기</button>`)).join('')+(bag.length>1?'<div class="ft" style="justify-content:center"><button class="go" data-rall="1">전부 꽂기</button></div>':''):'<div class="sub" style="padding:6px 2px">가방에 받은 편지가 없어.</div>'}`);
+    const F=id=>Camp.inbox.find(m=>m.id===id);
+    pstBody.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>Camp.read(F(b.dataset.rr),'rack'));
+    pstBody.querySelectorAll('[data-ro]').forEach(b=>b.onclick=()=>{Camp.unSt(F(b.dataset.ro),'rk');Snd.syn('tap');this.rack();});
+    pstBody.querySelectorAll('[data-ri]').forEach(b=>b.onclick=()=>{Camp.setSt(F(b.dataset.ri),'rk');Snd.syn('tap');this.rack();});
+    const a=pstBody.querySelector('[data-rall]');if(a)a.onclick=()=>{bag.forEach(m=>Camp.setSt(m,'rk'));Snd.syn('tap');this.rack();};},
+  shelfUpd(){this.build();buildOcc();buildSeats();buildFx();Me.save();},
+  shelfPanel(){const S=this.shelf(),on=Object.keys(S).filter(id=>S[id]>0&&ITEMS[id]),bag=Object.keys(Me.d.bag||{}).filter(id=>Me.d.bag[id]>0&&ITEMS[id]),tot=on.reduce((a,id)=>a+S[id],0);
+    const sv=this.room().items.find(o=>o.k==='shelf'),side=sv&&this.view(sv).side;
+    Camp.show(`<div class="hd">수집 선반</div><div class="sub" style="margin-bottom:8px">${side?'옆으로 돌려둔 선반이라 진열은 안 보여. 보관은 그대로 돼.':'올려둔 물건은 앞에서부터 9가지가 선반에 보여.'} 가방이 꽉 차면 여기 보관해.</div>
+      <label>선반 위 · ${tot}개</label><div class="grid gp">${on.map((id,i)=>`<button class="cell" data-so="${id}"${i<9&&!side?' style="outline:1px solid rgba(255,220,150,.35)"':''}>${itemImg(id,48)}<i>${S[id]}</i></button>`).join('')||'<div class="sub" style="grid-column:1/-1">아직 아무것도 없어.</div>'}</div>
+      <div class="sub">누르면 하나씩 가방으로 꺼내.</div>
+      <label>가방</label><div class="grid gp">${bag.map(id=>`<button class="cell" data-si="${id}">${itemImg(id,48)}<i>${Me.d.bag[id]}</i></button>`).join('')||'<div class="sub" style="grid-column:1/-1">가방에 물건이 없어.</div>'}</div>
+      <div class="sub">누르면 하나씩 선반에 올려.</div>`);
+    pstBody.querySelectorAll('[data-si]').forEach(b=>b.onclick=()=>{const id=b.dataset.si;if(!(Me.d.bag[id]>0))return;Me.addItem(id,-1);S[id]=(S[id]||0)+1;Snd.syn('tap');this.shelfUpd();this.shelfPanel();});
+    pstBody.querySelectorAll('[data-so]').forEach(b=>b.onclick=()=>{const id=b.dataset.so;if(!(S[id]>0))return;S[id]--;if(!S[id])delete S[id];Me.addItem(id,1);Snd.syn('tap');this.shelfUpd();this.shelfPanel();});},
   /* ---- 꾸미기 모드 ---- */
   start(){if(this.edit||!me)return;if(me.sitting){startStand(me);me.seat=null;}this.edit=true;this.sel=null;this.tab='furn';this.ts=null;document.body.classList.add('deco');
     let w=document.createElement('div');w.id='hFloor';tagsEl.appendChild(w);w=document.createElement('div');w.id='hWall';tagsEl.appendChild(w);this.layoutGuide();document.getElementById('decoBtn').style.display='none';this.bar();},
@@ -1309,7 +1338,7 @@ document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switchi
   if(P.acts){const a=P.acts.find(a=>nx>a.r[0]&&nx<a.r[2]&&ny>a.r[1]&&ny<a.r[3]);if(a){goTo(me,a.to[0],a.to[1]);Net.move(a.to[0],a.to[1],-1);if(a.act==='shop')me.onArrive=()=>Shop.open();else if(a.act==='owl')me.onArrive=()=>Owl.say(a.say);else if(a.act==='post')me.onArrive=()=>Post.open(a.say);return;}}
   if(P.bld){let hit=null;for(const b of [...P.bld].sort((a,b)=>b.by-a.by)){const hw=b.w/2,top=b.by-(b._h||b.w*AR);if(nx>b.cx-hw&&nx<b.cx+hw&&ny>top&&ny<b.by&&bldAlpha(b,b.flip?1-(nx-(b.cx-hw))/b.w:(nx-(b.cx-hw))/b.w,(ny-top)/(b.by-top))){hit=b;break;}}
     if(hit&&hit.seatRef&&!seatTaken(hit.seatRef)){const s=hit.seatRef;goTo(me,s.x,s.y,s);Net.move(s.x,s.y,P.seats.indexOf(s));return;}
-    if(hit&&hit.door){goTo(me,hit.door[0],hit.door[1]);Net.move(hit.door[0],hit.door[1],-1);if(hit.act==='enter'){}else if(hit.tent!=null){const id=hit.tent;me.onArrive=()=>Camp.tap(id);}else if(hit.mail!=null){const id=hit.mail;me.onArrive=()=>Camp.openMail(id);}else if(hit.act==='shop')me.onArrive=()=>Shop.open();else if(hit.msg){const m=hit.msg;me.onArrive=()=>say(me,m);}return;}}
+    if(hit&&hit.door){goTo(me,hit.door[0],hit.door[1]);Net.move(hit.door[0],hit.door[1],-1);if(hit.act==='enter'){}else if(hit.use){const u=hit.use;me.onArrive=()=>Home[u]();}else if(hit.tent!=null){const id=hit.tent;me.onArrive=()=>Camp.tap(id);}else if(hit.mail!=null){const id=hit.mail;me.onArrive=()=>Camp.openMail(id);}else if(hit.act==='shop')me.onArrive=()=>Shop.open();else if(hit.msg){const m=hit.msg;me.onArrive=()=>say(me,m);}return;}}
   {const sp=sparkAt(nx,ny);if(sp){const [gx,gy]=[sp.x,sp.y+1.5];goTo(me,gx,gy);Net.move(gx,gy,-1);return;}}
   let seat=null,sd=4.5;P.seats.forEach(s=>{const d=Math.hypot((s.x-nx)*AR,s.y-ny);if(d<sd&&!seatTaken(s)){sd=d;seat=s;}});
   if(seat){goTo(me,seat.x,seat.y,seat);Net.move(seat.x,seat.y,P.seats.indexOf(seat));return;}
