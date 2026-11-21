@@ -232,6 +232,9 @@
   #pst .sw button{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.25);padding:0;}
   #pst .sw button.on{border-color:#fff;box-shadow:0 0 0 2px #f0b46c;}
   #pst .row.new{background:rgba(240,180,108,.18);}
+  #pst .rrow{cursor:pointer;}#pst .rrow .arr{opacity:.45;font-size:18px;}#pst .rrow.sent{opacity:.6;}
+  #pst .chip{display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;font-size:10.5px;font-style:normal;}
+  #pst .chip.pin{background:#f0b46c;color:#3b2140;}#pst .chip.env{background:#7fb3d9;color:#14243a;}#pst .chip.sent{background:rgba(255,236,210,.2);}
   #pst .row .dot{width:8px;height:8px;border-radius:50%;background:#ff9a6a;flex:none;}
   #pst .row[data-r]{cursor:pointer;}
   #pst .letter{padding:14px 14px 10px;border-radius:10px;color:#3e2a22;font:19px/1.4 'Nanum Pen Script','Gowun Dodum',sans-serif;background:repeating-linear-gradient(#fbf1de 0 26px,#ead8bb 26px 27px);min-height:120px;white-space:normal;word-break:keep-all;}
@@ -326,10 +329,10 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122m</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122n</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
-<script src="maps.js?v=1122m"></script>
+<script src="maps.js?v=1122n"></script>
 <script src="chars.js?v=1120b"></script>
 <script>Object.assign(window.MAPS,{curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",post:"post/post.jpg?v=2",mask_post:"post/mask.png",fx_post:"post/fx.png",post_float:"post/float.png?v=2",camp:"grnd/camp.jpg",mask_camp:"post/mask.png",fx_camp:"post/fx.png",b_dome_on:"camp/dome_on.webp",b_dome_off:"camp/dome_off.webp",b_tipi_on:"camp/tipi_on.webp",b_tipi_off:"camp/tipi_off.webp",b_flag:"camp/flag.webp",b_mailbox:"camp/mailbox.webp",home:"home/room.jpg",mask_home:"post/mask.png",fx_home:"post/fx.png",b_h_bed:"home/bed.webp?v=2",b_h_bed_f:"home/bed_f.webp",b_h_bed_s_f:"home/bed_s_f.webp",b_h_armchair_f:"home/armchair_f.webp",b_h_armchair_s_f:"home/armchair_s_f.webp",b_h_rug:"home/rug.webp?v=2",b_h_stove:"home/stove.webp?v=2",b_h_table:"home/table.webp",b_h_chair:"home/chair.webp",b_h_armchair:"home/armchair.webp",b_h_rack:"home/rack.webp",b_h_shelf:"home/shelf.webp",b_h_plant:"home/plant.webp",b_h_lamp:"home/lamp.webp",b_h_side:"home/side.webp",b_h_chair_s:"home/chair_s.webp",b_h_armchair_s:"home/armchair_s.webp",b_h_shelf_s:"home/shelf_s.webp",b_h_rack_s:"home/rack_s.webp",b_h_stove_s:"home/stove_s.webp",b_h_bed_s:"home/bed_s.webp",b_h_win_sea:"home/win_sea.webp",b_h_win_forest:"home/win_forest.webp",b_h_win_sky:"home/win_sky.webp",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
@@ -482,7 +485,7 @@ function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();
 const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
 // 솔부엉 할아버지: 모습은 안 보이고 천장 서랍 어딘가에서 목소리만 들림
 const Owl={x:50,y:40,bub:null,t:0,i:{},n0:0,
-  L:{reply:['부엉, 답장할 편지를 들고 왔구나. 책상에 앉으면 바로 쓸 수 있단다.','오, 누군가에게 답장을 쓰러 왔구나. 책상에 편지지를 펴 두마.'],hi:['부엉… 어서 오렴. 편지 새들이 오늘따라 들떠 있구나.','왔구나. 천장 서랍마다 누군가의 편지가 잠들어 있단다.','부엉. 발밑 조심하렴, 방금 소포가 하나 굴러갔거든.'],
+  L:{ship:['부엉, 답장 봉투를 들고 왔구나. 우표를 붙여야 날아간단다.'],reply:['부엉, 답장할 편지를 들고 왔구나. 책상에 앉으면 바로 쓸 수 있단다.','오, 누군가에게 답장을 쓰러 왔구나. 책상에 편지지를 펴 두마.'],hi:['부엉… 어서 오렴. 편지 새들이 오늘따라 들떠 있구나.','왔구나. 천장 서랍마다 누군가의 편지가 잠들어 있단다.','부엉. 발밑 조심하렴, 방금 소포가 하나 굴러갔거든.'],
      counter:['우표를 사고 편지랑 소포를 부치는 창구란다. 우표를 아직 찍는 중이니 조금만 기다리렴.','창구 종은 아직 울리지 말거라. 곧 문을 열 테니.'],
      desk:['편지지는 책상 위에 있단다. 하고 싶은 말이 생기면 여기 앉으렴. 깃펜은 곧 준비될 게다.','잉크가 아직 덜 말랐구나. 조금 있다 다시 오렴.'],
      window:['이 창가에선 펜팔 편지를 날려 보낸단다. 누구에게 닿을지는 바람만 알지, 부엉.','특별한 우표가 붙은 편지만 이 창으로 날 수 있단다. 우표는 곧 나올 게다.']},
@@ -881,7 +884,7 @@ const Pay={async fx(n,toEl){const from=Me.d.sec||0;if(from<n)return false;const 
     for(let i=1;i<=steps;i++){await new Promise(r=>setTimeout(r,85));num.textContent=Math.round(from-n*i/steps).toLocaleString();Snd.syn('tick');}
     setTimeout(()=>{w.classList.add('out');setTimeout(()=>w.remove(),400);},650);return true;}};
 const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
-  async open(m){this.mode=m;this.box={};this.cur=-1;this.line=rnd(OWLP[m]);if(m==='desk'){const T=Camp.toReply();if(T.length){this.tab='r';this.reTo=T[0].id;this.draft={};this.line='답장할 편지로구나. 천천히 적어 보렴.';}}this.res=await Res.load();pstEl.classList.toggle('w',m==='window');pstEl.classList.add('on');this.render();Mail.flush().then(()=>{if(pstEl.classList.contains('on'))this.render();});},
+  async open(m){this.mode=m;this.box={};this.cur=-1;this.line=rnd(OWLP[m]);if(m==='desk'){const T=Camp.toReply();this.reTo=null;if(T.length){this.tab='r';this.reTo=T[0].id;this.draft={};this.line='답장할 편지로구나. 천천히 적어 보렴.';}}this.res=await Res.load();pstEl.classList.toggle('w',m==='window');pstEl.classList.add('on');this.render();Mail.flush().then(()=>{if(pstEl.classList.contains('on'))this.render();});},
   close(){this.box={};pstEl.classList.remove('on');},
   say(t){this.line=t;const e=pstBody.querySelector('.say');if(e)e.innerHTML='<b>👓 솔부엉</b>'+esc(t);else this.render();},
   tray(filter,stamps){const P=postD(),dr=P.dr;const L=dr.map((d,i)=>[d,i]).filter(([d])=>!filter||filter(d));
@@ -901,13 +904,21 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
       h=`<div class="hd">편지 책상</div>${say}<div class="tabs">${[['l','편지'],['c','소포'],['p','펜팔'],['r','답장']].map(([k,n])=>`<button data-tab="${k}"${t===k?' class="on"':''}>${n}${k==='r'&&Camp.toReply().length?' •':''}</button>`).join('')}</div>`;
       if(t==='l')h+=`<label>받는 이웃</label>${this.sel()}<label>편지</label><textarea id="pTx" maxlength="400" placeholder="하고 싶은 말을 적어봐">${esc(this.draft.tx||'')}</textarea><div class="ft"><span class="sub" id="pN">${(this.draft.tx||'').length}/400</span><button class="go" data-do="seal">봉투에 넣기</button></div>`;
       if(t==='p')h+=`<label>내 별명 (상대에겐 이름 대신 이것만 보여)</label><input id="pPen" maxlength="8" value="${esc(P.pen)}" placeholder="예: 노을고양이"><label>펜팔 편지</label><textarea id="pTx" maxlength="400" placeholder="아직 모르는 누군가에게">${esc(this.draft.tx||'')}</textarea><div class="ft"><span class="sub" id="pN">${(this.draft.tx||'').length}/400</span><button class="go" data-do="seal">봉투에 넣기</button></div><div class="sub">누구에게 갈지는 창가의 바람이 정해.</div>`;
-      if(t==='r'){const L=Camp.kept().sort((a,b)=>(Camp.st(b).rp-Camp.st(a).rp)||(Camp.st(a).rd-Camp.st(b).rd)||((b.ts||0)-(a.ts||0))),m=L.find(x=>x.id===this.reTo);
-        if(!m)h+=L.length?`<label>받은 편지 (가방 · 편지꽂이)</label>${L.map(x=>{const S=Camp.st(x);return `<div class="row${S.rp&&!S.rd?' new':''}" data-ro="${esc(x.id)}">${icImg(x.k,36)}<div class="t">${esc(Camp.mname(x))}<i>${esc((x.text||'').slice(0,34))}</i></div>${S.rd?'<span class="sub">답장함</span>':S.rp?'<em class="dot"></em>':''}</div>`;}).join('')}`:'<div class="sub" style="padding:10px 2px">아직 답장할 편지가 없어. 우체통에서 꺼낸 편지는 가방에 넣어두면 여기 떠.</div>';
-        else{const pp=m.k==='p',who=pp?(m.pen||'누군가'):(m.fromName||'이웃');
-          h+=`<div class="letter" style="font-size:13px;opacity:.85">${esc((m.text||'').slice(0,90))}${(m.text||'').length>90?'…':''}<div class="sig">— ${esc(who)}</div></div>
-          ${pp?`<label>내 별명 (상대에겐 이것만 보여)</label><input id="pPen" maxlength="8" value="${esc(P.pen)}" placeholder="예: 노을고양이">`:''}
-          <label>${esc(who)}에게 답장</label><textarea id="pTx" maxlength="400" placeholder="답장을 적어봐">${esc(this.draft.tx||'')}</textarea>
-          <div class="ft"><button class="sm" data-ro="">← 목록</button><button class="go" data-do="re">봉투에 넣기</button></div>`;}}
+      if(t==='r'){const L=Camp.kept().sort((a,b)=>(b.ts||0)-(a.ts||0)),m=L.find(x=>x.id===this.reTo);
+        const CH={pin:'<span class="chip pin">답장할래</span>',env:'<span class="chip env">봉투에 넣음 · 아직 안 부침</span>',sent:'<span class="chip sent">답장 보냄 ✓</span>'};
+        const row=x=>{const st=Camp.rstate(x);return `<div class="row rrow ${st}" data-ro="${esc(x.id)}">${icImg(x.k,34)}<div class="t">${esc(Camp.mname(x))}<i>${esc((x.text||'').slice(0,30))}</i>${CH[st]||''}</div><span class="arr">›</span></div>`;};
+        const grp=(ttl,arr)=>arr.length?`<label>${ttl}</label>`+arr.map(row).join(''):'';
+        if(!m){h+=`<div class="sub" style="margin:2px 2px 8px">편지를 골라 답장을 써. 봉투에 넣은 다음, ${'카운터(편지)나 창가(펜팔)에서 부쳐야 진짜로 가.'}</div>`;
+          h+=L.length?grp('답장하려고 표시한 편지',L.filter(x=>Camp.rstate(x)==='pin'))+grp('부치기만 하면 돼',L.filter(x=>Camp.rstate(x)==='env'))+grp('받은 편지',L.filter(x=>!Camp.rstate(x)))+grp('답장 보낸 편지',L.filter(x=>Camp.rstate(x)==='sent'))
+            :'<div class="sub" style="padding:10px 2px">아직 받은 편지가 없어. 우체통에서 꺼낸 편지가 여기 떠.</div>';}
+        else{const pp=m.k==='p',who=pp?(m.pen||'누군가'):(m.fromName||'이웃'),st=Camp.rstate(m),dr=Camp.rdraft(m);
+          h+=`<label>${esc(who)}에게 받은 ${pp?'펜팔 편지':'편지'}</label><div class="letter" style="font-size:16px">${esc(m.text||'').replace(/\n/g,'<br>')}<div class="sig">— ${esc(who)}</div></div>`;
+          if(st==='env')h+=`<div class="say" style="margin-top:8px"><b>👓 솔부엉</b>이 편지 답장은 벌써 봉투에 넣었구나. ${pp?'창가에서 펜팔 우표를 붙여 날려 보내렴.':'카운터에서 우표를 붙여 부치렴.'}</div>
+            <div class="ft"><button class="sm" data-ro="">← 목록</button><button class="sm" data-rew="1">봉투 열고 다시 쓰기</button></div>`;
+          else{if(st==='sent')h+=`<div class="sub" style="margin-top:8px">이 편지엔 이미 답장을 보냈어. 한 번 더 써도 돼.</div>`;
+            h+=`${pp?`<label>내 별명 (상대에겐 이것만 보여)</label><input id="pPen" maxlength="8" value="${esc(P.pen)}" placeholder="예: 노을고양이">`:''}
+            <label>내 답장</label><textarea id="pTx" maxlength="400" placeholder="${esc(who)}에게 답장을 적어봐">${esc(this.draft.tx||'')}</textarea>
+            <div class="ft"><button class="sm" data-ro="">← 목록</button><button class="go" data-do="re">봉투에 넣기</button></div>`;}}}
       if(t==='c'){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);const left=id=>(Me.d.bag[id]||0)-(this.box[id]||0);const bx=Object.keys(this.box).filter(id=>this.box[id]>0);
         h+=`<label>받는 이웃</label>${this.sel()}<label>가방 (눌러서 상자에 담기)</label><div class="grid">${ids.map(id=>`<button class="cell" data-a="${id}"${left(id)<=0?' style="opacity:.35"':''}>${itemImg(id,48)}<i>${left(id)}</i></button>`).join('')||'<div class="sub" style="grid-column:1/-1">가방이 비었어</div>'}</div>
         <label>소포 상자</label><div class="grid">${bx.map(id=>`<button class="cell" data-b="${id}">${itemImg(id,48)}<i>${this.box[id]}</i></button>`).join('')||'<div class="sub" style="grid-column:1/-1">여기에 담겨</div>'}</div>
@@ -930,6 +941,7 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
     q('[data-b]').forEach(b=>b.onclick=()=>{const id=b.dataset.b;this.keep();if(--this.box[id]<=0)delete this.box[id];this.line=`${josa(ITEMS[id].name,'은','는')} 다시 꺼냈구나.`;this.render();});
     q('[data-do]').forEach(b=>b.onclick=()=>this.seal(b.dataset.do));
     q('[data-ro]').forEach(b=>b.onclick=()=>{this.keep();this.reTo=b.dataset.ro||null;this.draft={};this.render();});
+    q('[data-rew]').forEach(b=>b.onclick=()=>{const m=Camp.inbox.find(x=>x.id===this.reTo),d=m&&Camp.rdraft(m);if(!d)return;const P2=postD();P2.dr.splice(P2.dr.indexOf(d),1);this.cur=-1;this.draft={tx:d.text};Me.save();this.line='봉투를 다시 열었단다. 고쳐 쓰고 다시 넣으렴.';this.render();});
     q('[data-m]').forEach(b=>b.onclick=()=>{const i=+b.dataset.m,d=postD().dr[i];if(this.mode==='desk'){this.say(mailDesc(d)+'. '+(d.k==='p'?'창가에서 날려 보내렴.':'카운터에서 부치렴.'));return;}
       if(d.q){this.say('그건 배달을 기다리는 중이란다. 바람길이 열리면 곧 날아갈 게다.');return;}
       this.cur=this.cur===i?-1:i;
@@ -958,8 +970,8 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
   seal(how){this.keep();const P=postD(),t=this.tab,tx=(this.draft.tx||'').trim();if(P.dr.length>=10){this.say('들고 있는 우편물이 너무 많구나. 먼저 몇 통 부치고 오렴.');return;}
     if(t==='r'){const m=Camp.inbox.find(x=>x.id===this.reTo);if(!m)return;const pp=m.k==='p';
       if(pp&&!P.pen){this.say('펜팔 답장도 별명이 있어야 한단다. 위에 적어보렴.');return;}if(!tx){this.say('빈 답장은 새들이 심심해한단다.');return;}
-      P.dr.push(pp?{id:Date.now(),k:'p',pen:P.pen,text:tx,to:m.from,re:1}:{id:Date.now(),k:'l',to:m.from,toName:m.fromName||'이웃',text:tx,re:1});
-      Camp.setSt(m,'rd');this.draft={};this.reTo=null;this.line=pp?`${m.pen||'누군가'}에게 갈 답장이 됐구나. 창가에서 펜팔 우표를 붙여 날려 보내렴.`:`${m.fromName||'이웃'}에게 갈 답장을 봉투에 넣었구나. 카운터에서 우표를 붙이렴.`;Snd.syn('tap');Me.save();this.render();return;}
+      P.dr.push(pp?{id:Date.now(),k:'p',pen:P.pen,text:tx,to:m.from,re:1,reId:m.id}:{id:Date.now(),k:'l',to:m.from,toName:m.fromName||'이웃',text:tx,re:1,reId:m.id});
+this.draft={};this.reTo=null;this.line=pp?`${m.pen||'누군가'}에게 갈 답장이 됐구나. 창가에서 펜팔 우표를 붙여 날려 보내렴.`:`${m.fromName||'이웃'}에게 갈 답장을 봉투에 넣었구나. 카운터에서 우표를 붙이렴.`;Snd.syn('tap');Me.save();this.render();return;}
     const who=this.res.find(r=>r.uid===this.draft.to)||this.res[0];
     if(t!=='p'&&!who){this.say('아직 편지를 받을 이웃이 없구나.');return;}
     if(t==='l'){if(!tx){this.say('빈 편지는 새들이 심심해한단다.');return;}P.dr.push({id:Date.now(),k:'l',to:who.uid,toName:who.name,text:tx});this.draft={};this.line=`${who.name}에게 쓸 편지를 봉투에 넣었구나. 카운터에서 우표를 붙이렴.`;}
@@ -973,7 +985,7 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
     this.busy=1;
     if(d.k==='c'){await Pay.fx(PRICE.c,pstBody.querySelector('.big'));Me.log(`우체국에서 소포 요금 ${PRICE.c}초를 치렀다.`,'pay_c');}
     if(d.k==='p'&&!d.to)d.to=rnd(list).uid;
-    d.pm=mmdd();d.q=1;Me.save();this.slam=true;this.line=d.k==='p'?'쾅! 오늘 날짜 소인이란다. 자, 창문을 열마.':'쾅! 오늘 날짜 소인이란다. 종을 울리마.';this.render();Snd.syn('thud');
+    d.pm=mmdd();d.q=1;if(d.reId){const rm=Camp.inbox.find(x=>x.id===d.reId);if(rm)Camp.setSt(rm,'rs');}Me.save();this.slam=true;this.line=d.k==='p'?'쾅! 오늘 날짜 소인이란다. 자, 창문을 열마.':'쾅! 오늘 날짜 소인이란다. 종을 울리마.';this.render();Snd.syn('thud');
     await new Promise(r=>setTimeout(r,900));this.busy=0;this.cur=-1;this.close();if(d.k!=='p')Snd.sfx('bell');await Fly.go(d.k);
     const ok=await Mail.deliver(d);
     if(ok){Mail.done(d);Owl.sayT(d.k==='p'?'휘이… 누구에게 닿을지는 바람만 알지. 언젠가 답장이 올지도 모르겠구나.':d.k==='c'?`소포는 튼튼한 새 둘이 ${d.toName}네로 들고 갔단다.`:`편지새가 ${d.toName}네 우체통으로 날아갔단다.`);}
@@ -1010,11 +1022,14 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   myUid(){return Net.online&&!Me.test?Net.uid:'me';},
   mine(){for(const k in this.claims)if(this.claims[k]&&this.claims[k].uid===this.myUid())return +k;return null;},
   // 받은 우편물 상태(내 기록에만): dl=편지새가 우체통에 떨굼 · got=우체통에서 꺼내 가방에 넣음
-  st(m){const t=(Me.d.mst||{})[m.id]||{};return {dl:!!(t.dl||m.read),got:!!(t.got||m.read),rp:!!t.rp,rd:!!t.rd,rk:!!t.rk};},
+  st(m){const t=(Me.d.mst||{})[m.id]||{};return {dl:!!(t.dl||m.read),got:!!(t.got||m.read),rp:!!t.rp,rs:!!t.rs,rk:!!t.rk};},
+  rdraft(m){return postD().dr.find(d=>d.reId===m.id&&!d.q);}, // 봉투에 넣었지만 아직 안 부친 답장
+  rstate(m){const S=this.st(m);return S.rs?'sent':this.rdraft(m)?'env':S.rp?'pin':'';},
   unSt(m,k){const t=(Me.d.mst||{})[m.id];if(t){delete t[k];Me.save();}},
   kept(){return this.inbox.filter(m=>(m.k==='l'||m.k==='p')&&this.st(m).got);}, // 가방+편지꽂이의 받은 편지
   onRack(){return this.kept().filter(m=>this.st(m).rk);},
-  toReply(){return this.kept().filter(m=>this.st(m).rp&&!this.st(m).rd);},
+  toReply(){return this.kept().filter(m=>this.rstate(m)==='pin');},
+  toShip(){return this.kept().filter(m=>this.rstate(m)==='env');},
   setSt(m,k){const M=Me.d.mst||(Me.d.mst={});(M[m.id]||(M[m.id]={}))[k]=1;Me.save();},
   inBag(){return this.inbox.filter(m=>this.st(m).got&&!this.st(m).rk&&!(m.k==='c'&&m.took));},
   count(){this.unread=this.inbox.filter(m=>!m.read).length;this.undl=this.inbox.filter(m=>!this.st(m).dl).length;this.ungot=this.inbox.filter(m=>!this.st(m).got).length;this.badge();},
@@ -1104,7 +1119,7 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   read(m,from){if(from!==undefined)this._from=from;else this._from='bag';from=this._from;if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
     let h=`<div class="hd">${esc(m.k==='p'?'펜팔 편지':m.k==='c'?'소포':'편지')}</div><div class="letter">${m.text?esc(m.text).replace(/\n/g,'<br>'):''}<div class="sig">— ${esc(who)}</div></div>`;
     if(m.k==='c'){const it=m.items||{};h+=`<div class="grid ro">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 풀어서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">풀어서 가방에 넣기</button></div>`);}
-    else{const S=this.st(m);h+=S.rd?`<div class="sub" style="margin-top:6px">답장을 이미 썼어.</div>`:`<div class="ft" style="margin-top:6px"><span class="sub">${S.rp?'답장 표시해뒀어. 우체국 책상에 앉으면 바로 쓸 수 있어.':'답장은 우체국 책상에서 쓸 수 있어.'}</span><button class="${S.rp?'sm':'go'}" data-rp="1">${S.rp?'표시 지우기':'답장할래'}</button></div>`;}
+    else{const S=this.st(m),rs=this.rstate(m);h+=rs==='sent'?`<div class="sub" style="margin-top:6px">답장 보냄 ✓</div>`:rs==='env'?`<div class="sub" style="margin-top:6px">답장을 봉투에 넣어뒀어. 우체국에서 부치면 가.</div>`:`<div class="ft" style="margin-top:6px"><span class="sub">${S.rp?'답장 표시해뒀어. 우체국 책상에 앉으면 바로 쓸 수 있어.':'답장은 우체국 책상에서 쓸 수 있어.'}</span><button class="${S.rp?'sm':'go'}" data-rp="1">${S.rp?'표시 지우기':'답장할래'}</button></div>`;}
     h+=`<div style="margin-top:8px"><button class="sm" data-back="1">${from==='rack'?'← 편지꽂이':'← 가방'}</button></div>`;
     this.show(h);pstBody.querySelector('[data-back]').onclick=()=>{if(from==='rack')Home.rack();else{Post.close();Bag.open();}};
     const rp=pstBody.querySelector('[data-rp]');if(rp)rp.onclick=()=>{if(this.st(m).rp)this.unSt(m,'rp');else{this.setSt(m,'rp');Snd.syn('tap');}this.read(m,from);};
@@ -1323,7 +1338,7 @@ function enter(key,spawn,face){if(doorBtn){doorBtn.remove();doorBtn=null;}doorFo
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   document.getElementById('outBtn').style.display=P.outBtn?'block':'none';
   {const t=document.getElementById('tentTag');if(t)t.remove();}Camp.badge();Home.onEnter();
-  Owl.clear();if(key==='post'){const k0=++Owl.n0;setTimeout(()=>{if(placeKey==='post'&&Owl.n0===k0)Owl.say(Camp.toReply().length?'reply':'hi');},900);}
+  Owl.clear();if(key==='post'){const k0=++Owl.n0;setTimeout(()=>{if(placeKey==='post'&&Owl.n0===k0)Owl.say(Camp.toShip().length?'ship':Camp.toReply().length?'reply':'hi');},900);}
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 let msgCool=0;
 function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){if(!ex.to){if(performance.now()>msgCool){say(me,ex.msg);msgCool=performance.now()+5000;}continue;}
