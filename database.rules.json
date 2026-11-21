@@ -34,8 +34,23 @@
         ".read": "auth != null && auth.uid === $uid",
         "$id": {
           ".write": "auth != null && !data.exists() && newData.child('from').val() === auth.uid",
-          ".validate": "newData.hasChildren(['k','from','ts']) && newData.child('text').isString() && newData.child('text').val().length <= 400"
+          ".validate": "newData.hasChildren(['k','from','ts']) && newData.child('text').isString() && newData.child('text').val().length <= 400",
+          "read": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.isBoolean()"
+          },
+          "took": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.isBoolean()"
+          }
         }
+      }
+    },
+    "camp": {
+      ".read": "auth != null",
+      "$spot": {
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || (data.exists() && data.child('uid').val() === auth.uid && (!newData.exists() || newData.child('uid').val() === auth.uid)))",
+        ".validate": "!newData.exists() || (newData.hasChildren(['uid','name','t','c','f']) && newData.child('name').isString() && newData.child('name').val().length <= 8)"
       }
     }
   }
