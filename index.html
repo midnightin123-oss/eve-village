@@ -219,9 +219,9 @@
   #homeBar button{border:0;border-radius:999px;padding:6px 12px;font:12px 'Gowun Dodum',sans-serif;background:rgba(255,236,210,.16);color:#fff4e6;}
   #homeBar button.done{background:#f0b46c;color:#3b2140;font-weight:600;}
   #homeBar .hb2{display:flex;gap:6px;overflow-x:auto;margin-top:8px;min-height:56px;align-items:center;}
-  #homeBar .hinv{flex:none;width:60px;height:60px;border-radius:10px;padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  #homeBar .hinv{flex:none;width:66px;height:66px;border-radius:10px;padding:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
   #homeBar .hinv img{width:40px;height:36px;object-fit:contain;}
-  #homeBar .hinv i{font-style:normal;font-size:10px;opacity:.8;}
+  #homeBar .hinv i{font-style:normal;font-size:9.5px;line-height:1.1;opacity:.85;text-align:center;word-break:keep-all;}
   #homeBar .sub{font-size:11px;opacity:.6;}
   @media (min-aspect-ratio:1/1){#homeBar{left:auto;right:14px;top:90px;bottom:auto;width:250px;border-radius:16px;padding:10px;}#homeBar .hb1{flex-wrap:wrap;}#homeBar .hb2{flex-wrap:wrap;overflow:visible;}}
   #pst .tprev{display:flex;justify-content:center;margin:2px 0 6px;}
@@ -305,10 +305,10 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122b</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122c</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
-<script src="maps.js?v=1122b"></script>
+<script src="maps.js?v=1122c"></script>
 <script src="chars.js?v=1120b"></script>
 <script>Object.assign(window.MAPS,{curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",post:"post/post.jpg?v=2",mask_post:"post/mask.png",fx_post:"post/fx.png",post_float:"post/float.png?v=2",camp:"grnd/camp.jpg",mask_camp:"post/mask.png",fx_camp:"post/fx.png",b_dome_on:"camp/dome_on.webp",b_dome_off:"camp/dome_off.webp",b_tipi_on:"camp/tipi_on.webp",b_tipi_off:"camp/tipi_off.webp",b_flag:"camp/flag.webp",b_mailbox:"camp/mailbox.webp",home:"home/room.jpg",mask_home:"post/mask.png",fx_home:"post/fx.png",b_h_bed:"home/bed.webp",b_h_rug:"home/rug.webp",b_h_stove:"home/stove.webp",b_h_table:"home/table.webp",b_h_chair:"home/chair.webp",b_h_armchair:"home/armchair.webp",b_h_rack:"home/rack.webp",b_h_shelf:"home/shelf.webp",b_h_plant:"home/plant.webp",b_h_lamp:"home/lamp.webp",b_h_side:"home/side.webp",b_h_win_sea:"home/win_sea.webp",b_h_win_forest:"home/win_forest.webp",b_h_win_sky:"home/win_sky.webp",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
@@ -1047,7 +1047,8 @@ const HVIEWS=['sea','forest','sky'],HVIEWN={sea:'바다',forest:'숲',sky:'하�
 const HOME_DEF=[{k:'bed',c:0,r:0},{k:'shelf',c:2,r:0},{k:'rack',c:3,r:0},{k:'lamp',c:4,r:0},{k:'stove',c:5,r:0},{k:'rug',c:2,r:2},{k:'table',c:4,r:2},{k:'chair',c:5,r:2},
   {k:'armchair',c:0,r:2},{k:'side',c:1,r:2},{k:'plant',c:5,r:4},{k:'win',c:2.5,wy:33,v:'sea'}];
 const Home={edit:false,sel:null,drag:null,
-  room(){const R=Me.d.room||(Me.d.room={items:HOME_DEF.map(o=>Object.assign({},o)),inv:[]});R.inv=R.inv||[];return R;},
+  room(){let R=Me.d.room;if(!R||R.ver!==2)R=Me.d.room={ver:2,items:[],inv:HOME_DEF.map(o=>({k:o.k})).filter(o=>o.k!=='win').concat(HVIEWS.map(v=>({k:'win',v})))};R.inv=R.inv||[];return R;},
+  nm(o){return o.k==='win'?josa(HVIEWN[o.v||'sea'],'이','가')+' 보이는 창':FURN[o.k].n;},
   U(y){return P.size*(0.78+0.45*y/100)*150;},
   geo(o){const F=FURN[o.k];if(F.wall){const cx=HG.x0+(o.c+0.5)*HG.cw;return {cx,by:o.wy};}
     const cx=HG.x0+(o.c+F.w/2)*HG.cw,by=HG.y0+(o.r+F.h)*HG.ch-(F.flat?HG.ch*0.12:HG.ch*0.3);return {cx,by};},
@@ -1080,7 +1081,7 @@ const Home={edit:false,sel:null,drag:null,
   go(){const id=Camp.mine();if(id==null)return;const b=Camp.base.find(x=>x.tent===id);Post.close();if(switching)return;
     PLACES.home.exits=[{poly:[[42,97.8],[58,97.8],[58,99.8],[42,99.8]],to:'camp',spawn:b.door,face:[b.door[0],b.door[1]+10]}];
     Snd.sfx('creak');switching=true;fade.style.opacity=1;setTimeout(()=>{P=PLACES.home;this.build();enter('home',[50,92],[50,60]);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},520);},
-  onEnter(){const on=placeKey==='home';document.getElementById('decoBtn').style.display=on?'block':'none';if(!on&&this.edit)this.stop(true);},
+  onEnter(){const on=placeKey==='home';document.getElementById('decoBtn').style.display=on?'block':'none';if(!on&&this.edit)this.stop(true);if(on&&!this.room().items.length)setTimeout(()=>{if(placeKey==='home'&&!this.edit)say(me,'텅 비었네. 꾸미기를 눌러 가구를 놓아볼까?');},700);},
   /* ---- 꾸미기 모드 ---- */
   start(){if(this.edit||!me)return;if(me.sitting){startStand(me);me.seat=null;}this.edit=true;this.sel=null;document.body.classList.add('deco');
     const gr=document.createElement('div');gr.id='hGrid';tagsEl.appendChild(gr);this.layoutGrid();document.getElementById('decoBtn').style.display='none';this.bar();},
@@ -1090,8 +1091,8 @@ const Home={edit:false,sel:null,drag:null,
   stop(silent){this.edit=false;this.sel=null;this.drag=null;document.body.classList.remove('deco');['hGrid','hWall','hHi'].forEach(i=>{const e=document.getElementById(i);if(e)e.remove();});
     document.getElementById('homeBar').classList.remove('on');this.build();buildOcc();buildSeats();buildFx();Me.save();if(!silent){document.getElementById('decoBtn').style.display=placeKey==='home'?'block':'none';Me.log('텐트 안을 내 마음대로 꾸몄다.','deco');}},
   bar(){const R=this.room(),el=document.getElementById('homeBar'),o=this.sel,F=o&&FURN[o.k];
-    el.innerHTML=`<div class="hb1">${o?`<b>${F.n}</b>${F.wall?`<button data-h="view">풍경: ${HVIEWN[o.v||'sea']}</button>`:''}<button data-h="flip">뒤집기</button><button data-h="put">넣기</button>`:'<span>가구를 끌어서 옮겨봐. 눌러서 고르면 뒤집거나 넣을 수 있어.</span>'}<button class="done" data-h="done">다 했어</button></div>
-      <div class="hb2">${R.inv.length?R.inv.map((it,i)=>`<button class="hinv" data-i="${i}"><img src="${window.MAPS['b_'+(it.k==='win'?'h_win_'+(it.v||'sea'):'h_'+it.k)]}" alt=""><i>${FURN[it.k].n}</i></button>`).join(''):'<span class="sub">넣어둔 가구가 여기 모여</span>'}</div>`;
+    el.innerHTML=`<div class="hb1">${o?`<b>${this.nm(o)}</b><button data-h="flip">뒤집기</button><button data-h="put">넣기</button>`:`<span>${R.items.length?'가구를 끌어서 옮겨봐. 눌러서 고르면 뒤집거나 넣을 수 있어.':'아래 가구를 눌러서 방에 놓아봐.'}</span>`}<button class="done" data-h="done">다 했어</button></div>
+      <div class="hb2">${R.inv.length?R.inv.map((it,i)=>`<button class="hinv" data-i="${i}"><img src="${window.MAPS['b_'+(it.k==='win'?'h_win_'+(it.v||'sea'):'h_'+it.k)]}" alt=""><i>${this.nm(it)}</i></button>`).join(''):'<span class="sub">넣어둔 가구가 여기 모여</span>'}</div>`;
     el.classList.add('on');
     el.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>this.cmd(b.dataset.h));
     el.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>this.take(+b.dataset.i));},
@@ -1099,7 +1100,6 @@ const Home={edit:false,sel:null,drag:null,
     if(h==='done'){this.stop();return;}
     if(!o)return;
     if(h==='flip'){o.flip=!o.flip;}
-    if(h==='view'){o.v=HVIEWS[(HVIEWS.indexOf(o.v||'sea')+1)%HVIEWS.length];}
     if(h==='put'){R.items.splice(R.items.indexOf(o),1);R.inv.push({k:o.k,v:o.v});this.sel=null;}
     Snd.syn('tap');this.refresh();},
   take(i){const R=this.room(),it=R.inv[i],F=FURN[it.k];let o=null;
