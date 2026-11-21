@@ -143,6 +143,7 @@
   #pst .ft{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
   #pst .go{border:0;border-radius:999px;padding:7px 16px;font:13px 'Gowun Dodum',sans-serif;background:#f0b46c;color:#3b2140;}
   #pst .go:disabled{opacity:.4;}
+  #bagInfo .sm{border:0;border-radius:999px;padding:5px 12px;font:12px 'Gowun Dodum',sans-serif;background:#7a4a35;color:#fff4e6;}
   #pst .sm{border:0;border-radius:999px;padding:5px 11px;font:12px 'Gowun Dodum',sans-serif;background:rgba(255,236,210,.16);color:#fff4e6;}
   #pst .sub{font-size:11px;opacity:.72;margin-top:8px;line-height:1.45;}
   #pst .row{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:6px;border-radius:12px;background:rgba(30,12,8,.3);}
@@ -237,6 +238,7 @@
   #pst .grid .cell{pointer-events:none;}
   #mbBadge{position:absolute;transform:translate(-50%,-100%);pointer-events:none;animation:mbB 1.6s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(255,220,140,.9));}
   #mbBadge img{width:28px;height:auto;display:block;}
+  .cell.rcv{position:relative;}.cell.rcv .dot{position:absolute;right:6px;top:6px;width:9px;height:9px;border-radius:50%;background:#e8584a;}
   #mbBadge:after{content:attr(data-n);position:absolute;right:-8px;top:-6px;min-width:15px;height:15px;border-radius:8px;background:#e8584a;color:#fff;font:10px/15px 'Gowun Dodum',sans-serif;text-align:center;}
   @keyframes mbB{0%,100%{translate:0 0}50%{translate:0 -5px}}
   .flyLetter{position:absolute;pointer-events:none;z-index:4;animation:flyOut 2.4s ease-in forwards;}
@@ -266,6 +268,24 @@
   #chat input{flex:1;min-width:0;border:0;border-radius:999px;padding:11px 16px;font-size:16px;background:rgba(255,250,240,.92);color:#3e322b;outline:none;}
   #chat button{border:0;border-radius:999px;padding:0 16px;font-size:15px;background:#5a4636;color:#fff6e6;}
   #fade{position:fixed;inset:0;background:#1b1a2a;opacity:0;pointer-events:none;transition:opacity .45s;z-index:8;}
+  #fade .fcap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#f6e3c4;font:15px 'Gowun Dodum',sans-serif;letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .35s;}
+  #fade .fcap i{display:block;font-style:normal;text-align:center;font-size:11px;opacity:.55;margin-top:6px;letter-spacing:.3em;}
+  #fade.cap .fcap{opacity:1;transition-delay:.2s;}
+  .pickBtn.go{background:#f0b46c;color:#3b2140;font-weight:600;padding:4px 11px;}
+  #mbBird{position:absolute;transform:translate(-50%,-100%);pointer-events:none;filter:drop-shadow(0 0 7px rgba(255,220,140,.95));}
+  #mbBird .bd{animation:mbBob 1.8s ease-in-out infinite;}
+  #mbBird:after{content:attr(data-n);position:absolute;right:-9px;top:-4px;min-width:15px;height:15px;border-radius:8px;background:#e8584a;color:#fff;font:10px/15px 'Gowun Dodum',sans-serif;text-align:center;}
+  @keyframes mbBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  #homeBar .htab{display:flex;gap:4px;margin-bottom:7px;}
+  #homeBar .htab button{padding:4px 11px;font-size:11.5px;background:transparent;border:1px solid rgba(255,236,210,.25);}
+  #homeBar .htab button.on{background:rgba(255,236,210,.9);color:#3b2140;}
+  #homeBar .tbox{display:flex;gap:10px;align-items:center;margin-top:8px;}
+  #homeBar .tbox canvas{width:84px;height:auto;flex:none;}
+  #homeBar .tbox .tc{flex:1;display:flex;flex-direction:column;gap:6px;}
+  #homeBar .tbox .row2{display:flex;gap:5px;flex-wrap:wrap;}
+  #homeBar .tbox .sw2{width:24px;height:24px;padding:0;border-radius:50%;border:2px solid transparent;}
+  #homeBar .tbox .sw2.on{border-color:#fff4e6;}
+  #homeBar .tbox .shp.on{background:rgba(255,236,210,.9);color:#3b2140;}
   #title{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(27,22,40,.55);backdrop-filter:blur(3px);color:#fff4e2;text-align:center;padding:24px;}
   #title h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.5px;text-shadow:0 2px 10px rgba(0,0,0,.4);}
   #title p{margin:0;font-size:14px;opacity:.9;}
@@ -304,11 +324,11 @@
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
-<div id="fade"></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122i</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="fade"><div class="fcap" id="fcap"></div></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1122j</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
-<script src="maps.js?v=1122i"></script>
+<script src="maps.js?v=1122j"></script>
 <script src="chars.js?v=1120b"></script>
 <script>Object.assign(window.MAPS,{curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",post:"post/post.jpg?v=2",mask_post:"post/mask.png",fx_post:"post/fx.png",post_float:"post/float.png?v=2",camp:"grnd/camp.jpg",mask_camp:"post/mask.png",fx_camp:"post/fx.png",b_dome_on:"camp/dome_on.webp",b_dome_off:"camp/dome_off.webp",b_tipi_on:"camp/tipi_on.webp",b_tipi_off:"camp/tipi_off.webp",b_flag:"camp/flag.webp",b_mailbox:"camp/mailbox.webp",home:"home/room.jpg",mask_home:"post/mask.png",fx_home:"post/fx.png",b_h_bed:"home/bed.webp?v=2",b_h_bed_f:"home/bed_f.webp",b_h_bed_s_f:"home/bed_s_f.webp",b_h_armchair_f:"home/armchair_f.webp",b_h_armchair_s_f:"home/armchair_s_f.webp",b_h_rug:"home/rug.webp?v=2",b_h_stove:"home/stove.webp?v=2",b_h_table:"home/table.webp",b_h_chair:"home/chair.webp",b_h_armchair:"home/armchair.webp",b_h_rack:"home/rack.webp",b_h_shelf:"home/shelf.webp",b_h_plant:"home/plant.webp",b_h_lamp:"home/lamp.webp",b_h_side:"home/side.webp",b_h_chair_s:"home/chair_s.webp",b_h_armchair_s:"home/armchair_s.webp",b_h_shelf_s:"home/shelf_s.webp",b_h_rack_s:"home/rack_s.webp",b_h_stove_s:"home/stove_s.webp",b_h_bed_s:"home/bed_s.webp",b_h_win_sea:"home/win_sea.webp",b_h_win_forest:"home/win_forest.webp",b_h_win_sky:"home/win_sky.webp",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib/library.jpg",mask_library:"lib/mask_library.png",fx_library:"lib/fx_library.png",candles:"lib/candles.png"});</script>
 <script type="module">
@@ -712,13 +732,14 @@ noteEl.querySelector('.x').addEventListener('click',()=>Note.close());noteEl.add
 const bagEl=document.getElementById('bagUI'),bagBtn=document.getElementById('bagBtn'),pocketsEl=document.getElementById('pockets'),bagInfo=document.getElementById('bagInfo');
 const Bag={on:false,page:0,sel:null,
   open(){this.on=true;this.sel=null;bagEl.classList.add('on');this.render();},close(){this.on=false;bagEl.classList.remove('on');},
-  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]).concat(postD().dr.map((d,i)=>'@'+i)).concat(['n','p'].filter(k=>postD().st[k]>0).map(k=>'#'+k));const per=12,pages=Math.max(1,Math.ceil(ids.length/per));this.page=Math.min(this.page,pages-1);
+  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]).concat(postD().dr.map((d,i)=>'@'+i)).concat(['n','p'].filter(k=>postD().st[k]>0).map(k=>'#'+k)).concat(Camp.inBag().map(m=>'!'+m.id));const per=12,pages=Math.max(1,Math.ceil(ids.length/per));this.page=Math.min(this.page,pages-1);
     const show=ids.slice(this.page*per,this.page*per+per);let s='';
-    for(let i=0;i<per;i++){const id=show[i];s+=!id?'<div class="cell"></div>':id[0]==='#'?`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${icImg(id==='#p'?'sp':'n',96)}<i>${postD().st[id[1]]}</i></button>`:id[0]==='@'?`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${icImg(postD().dr[+id.slice(1)].k,96)}</button>`:`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${itemImg(id,96)}<i>${Me.d.bag[id]}</i></button>`;}
+    for(let i=0;i<per;i++){const id=show[i];const rm=id&&id[0]==='!'?Camp.inbox.find(m=>m.id===id.slice(1)):null;s+=!id?'<div class="cell"></div>':rm?`<button class="cell rcv${this.sel===id?' sel':''}" data-id="${id}">${icImg(rm.k||'l',96)}${rm.read?'':'<em class="dot"></em>'}</button>`:id[0]==='#'?`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${icImg(id==='#p'?'sp':'n',96)}<i>${postD().st[id[1]]}</i></button>`:id[0]==='@'?`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${icImg(postD().dr[+id.slice(1)].k,96)}</button>`:`<button class="cell${this.sel===id?' sel':''}" data-id="${id}">${itemImg(id,96)}<i>${Me.d.bag[id]}</i></button>`;}
     pocketsEl.innerHTML=s;
     document.getElementById('bagPg').innerHTML=pages>1?`<button data-p="-1">‹</button><button>${this.page+1}/${pages}</button><button data-p="1">›</button>`:'';
     document.querySelectorAll('#bagPg [data-p]').forEach(b=>b.onclick=()=>{this.page=(this.page+(+b.dataset.p)+pages)%pages;this.render();});
     pocketsEl.querySelectorAll('.cell[data-id]').forEach(el=>el.onclick=()=>{const id=el.dataset.id,it=ITEMS[id];if(this.sel===id){this.sel=null;this.render();return;}this.sel=id;this.render();
+      if(id[0]==='!'){const m=Camp.inbox.find(x=>x.id===id.slice(1));if(!m)return;this.info(`${icImg(m.k||'l',48)}<div><h4>${esc(Camp.mname(m))}</h4>${m.k==='c'?'풀어보면 안에 든 걸 가방에 넣을 수 있어.':m.read?'다시 읽어볼 수 있어.':'아직 안 읽은 '+(m.k==='p'?'펜팔 편지':'편지')+'야.'}<div style="margin-top:6px"><button class="sm" data-rd="1">${m.k==='c'?'풀어보기':'읽기'}</button></div></div>`);bagInfo.querySelector('[data-rd]').onclick=()=>{this.close();Camp.read(m);};return;}
       if(id[0]==='#'){const p=id==='#p';this.info(`${icImg(p?'sp':'n',48)}<div><h4>${p?'펜팔 우표':'일반 우표'} · ${postD().st[id[1]]}장</h4>${p?'창가에서 펜팔 편지에 붙이는 우표야.':'우체국 카운터에서 편지에 붙이는 기본 우표야.'}</div>`);return;}
       if(id[0]==='@'){const d=postD().dr[+id.slice(1)];this.info(`${icImg(d.k,48)}<div><h4>${esc(mailDesc(d))}</h4>${esc(d.q?'배달을 기다리는 중이야.':d.k==='p'?'창가에서 펜팔 우표를 붙여 날려 보내.':d.k==='c'?'우체국 카운터에서 부칠 수 있어. '+mailSub(d):'우체국 카운터에서 우표를 붙여 부칠 수 있어.')}</div>`);return;}
       this.info(`${itemImg(id,48)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}</div>`);});
@@ -762,15 +783,27 @@ function buildSparks(){sparks.forEach(clearSpark);sparks=[];scene.remove(pickGro
 function relayoutSparks(){if(placeKey!=='beach')return;scene.remove(pickGroup);pickGroup=new THREE.Group();scene.add(pickGroup);sparks.forEach(s=>placeSparkMesh(s));}
 let sparkT=0;
 let doorBtn=null,doorFor=null;
-function goOutside(){const ex=P.exits&&P.exits.find(e=>e.to);if(!ex||switching)return;Snd.sfx('creak');switching=true;fade.style.opacity=1;
-  setTimeout(()=>{enter(ex.to,ex.spawn,ex.face);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},520);}
+// 장소 이동: 화면이 어두워지며 '어디로 가는 길'이 잠깐 보임
+const PNAME={plaza:'광장',beach:'해변',camp:'절벽 위 들판',home:'내 텐트'};
+const pname=k=>PNAME[k]||(PLACES[k]&&PLACES[k].label)||'';
+const ro=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;if(c<0||c>11171)return '로';const j=c%28;return (j===0||j===8)?'로':'으로';};
+function travel(cap,sub,go,hold){if(switching)return;switching=true;document.getElementById('fcap').innerHTML=cap?esc(cap)+(sub?`<i>${esc(sub)}</i>`:''):'';fade.classList.toggle('cap',!!cap);fade.style.opacity=1;
+  setTimeout(()=>{go();setTimeout(()=>{fade.style.opacity=0;fade.classList.remove('cap');switching=false;},120);},hold||(cap?1150:520));}
+function goOutside(){const ex=P.exits&&P.exits.find(e=>e.to);if(!ex||switching)return;Snd.sfx('creak');const n=pname(ex.to);travel(n+ro(n)+' 나가는 중',null,()=>enter(ex.to,ex.spawn,ex.face),900);}
 {const o=document.getElementById('outBtn');o.addEventListener('pointerdown',e=>e.stopPropagation());o.addEventListener('pointerup',e=>{e.stopPropagation();goOutside();});}
-function goInside(b){if(switching)return;Snd.sfx('creak');if(b.snd)setTimeout(()=>Snd.sfx(b.snd),380);switching=true;fade.style.opacity=1;
-  setTimeout(()=>{enter(b.to,PLACES[b.to].entry||[50,90],[50,70]);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},520);}
-function tickDoors(){let best=null,bd=4.2;if(me&&!me.sitting&&!switching&&P.bld)P.bld.forEach(b=>{if(b.act!=='enter')return;const d=Math.hypot((b.door[0]-me.x)*AR,b.door[1]-me.y);if(d<bd){bd=d;best=b;}});
+function goInside(b){if(switching)return;Snd.sfx('creak');if(b.snd)setTimeout(()=>Snd.sfx(b.snd),380);travel(pname(b.to)+' 안으로',null,()=>enter(b.to,PLACES[b.to].entry||[50,90],[50,70]),900);}
+const polyC=p=>[p.reduce((a,q)=>a+q[0],0)/p.length,p.reduce((a,q)=>a+q[1],0)/p.length];
+// 가까이 가면 뜨는 버튼: 건물 '들어가기' · 내 텐트 '내 집 들어가기' · 길 끝 'OO로 가기'
+function tickDoors(){let best=null,bd=4.2;const ok=me&&!me.sitting&&!switching&&!Home.edit;
+  if(ok&&P.bld){const mine=placeKey==='camp'?Camp.mine():null;P.bld.forEach(b=>{const home=mine!=null&&b.tent===mine&&!b.deco;if(b.act!=='enter'&&!home)return;const d=Math.hypot((b.door[0]-me.x)*AR,b.door[1]-me.y);if(d<bd){bd=d;best=b;}});}
+  if(ok&&!best&&P.exits&&!P.outBtn){let ed=13;P.exits.forEach(ex=>{if(!ex.to)return;const c=polyC(ex.poly),d=Math.hypot((c[0]-me.x)*AR,c[1]-me.y);if(d<ed){ed=d;best=ex;}});}
   if(best!==doorFor){if(doorBtn){doorBtn.remove();doorBtn=null;}doorFor=best;
-    if(best){const b=document.createElement('button');b.className='pickBtn';b.textContent='들어가기';b.style.left=best.door[0]+'%';b.style.top=(best.door[1]-8.5)+'%';
-      const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();goInside(best);});tagsEl.appendChild(b);doorBtn=b;}}}
+    if(best){const b=document.createElement('button');b.className='pickBtn go';let x,y,act;
+      if(best.poly){const c=polyC(best.poly),n=pname(best.to);b.textContent=n+ro(n)+' 가기';x=Math.max(9,Math.min(91,c[0]));y=Math.max(9,Math.min(92,c[1]-3));act=()=>{goTo(me,c[0],c[1]);Net.move(c[0],c[1],-1);};}
+      else if(best.tent!=null){b.textContent='내 집 들어가기';x=best.cx;y=best.by-(best._h||8)-3.4;act=()=>Home.go();}
+      else{b.textContent='들어가기';x=best.door[0];y=best.door[1]-8.5;act=()=>goInside(best);}
+      b.style.left=x+'%';b.style.top=y+'%';
+      const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();act();});tagsEl.appendChild(b);doorBtn=b;}}}
 function tickSparks(dt){if(placeKey!=='beach'||!me)return;
   let nb=null,nd=6.5;if(!me.sitting)sparks.forEach(s=>{const d=Math.hypot((s.x-me.x)*AR,s.y-me.y);if(d<nd){nd=d;nb=s;}});
   sparks.forEach(s=>{const near=s===nb;
@@ -963,15 +996,37 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   local(){this.claims={};const h=Me.d.home;if(h)this.claims[h.id]={uid:'me',name:me?me.name:'나',t:h.t,c:h.c,f:h.f};this.inbox=(Me.d.inbox||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.apply();},
   myUid(){return Net.online&&!Me.test?Net.uid:'me';},
   mine(){for(const k in this.claims)if(this.claims[k]&&this.claims[k].uid===this.myUid())return +k;return null;},
-  count(){this.unread=this.inbox.filter(m=>!m.read).length;this.badge();},
+  // 받은 우편물 상태(내 기록에만): dl=편지새가 우체통에 떨굼 · got=우체통에서 꺼내 가방에 넣음
+  st(m){const t=(Me.d.mst||{})[m.id]||{};return {dl:!!(t.dl||m.read),got:!!(t.got||m.read)};},
+  setSt(m,k){const M=Me.d.mst||(Me.d.mst={});(M[m.id]||(M[m.id]={}))[k]=1;Me.save();},
+  inBag(){return this.inbox.filter(m=>this.st(m).got&&!(m.k==='c'&&m.took));},
+  count(){this.unread=this.inbox.filter(m=>!m.read).length;this.undl=this.inbox.filter(m=>!this.st(m).dl).length;this.ungot=this.inbox.filter(m=>!this.st(m).got).length;this.badge();},
   apply(){if(!this.base)return;const out=[];
     for(const b of this.base){const cl=this.claims[b.tent];b.img=(cl?cl.t:b.t)+'_'+(cl?'on':'off');b.tint=TPAL[cl?cl.c:b.c];b.dim=cl?0:1;out.push(b);
       if(cl){out.push({img:'mailbox',cx:b.mb[0],by:+(b.mb[1]+0.45).toFixed(2),w:1.35,fp:[[b.mb[0],b.mb[1]+0.4]],door:[b.mb[0],+(b.mb[1]+1.7).toFixed(2)],mail:b.tent});}}
     PLACES.camp.bld=out;if(placeKey==='camp')buildBld();this.badge();},
-  badge(){let e=document.getElementById('mbBadge');const id=this.mine();
-    if(placeKey!=='camp'||id==null||!this.unread){if(e)e.remove();return;}
-    if(!e){e=document.createElement('div');e.id='mbBadge';e.innerHTML=icImg('l',28);tagsEl.appendChild(e);}
-    const b=this.base.find(x=>x.tent===id);e.style.left=(b.mb[0]/100*SW)+'px';e.style.top=((b.mb[1]-3.6)/100*SH)+'px';e.dataset.n=this.unread;},
+  birdImg(){if(!this._bi){this._bi=new Image();this._bi.onload=()=>this.badge();this._bi.src=window.MAPS.post_float;}return this._bi.width?this._bi:null;},
+  birdEl(W){const k=PLACES.post.candles[4%PLACES.post.candles.length],img=this.birdImg();if(!img)return null;const AW=img.naturalWidth,AH=img.naturalHeight,sc=W/((k.u1-k.u0)*AW);
+    const d=document.createElement('div');d.className='bd';d.style.cssText=`width:${W}px;height:${(k.v1-k.v0)*AH*sc}px;background:url(${window.MAPS.post_float}) no-repeat;background-size:${AW*sc}px ${AH*sc}px;background-position:${-k.u0*AW*sc}px ${-k.v0*AH*sc}px;`;return d;},
+  mbPos(){const id=this.mine(),b=id!=null&&this.base&&this.base.find(x=>x.tent===id);return b?b.mb:null;},
+  // 우체통 위: 새 우편물이 있으면 편지새가 앉아 있고, 떨군 뒤 아직 안 꺼낸 게 있으면 봉투가 빛남
+  badge(){let e=document.getElementById('mbBadge'),bd=document.getElementById('mbBird');const mb=this.mbPos(),here=placeKey==='camp'&&mb&&!this._drop;
+    const wantB=here&&this.undl>0,wantE=here&&!wantB&&this.ungot>0;
+    if(!wantE&&e){e.remove();e=null;}if(!wantB&&bd&&!this._drop){bd.remove();bd=null;}
+    if(wantB){if(!bd){const W=charH(mb[1])*0.85,el=this.birdEl(W);if(!el)return;bd=document.createElement('div');bd.id='mbBird';bd.appendChild(el);tagsEl.appendChild(bd);}
+      bd.style.left=(mb[0]/100*SW)+'px';bd.style.top=((mb[1]-2.1)/100*SH)+'px';bd.dataset.n=this.undl;}
+    if(wantE){if(!e){e=document.createElement('div');e.id='mbBadge';e.innerHTML=icImg('l',28);tagsEl.appendChild(e);}e.style.left=(mb[0]/100*SW)+'px';e.style.top=((mb[1]-3.6)/100*SH)+'px';e.dataset.n=this.ungot;}},
+  // 우체통을 누르면: 앉아 있던 편지새가 우편물을 떨구고 날아감
+  drop(cb){const bd=document.getElementById('mbBird'),mb=this.mbPos();const done=()=>{this.inbox.forEach(m=>{if(!this.st(m).dl)this.setSt(m,'dl');});this._drop=0;if(bd)bd.remove();this.count();cb&&cb();};
+    if(!bd||!mb){done();return;}this._drop=1;bd.removeAttribute('data-n');bd.style.setProperty('--n','');const n=Math.min(3,this.undl),envs=[];
+    for(let i=0;i<n;i++){const v=document.createElement('img');v.src=IC.l;v.style.cssText=`position:absolute;width:${charH(mb[1])*0.28}px;transform:translate(-50%,0);pointer-events:none;left:${mb[0]/100*SW+(i-1)*6}px;top:${(mb[1]-2.6)/100*SH}px;`;tagsEl.appendChild(v);envs.push(v);}
+    const x0=mb[0],y0=mb[1]-2.1,t0=performance.now();let fl=0,th=0;Snd.syn('flap');
+    const step=now=>{const t=now-t0;fl+=0.35;const b=bd.firstChild;if(b)b.style.transform=`scaleY(${0.72+0.28*Math.abs(Math.sin(fl))})`;
+      envs.forEach((v,i)=>{const u=Math.max(0,Math.min(1,(t-120*i)/520));v.style.top=((mb[1]-2.6+u*2.2)/100*SH)+'px';v.style.opacity=u>0.8?(1-u)/0.2:1;});
+      if(t>520&&!th){th=1;Snd.syn('thud');}
+      if(t>700){const u=Math.min(1,(t-700)/1300),q=u*u;bd.style.left=((x0-14*q)/100*SW)+'px';bd.style.top=((y0-26*q)/100*SH)+'px';bd.style.opacity=u>0.7?(1-u)/0.3:1;}
+      if(t<2050)requestAnimationFrame(safe);else{envs.forEach(v=>v.remove());done();}};
+    const safe=now=>{try{step(now);}catch(err){console.warn('우체통 연출 오류',err);envs.forEach(v=>v.remove());done();}};requestAnimationFrame(safe);},
   near(){if(placeKey!=='camp'||!me||!this.base)return;let best=null,bd=6;for(const b of this.base){const cl=this.claims[b.tent];if(!cl)continue;const d=Math.hypot((b.cx-me.x)*AR,(b.by-me.y));if(d<bd){bd=d;best=b;}}
     let e=document.getElementById('tentTag');if(!best){if(e)e.remove();return;}
     if(!e){e=document.createElement('div');e.id='tentTag';e.className='tag';tagsEl.appendChild(e);}const cl=this.claims[best.tent];
@@ -985,7 +1040,7 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
     g.putImageData(d,0,0);return cv;},
   tap(id){const cl=this.claims[id],m=this.mine();this.cur=id;
     if(!cl){const b=this.base.find(x=>x.tent===id);this.sel={t:b.t,c:b.c,f:Math.floor(Math.random()*6)};if(m!=null){const h=this.claims[m];this.sel={t:h.t,c:h.c,f:h.f};}this.form(m!=null?'move':'new');return;}
-    if(cl.uid===this.myUid()){this.own();return;}
+    if(cl.uid===this.myUid())return; // 내 텐트: 앞에 서면 '내 집 들어가기' 버튼
     this.show(`<div class="hd">${esc(cl.name)}의 텐트</div><div class="say"><b>들판의 바람</b>${esc(cl.name)}의 텐트에서 따뜻한 불빛이 새어 나와. 노크는 곧 할 수 있게 될 거야.</div>`);},
   show(h){pstEl.classList.remove('w');pstBody.innerHTML=h;pstEl.classList.add('on');},
   form(mode){const s=this.sel;
@@ -1008,47 +1063,34 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
     Me.d.home={id,t:s.t,c:s.c,f:s.f};if(mode!=='edit')Me.log(mode==='move'?'절벽 위 들판에서 새 자리로 텐트를 옮겼다.':'절벽 위 들판에 내 텐트를 쳤다. 이제 여기가 내 자리야.','home');Me.save();
     if(!(Net.online&&!Me.test))this.local();
     Post.close();Snd.syn('tap');if(mode!=='edit'){Snd.sfx('bell');setTimeout(()=>say(me,mode==='move'?'새 자리 좋다!':'여기가 내 자리야!'),300);}},
-  own(){const n=this.unread;
-    this.show(`<div class="hd">내 텐트</div><div class="say"><b>들판의 바람</b>${n?`우체통에 편지가 ${n}통 와 있어.`:'오늘도 텐트에 불이 잘 켜져 있네.'}</div>
-      <div class="row">${icImg('l',36)}<div class="t">우체통 열기<i>${n?'안 읽은 편지 '+n+'통':'받은 편지 '+this.inbox.length+'통'}</i></div><button class="sm" data-o="mail">열기</button></div>
-      <div class="row"><svg class="ic" viewBox="0 0 30 30"><path d="M5 24 15 6l10 18z" fill="#e8a077"/></svg><div class="t">텐트 꾸미기<i>모양 · 천 색</i></div><button class="sm" data-o="edit">꾸미기</button></div>
-      <div class="row"><svg class="ic" viewBox="0 0 30 30"><path d="M5 24 15 6l10 18z" fill="#cdb8ea"/><path d="M12 24l3-7 3 7z" fill="#ffd27a"/></svg><div class="t">들어가기<i>안에서 가구를 꾸밀 수 있어</i></div><button class="sm" data-o="in">들어가기</button></div>`);
-    pstBody.querySelector('[data-o=mail]').onclick=()=>this.box();
-    pstBody.querySelector('[data-o=edit]').onclick=()=>{const h=this.claims[this.mine()];this.sel={t:h.t,c:h.c,f:h.f};this.form('edit');};
-    pstBody.querySelector('[data-o=in]').onclick=()=>Home.go();},
   // 편지새가 날아와 내 우체통에 우편물을 두고 감 (테스트: 관리자 '우편물 도착')
   arrive(n){const id=this.mine(),b=id!=null&&this.base.find(x=>x.tent===id),PC=PLACES.post.candles;
-    const fin=()=>{this.local();if(placeKey==='camp')Snd.sfx('bell');else toast('내 우체통에 우편물이 '+n+'개 왔어',2200);};
+    const fin=()=>{this.local();if(placeKey==='camp')Snd.sfx('bell');else toast('편지새가 내 우체통에 우편물을 두고 갔대',2200);};
     if(placeKey!=='camp'||!b||!PC){fin();return;}
-    const img=new Image();img.onload=()=>{const AW=img.naturalWidth,AH=img.naturalHeight,k=PC[4%PC.length],W=charH(b.mb[1])*0.95,sc=W/((k.u1-k.u0)*AW);
-      const e=document.createElement('div');e.className='fbird';e.style.cssText=`position:absolute;width:${W}px;height:${(k.v1-k.v0)*AH*sc}px;background:url(${window.MAPS.post_float}) no-repeat;background-size:${AW*sc}px ${AH*sc}px;background-position:${-k.u0*AW*sc}px ${-k.v0*AH*sc}px;transform:translate(-50%,-50%);pointer-events:none;z-index:5;`;
-      const env=document.createElement('img');env.src=IC.l;env.style.cssText=`position:absolute;width:${W*0.42}px;transform:translate(-50%,0);pointer-events:none;z-index:5;`;tagsEl.appendChild(e);tagsEl.appendChild(env);
-      const tx=b.mb[0],ty=b.mb[1]-2.6,sx=tx+18,sy=ty-30,ex=tx-16,ey=ty-32,T1=1600,T2=900,T3=1500,t0=performance.now();let fl=0,dropped=0;
-      const put=(x,y)=>{e.style.left=(x/100*SW)+'px';e.style.top=(y/100*SH)+'px';};
-      const step=now=>{const t=Math.max(0,now-t0);fl+=0.33;e.style.transform=`translate(-50%,-50%) scaleY(${0.72+0.28*Math.abs(Math.sin(fl))})`;
-        if(t<T1){const u=t/T1,q=1-Math.pow(1-u,2);put(sx+(tx-sx)*q,sy+(ty-sy)*q-Math.sin(u*Math.PI)*3);env.style.left=e.style.left;env.style.top=(parseFloat(e.style.top)+W*0.18)+'px';if(!Fly._s){Fly._s=1;Snd.syn('flap');}}
-        else if(t<T1+T2){const u=(t-T1)/T2;put(tx,ty+Math.sin(u*9)*0.35);env.style.left=(tx/100*SW)+'px';env.style.top=(((ty+0.8+u*2.2)/100)*SH+W*0.18)+'px';env.style.opacity=1-Math.max(0,(u-0.6)/0.4);
-          if(u>0.75&&!dropped){dropped=1;Snd.syn('thud');}}
-        else if(t<T1+T2+T3){const u=(t-T1-T2)/T3,q=u*u;env.remove();put(tx+(ex-tx)*q,ty+(ey-ty)*q);e.style.opacity=u>0.7?(1-u)/0.3:1;}
-        else{e.remove();env.remove();Fly._s=0;fin();return;}requestAnimationFrame(safe);};
-      const safe=now=>{try{step(now);}catch(err){console.warn('도착 연출 오류',err);e.remove();env.remove();Fly._s=0;fin();}};requestAnimationFrame(safe);};
-    img.onerror=fin;img.src=window.MAPS.post_float;},
-  openMail(id){const cl=this.claims[id];if(!cl)return;if(cl.uid!==this.myUid()){say(me,cl.name+'의 우체통이야');return;}this.box();},
-  box(){const L=this.inbox;
-    this.show(`<div class="hd">내 우체통</div><div class="say"><b>들판의 바람</b>${L.length?'편지새들이 두고 간 우편물이야.':'아직 받은 편지가 없어. 편지새가 오면 랜턴 위에 봉투가 떠.'}</div>
-      ${L.map((m,i)=>`<div class="row${m.read?'':' new'}" data-r="${i}">${icImg(m.k||'l',36)}<div class="t">${esc(m.k==='p'?'펜팔 · '+(m.pen||'누군가'):(m.fromName||'이웃')+'의 '+(m.k==='c'?'소포':'편지'))}<i>${esc(m.k==='c'?(m.took?'꺼낸 소포':'풀지 않은 소포'):(m.text||'').slice(0,40))}</i></div>${m.read?'':'<em class="dot"></em>'}</div>`).join('')}`);
-    pstBody.querySelectorAll('[data-r]').forEach(r=>r.onclick=()=>this.read(L[+r.dataset.r]));},
+    const W=charH(b.mb[1])*0.85,e=document.createElement('div'),bird=this.birdEl(W);if(!bird){fin();return;}e.id='mbBird';e.appendChild(bird);bird.classList.remove('bd');tagsEl.appendChild(e);this._drop=1;
+    const tx=b.mb[0],ty=b.mb[1]-2.1,sx=tx+20,sy=ty-30,t0=performance.now(),T=1700;let fl=0;Snd.syn('flap');
+    const step=now=>{const u=Math.min(1,(now-t0)/T),q=1-Math.pow(1-u,2.4);fl+=0.33;bird.style.transform=`scaleY(${u<0.95?0.72+0.28*Math.abs(Math.sin(fl)):1})`;
+      e.style.left=((sx+(tx-sx)*q)/100*SW)+'px';e.style.top=((sy+(ty-sy)*q-Math.sin(u*Math.PI)*2.5)/100*SH)+'px';e.style.opacity=Math.min(1,u*4);
+      if(u<1)requestAnimationFrame(safe);else{bird.style.transform='';bird.classList.add('bd');this._drop=0;e.remove();fin();}};
+    const safe=now=>{try{step(now);}catch(err){console.warn('도착 연출 오류',err);e.remove();this._drop=0;fin();}};requestAnimationFrame(safe);},
+  openMail(id){const cl=this.claims[id];if(!cl)return;if(cl.uid!==this.myUid()){say(me,cl.name+'의 우체통이야');return;}if(this._drop)return;if(this.undl)this.drop(()=>this.box());else this.box();},
+  mname(m){return m.k==='p'?'펜팔 편지 · '+(m.pen||'누군가'):(m.fromName||'이웃')+'의 '+(m.k==='c'?'소포':'편지');},
+  box(){const L=this.inbox.filter(m=>!this.st(m).got);
+    this.show(`<div class="hd">내 우체통</div><div class="say"><b>들판의 바람</b>${L.length?'편지새가 두고 간 우편물이야. 눌러서 가방에 넣어.':'우체통이 비었어. 꺼낸 우편물은 가방에서 열어볼 수 있어.'}</div>
+      ${L.map((m,i)=>`<div class="row new" data-r="${i}">${icImg(m.k||'l',36)}<div class="t">${esc(this.mname(m))}<i>${m.k==='c'?'묵직한 소포':'봉투에 담긴 '+(m.k==='p'?'펜팔 편지':'편지')}</i></div><button class="sm">가방에 넣기</button></div>`).join('')}
+      ${L.length>1?'<div class="ft" style="justify-content:center"><button class="go" data-all="1">전부 가방에 넣기</button></div>':''}`);
+    const put=ms=>{ms.forEach(m=>this.setSt(m,'got'));this.count();Snd.syn('tap');if(Bag.on)Bag.render();this.box();if(!this.inbox.some(m=>!this.st(m).got))setTimeout(()=>{Post.close();say(me,'가방에 잘 넣었어');},500);};
+    pstBody.querySelectorAll('[data-r]').forEach(r=>r.onclick=()=>put([L[+r.dataset.r]]));
+    const a=pstBody.querySelector('[data-all]');if(a)a.onclick=()=>put(L);},
   mark(m,key){m[key]=true;if(Net.online&&!Me.test){const D=Net.fn;D.set(D.ref(Net.db,'mail/'+Net.uid+'/'+m.id+'/'+key),true).catch(e=>console.warn('표시 실패',e&&e.code));}else{const x=(Me.d.inbox||[]).find(y=>y.id===m.id);if(x)x[key]=true;Me.save();}this.count();},
+  // 가방에서 꺼내 읽기 (답장은 우체국 책상에서)
   read(m){if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
     let h=`<div class="hd">${esc(m.k==='p'?'펜팔 편지':m.k==='c'?'소포':'편지')}</div><div class="letter">${m.text?esc(m.text).replace(/\n/g,'<br>'):''}<div class="sig">— ${esc(who)}</div></div>`;
-    if(m.k==='c'){const it=m.items||{};h+=`<div class="grid">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 꺼내서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">꺼내서 가방에 넣기</button></div>`);}
-    if(m.k==='p')h+=`<label>답장 (${esc(who)}에게, 내 별명은 ${esc(postD().pen||'아직 없음')})</label>${postD().pen?'':'<input id="rPen" maxlength="8" placeholder="내 별명">'}<textarea id="rTx" maxlength="400" placeholder="답장을 적어봐"></textarea><div class="ft"><span class="sub">봉투에 넣으면 우체국 창가에서 날려 보낼 수 있어.</span><button class="go" data-re="1">봉투에 넣기</button></div>`;
-    h+=`<div style="margin-top:8px"><button class="sm" data-back="1">← 우체통</button></div>`;
-    this.show(h);pstBody.querySelector('[data-back]').onclick=()=>this.box();
-    const tk=pstBody.querySelector('[data-take]');if(tk)tk.onclick=()=>{if(m.took)return;for(const id in (m.items||{}))if(ITEMS[id])Me.addItem(id,m.items[id]);this.mark(m,'took');Me.log(`${m.fromName||'이웃'}이 보낸 소포를 풀었다.`,'took_'+m.id);Me.save();Snd.syn('tap');this.read(m);};
-    const re=pstBody.querySelector('[data-re]');if(re)re.onclick=()=>{const P=postD(),pen=document.getElementById('rPen'),tx=document.getElementById('rTx').value.trim();if(pen&&pen.value.trim())P.pen=pen.value.trim();
-      if(!P.pen||!tx){say(me,!P.pen?'별명부터 적어줘':'답장을 적어줘');return;}if(P.dr.length>=10){say(me,'들고 있는 우편물이 너무 많아');return;}
-      P.dr.push({id:Date.now(),k:'p',pen:P.pen,text:tx,to:m.from,re:1});Me.save();Snd.syn('tap');this.show(`<div class="hd">답장</div><div class="say"><b>들판의 바람</b>답장을 봉투에 넣었어. 우체국 창가에서 펜팔 우표를 붙여 날려 보내면 ${esc(who)}에게 닿을 거야.</div><div style="margin-top:8px"><button class="sm" data-back="1">← 우체통</button></div>`);pstBody.querySelector('[data-back]').onclick=()=>this.box();};}};
+    if(m.k==='c'){const it=m.items||{};h+=`<div class="grid">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 풀어서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">풀어서 가방에 넣기</button></div>`);}
+    else h+=`<div class="sub" style="margin-top:6px">답장은 우체국 책상에서 쓸 수 있어.</div>`;
+    h+=`<div style="margin-top:8px"><button class="sm" data-back="1">← 가방</button></div>`;
+    this.show(h);pstBody.querySelector('[data-back]').onclick=()=>{Post.close();Bag.open();};
+    const tk=pstBody.querySelector('[data-take]');if(tk)tk.onclick=()=>{if(m.took)return;for(const id in (m.items||{}))if(ITEMS[id])Me.addItem(id,m.items[id]);this.mark(m,'took');Me.log(`${m.fromName||'이웃'}이 보낸 소포를 풀었다.`,'took_'+m.id);Me.save();Snd.syn('tap');this.read(m);};}};
 
 /* ===================== 텐트 안: 내 집 꾸미기 (자유 배치 · 벽에 붙이기 · 돌리기 · 앉기 · 눕기) ===================== */
 // 바닥: 뒷벽 아래 선(y 43.5)에서 시작, 옆벽은 y 63.5까지 비스듬히 벌어짐
@@ -1120,10 +1162,10 @@ const Home={edit:false,sel:null,drag:null,
     GRID.home=g;GDIM.home=[gx,gy];if(placeKey==='home')useGrid('home');},
   go(){const id=Camp.mine();if(id==null)return;const b=Camp.base.find(x=>x.tent===id);Post.close();if(switching)return;
     PLACES.home.exits=[{poly:[[42,97.8],[58,97.8],[58,99.8],[42,99.8]],to:'camp',spawn:b.door,face:[b.door[0],b.door[1]+10]}];
-    Snd.sfx('creak');switching=true;fade.style.opacity=1;setTimeout(()=>{P=PLACES.home;this.build();enter('home',[50,93],[50,60]);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},520);},
+    Snd.sfx('creak');travel('내 텐트 안으로',null,()=>{P=PLACES.home;this.build();enter('home',[50,93],[50,60]);},900);},
   onEnter(){const on=placeKey==='home';document.getElementById('decoBtn').style.display=on?'block':'none';if(!on&&this.edit)this.stop(true);if(on&&!this.room().items.length)setTimeout(()=>{if(placeKey==='home'&&!this.edit)say(me,'텅 비었네. 꾸미기를 눌러 가구를 놓아볼까?');},700);},
   /* ---- 꾸미기 모드 ---- */
-  start(){if(this.edit||!me)return;if(me.sitting){startStand(me);me.seat=null;}this.edit=true;this.sel=null;document.body.classList.add('deco');
+  start(){if(this.edit||!me)return;if(me.sitting){startStand(me);me.seat=null;}this.edit=true;this.sel=null;this.tab='furn';this.ts=null;document.body.classList.add('deco');
     let w=document.createElement('div');w.id='hFloor';tagsEl.appendChild(w);w=document.createElement('div');w.id='hWall';tagsEl.appendChild(w);this.layoutGuide();document.getElementById('decoBtn').style.display='none';this.bar();},
   layoutGuide(){const f=document.getElementById('hFloor'),w=document.getElementById('hWall');if(!f)return;
     f.innerHTML=`<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="${HF.xl0},${HF.yb} ${HF.xr0},${HF.yb} 99.8,${HF.ys} 99.8,${HF.yf} 0.2,${HF.yf} 0.2,${HF.ys}" /><rect x="${HENT[0]}" y="${HENT[1]}" width="${HENT[2]-HENT[0]}" height="${HENT[3]-HENT[1]}" class="ent"/></svg>`;
@@ -1131,13 +1173,29 @@ const Home={edit:false,sel:null,drag:null,
     w.style.left=(HWALL.x0/100*SW)+'px';w.style.top=(HWALL.y0/100*SH)+'px';w.style.width=((HWALL.x1-HWALL.x0)/100*SW)+'px';w.style.height=((HWALL.y1-HWALL.y0)/100*SH)+'px';},
   stop(silent){this.edit=false;this.sel=null;this.drag=null;document.body.classList.remove('deco');['hFloor','hWall','hHi'].forEach(i=>{const e=document.getElementById(i);if(e)e.remove();});
     document.getElementById('homeBar').classList.remove('on');this.build();buildOcc();buildSeats();buildFx();Me.save();if(!silent){document.getElementById('decoBtn').style.display=placeKey==='home'?'block':'none';Me.log('텐트 안을 내 마음대로 꾸몄다.','deco');}},
-  bar(){const R=this.room(),el=document.getElementById('homeBar'),o=this.sel,F=o&&FURN[o.k];
+  bar(){const R=this.room(),el=document.getElementById('homeBar'),o=this.sel,F=o&&FURN[o.k],tid=Camp.mine();
+    if(o||tid==null)this.tab='furn';
+    const tabs=tid!=null?`<div class="htab"><button data-tab="furn"${this.tab!=='tent'?' class="on"':''}>가구</button><button data-tab="tent"${this.tab==='tent'?' class="on"':''}>텐트 겉모습</button></div>`:'';
+    if(this.tab==='tent'){this.tentBar(el,tabs,tid);return;}
     const img=it=>window.MAPS['b_'+(it.k==='win'?'h_win_'+(it.v||'sea'):'h_'+it.k)];
-    el.innerHTML=`<div class="hb1">${o?`<b>${this.nm(o)}</b>${F.rot.length>1?`<button data-h="rot">돌리기</button>`:''}<button data-h="put">넣기</button>`:`<span>${R.items.length?'가구를 끌어서 옮겨봐. 벽이나 다른 가구 가까이 가면 착 붙어.':'아래 가구를 눌러서 방에 놓아봐.'}</span>`}<button class="done" data-h="done">다 했어</button></div>
+    el.innerHTML=tabs+`<div class="hb1">${o?`<b>${this.nm(o)}</b>${F.rot.length>1?`<button data-h="rot">돌리기</button>`:''}<button data-h="put">넣기</button>`:`<span>${R.items.length?'가구를 끌어서 옮겨봐. 벽이나 다른 가구 가까이 가면 착 붙어.':'아래 가구를 눌러서 방에 놓아봐.'}</span>`}<button class="done" data-h="done">다 했어</button></div>
       <div class="hb2">${R.inv.length?R.inv.map((it,i)=>`<button class="hinv" data-i="${i}"><img src="${img(it)}" alt=""><i>${this.nm(it)}</i></button>`).join(''):'<span class="sub">넣어둔 가구가 여기 모여</span>'}</div>`;
     el.classList.add('on');
     el.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>this.cmd(b.dataset.h));
-    el.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>this.take(+b.dataset.i));},
+    el.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>this.take(+b.dataset.i));this.tabEv(el);},
+  tabEv(el){el.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{this.tab=b.dataset.tab;if(this.tab==='tent'){this.sel=null;this.ts=null;this.hi();}this.bar();});},
+  // 꾸미기 > 텐트 겉모습: 밖에서 보이는 내 텐트 모양·천 색
+  tentBar(el,tabs,tid){const h=Camp.claims[tid]||{},t=this.ts||(this.ts={t:h.t||'dome',c:h.c||0}),same=t.t===h.t&&t.c===h.c;
+    el.innerHTML=tabs+`<div class="hb1"><span>밖에서 보이는 내 텐트 모습이야.</span><button class="done" data-h="done">다 했어</button></div>
+      <div class="tbox"><div id="hTprev"></div><div class="tc"><div class="row2">${[['dome','돔 텐트'],['tipi','인디언 텐트']].map(([k,n])=>`<button class="shp${t.t===k?' on':''}" data-ts="${k}">${n}</button>`).join('')}</div>
+      <div class="row2">${TPAL.map((c,i)=>`<button class="sw2${t.c===i?' on':''}" data-tc2="${i}" style="background:${c}" title="${TPALN[i]}"></button>`).join('')}</div>
+      <div class="row2"><span class="sub" style="flex:1;align-self:center">${TPALN[t.c]}</span><button class="done" data-tapply="1"${same?' disabled style="opacity:.45"':''}>${same?'지금 모습':'이렇게 바꾸기'}</button></div></div></div>`;
+    el.classList.add('on');document.getElementById('hTprev').appendChild(Camp.prev(t.t,t.c));
+    el.querySelector('[data-h=done]').onclick=()=>this.cmd('done');
+    el.querySelectorAll('[data-ts]').forEach(b=>b.onclick=()=>{t.t=b.dataset.ts;this.bar();});
+    el.querySelectorAll('[data-tc2]').forEach(b=>b.onclick=()=>{t.c=+b.dataset.tc2;this.bar();});
+    const ap=el.querySelector('[data-tapply]');if(ap&&!same)ap.onclick=async()=>{ap.disabled=true;Camp.sel={t:t.t,c:t.c,f:h.f||0};await Camp.claim('edit');if(Camp.claims[tid]&&Camp.claims[tid].t===t.t&&Camp.claims[tid].c===t.c){Snd.syn('tap');toast('텐트 겉모습을 바꿨어',1400);}this.bar();};
+    this.tabEv(el);},
   cmd(h){const R=this.room(),o=this.sel;
     if(h==='done'){this.stop();return;}
     if(!o)return;
@@ -1224,8 +1282,8 @@ function enter(key,spawn,face){if(doorBtn){doorBtn.remove();doorBtn=null;}doorFo
   Owl.clear();if(key==='post'){const k0=++Owl.n0;setTimeout(()=>{if(placeKey==='post'&&Owl.n0===k0)Owl.say('hi');},900);}
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 let msgCool=0;
-function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){if(!ex.to){if(performance.now()>msgCool){say(me,ex.msg);msgCool=performance.now()+5000;}continue;}switching=true;fade.style.opacity=1;
-  setTimeout(()=>{enter(ex.to,ex.spawn,ex.face);setTimeout(()=>{fade.style.opacity=0;switching=false;},120);},460);return;}}}
+function checkExit(){if(switching)return;for(const ex of P.exits){if(inPoly(me.x,me.y,ex.poly)){if(!ex.to){if(performance.now()>msgCool){say(me,ex.msg);msgCool=performance.now()+5000;}continue;}
+  const n=pname(ex.to),indoor=!!P.outBtn;travel(indoor?n+ro(n)+' 나가는 중':n+ro(n)+' 가는 길',indoor?null:'· · ·',()=>enter(ex.to,ex.spawn,ex.face),indoor?900:1400);return;}}}
 
 /* ===================== 7. 입력 ===================== */
 const tapEl=document.getElementById('tap');
