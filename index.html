@@ -108,7 +108,7 @@
   #note .x{position:absolute;top:-44px;right:-4px;width:34px;height:34px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:18px;z-index:5;box-shadow:0 3px 8px rgba(0,0,0,.35);}
   #note .tabs{position:absolute;top:-30px;left:18px;right:44px;display:flex;gap:6px;z-index:3;}
   #note .tabs button{flex:1;max-width:112px;height:34px;border:0;border-radius:3px 3px 0 0;padding:0 2px;white-space:nowrap;font:16px 'Nanum Pen Script',cursive;color:#5a3a2b;box-shadow:0 -1px 4px rgba(60,30,20,.18);transform:translateY(4px) rotate(var(--r));transition:transform .15s;opacity:.92;}
-  #note .tabs button[data-t=day]{background:#ffe58a;--r:-1.5deg;} #note .tabs button[data-t=cal]{background:#ffc6cc;--r:1deg;}
+  #note .tabs button[data-t=cal]{background:#ffe58a;--r:-1.5deg;} #note .tabs button[data-t=day]{background:#ffc6cc;--r:1deg;}
   #note .tabs button[data-t=mys]{background:#c4ebd4;--r:-.8deg;} #note .tabs button[data-t=fr]{background:#c3dbff;--r:1.6deg;}
   #note .tabs button.on{transform:translateY(-3px) rotate(0deg);height:38px;opacity:1;font-size:18px;box-shadow:0 -2px 6px rgba(60,30,20,.25);}
   #note .pgs{position:absolute;inset:0;z-index:2;overflow:auto;padding:22px 22px 26px 40px;border-radius:6px 14px 14px 6px;
@@ -149,6 +149,17 @@
   #note .clock .hh{height:22%;transform:translateX(-50%) rotate(165deg);}
   #note .clock .mm{height:32%;width:2px;transform:translateX(-50%) rotate(180deg);}
   #note .clock b{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-weight:400;font-size:13px;color:#a07a6c;}
+  #note .mc{display:flex;align-items:center;gap:12px;width:100%;margin:10px 0;padding:10px 12px;border:0;border-radius:12px;background:#fff6dc;box-shadow:0 2px 6px rgba(80,40,20,.16);text-align:left;font-family:'Gowun Dodum',sans-serif;color:#4a2e24;}
+  #note .mc span{font-size:28px;width:40px;text-align:center;flex:none;}
+  #note .mc b{display:block;font-weight:400;font-size:15px;}
+  #note .mc i{display:block;font-style:normal;font-size:12px;color:#a07a6c;margin-top:2px;}
+  #note .mc.sh{background:rgba(90,60,50,.07);box-shadow:none;}
+  #note .mc.sh span{filter:brightness(0);opacity:.22;}
+  #note .mc.sh b{color:rgba(74,46,36,.32);} #note .mc.sh i{color:rgba(160,122,108,.5);}
+  #note .pic{position:relative;margin:10px 0 4px;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:repeating-linear-gradient(45deg,#f3e6cc 0 12px,#efe0c2 12px 24px);box-shadow:inset 0 0 0 6px #fffdf6,0 3px 8px rgba(80,40,20,.2);}
+  #note .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  #note .pic em{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-style:normal;color:#a07a6c;font-size:14px;}
+  #note .pic.none em,#note .pic:not(:has(img)) em{display:flex;}
   /* 사건 */
   #csBtn{position:fixed;top:calc(132px + env(safe-area-inset-top));right:14px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(40,25,40,.6);font-size:17px;z-index:6;display:none;}
   #csBtn.dot::after{content:'';position:absolute;top:2px;right:2px;width:9px;height:9px;border-radius:50%;background:#ff7a5c;}
@@ -414,10 +425,10 @@
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
-<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">오늘</button><button data-t="cal">달력</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
+<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1123c</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1123d</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js?v=1122x"></script>
@@ -822,7 +833,7 @@ const DLINE={visit:{plaza:'광장 분수 트리 앞을 천천히 걸었다.',bea
 const noteEl=document.getElementById('note'),noteNb=noteEl.querySelector('.nb'),noteL=document.getElementById('noteL'),noteR=document.getElementById('noteR');
 const seedRot=(k)=>{let s=0;for(const c of k)s=(s*31+c.charCodeAt(0))%997;return (s%46)-23;};
 const Note={on:false,tab:'day',sel:null,ym:null,
-  open(){this.on=true;this.sel=null;this.ym=null;this.tab='day';noteNb.classList.remove('rt');noteEl.classList.add('on');this.render();},
+  open(){this.on=true;this.sel=null;this.ym=null;this.tab='cal';this.mys=null;noteNb.classList.remove('rt');noteEl.classList.add('on');this.render();},
   close(){this.on=false;noteEl.classList.remove('on');},
   dt(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);},
   title(k){const dt=this.dt(k);return `${dt.getMonth()+1}월 ${dt.getDate()}일 ${KDAY[dt.getDay()]}요일`;},
@@ -843,17 +854,17 @@ const Note={on:false,tab:'day',sel:null,ym:null,
     noteEl.querySelector('.pgs').scrollTop=0;const k=ymd(),sk=this.sel||k;
     if(this.tab==='day'){const dt=this.dt(sk);
       noteL.innerHTML=`<h3><button data-d="-1">‹</button>${this.title(sk)}<button data-d="1"${sk>=k?' style="visibility:hidden"':''}>›</button></h3><div class="sub">${sk===k?'오늘도 해질녘, 영원한 이브':'그날의 해질녘'}</div>${this.list(sk)}`;
-      noteR.innerHTML=`<h3>${sk===k?'오늘':'이 날'} 붙인 것</h3><div class="sub">주운 실마리랑 도장이 여기 붙어</div>${this.stuck(sk)}`;
+      noteR.innerHTML=(Me.d.diary[sk]&&Me.d.diary[sk].st)?`<div class="mini"><img src="ui/stamp.webp" alt="">해질녘 도장. 이 날도 마을에 왔다.</div>`:'';
       noteL.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=new Date(dt);d.setDate(d.getDate()+(+b.dataset.d));const nk=ymd(d);if(nk>k)return;this.sel=nk;this.render();});return;}
     if(this.tab==='cal'){const base=this.ym||this.dt(sk);const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
       let c=KDAY.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<first;i++)c+='<div></div>';
       for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];c+=`<div class="d${kk===k?' today':''}${kk===sk?' sel':''}" data-k="${kk}">${d}${g&&g.st?`<img src="ui/stamp.webp" alt="" style="--r:${seedRot(kk)}deg">`:''}${this.mysDay(kk)?'<em>🕰</em>':''}</div>`;}
-      const n=Object.values(Me.d.diary).filter(x=>x&&x.st).length,nm=Object.keys(Me.d.diary).filter(x=>this.mysDay(x)).length;
       noteL.innerHTML=`<h3><button data-m="-1">‹</button>${y}년 ${m+1}월<button data-m="1">›</button></h3><div class="cal">${c}</div>`;
-      noteR.innerHTML=`<h3>나의 해질녘들</h3><ul><li>해질녘 도장 ${n}개</li><li class="m">수수께끼가 있던 날 ${nm}일</li></ul><div class="empty">날짜를 누르면 그날 일기로 넘어가.</div>`;
+      noteR.innerHTML='';noteL.insertAdjacentHTML('beforeend','<div class="empty" style="text-align:center;margin-top:12px">날짜를 누르면 그날 일기로 넘어가</div>');
       noteL.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.tab='day';this.render();});
       noteL.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.ym=new Date(y,m+(+b.dataset.m),1);this.render();});return;}
-    if(this.tab==='mys'){noteL.innerHTML=`<h3>멈춘 시계</h3>${Case.clock()}<div class="empty" style="font-size:14px">조각을 찾으면 숫자가 하나씩 돌아와.</div>`;noteR.innerHTML=Case.scrap();return;}
+    if(this.tab==='mys'){noteR.innerHTML='';if(this.mys){noteL.innerHTML=Case.scrap(this.mys);noteL.querySelector('[data-bk]').onclick=()=>{this.mys=null;this.render();};}
+      else{noteL.innerHTML=Case.list();noteL.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{this.mys=+b.dataset.cs;this.render();});}return;}
     const fr=Me.d.friends||{};const ids=Object.keys(fr);noteL.innerHTML=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들 · 나만 볼 수 있어</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');noteR.innerHTML='';}};
 noteEl.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{Note.tab=b.dataset.t;Note.render();}));
 noteEl.querySelector('.x').addEventListener('click',()=>Note.close());noteEl.addEventListener('click',e=>{if(e.target===noteEl)Note.close();});
@@ -1482,7 +1493,7 @@ const Home={edit:false,sel:null,drag:null,
   document.getElementById('decoBtn').addEventListener('click',()=>Home.start());}
 
 /* ===================== 사건 (지금은 테스트 모드 전용: 소문편 1) ===================== */
-const CASES={1:{id:1,kind:'소문편',npc:'🔮 달무리',nm:'달무리',ttl:'태엽 실종과 만물상의 수상한 선반',
+const CASES={1:{id:1,kind:'소문',npc:'🔮 달무리',nm:'달무리',ttl:'태엽 실종과 만물상의 수상한 선반',
   pre:'까악! 내일 아침 특종! 특종이다!',
   head:'시계탑 태엽 실종! 범인은 아직 마을에?',
   lead:'언제부턴가 광장 시계가 5시 30분에서 움직이지 않는다. 그런데 만물상 미스터리 선반에 태엽 모양 실루엣 상품이 올라왔다. 우연일까?',
@@ -1493,7 +1504,10 @@ const CASES={1:{id:1,kind:'소문편',npc:'🔮 달무리',nm:'달무리',ttl:'�
     {n:2,ty:'물건',ic:'🎀',mi:'✨',ml:'',pl:'curio',mk:[27,69],at:[30,80],nm:'금빛 리본 조각',src:'만물상 바닥 구석',tx:'반짝이는 금빛 리본 끄트머리. 가위로 막 자른 것 같다.'},
     {n:3,ty:'쪽지',ic:'📜',mi:'✨',ml:'',pl:'plaza',mk:[36,69],at:[36,72],nm:'찢어진 쪽지',src:'광장 바닥',tx:'"…뒷문, 11시…" 급하게 휘갈겨 쓴 글씨.'}],
   concl:'달무리 아저씨는 별을 보러 가지 않았다. 밤 11시, 만물상 뒷문에서 금빛 리본으로 무언가를 하고 있었다.',
-  res:'달무리 아저씨의 "별 보러 갔다"는 말은 사실이 아니었다. 하지만 태엽과 관련이 있는지는 아직 아무도 모른다.'}};const NEWS_BACK=['☕ 카페: 오늘의 음료는 군밤 라테, 포춘쿠키는 덤.','🔥 해변: 어젯밤 모닥불에 걱정 12개가 탔다.','🪁 들판: 꼬마전구 세 개 교체 완료.'];
+  pic:'story/m1.webp',
+  res:'달무리 아저씨의 "별 보러 갔다"는 말은 사실이 아니었다. 하지만 태엽과 관련이 있는지는 아직 아무도 모른다.'}};// 수첩에 보이는 수수께끼 줄 (id 있는 것만 진짜, 나머지는 그림자 예고)
+const CS_LINE=[{id:1,no:'소문 1',ic:'🔮'},{no:'소문 2',ic:'👓'},{no:'소문 3',ic:'🪁'},{no:'수수께끼 4',ic:'❔'},{no:'수수께끼 5',ic:'❔'},{no:'수수께끼 6',ic:'❔'}];
+const NEWS_BACK=['☕ 카페: 오늘의 음료는 군밤 라테, 포춘쿠키는 덤.','🔥 해변: 어젯밤 모닥불에 걱정 12개가 탔다.','🪁 들판: 꼬마전구 세 개 교체 완료.'];
 // 테스트용 가짜 주민 게시글 (h=가진 단서, w=구하는 단서)
 const CS_FAKE=[{nm:'수딘',h:[2],w:[1]},{nm:'밍디',h:[3],w:[2]},{nm:'응비',h:[1],w:[3]},{nm:'채채',h:[],w:[1,2]}];
 const csEl=document.getElementById('cs'),csBody=document.getElementById('csBody'),csd=document.getElementById('csd');
@@ -1507,7 +1521,7 @@ const Case={
   has(c,n){return !!this.D().cl[c.id+'-'+n];},
   got(c){return [1,2,3].filter(n=>this.has(c,n));},
   give(c,n,from){const D=this.D(),k=c.id+'-'+n;if(D.cl[k])return false;D.cl[k]={f:from||'',t:Date.now()};Me.save();
-    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>toast('실마리 셋이 다 모였어! 수첩의 🕰 수수께끼를 열어봐',3200),700);}
+    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>toast('실마리 셋이 다 모였어! 수첩의 수수께끼를 열어봐',3200),700);}
     if(Note.on)Note.render();return true;},
   set(st){const D=this.D();D.st=st;Me.save();this.badge();this.marks();},
   badge(){},
@@ -1537,7 +1551,7 @@ const Case={
   find(q){const c=this.C();
     if(this.myN(c)!==q.n){this.talk('📝 나',['…여긴 아무것도 없네. 누가 먼저 가져갔나 봐.','광장 게시판에서 구해 볼까?']);return;}
     Snd.syn&&Snd.syn('page',0.5);
-    this.talk(`${q.ic} 실마리를 찾았어`,[`「${q.nm}」 · ${c.npc} 수수께끼 실마리 ${q.n}/3`,q.tx,'수첩에 붙여뒀어. 실마리 셋이 다 모이면 뭔가 보일 것 같아.'],()=>{Me.log(`${q.src}에서 실마리를 하나 찾았다. ${q.nm}.`,'cs'+c.id+'_c'+q.n);this.give(c,q.n,'');this.marks();});},
+    this.talk(`${q.ic} 실마리를 찾았어`,[`「${q.nm}」 · ${c.npc} 수수께끼 · 실마리 ${q.n}/3`,q.tx,'수첩에 붙여뒀어. 실마리 셋이 다 모이면 뭔가 보일 것 같아.'],()=>{Me.log(`${q.src}에서 실마리를 하나 찾았다. ${q.nm}.`,'cs'+c.id+'_c'+q.n);this.give(c,q.n,'');this.marks();});},
   board(){const c=this.C(),D=this.D(),mine=this.got(c),want=[1,2,3].filter(n=>!this.has(c,n)),lab=n=>`${n}/3 ${c.clues[n-1].ic}`;
     const F=CS_FAKE.filter(p=>p.nm!==me.name);
     const posts=F.map((p,i)=>{const can=p.h.filter(n=>!this.has(c,n));
@@ -1549,14 +1563,18 @@ const Case={
       setTimeout(()=>{if(!this.has(c,n)){Me.log(`게시판에서 ${josa(p.nm,'이','가')} 실마리를 나눠줬다. ${c.clues[n-1].nm}.`,'cs'+c.id+'_g'+n);this.give(c,n,p.nm);toast(`${josa(p.nm,'이','가')} 실마리 ${n}/3을 나눠줬어!`,2200);}if(csEl.classList.contains('on'))this.board();},1500);});
     csBody.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [i,n]=b.dataset.s.split('-').map(Number),p=F[i];b.disabled=true;b.textContent='나눠줬어 ✓';toast(`${p.nm}에게 실마리 ${n}/3을 나눠줬어`,2000);Me.log(`게시판에서 ${p.nm}에게 실마리를 나눠줬다.`,'cs'+c.id+'_s');});
     const pb=csBody.querySelector('[data-a=post]');if(pb)pb.onclick=()=>{D.post[c.id]=1;Me.save();this.board();};},
-  // 수첩 🕰 탭
-  clock(){let h='<div class="clock">';for(let i=1;i<=12;i++){const a=(i/12)*Math.PI*2,x=50+38*Math.sin(a),y=50-38*Math.cos(a);h+=`<span class="${i===12?'q':''}" style="left:${x}%;top:${y}%">${i===12?'?':i}</span>`;}
-    return h+'<i class="hh"></i><i class="mm"></i><b>5:30</b></div><div class="sub" style="text-align:center">돌아온 조각 0/11</div>';},
-  scrap(){const D=Me.d.cs;if(!D||!D.st)return '<h3>마을의 수수께끼</h3><div class="empty">아직 마을에 이상한 소문이 없어.<br>까치가 특종을 외치면 시작될 거야.</div>';const c=this.C(),done=D.done[c.id];
-    const sl=c.clues.map(q=>{const x=D.cl[c.id+'-'+q.n];return x?`<div class="scr" style="--r:${(q.n-2)*2.2}deg"><div class="st">${q.ic} ${esc(q.ty)} · ${q.n}/3</div><div class="sn">${esc(q.nm)}</div><div class="sx">${esc(q.tx)}</div><div class="sf">${esc(x.f?x.f+'에게 받음':q.src+'에서')}</div></div>`
-      :`<div class="scr no"><div class="st">${q.ic} ${esc(q.ty)} · ${q.n}/3</div><div class="sx">비어 있어 · 구해야 해</div></div>`;}).join('');
+  // 수첩 '수수께끼' 탭: 앞으로 펼쳐질 수수께끼는 그림자, 시작된 건 컬러
+  list(){const D=Me.d.cs;
+    const it=CS_LINE.map(x=>{const c=x.id&&CASES[x.id],on=c&&D&&D.st&&D.id===c.id;
+      if(!on)return `<div class="mc sh"><span>${x.ic}</span><div><b>${x.no}</b><i>아직 펼쳐지지 않은 이야기</i></div></div>`;
+      const done=D.done[c.id];return `<button class="mc" data-cs="${c.id}"><span>${c.npc.split(' ')[0]}</span><div><b>${x.no} · ${esc(c.ttl)}</b><i>${done?'실마리가 맞춰졌어 ✓':'실마리 '+this.got(c).length+'/3 모으는 중'}</i></div></button>`;}).join('');
+    return `<h3>마을의 수수께끼</h3><div class="sub">시계는 아직 5시 30분에 멈춰 있어</div>${it}`;},
+  scrap(id){const D=Me.d.cs,c=CASES[id],done=D.done[c.id];
+    const sl=c.clues.map(q=>{const x=D.cl[c.id+'-'+q.n];return x?`<div class="scr" style="--r:${(q.n-2)*2.2}deg"><div class="st">${q.ic} 실마리 ${q.n}/3</div><div class="sn">${esc(q.nm)}</div><div class="sx">${esc(q.tx)}</div><div class="sf">${esc(x.f?x.f+'에게 받음':q.src+'에서')}</div></div>`
+      :`<div class="scr no"><div class="st">${q.ic} 실마리 ${q.n}/3</div><div class="sx">비어 있어 · 구해야 해</div></div>`;}).join('');
     const ht=D.ht[c.id]?`<div class="hear">🐦 까치가 몰래 알려준 말<br>"${esc(c.tes[D.ht[c.id]-1])}"</div>`:'';
-    return `<h3>${esc(c.kind)} 1</h3><div class="sub">${esc(c.ttl)} · 의심받는 사람 ${esc(c.npc)}</div>${ht}${sl}${done?`<div class="scr big"><div class="st">🧩 맞춰진 실마리</div><div class="sx">${esc(c.concl)}</div></div>`:''}${D.st==='closed'?`<div class="hear">📋 그 뒤로 알려진 것<br>${esc(c.res)}</div>`:''}`;},
+    const pic=done?`<div class="pic">${c.pic?`<img src="${c.pic}" alt="" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<em>🎨 그림 준비 중</em></div><div class="scr big"><div class="st">🧩 맞춰진 실마리</div><div class="sx">${esc(c.concl)}</div></div>`:'';
+    return `<h3><button data-bk="1">‹</button><span style="flex:1">${esc(c.kind)} 1</span></h3><div class="sub">${esc(c.ttl)} · 의심받는 사람 ${esc(c.npc)}</div>${pic}${ht}${sl}${D.st==='closed'?`<div class="hear">📋 그 뒤로 알려진 것<br>${esc(c.res)}</div>`:''}`;},
   admin(k){if(!Me.test){toast('테스트 모드에서만 돼',1500);return;}const D=this.D();
     if(k==='c_pre')this.set('pre');if(k==='c_open')this.set('open');if(k==='c_close')this.set('closed');
     if(k==='c_reset'){delete Me.d.cs;Object.values(Me.d.diary).forEach(g=>{if(g.e)g.e=g.e.filter(x=>!(x.g&&String(x.g).startsWith('cs')));if(g.tg)Object.keys(g.tg).forEach(t=>{if(t.startsWith('cs'))delete g.tg[t];});});Me.save();this.marks();}
