@@ -493,7 +493,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124d</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124e</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -884,7 +884,7 @@ const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),c
   chat(text){if(!this.online)return;const D=this.fn;D.push(D.ref(this.db,'chat/'+netPlace().replace(':','_')),{uid:this.uid,name:me.name,text,ts:Date.now()});}};
 function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d.place===netPlace())n++;});}else n+=npcs.length;
   document.getElementById('who').textContent=n+'명이 '+P.label+'에 있어요';}
-const LINES={curio:['저 열쇠, 어제부터 혼자 떠다녀','카운터에 조개 가져오면 시간으로 바꿔준대','찻잔이 식질 않네…','이 가게 천장 끝이 어딜까'],home:['아늑하다'],camp:['저기 우리 해변 보인다','텐트 불빛 예쁘다','바람 시원해','어느 자리가 좋을까'],post:['편지 새가 또 날아갔어','서랍이 천장까지 있네…','누구한테 편지 쓸까','창밖 노을 봐'],library:['여기 2층 창가 자리 최고야','벽난로 따뜻하다…','무슨 책 읽어?','쉿, 도서관이야','해먹에서 자고 싶다'],plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
+const LINES={hill:['눈이 공중에 멈춰 있어…','트리 꼭대기 별은 왜 꺼져 있을까','여기선 마을이 다 내려다보여','벤치가 차가워!'],curio:['저 열쇠, 어제부터 혼자 떠다녀','카운터에 조개 가져오면 시간으로 바꿔준대','찻잔이 식질 않네…','이 가게 천장 끝이 어딜까'],home:['아늑하다'],camp:['저기 우리 해변 보인다','텐트 불빛 예쁘다','바람 시원해','어느 자리가 좋을까'],post:['편지 새가 또 날아갔어','서랍이 천장까지 있네…','누구한테 편지 쓸까','창밖 노을 봐'],library:['여기 2층 창가 자리 최고야','벽난로 따뜻하다…','무슨 책 읽어?','쉿, 도서관이야','해먹에서 자고 싶다'],plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
              beach:['모닥불 따뜻해','파도 소리 들려?','여기 앉아도 돼요?','해 지는 거 봐','마시멜로 구울까']};
 const NPC_NAMES={hill:['눈송이','솔방울'],home:[],camp:['억새','반딧'],curio:['달무리'],post:['우표','봉투'],library:['책벌레','모과'],plaza:['솔이','도토리'],beach:['노을','조개','바람']};
 let npcs=[];
@@ -1045,7 +1045,7 @@ const PNAME={plaza:'광장',beach:'해변',camp:'절벽 위 들판',home:'내 �
 const pname=k=>PNAME[k]||(PLACES[k]&&PLACES[k].label)||'';
 const ro=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;if(c<0||c>11171)return '로';const j=c%28;return (j===0||j===8)?'로':'으로';};
 function travel(cap,sub,go,hold){if(switching)return;switching=true;document.getElementById('fcap').innerHTML=cap?esc(cap)+(sub?`<i>${esc(sub)}</i>`:''):'';fade.classList.toggle('cap',!!cap);fade.style.opacity=1;
-  setTimeout(()=>{go();setTimeout(()=>{fade.style.opacity=0;fade.classList.remove('cap');switching=false;},120);},hold||(cap?1150:520));}
+  setTimeout(()=>{try{go();}catch(e){reportErr(e,'travel');}setTimeout(()=>{fade.style.opacity=0;fade.classList.remove('cap');switching=false;},120);},hold||(cap?1150:520));}
 function goOutside(){const ex=P.exits&&P.exits.find(e=>e.to);if(!ex||switching)return;Snd.sfx('creak');const n=pname(ex.to);travel(n+ro(n)+' 나가는 중',null,()=>enter(ex.to,ex.spawn,ex.face),900);}
 {const o=document.getElementById('outBtn');o.addEventListener('pointerdown',e=>e.stopPropagation());o.addEventListener('pointerup',e=>{e.stopPropagation();goOutside();});}
 function goInside(b){if(switching)return;Snd.sfx('creak');if(b.snd)setTimeout(()=>Snd.sfx(b.snd),380);travel(pname(b.to)+' 안으로',null,()=>enter(b.to,PLACES[b.to].entry||[50,90],[50,70]),900);}
@@ -1825,10 +1825,10 @@ const Admin={
     admBody.innerHTML=`<h4>⚙ 관리자</h4><div class="row">${b('m_play','플레이',!Me.test)}${b('m_test','테스트',Me.test)}</div>
       <div class="st">지금: ${Me.test?'테스트 (연습용 기록, 서버에 저장 안 됨)':'플레이 (진짜 기록)'} · ${(Me.d.sec||0)}초 · 물건 ${n}개 · 오늘 줍기 ${pickedToday()}/${PICK_MAX}</div>
       <div class="lb">리셋</div><div class="row">${b('sec','초 0으로')}${b('bag','가방 비우기')}${b('pick','오늘 줍기 횟수')}${b('stamp','오늘 도장 지우기')}${b('postr','우체국 기록')}${b('campr','내 텐트·받은편지')}${b('all','전부 처음으로')}</div>
-      <div class="lb">성능</div><div class="row">${b('fps','FPS 표시 '+(window._fps?'끄기':'켜기'))}</div>
+      <div class="lb">성능</div><div class="row">${b('fps','FPS 표시 '+(window._fps?'끄기':'켜기'))}${b('errclr','오류 기록 지우기')}</div><div class="st" style="word-break:break-all">${(()=>{try{const e=JSON.parse(LS.getItem('ev_err')||'null');return e?`최근 오류 (${new Date(e.t).toLocaleString('ko-KR')} · ${esc(e.pl)} · ${esc(e.where)}): ${esc(e.m)}`:'최근 오류 없음';}catch(_){return '';}})()}</div>
       <div class="lb">치트</div><div class="row">${b('p100','+100초')}${b('kit','해변 물건 세트')}${b('respawn','해변 물건 다시 깔기')}${b('stampnow','오늘 도장 찍기')}${b('st5','우표 +5장씩')}${b('mailin','우편물 도착 (편지·소포·펜팔)')}</div>
       ${Me.test?`<div class="lb">수수께끼 테스트 · 소문 1 (${({pre:'예고 중',open:'진행 중',closed:'종료'})[Case.st()]||'꺼짐'} · 내 실마리 ${me?Case.myN(CASES[1]):'-'}/3)</div><div class="row">${b('c_pre','① 전날 밤 예고')}${b('c_open','② 수수께끼 열기')}${b('c_close','③ 수수께끼 닫기')}${b('c_roll','내 실마리 번호 바꾸기')}${b('c_all','실마리 3개 다 받기')}${b('c_reset','수수께끼 기록 지우기')}</div>`:''}`;
-    admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
+    admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k==='errclr'){LS.removeItem('ev_err');this.render();return;}if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
 admBtn.addEventListener('click',()=>Admin.open());admEl.querySelector('.x').addEventListener('click',()=>Admin.close());admEl.addEventListener('click',e=>{if(e.target===admEl)Admin.close();});
 
 /* ===================== 6. 장소 이동 ===================== */
@@ -1996,17 +1996,22 @@ dressEl.addEventListener('pointerup',e=>e.stopPropagation());
 dressBtn.addEventListener('pointerup',e=>{e.stopPropagation();openDress();});
 /* ===================== 9. 게임 루프 ===================== */
 let last=performance.now();
-function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
+// 오류가 나면 기록해 두고(관리자 화면에서 확인) 게임은 계속 돌게
+function reportErr(e,where){try{const m=String((e&&e.message)||e),st=String((e&&e.stack)||'').split('\n').slice(0,3).join(' | ');if(!window._errOnce)window._errOnce={};const k=m+where;if(window._errOnce[k])return;window._errOnce[k]=1;
+  console.warn('[오류]',where,m,st);LS.setItem('ev_err',JSON.stringify({m,st,where,pl:typeof placeKey!=='undefined'?placeKey:'',t:Date.now()}));}catch(_){}}
+window.addEventListener('error',e=>reportErr(e.error||e.message,'window'));window.addEventListener('unhandledrejection',e=>reportErr(e.reason,'promise'));
+function frame(now){requestAnimationFrame(frame);try{frameBody(now);}catch(e){reportErr(e,'frame');}}
+function frameBody(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t=now/1000;
   if(me){stepChar(me,dt);checkExit();}
-  npcs.forEach(c=>{npcThink(c,dt);stepChar(c,dt);});Net.peers.forEach(c=>stepChar(c,dt));Net.tick();
-  [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;place(c,t);}});
+  npcs.forEach(c=>{try{npcThink(c,dt);stepChar(c,dt);}catch(e){}});Net.peers.forEach(c=>stepChar(c,dt));Net.tick();
+  [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;try{place(c,t);}catch(e){if(!window._pe){window._pe=1;console.warn('place 오류',e);}}}});
   let lx=0,ly=0;if(me&&me.target&&!me.sitting&&P.charVh){const dx=(me.target[0]-me.x)/100*SW,dy=(me.target[1]-me.y)/100*SH,d=Math.hypot(dx,dy)||1;lx=dx/d*innerWidth*0.14;ly=dy/d*innerHeight*0.12;}
   leadX+=(lx-leadX)*Math.min(1,dt*1.6);leadY+=(ly-leadY)*Math.min(1,dt*1.6);
   const fx0=(me?me.x/100*SW:SW/2)+leadX,fy0=(me?me.y/100*SH-charH(me.y)*0.4:SH/2)+leadY;
   const tx=SW<innerWidth?(SW-innerWidth)/2:Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=SH<innerHeight?(SH-innerHeight)/2:Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
   if(snapPan&&me){panX=tx;panY=ty;snapPan=false;leadX=leadY=0;}else{const k=1-Math.pow(0.0025,dt);panX+=(tx-panX)*k;panY+=(ty-panY)*k;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;setCam(panX,panY);
   if(P.fg)fgEl.style.transform=`translate(${-panX*P.fg}px,${-panY*P.fg}px)`;
-  updateSeats();Focus.tick();bobCandles(t);tickSparks(dt);tickDoors();Owl.tick(dt);Camp.near();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);requestAnimationFrame(frame);}
+  updateSeats();Focus.tick();bobCandles(t);tickSparks(dt);tickDoors();Owl.tick(dt);Camp.near();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);}
 requestAnimationFrame(frame);
 </script>
 </body>
