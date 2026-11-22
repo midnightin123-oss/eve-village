@@ -162,6 +162,7 @@
   #note .pic.none em,#note .pic:not(:has(img)) em{display:flex;}
   #note .tabs button[data-t=req]{background:#ffd4a8;--r:.6deg;}
   #note .qcard{transform:rotate(-.6deg);}
+  #note .mc.qdone{background:rgba(255,246,220,.7);box-shadow:none;} #note .mc.qdone span{font:22px 'Nanum Pen Script',cursive;color:#c2563f;}
   #note .qi{display:flex;gap:10px;align-items:flex-start;margin:10px 0;}
   #note .qi .cb{flex:none;width:20px;height:20px;margin-top:1px;border:2px solid #a07a6c;border-radius:4px;display:flex;align-items:center;justify-content:center;font:20px 'Nanum Pen Script',cursive;color:#c2563f;}
   #note .qi b{display:block;font-weight:400;font-size:14.5px;} #note .qi b small{color:#c2563f;margin-left:4px;}
@@ -493,7 +494,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124e</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124f</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -734,7 +735,7 @@ function place(c,t){const s=charH(c.y),px=c.x/100*SW,py=c.y/100*SH;const zy=c.si
 // 앉기/일어나기: 자리 앞(접근점)에서 돌아서서 자리로 들어가며 앉고, 일어날 땐 자리 앞으로 나옴
 const seatApproach=(s)=>{if(s.ax!=null)return [s.ax,s.ay];const c=nearestOk(...cellOf(s.px!=null?s.px:s.x,s.py!=null?s.py:s.y));return c?cellPt(...c):[s.x,s.y];};
 const ease=(t)=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-function startSit(c){const s=c.seat;if(c===me&&DLINE.sit[placeKey])Me.log(DLINE.sit[placeKey],'s_'+placeKey);c.path=null;c.target=null;faceTo(c,...s.look);c.sitting=true;c.mv={fx:c.x,fy:c.y,tx:s.x,ty:s.y,t:0,dur:0.45,face:s.look};}
+function startSit(c){const s=c.seat;if(c===me&&DLINE.sit[placeKey])Me.log(DLINE.sit[placeKey],'s_'+placeKey);if(c===me&&placeKey==='beach')Quest.mark('fire');c.path=null;c.target=null;faceTo(c,...s.look);c.sitting=true;c.mv={fx:c.x,fy:c.y,tx:s.x,ty:s.y,t:0,dur:0.45,face:s.look};}
 function startStand(c,then){const s=c.seat;const[ax,ay]=s?seatApproach(s):[c.x,c.y];c.sitting=false;c.mv={fx:c.x,fy:c.y,tx:ax,ty:ay,t:0,dur:0.4,then,leave:true};if(s)faceTo(c,ax+(ax-s.x),ay+(ay-s.y));}
 function stepChar(c,dt){if(c.bubT>0){c.bubT-=dt;if(c.bubT<=0&&c.bub){c.bub.remove();c.bub=null;}}
   if(c.mv){const m=c.mv;m.t=Math.min(1,m.t+dt/m.dur);const e=ease(m.t);c.x=m.fx+(m.tx-m.fx)*e;c.y=m.fy+(m.ty-m.fy)*e;if(m.face)faceTo(c,...m.face);
@@ -970,13 +971,16 @@ const Note={on:false,tab:'day',sel:null,ym:null,
       noteR.innerHTML='';noteL.insertAdjacentHTML('beforeend','<div class="empty" style="text-align:center;margin-top:12px">날짜를 누르면 그날 일기로 넘어가</div>');
       noteL.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.tab='day';this.render();});
       noteL.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.ym=new Date(y,m+(+b.dataset.m),1);this.render();});return;}
-    if(this.tab==='req'){noteR.innerHTML='';const q=Me.d.q;
-      if(!q||!q.got){noteL.innerHTML='<h3>H의 부탁</h3><div class="empty">아직 편지새가 오지 않았어.</div>';return;}
-      const Q=QUESTS[0],done=Q.items.every(i=>q.d&&q.d[i.k]);
-      const li=Q.items.map(i=>{const ok=q.d&&q.d[i.k];const pr=i.n&&!ok?` <small>${Math.min(q.pick||0,i.n)}/${i.n}</small>`:'';return `<div class="qi${ok?' ok':''}"><span class="cb">${ok?'✓':''}</span><div><b>${i.ic} ${esc(i.t)}${pr}</b>${ok?'':`<i>${esc(i.h)}</i>`}</div></div>`;}).join('');
-      const gift=q.gift==='open'?'<div class="hear">🎄 선물 상자를 열고 이브의 언덕 트리에 오너먼트를 달았어.</div>':done?'<div class="hear">🎁 이브의 언덕 트리 밑에 선물 상자가 도착했어! 가서 열어 봐.</div>':'<div class="sub" style="margin-top:8px">셋 다 하면 이브의 언덕 트리 밑에 H의 선물 상자가 도착해.</div>';
-      noteL.innerHTML=`<h3>H의 부탁</h3><div class="sub">편지새가 물어다 준 쪽지들</div><div class="scr qcard"><div class="st">📜 ${esc(Q.day)}</div>${li}${gift}</div>
-        <div class="mc sh"><span>📜</span><div><b>둘째 날 부탁</b><i>내일 편지새가 가져올 거야</i></div></div><div class="mc sh"><span>📜</span><div><b>셋째 날 부탁</b><i>아직 오지 않았어</i></div></div>`;return;}
+    if(this.tab==='req'){noteR.innerHTML='';const q=Quest.q(),cur=Quest.cur();
+      if(!cur){noteL.innerHTML='<h3>H의 부탁</h3><div class="empty">아직 편지새가 오지 않았어.</div>';return;}
+      const card=n=>{const Q=QUESTS[n-1],D=q.days[n],done=Quest.done(n);
+        if(n<cur&&done&&D.gift==='open')return `<div class="mc qdone"><span>✓</span><div><b>${esc(Q.day)}</b><i>다 들어줬어 · 트리에 오너먼트를 달았어</i></div></div>`;
+        const li=Q.items.map(i=>{const ok=D.d[i.k];const pr=i.n&&!ok?` <small>${Math.min(D.pick||0,i.n)}/${i.n}</small>`:'';return `<div class="qi${ok?' ok':''}"><span class="cb">${ok?'✓':''}</span><div><b>${i.ic} ${esc(i.t)}${pr}</b>${ok?'':`<i>${esc(i.h)}</i>`}</div></div>`;}).join('');
+        const gift=D.gift==='open'?'<div class="hear">🎄 선물 상자를 열고 이브의 언덕 트리에 오너먼트를 달았어.</div>':done?'<div class="hear">🎁 이브의 언덕 트리 밑에 선물 상자가 도착했어! 가서 열어 봐.</div>':'<div class="sub" style="margin-top:8px">셋 다 하면 이브의 언덕 트리 밑에 H의 선물 상자가 도착해.</div>';
+        return `<div class="scr qcard"><div class="st">📜 ${esc(Q.day)}</div>${li}${gift}</div>`;};
+      let h='';for(let n=cur;n>=1;n--)h+=card(n);
+      for(let n=cur+1;n<=QUESTS.length;n++){const nx=n===cur+1;h+=`<div class="mc sh"><span>📜</span><div><b>${esc(QUESTS[n-1].day)}</b><i>${nx?(Quest.done(cur)?'내일 편지새가 가져올 거야':'오늘 부탁을 다 들어주면 내일 와'):'아직 오지 않았어'}</i></div></div>`;}
+      noteL.innerHTML=`<h3>H의 부탁</h3><div class="sub">편지새가 물어다 준 쪽지들</div>${h}`;return;}
     if(this.tab==='mys'){noteR.innerHTML='';if(this.mys){noteL.innerHTML=Case.scrap(this.mys);noteL.querySelector('[data-bk]').onclick=()=>{this.mys=null;this.render();};}
       else{noteL.innerHTML=Case.list();noteL.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{this.mys=+b.dataset.cs;this.render();});}return;}
     const fr=Me.d.friends||{};const ids=Object.keys(fr);noteL.innerHTML=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들 · 나만 볼 수 있어</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');noteR.innerHTML='';}};
@@ -1096,7 +1100,7 @@ const Shop={tray:{},line:'',
       if(this.left(id)<=0)return;this.tray[id]=(this.tray[id]||0)+1;this.line=`${KEEP.pick[id]||it.name+'이군.'} 하나에 ${it.sec}초 쳐주지.`;this.render();});
     shopBody.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const id=b.dataset.b;this.tray[id]--;if(this.tray[id]<=0)delete this.tray[id];this.line='마음이 바뀌었나? 괜찮아.';this.render();});
     const g=shopBody.querySelector('.go');if(g)g.onclick=()=>{let tot=0;for(const id in this.tray){const n=this.tray[id];tot+=ITEMS[id].sec*n;Me.addItem(id,-n);Me.log(`만물상에서 ${josa(ITEMS[id].name,'을','를')} 시간으로 바꿨다.`,'sell_'+id);}
-      Me.addSec(tot);Tip.once('sell');this.tray={};this.line=rnd(KEEP.deal)+` (+${tot}초)`;this.render();};}};
+      Me.addSec(tot);Tip.once('sell');Quest.mark('sell');this.tray={};this.line=rnd(KEEP.deal)+` (+${tot}초)`;this.render();};}};
 
 /* ===================== 우체국: 편지·소포·펜팔 보내기 (받기는 집 우체통 생기면) ===================== */
 const PRICE={n:10,p:30,c:20};
@@ -1112,7 +1116,7 @@ const Mail={
     try{await D.push(D.ref(Net.db,'mail/'+d.to),r);return true;}catch(e){console.warn('편지 배달 실패',e&&e.code);return false;}},
   done(d){const P=postD();P.dr=P.dr.filter(x=>x!==d);P.sent.unshift({k:d.k,to:d.k==='p'?'':d.toName,t:Date.now(),s:(d.text||'').slice(0,30)});P.sent=P.sent.slice(0,30);
     if(d.k==='l')Me.log(`우체국에서 ${d.toName}에게 편지를 부쳤다.`,'ml_'+d.to);
-    if(d.k==='l'&&d.toName===H_NAME&&Quest.on()&&!(Me.d.q.d&&Me.d.q.d.mail)){Quest.mark('mail');Quest.reply();}
+    if(d.k==='l'&&d.toName===H_NAME&&Quest.on()){const fst=!Quest.q().ev.mail;Quest.mark('mail');if(fst)Quest.reply();}
     else if(d.k==='c')Me.log(`우체국에서 ${d.toName}에게 소포를 부쳤다.`,'mc_'+d.to);
     else Me.log('우체국 창가에서 펜팔 편지를 바람에 날려 보냈다.','mp');Me.save();},
   async flush(){for(const d of postD().dr.filter(x=>x.q)){if(await this.deliver(d))this.done(d);}}};
@@ -1373,7 +1377,7 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
     const a=pstBody.querySelector('[data-all]');if(a)a.onclick=()=>put(L);},
   mark(m,key){m[key]=true;if(Net.online&&!Me.test){const D=Net.fn;D.set(D.ref(Net.db,'mail/'+Net.uid+'/'+m.id+'/'+key),true).catch(e=>console.warn('표시 실패',e&&e.code));}else{const x=(Me.d.inbox||[]).find(y=>y.id===m.id);if(x)x[key]=true;Me.save();}this.count();},
   // 가방에서 꺼내 읽기 (답장은 우체국 책상에서)
-  read(m,from){if(from!==undefined)this._from=from;else this._from='bag';from=this._from;if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
+  read(m,from){if(m&&(m.from==='H'||(m.fromName===H_NAME&&m.k==='l')))Quest.mark('readH');if(from!==undefined)this._from=from;else this._from='bag';from=this._from;if(!m.read)this.mark(m,'read');const who=m.k==='p'?(m.pen||'누군가'):(m.fromName||'이웃');
     let h=`<div class="hd">${esc(m.k==='p'?'펜팔 편지':m.k==='c'?'소포':'편지')}</div><div class="letter">${m.text?esc(m.text).replace(/\n/g,'<br>'):''}<div class="sig">— ${esc(who)}</div></div>`;
     if(m.k==='c'){const it=m.items||{};h+=`<div class="grid ro">${Object.entries(it).map(([id,n])=>ITEMS[id]?`<div class="cell">${itemImg(id,48)}<i>${n}</i></div>`:'').join('')}</div>`+(m.took?'<div class="sub">이미 풀어서 가방에 넣었어.</div>':`<div class="ft" style="justify-content:center"><button class="go" data-take="1">풀어서 가방에 넣기</button></div>`);}
     else{const S=this.st(m),rs=this.rstate(m);h+=rs==='sent'?`<div class="sub" style="margin-top:6px">답장 보냄 ✓</div>`:rs==='env'?`<div class="sub" style="margin-top:6px">${esc(mailDesc(this.rdraft(m)))}을 봉투에 넣어뒀어. 우체국에서 부치면 가.</div>`:`<div class="ft" style="margin-top:6px"><span class="sub">${S.rp?'답장 표시해뒀어. 우체국 책상에 앉으면 바로 쓸 수 있어.':'답장은 우체국 책상에서 쓸 수 있어.'}</span><button class="${S.rp?'sm':'go'}" data-rp="1">${S.rp?'표시 지우기':'답장할래'}</button></div>`;}
@@ -1401,7 +1405,7 @@ const Focus={st:null,
       <div class="ft" style="justify-content:center;gap:8px;flex-wrap:wrap">${FOCUS.map(([m,r],i)=>`<button class="go" data-fm="${i}">${m}분 · +${r}초</button>`).join('')}</div>
       <div class="sub" style="text-align:center;margin-top:8px">중간에 일어나거나 도서관을 나가면 촛불이 꺼져. 다른 창에서 일해도 촛불은 계속 타.</div>`);
     pstBody.querySelectorAll('[data-fm]').forEach(b=>b.onclick=()=>{const[m,r]=FOCUS[+b.dataset.fm];this.start(m,r);Post.close();});},
-  start(m,r){const n=Date.now();this.st={s:n,e:n+m*60000,d:m,r};me.fo={e:this.st.e,d:m};Snd.syn('tap');say(me,m+'분 동안 읽어볼게');Net.write({seat:me.seat?P.seats.indexOf(me.seat):-1});this.ui();},
+  start(m,r){const n=Date.now();this.st={s:n,e:n+m*60000,d:m,r};if(placeKey==='library')Quest.mark('focus');me.fo={e:this.st.e,d:m};Snd.syn('tap');say(me,m+'분 동안 읽어볼게');Net.write({seat:me.seat?P.seats.indexOf(me.seat):-1});this.ui();},
   stop(why){if(!this.st)return;const got=Math.floor((Date.now()-this.st.s)/60000);this.st=null;me.fo=null;Net.write({seat:me&&me.seat?P.seats.indexOf(me.seat):-1});this.ui();
     if(why==='ask')toast(got?`${got}분 읽고 촛불을 껐어. 끝까지 태워야 초가 쌓여`:'촛불을 껐어',2400);else if(why)toast('자리를 떠서 촛불이 꺼졌어',2000);},
   done(){const st=this.st;this.st=null;me.fo=null;Me.addSec(st.r);Me.log(`도서관에서 ${st.d}분 동안 책을 읽었다. 촛불이 다 타서 ${st.r}초가 쌓였다.`,'focus_'+st.s);
@@ -1591,7 +1595,7 @@ const Home={edit:false,sel:null,drag:null,
     const L=[];if(F.wall){for(let y=34;y>=HWALL.y0+10;y-=3)for(let x=50,k=0;k<16;k++){const xx=50+(k%2?1:-1)*Math.ceil(k/2)*5;L.push([xx,y]);}}
     else{for(let y=60;y<=95;y+=3)for(let x=10;x<=90;x+=3)L.push([x,y]);L.sort((a,b)=>Math.hypot(a[0]-50,(a[1]-68)*1.4)-Math.hypot(b[0]-50,(b[1]-68)*1.4));}
     for(const [x,y] of L){t.x=x;t.y=y;this.clamp(t);if(this.ok(t)){o=t;break;}}
-    if(!o){say(me,'놓을 자리가 없어');return;}R.inv.splice(i,1);R.items.push(o);this.sel=o;Snd.syn('tap');this.refresh();},
+    if(!o){say(me,'놓을 자리가 없어');return;}R.inv.splice(i,1);R.items.push(o);Quest.mark('furn');this.sel=o;Snd.syn('tap');this.refresh();},
   refresh(){this.build();buildOcc();this.hi();this.bar();},
   hi(ok){let e=document.getElementById('hHi');const o=this.sel;if(!o){if(e)e.remove();return;}if(!e){e=document.createElement('div');e.id='hHi';tagsEl.appendChild(e);}
     const r=this.rect(o);e.style.left=(r[0]/100*SW)+'px';e.style.top=(r[1]/100*SH)+'px';e.style.width=((r[2]-r[0])/100*SW)+'px';e.style.height=((r[3]-r[1])/100*SH)+'px';e.classList.toggle('bad',ok===false||(ok==null&&!this.ok(o)));},
@@ -1735,37 +1739,61 @@ const Tut={lock:false,step:0,
   next(){if(this.step===2){this.step=2.5;this.hide();setTimeout(()=>this.bird(),900);}},
   tick(){if(this.step===2&&me&&me.sitting){this.step=2.5;this.say('편하지? 앉아 있으면 일기에도 적혀.');setTimeout(()=>this.bird(),2200);}},
   // 편지새가 날아와 발밑에 쪽지를 떨군다
-  bird(){if(!me||placeKey!=='plaza'&&placeKey!=='beach'&&placeKey!=='camp'&&placeKey!=='hill'){setTimeout(()=>this.bird(),3000);return;}
+  bird(n,g){if(g==null){g=this._g=(this._g||0)+1;this._n=n||1;document.querySelectorAll('.qPaper,.qBird').forEach(e=>e.remove());}else if(g!==this._g)return;n=this._n;if(!me||placeKey!=='plaza'&&placeKey!=='beach'&&placeKey!=='camp'&&placeKey!=='hill'){setTimeout(()=>this.bird(n,g),3000);return;}
     this.step=3;this.say('…어? 저기 편지새가 날아와!');Snd.syn&&Snd.syn('flap');
     const W=charH(me.y)*0.85,e=document.createElement('div');e.className='qBird';const bd=Camp.birdEl&&Camp.birdEl(W);if(bd){bd.classList.remove('bd');e.appendChild(bd);}else e.textContent='🐦';tagsEl.appendChild(e);
     const tx=me.x+2,ty=me.y-charH(me.y)/SH*100*1.4,sx=tx+28,sy=ty-26,t0=performance.now(),T=1800;let fl=0;
     const step=now=>{const u=Math.min(1,(now-t0)/T),q=1-Math.pow(1-u,2.2);fl+=0.33;if(bd)bd.style.transform=`scaleY(${0.72+0.28*Math.abs(Math.sin(fl))})`;
       e.style.left=((sx+(tx-sx)*q)/100*SW)+'px';e.style.top=((sy+(ty-sy)*q)/100*SH)+'px';
-      if(u<1)requestAnimationFrame(step);else{this.drop(tx,me.y+1.2);const t1=performance.now();const away=n2=>{const v=Math.min(1,(n2-t1)/1300);fl+=0.4;if(bd)bd.style.transform=`scaleY(${0.72+0.28*Math.abs(Math.sin(fl))})`;e.style.left=((tx-30*v)/100*SW)+'px';e.style.top=((ty-28*v)/100*SH)+'px';e.style.opacity=1-v;if(v<1)requestAnimationFrame(away);else e.remove();};requestAnimationFrame(away);}};
+      if(g!==this._g){e.remove();return;}if(u<1)requestAnimationFrame(step);else{this.drop(tx,me.y+1.2);const t1=performance.now();const away=n2=>{const v=Math.min(1,(n2-t1)/1300);fl+=0.4;if(bd)bd.style.transform=`scaleY(${0.72+0.28*Math.abs(Math.sin(fl))})`;e.style.left=((tx-30*v)/100*SW)+'px';e.style.top=((ty-28*v)/100*SH)+'px';e.style.opacity=1-v;if(v<1)requestAnimationFrame(away);else e.remove();};requestAnimationFrame(away);}};
     requestAnimationFrame(step);},
   drop(x,y){const p=document.createElement('button');p.className='qPaper';p.innerHTML='<span>📜</span>';p.style.left=x+'%';p.style.top=y+'%';tagsEl.appendChild(p);
-    const stop=e=>e.stopPropagation();p.addEventListener('pointerdown',stop);p.addEventListener('pointerup',e=>{e.stopPropagation();p.remove();this.greet();});
+    const stop=e=>e.stopPropagation();p.addEventListener('pointerdown',stop);p.addEventListener('pointerup',e=>{e.stopPropagation();p.remove();this.greet(this._n);});
     this.say('편지새가 쪽지를 떨구고 갔어. 쪽지를 눌러 봐.');},
-  greet(){this.hide();const n=me.name;
-    Case.open(`<div class="hlet"><div class="lt">${esc(voc(n))}, 와줬구나!</div><p>진짜 반가워. 먼 길 오느라 고생했지.</p><p>여기 사람들한테 우리가 범인 찾는 거 들키면 안 되니까, 일단은 이 마을 주민인 척해 줘.</p><p>오늘 부탁은 수첩에 적어 뒀어. 우체국 갈 일이 있을 테니 우표도 한 장 넣어 둘게.</p><p class="sg">— H</p><button class="go" data-a="ok">수첩에 끼워 두기</button></div>`,true);
-    csBody.querySelector('[data-a=ok]').onclick=()=>{const P0=postD();P0.st.n+=1;Me.d.q={got:Date.now(),d:{},pick:0};const t=Me.d.tut||(Me.d.tut={});t.done=1;Me.save();
-      Me.log('편지새가 H의 쪽지를 물어다 줬다. 오늘 들어줄 부탁이 세 가지 적혀 있었다.','q_note');Case.close();popMe('<b>✉️ 웰컴 우표 도착</b>일반 우표 1장이 가방에 들어왔어',2300);
-      this.step=0;setTimeout(()=>{Note.open('req');setTimeout(()=>Coach.note(),350);},2900);};},
-  // 이미 가입했던 주민도 처음 들어오면 쪽지를 받게
-  resume(){if(!Me.ready||!me){setTimeout(()=>this.resume(),600);return;}if(Me.d.q&&Me.d.q.got||me.name===H_NAME)return;setTimeout(()=>{if(!(Me.d.q&&Me.d.q.got))this.bird();},3000);}};
+  greet(n){this.hide();n=n||1;const nm=me.name,Q=QUESTS[n-1];
+    Case.open(`<div class="hlet"><div class="lt">${esc(voc(nm))}, ${esc(Q.hi)}</div>${Q.note.map(p=>`<p>${esc(p)}</p>`).join('')}<p class="sg">— H</p><button class="go" data-a="ok">수첩에 끼워 두기</button></div>`,true);
+    csBody.querySelector('[data-a=ok]').onclick=()=>{const q=Quest.q(true),now=Date.now();if(n===1){postD().st.n+=1;q.got=q.got||now;}q.days[n]={got:now,d:{},pick:0};const t=Me.d.tut||(Me.d.tut={});t.done=1;Me.save();
+      Me.log(`편지새가 H의 쪽지를 물어다 줬다. ${Q.day}이 세 가지 적혀 있었다.`,'q_note'+n);Case.close();
+      if(n===1)popMe('<b>✉️ 웰컴 우표 도착</b>일반 우표 1장이 가방에 들어왔어',2300);
+      this.step=0;setTimeout(()=>{Quest.retro(n);Note.open('req');if(n===1)setTimeout(()=>Coach.note(),350);},n===1?2900:600);};},
+  // 이미 가입했던 주민도 처음 들어오면 쪽지를 받게 (현디는 테스트 모드에서만)
+  resume(){if(!Me.ready||!me){setTimeout(()=>this.resume(),600);return;}if(me.name===H_NAME&&!Me.test)return;if(Quest.cur()){Quest.check();return;}setTimeout(()=>{if(!Quest.cur()&&!this._g)this.bird(1);},3000);}};
 setInterval(()=>{try{Tut.tick();}catch(e){}},400);
-// ---- H의 부탁 (첫날) ----
-const QUESTS=[{id:1,day:'첫날 부탁',items:[{k:'tent',ic:'⛺',t:'절벽 위 들판에 내 텐트 치기',h:"광장 오른쪽 위 '절벽 위 들판' 표지판 쪽 길로 가 봐."},
-  {k:'pick',ic:'🐚',t:'해변에서 바다 물건 3개 줍기',n:3,h:"광장 아래 '해변' 표지판 옆 계단으로 내려가. 반짝이는 걸 눌러 봐."},
-  {k:'mail',ic:'✉️',t:'우체국에서 H에게 "도착했어" 편지 보내기',h:'우체국 편지 책상에서 편지를 쓰고, 카운터에서 웰컴 우표를 붙여 부쳐. 받는 사람은 현디야.'}]}];
-const Quest={on(){return !!(Me.ready&&Me.d.q&&Me.d.q.got);},
-  mark(k){if(!this.on())return;const q=Me.d.q;q.d=q.d||{};
-    if(k==='pick'){q.pick=(q.pick||0)+1;if(q.pick>=3&&!q.d.pick){q.d.pick=Date.now();this.doneOne('pick');}}
-    else if(!q.d[k]){q.d[k]=Date.now();this.doneOne(k);}
+setInterval(()=>{try{Quest.check();}catch(e){}},20000);
+// ---- H의 부탁: 하루에 쪽지 한 장, 다 들어주면 다음 날 편지새가 다음 쪽지를 ----
+const QUESTS=[
+ {id:1,day:'첫날 부탁',hi:'와줬구나!',note:['진짜 반가워. 먼 길 오느라 고생했지.','여기 사람들한테 우리가 범인 찾는 거 들키면 안 되니까, 일단은 이 마을 주민인 척해 줘.','오늘 부탁은 수첩에 적어 뒀어. 우체국 갈 일이 있을 테니 우표도 한 장 넣어 둘게.'],
+  items:[{k:'tent',ic:'⛺',t:'절벽 위 들판에 내 텐트 치기',h:"광장 오른쪽 위 '절벽 위 들판' 표지판 쪽 길로 가 봐."},
+   {k:'pick',ic:'🐚',t:'해변에서 바다 물건 3개 줍기',n:3,h:"광장 아래 '해변' 표지판 옆 계단으로 내려가. 반짝이는 걸 눌러 봐."},
+   {k:'mail',ic:'✉️',t:'우체국에서 H에게 "도착했어" 편지 보내기',h:'우체국 편지 책상에서 편지를 쓰고, 카운터 벨을 눌러 웰컴 우표를 붙여 부쳐. 받는 사람은 현디야.'}]},
+ {id:2,day:'둘째 날 부탁',hi:'어제 감쪽같았어!',note:['아무도 눈치 못 챘어. 역시 너야.','오늘은 진짜 이 마을 사람처럼 살림을 좀 꾸려 볼까? 만물상 아저씨네도 들르고, 텐트 안도 조금 꾸며 봐.','아 참, 내 답장은 읽었어?'],
+  items:[{k:'sell',ic:'🔮',t:"만물상에서 주운 물건을 '초'로 바꾸기",h:'만물상 카운터의 벨을 눌러 달무리 아저씨를 불러 봐.'},
+   {k:'furn',ic:'🛋',t:'내 텐트 안에 가구 하나 놓기',h:'들판의 내 텐트에 들어가서 꾸미기 버튼을 눌러 봐.'},
+   {k:'readH',ic:'💌',t:'우체통에서 H의 답장 꺼내 읽기',h:'텐트 앞 우체통에 편지새가 앉아 있으면 눌러 봐. 꺼낸 편지는 가방에서 읽을 수 있어.'}]},
+ {id:3,day:'셋째 날 부탁',hi:'이제 다들 널 마을 사람으로 알아.',note:['이제 마을 사람들 사이에 자연스럽게 섞여 볼 차례야.','도서관에도 앉아 보고, 해변 모닥불도 쬐어 보고, 처음 보는 얼굴에게 인사도 해 봐.','그러다 보면… 이상한 소문 하나쯤은 들릴지도 몰라.'],
+  items:[{k:'focus',ic:'📚',t:'도서관에 앉아 집중하기',h:'도서관 자리에 앉으면 머리 옆에 집중 버튼이 떠.'},
+   {k:'fire',ic:'🔥',t:'해변 모닥불 곁에 앉기',h:'해변 모닥불 둘레 자리를 눌러 앉아 봐.'},
+   {k:'chat',ic:'👋',t:'처음 보는 주민에게 말 걸기',h:'다른 주민이 있는 곳에서 아래 채팅창으로 인사해 봐.'}]}];
+const ORN_NAME={tag:'내 이름 이름표',ball_r:'빨간 유리공',ball_g:'금빛 유리공',star:'별',pine:'솔방울',bell:'금빛 종',snow:'눈송이',ginger:'진저브레드',cane:'사탕지팡이',shell:'분홍 조개',letter:'편지봉투',book:'작은 책',tent:'작은 텐트',clock:'멈춘 시계',ribbon:'빨간 리본'};
+const Quest={
+  // 기록 구조: q.days[n]={got,d:{},pick,gift,doneAt} · q.ev=한 번이라도 한 일 · q.off=테스트용 날짜 넘기기
+  q(make){let q=Me.d.q;if(!q&&make)q=Me.d.q={};if(!q)return null;if(q.got&&!q.days)q.days={1:{got:q.got,d:q.d||{},pick:q.pick||0,gift:q.gift}};q.days=q.days||{};q.ev=q.ev||{};return q;},
+  on(){return !!(Me.ready&&this.cur());},
+  cur(){const q=Me.ready&&this.q();if(!q)return 0;let n=0;for(let i=1;i<=QUESTS.length;i++)if(q.days[i]&&q.days[i].got)n=i;return n;},
+  done(n){const q=this.q(),D=q&&q.days[n];return !!D&&QUESTS[n-1].items.every(i=>D.d[i.k]);},
+  today(){const q=this.q(),d=new Date();d.setDate(d.getDate()+((q&&q.off)||0));return ymd(d);},
+  mark(k){if(!Me.ready)return;const q=this.q();if(!q)return;q.ev[k]=q.ev[k]||Date.now();const n=this.cur();if(!n){Me.save();return;}const D=q.days[n],it=QUESTS[n-1].items.find(i=>i.k===k);
+    if(it&&!D.d[k]){if(it.n){D.pick=(D.pick||0)+1;if(D.pick>=it.n){D.d[k]=Date.now();this.doneOne(n,k);}}else{D.d[k]=Date.now();this.doneOne(n,k);}}
     Me.save();if(Note.on)Note.render();},
-  doneOne(k){const q=Me.d.q,it=QUESTS[0].items.find(i=>i.k===k);setTimeout(()=>{popMe(`<b>✓ H의 부탁 완료!</b>${esc(it.t)}`,3400);Snd.syn&&Snd.syn('ding',0.5);},900);Me.log(`H의 부탁을 하나 들어줬다. ${it.t}.`,'q_'+k);
-    if(QUESTS[0].items.every(i=>q.d[i.k])&&!q.gift){q.gift='ready';Me.save();setTimeout(()=>{popMe('<b>🎁 선물 상자 도착!</b>이브의 언덕 트리 밑을 확인해 봐',4200);Me.log('H의 부탁을 다 들어줬다. 이브의 언덕 트리 밑에 선물 상자가 도착했다.','q_gift');this.marks();if(Note.on)Note.render();},4200);}},
-  // H에게 "도착했어" 편지를 보내면 H의 답장이 내 우체통으로 (친구별 추억 한 줄은 나중에 관리자 화면에서)
+  // 쪽지 받기 전에 이미 해 둔 일은 받자마자 체크
+  retro(n){const q=this.q(),D=q.days[n];let any=0;QUESTS[n-1].items.forEach(i=>{if(!i.n&&q.ev[i.k]&&!D.d[i.k]&&n>1){D.d[i.k]=Date.now();any=1;}});if(any){Me.save();setTimeout(()=>popMe('<b>✓ 이미 해 둔 부탁이 있어</b>수첩에 체크해 뒀어',2600),900);if(this.done(n))this.finish(n);if(Note.on)Note.render();}},
+  doneOne(n,k){const it=QUESTS[n-1].items.find(i=>i.k===k);setTimeout(()=>{popMe(`<b>✓ H의 부탁 완료!</b>${esc(it.t)}`,3400);Snd.syn&&Snd.syn('ding',0.5);},900);Me.log(`H의 부탁을 하나 들어줬다. ${it.t}.`,'q_'+n+k);
+    if(this.done(n))this.finish(n);},
+  finish(n){const D=this.q().days[n];if(D.gift)return;D.gift='ready';D.doneAt=Date.now();Me.save();
+    setTimeout(()=>{popMe('<b>🎁 선물 상자 도착!</b>이브의 언덕 트리 밑을 확인해 봐',4200);Me.log(`H의 ${QUESTS[n-1].day}을 다 들어줬다. 이브의 언덕 트리 밑에 선물 상자가 도착했다.`,'q_gift'+n);this.marks();if(Note.on)Note.render();},4200);},
+  // 다음 날 쪽지가 올 때가 됐는지 (전날 부탁을 다 했고, 날짜가 바뀌었으면)
+  check(){if(!Me.ready||!me||Tut.step||switching)return;if(me.name===H_NAME&&!Me.test)return;const n=this.cur();if(!n||n>=QUESTS.length||!this.done(n))return;
+    const D=this.q().days[n];if(!D.doneAt)return;if(this.today()<=ymd(new Date(D.doneAt)))return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()===n)Tut.bird(n+1);},2500);},
   reply(){const n=me.name,text=`${voc(n)}, 편지 잘 받았어!\n와 줘서 정말 고마워. 네가 이 마을에 있다고 생각하니까 벌써 든든해.\n\n우리 처음 만났던 날 기억나? 그때부터 지금까지 곁에 있어 줘서 고마워.\n\n오늘은 천천히 마을 구경하고 푹 쉬어. 내일도 편지새가 쪽지 가져갈 거야.\n\n— H`;
     setTimeout(async()=>{if(Me.test||!Net.online){const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push({id:'h'+Date.now(),k:'l',from:'H',fromName:H_NAME,text,ts:Date.now()});if(ib.length>30)ib.shift();Me.save();Camp.local();}
       else{try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+Net.uid),{k:'l',from:'H',fromName:H_NAME,text,ts:D.serverTimestamp()});}catch(e){console.warn('H 답장 실패',e&&e.code);}}
@@ -1773,17 +1801,28 @@ const Quest={on(){return !!(Me.ready&&Me.d.q&&Me.d.q.got);},
   slots(){if(this._s)return this._s;const poly=PLACES.hill.occ[0].p,out=[];
     for(let y=17;y<=51;y+=3.1)for(let x=18;x<=82;x+=3.3){const ok=[[0,0],[2.6,0],[-2.6,0],[0,2.2],[0,-2.2]].every(([dx,dy])=>inPoly(x+dx,y+dy,poly));if(ok)out.push([+(x+((y*7)%3-1)*0.6).toFixed(1),+y.toFixed(1)]);}
     const h=v=>{let s=7;for(const c of String(v))s=(s*31+c.charCodeAt(0))>>>0;return s;};out.sort((a,b)=>h(a)-h(b));return this._s=out;},
-  marks(){document.querySelectorAll('.qMk,.ornM').forEach(e=>e.remove());if(placeKey!=='hill'||!Me.ready)return;const q=Me.d.q;if(!q)return;
+  giftDay(){const q=this.q();if(!q)return 0;for(let i=1;i<=QUESTS.length;i++)if(q.days[i]&&q.days[i].gift==='ready')return i;return 0;},
+  marks(){document.querySelectorAll('.qMk,.ornM').forEach(e=>e.remove());if(placeKey!=='hill'||!Me.ready)return;const q=this.q();if(!q)return;
     const w=Math.max(9,Math.round(SW*0.026));(q.orn||[]).forEach(o=>{const d=document.createElement('button');d.className='ornM';d.style.left=o.x+'%';d.style.top=o.y+'%';d.style.width=w+'px';
       d.innerHTML=`<img src="orn/${o.k}.webp" alt="">`;const stop=e=>e.stopPropagation();d.addEventListener('pointerdown',stop);
       d.addEventListener('pointerup',e=>{e.stopPropagation();document.querySelectorAll('.ornInfo').forEach(x=>x.remove());const t=new Date(o.t||Date.now()),hh=t.getHours();
-        const b=document.createElement('div');b.className='ornInfo';b.style.left=o.x+'%';b.style.top=o.y+'%';b.innerHTML=`<b>${esc(o.n||me.name)}</b>${t.getMonth()+1}월 ${t.getDate()}일 ${hh<12?'오전':'오후'} ${hh%12||12}:${String(t.getMinutes()).padStart(2,'0')}에 달았어`;tagsEl.appendChild(b);setTimeout(()=>b.remove(),3500);});tagsEl.appendChild(d);});
-    if(q.gift==='ready'){const b=document.createElement('button');b.className='csMk qMk';b.innerHTML='<span>🎁</span><i>H의 선물 상자</i>';b.style.left='50%';b.style.top='61.5%';
-      const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();Case.walk([50,63.4],()=>this.open());});tagsEl.appendChild(b);}},
-  open(){Snd.syn&&Snd.syn('page',0.6);Case.open(`<div class="hlet"><div class="lt">선물 상자를 열었어</div><div class="ornBig"><img src="orn/tag.webp" alt=""><i>${esc(me.name)}</i></div><p>오늘 부탁 다 들어줘서 고마워. 감쪽같았어!</p><p>이건 네 이름을 새긴 오너먼트야. 이 트리에 달아 줘. 앞으로 부탁을 들어줄 때마다 하나씩 보낼게.</p><p class="sg">— H</p><button class="go" data-a="hang">트리에 달기</button></div>`);
-    csBody.querySelector('[data-a=hang]').onclick=()=>this.hang('tag');},
-  hang(k){const q=Me.d.q;q.orn=q.orn||[];const s=this.slots()[q.orn.length%this.slots().length];q.orn.push({k,x:s[0],y:s[1],n:me.name,t:Date.now()});q.gift='open';Me.save();Case.close();this.marks();
-    Snd.sfx&&Snd.sfx('bell');popMe('<b>✨ 트리에 오너먼트를 달았어</b>',2800);Me.log('이브의 언덕 트리에 내 이름을 새긴 오너먼트를 달았다.','q_orn');}};
+        const b=document.createElement('div');b.className='ornInfo';b.style.left=o.x+'%';b.style.top=o.y+'%';b.innerHTML=`<b>${esc(o.n||me.name)} · ${esc(ORN_NAME[o.k]||'')}</b>${t.getMonth()+1}월 ${t.getDate()}일 ${hh<12?'오전':'오후'} ${hh%12||12}:${String(t.getMinutes()).padStart(2,'0')}에 달았어`;tagsEl.appendChild(b);setTimeout(()=>b.remove(),3500);});tagsEl.appendChild(d);});
+    const gd=this.giftDay();if(gd){const b=document.createElement('button');b.className='csMk qMk';b.innerHTML='<span>🎁</span><i>H의 선물 상자</i>';b.style.left='50%';b.style.top='61.5%';
+      const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();Case.walk([50,63.4],()=>this.open(gd));});tagsEl.appendChild(b);}},
+  open(n){const q=this.q(),D=q.days[n];if(!D.ok){const pool=Object.keys(ORN_NAME).filter(k=>k!=='tag'&&!(q.orn||[]).some(o=>o.k===k));D.ok=n===1?'tag':(pool.length?pool[Math.floor(Math.random()*pool.length)]:'ball_r');Me.save();}
+    const k=D.ok,msg=n===1?['오늘 부탁 다 들어줘서 고마워. 감쪽같았어!','이건 네 이름을 새긴 오너먼트야. 이 트리에 달아 줘. 앞으로 부탁을 들어줄 때마다 하나씩 보낼게.']:[`${QUESTS[n-1].day}도 다 들어줬구나. 고마워!`,`이번엔 ${ORN_NAME[k]} 오너먼트야. 트리가 점점 반짝여지네.`];
+    Snd.syn&&Snd.syn('page',0.6);Case.open(`<div class="hlet"><div class="lt">선물 상자를 열었어</div><div class="ornBig"><img src="orn/${k}.webp" alt="">${k==='tag'?`<i>${esc(me.name)}</i>`:''}</div>${msg.map(p=>`<p>${esc(p)}</p>`).join('')}<p class="sg">— H</p><button class="go" data-a="hang">트리에 달기</button></div>`);
+    csBody.querySelector('[data-a=hang]').onclick=()=>this.hang(k,n);},
+  hang(k,n){const q=this.q();q.orn=q.orn||[];const S=this.slots(),s=S[q.orn.length%S.length];q.orn.push({k,x:s[0],y:s[1],n:me.name,t:Date.now()});q.days[n].gift='open';Me.save();Case.close();this.marks();
+    Snd.sfx&&Snd.sfx('bell');popMe('<b>✨ 트리에 오너먼트를 달았어</b>',2800);Me.log(`이브의 언덕 트리에 ${ORN_NAME[k]} 오너먼트를 달았다.`,'q_orn'+n);if(Note.on)Note.render();},
+  // 관리자 테스트: 날짜별로 바로 해보기
+  admin(k){if(!Me.test){toast('테스트 모드에서만 돼',1500);return;}const q=this.q(true);
+    if(k==='q_reset'){delete Me.d.q;const t=Me.d.tut||(Me.d.tut={});t.done=0;Me.save();this.marks();setTimeout(()=>Tut.bird(1),800);return '부탁 기록을 지웠어. 곧 첫날 쪽지가 와';}
+    if(/^q_day\d$/.test(k)){const n=+k.slice(5);q.days={};q.orn=[];q.got=q.got||Date.now();
+      for(let i=1;i<n;i++){const D=q.days[i]={got:Date.now(),d:{},pick:3,gift:'open',doneAt:Date.now()-86400000};QUESTS[i-1].items.forEach(it=>D.d[it.k]=Date.now());const S=this.slots(),s=S[q.orn.length%S.length];q.orn.push({k:i===1?'tag':'star',x:s[0],y:s[1],n:me.name,t:Date.now()});}
+      q.off=0;Me.save();this.marks();setTimeout(()=>Tut.bird(n),800);return `${n}일차 쪽지가 곧 날아와`;}
+    if(k==='q_all'){const n=this.cur();if(!n)return '아직 받은 쪽지가 없어';QUESTS[n-1].items.forEach(it=>{if(!q.days[n].d[it.k]){q.days[n].d[it.k]=Date.now();}});Me.save();this.finish(n);if(Note.on)Note.render();return '오늘 부탁을 다 한 걸로 했어';}
+    if(k==='q_next'){q.off=(q.off||0)+1;Me.save();this.check();return `하루 넘겼어 (테스트 날짜 +${q.off}일)`;}}};
 // 초당 화면 몇 번 그리는지 보여주는 작은 표시 (어느 장소가 버벅이는지 비교용)
 function toggleFps(){if(window._fps){window._fps.el.remove();cancelAnimationFrame(window._fps.r);window._fps=null;return;}
   const el=document.createElement('div');el.style.cssText='position:fixed;left:8px;bottom:calc(64px + env(safe-area-inset-bottom));z-index:50;padding:3px 8px;border-radius:8px;background:rgba(0,0,0,.6);color:#9f9;font:12px monospace;pointer-events:none';document.body.appendChild(el);
@@ -1825,10 +1864,11 @@ const Admin={
     admBody.innerHTML=`<h4>⚙ 관리자</h4><div class="row">${b('m_play','플레이',!Me.test)}${b('m_test','테스트',Me.test)}</div>
       <div class="st">지금: ${Me.test?'테스트 (연습용 기록, 서버에 저장 안 됨)':'플레이 (진짜 기록)'} · ${(Me.d.sec||0)}초 · 물건 ${n}개 · 오늘 줍기 ${pickedToday()}/${PICK_MAX}</div>
       <div class="lb">리셋</div><div class="row">${b('sec','초 0으로')}${b('bag','가방 비우기')}${b('pick','오늘 줍기 횟수')}${b('stamp','오늘 도장 지우기')}${b('postr','우체국 기록')}${b('campr','내 텐트·받은편지')}${b('all','전부 처음으로')}</div>
+      ${Me.test?`<div class="lb">H의 부탁 테스트 (지금 ${Quest.cur()||0}일차${Quest.q()&&Quest.q().off?` · 날짜 +${Quest.q().off}일`:''})</div><div class="row">${b('q_reset','처음부터 (첫날 쪽지)')}${b('q_day2','2일차 바로 시작')}${b('q_day3','3일차 바로 시작')}${b('q_all','오늘 부탁 다 하기')}${b('q_next','하루 넘기기')}</div>`:''}
       <div class="lb">성능</div><div class="row">${b('fps','FPS 표시 '+(window._fps?'끄기':'켜기'))}${b('errclr','오류 기록 지우기')}</div><div class="st" style="word-break:break-all">${(()=>{try{const e=JSON.parse(LS.getItem('ev_err')||'null');return e?`최근 오류 (${new Date(e.t).toLocaleString('ko-KR')} · ${esc(e.pl)} · ${esc(e.where)}): ${esc(e.m)}`:'최근 오류 없음';}catch(_){return '';}})()}</div>
       <div class="lb">치트</div><div class="row">${b('p100','+100초')}${b('kit','해변 물건 세트')}${b('respawn','해변 물건 다시 깔기')}${b('stampnow','오늘 도장 찍기')}${b('st5','우표 +5장씩')}${b('mailin','우편물 도착 (편지·소포·펜팔)')}</div>
       ${Me.test?`<div class="lb">수수께끼 테스트 · 소문 1 (${({pre:'예고 중',open:'진행 중',closed:'종료'})[Case.st()]||'꺼짐'} · 내 실마리 ${me?Case.myN(CASES[1]):'-'}/3)</div><div class="row">${b('c_pre','① 전날 밤 예고')}${b('c_open','② 수수께끼 열기')}${b('c_close','③ 수수께끼 닫기')}${b('c_roll','내 실마리 번호 바꾸기')}${b('c_all','실마리 3개 다 받기')}${b('c_reset','수수께끼 기록 지우기')}</div>`:''}`;
-    admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k==='errclr'){LS.removeItem('ev_err');this.render();return;}if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
+    admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k.startsWith('q_')){const m=Quest.admin(k);if(m)toast(m,2200);this.render();return;}if(k==='errclr'){LS.removeItem('ev_err');this.render();return;}if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
 admBtn.addEventListener('click',()=>Admin.open());admEl.querySelector('.x').addEventListener('click',()=>Admin.close());admEl.addEventListener('click',e=>{if(e.target===admEl)Admin.close();});
 
 /* ===================== 6. 장소 이동 ===================== */
@@ -1837,7 +1877,7 @@ let me=null,switching=false,snapPan=true;
 function enter(key,spawn,face){if(doorBtn){doorBtn.remove();doorBtn=null;}doorFor=null;placeKey=key;if(Me.ready&&DLINE.visit[key])Me.log(DLINE.visit[key],'v_'+key);P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();buildSparks();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   document.getElementById('outBtn').style.display=P.outBtn?'block':'none';
-  {const t=document.getElementById('tentTag');if(t)t.remove();}Camp.badge();Home.onEnter();Case.marks();Case.badge();Quest.marks();bellHints();if(key==='post')setTimeout(()=>Tip.once('post'),1500);
+  {const t=document.getElementById('tentTag');if(t)t.remove();}Camp.badge();Home.onEnter();Case.marks();Case.badge();Quest.marks();bellHints();setTimeout(()=>{try{Quest.check();}catch(e){}},3000);if(key==='post')setTimeout(()=>Tip.once('post'),1500);
   Owl.clear();if(key==='post'){const k0=++Owl.n0;setTimeout(()=>{if(placeKey==='post'&&Owl.n0===k0)Owl.say(Camp.toShip().length?'ship':Camp.toReply().length?'reply':'hi');},900);}
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 let msgCool=0;
@@ -1863,7 +1903,7 @@ document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switchi
   goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
 // 출구 쪽은 걸을 수 있게
 const baseWalk=walkable;
-document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('msg');const t=inp.value.trim();if(!t||!me)return;say(me,t);Net.chat(t);if(DLINE.chat[placeKey])Me.log(DLINE.chat[placeKey],'c_'+placeKey);inp.value='';inp.blur();});
+document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('msg');const t=inp.value.trim();if(!t||!me)return;say(me,t);Net.chat(t);if(Net.online?[...Net.peers.values()].length>0:npcs.length>0)Quest.mark('chat');if(DLINE.chat[placeKey])Me.log(DLINE.chat[placeKey],'c_'+placeKey);inp.value='';inp.blur();});
 
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=LS.getItem('sbv_name')||'';}catch(e){}
