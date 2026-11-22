@@ -116,6 +116,26 @@
   #note .empty{color:#9a7462;font-size:clamp(14px,2vw,19px);margin-top:8px;line-height:1.5;}
   #note .mini{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:clamp(11px,1.4vw,13px);color:#a07a6c;}
   #note .mini img{width:40px;height:40px;mix-blend-mode:multiply;opacity:.85;transform:rotate(-10deg);}
+  #note .tabs{left:6%;right:6%;justify-content:center;}
+  #note li.m:before{content:'🕰';background:none;width:auto;height:auto;top:.1em;left:-2px;font-size:.75em;}
+  #note .cal .d em{position:absolute;right:0;bottom:0;font-style:normal;font-size:.55em;line-height:1;}
+  #note .scr{position:relative;margin:10px 2px 8px;padding:7px 9px;background:#fffaf0;border:1px solid rgba(120,70,50,.18);box-shadow:0 2px 4px rgba(80,40,20,.15);transform:rotate(var(--r,0deg));font-family:'Gowun Dodum',sans-serif;font-size:12px;line-height:1.45;color:#4a2e24;}
+  #note .scr:before{content:'';position:absolute;top:-6px;left:50%;width:34px;height:12px;transform:translateX(-50%) rotate(-3deg);background:rgba(230,200,140,.6);}
+  #note .scr.no{background:transparent;border:1.5px dashed rgba(140,90,70,.35);box-shadow:none;transform:none;color:#a07a6c;}
+  #note .scr.no:before{display:none;}
+  #note .scr.big{background:#fff1cf;border-color:rgba(176,112,40,.4);}
+  #note .scr .st{font-size:11px;color:#a06a40;}
+  #note .scr .sn{font-size:13px;margin:1px 0;}
+  #note .scr .sf{font-size:10.5px;opacity:.55;margin-top:2px;}
+  #note .hear{margin:6px 0;padding:6px 8px;border-left:3px solid #c98a5a;font-family:'Gowun Dodum',sans-serif;font-size:12px;line-height:1.45;color:#6a4434;background:rgba(255,240,215,.5);}
+  #note .clock{position:relative;width:72%;aspect-ratio:1;margin:8px auto 2px;border-radius:50%;border:3px double #8a5a44;background:radial-gradient(circle,#fff7e8,#f1e0c4);}
+  #note .clock span{position:absolute;transform:translate(-50%,-50%);font-size:clamp(12px,1.8vw,18px);color:rgba(110,70,50,.28);}
+  #note .clock span.q{color:#b0392b;opacity:.75;}
+  #note .clock i{position:absolute;left:50%;bottom:50%;width:3px;border-radius:2px;background:#5a3a2b;transform-origin:50% 100%;}
+  #note .clock .hh{height:22%;transform:translateX(-50%) rotate(165deg);}
+  #note .clock .mm{height:32%;width:2px;transform:translateX(-50%) rotate(180deg);}
+  #note .clock b{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-weight:400;font-size:clamp(11px,1.5vw,15px);color:#a07a6c;}
+  @media (max-width:680px){#note .nb{aspect-ratio:1400/1300;} #note .tabs button{padding:1px 8px;font-size:15px;} #note .pg,#note .pg.r{top:9%;}}
   #note .flip{display:none;}
   #note .cal>div{min-width:0;}
   @media (max-width:680px){#note .nb{width:98vw;} #note .x{top:-46px;right:4px;} #note .pg.l{left:5%;width:41%;} #note .cal{gap:0;} #note .cal .d{font-size:12px;} #note .cal .h{font-size:11px;} #note h3{font-size:17px;} #note ul{font-size:14px;line-height:1.4;}}
@@ -391,10 +411,10 @@
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
-<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">일기</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><button id="csBtn" aria-label="사건 수첩">🔎</button><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
+<div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="day">오늘</button><button data-t="cal">달력</button><button data-t="mys">🕰 수수께끼</button><button data-t="fr">친구</button></div><div class="pg l" id="noteL"></div><div class="pg r" id="noteR"></div></div></div><div id="toast"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1123a</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1123b</div><h1>이브 빌리지</h1><p>늘 해 질 녘, 크리스마스이브에 멈춘 숲바다 마을</p><input id="nm" maxlength="8" placeholder="이름 (최대 8자)"><input id="pw" type="password" maxlength="30" placeholder="비밀번호 (6자 이상)"><p style="font-size:12px;opacity:.75;margin:0">처음이면 자동으로 가입돼요. 다른 기기에서도 같은 이름·비번으로 들어와요.</p><div id="err"></div><button id="go">입장하기</button></div>
 <div id="kicked" style="position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(27,22,40,.85);color:#fff4e2;font-size:16px;text-align:center;padding:24px">다른 기기에서 이 이름으로 접속했어요.<br>이 창은 연결이 끊겼어요.</div>
 <div id="load">마을 불러오는 중…</div>
 <script src="maps.js?v=1122x"></script>
@@ -785,7 +805,7 @@ const Me={d:{sec:0,bag:{},diary:{}},ready:false,remote:false,_t:null,q:[],
     if(!this.test&&Net.online&&this.remote){const D=Net.fn;D.set(D.ref(Net.db,'users/'+Net.uid),this.d).catch(e=>{this.remote=false;console.warn('내 기록 서버 저장 실패',e&&e.code);});}},500);},
   day(k){k=k||ymd();return this.d.diary[k]||(this.d.diary[k]={e:[],st:0});},
   log(text,tag){if(!this.ready){this.q.push(()=>this.log(text,tag));return;}const g=this.day();
-    if(tag){g.tg=g.tg||{};if(g.tg[tag])return;g.tg[tag]=1;}if((g.e||(g.e=[])).length>=40)return;g.e.push({t:Date.now(),x:text});this.save();if(Diary.on)Diary.render();},
+    if(tag){g.tg=g.tg||{};if(g.tg[tag])return;g.tg[tag]=1;}if((g.e||(g.e=[])).length>=40)return;g.e.push(tag?{t:Date.now(),x:text,g:tag}:{t:Date.now(),x:text});this.save();if(Diary.on)Diary.render();},
   stamp(){const g=this.day();if(g.st)return false;g.st=Date.now();this.save();return true;},
   addSec(n){this.d.sec=Math.max(0,Math.round((this.d.sec||0)+n));this.save();this.hud();},
   spend(n){if((this.d.sec||0)<n)return false;this.addSec(-n);return true;},
@@ -799,11 +819,11 @@ const DLINE={visit:{plaza:'광장 분수 트리 앞을 천천히 걸었다.',bea
 const noteEl=document.getElementById('note'),noteNb=noteEl.querySelector('.nb'),noteL=document.getElementById('noteL'),noteR=document.getElementById('noteR');
 const seedRot=(k)=>{let s=0;for(const c of k)s=(s*31+c.charCodeAt(0))%997;return (s%46)-23;};
 const Note={on:false,tab:'day',sel:null,ym:null,
-  open(){this.on=true;this.sel=null;noteNb.classList.remove('rt');noteEl.classList.add('on');this.render();},
+  open(){this.on=true;this.sel=null;this.ym=null;this.tab='day';noteNb.classList.remove('rt');noteEl.classList.add('on');this.render();},
   close(){this.on=false;noteEl.classList.remove('on');},
   dt(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d);},
   title(k){const dt=this.dt(k);return `${dt.getMonth()+1}월 ${dt.getDate()}일 ${KDAY[dt.getDay()]}요일`;},
-  list(k){const L=this.sum(k);if(!L.length)return '<div class="empty">이 날은 아무것도 적혀 있지 않아.</div>';return '<ul>'+L.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>';},
+  list(k){const L=this.sum(k),g=Me.d.diary[k],M=g&&g.e?g.e.filter(x=>x.g&&String(x.g).startsWith('cs')).map(x=>x.x):[];if(!L.length&&!M.length)return '<div class="empty">이 날은 아무것도 적혀 있지 않아.</div>';return '<ul>'+L.map(x=>`<li>${esc(x)}</li>`).join('')+M.map(x=>`<li class="m">${esc(x)}</li>`).join('')+'</ul>';},
   sum(k){const g=Me.d.diary[k];if(!g||!g.tg)return [];const T=Object.keys(g.tg),NM={plaza:'광장',beach:'해변',library:'도서관',curio:'만물상',post:'우체국',camp:'절벽 위 들판',home:'내 텐트'};const by=p=>T.filter(t=>t.startsWith(p)).map(t=>t.slice(p.length));
     const L=[];const v=by('v_').map(x=>NM[x]).filter(Boolean);if(v.length)L.push(v.join(', ')+(v.length>1?'을 돌아다녔다.':'에 들렀다.'));
     const s=by('s_');if(s.includes('beach'))L.push('모닥불 곁에 앉아 파도 소리를 들었다.');else if(s.includes('library'))L.push('도서관에 앉아 잠깐 쉬었다.');else if(s.length)L.push('벤치에 앉아 트리 불빛을 봤다.');
@@ -811,17 +831,27 @@ const Note={on:false,tab:'day',sel:null,ym:null,
     const p=by('p_').map(x=>ITEMS[x]&&ITEMS[x].name).filter(Boolean),pn=(Me.d.pick&&Me.d.pick[k])||0;if(pn)L.push(`해변에서 ${p.slice(0,2).join(', ')}${p.length>2?' 등':''} ${pn}개를 주웠다.`);
     if(by('sell_').length)L.push('만물상에서 주운 것들을 시간으로 바꿨다.');
     return L.slice(0,4);},
+  mysDay(k){const g=Me.d.diary[k];return !!(g&&g.tg&&Object.keys(g.tg).some(t=>t.startsWith('cs')));},
+  stuck(k){const D=Me.d.cs,out=[];const g=Me.d.diary[k];if(g&&g.st)out.push(`<div class="mini"><img src="ui/stamp.webp" alt="">해질녘 도장. 이 날도 마을에 왔다.</div>`);
+    if(D){const c=CASES[D.id];c.clues.forEach(q=>{const x=D.cl[c.id+'-'+q.n];if(x&&ymd(new Date(x.t))===k)out.push(`<div class="scr" style="--r:${(q.n-2)*2.5}deg"><div class="st">${q.ic} ${esc(q.ty)} · ${q.n}/3</div><div class="sn">${esc(q.nm)}</div><div class="sx">${esc(q.tx)}</div></div>`);});
+      if(D.done[c.id]&&ymd(new Date(D.done[c.id]))===k)out.push(`<div class="scr big"><div class="st">🧩 맞춰진 실마리</div><div class="sx">${esc(c.concl)}</div></div>`);}
+    return out.join('')||'<div class="empty">아직 아무것도 안 붙였어.</div>';},
   render(){noteEl.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===this.tab));
-    const k=ymd(),sk=this.sel||k;
-    const base=this.ym||new Date();const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
-    let c=KDAY.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<first;i++)c+='<div></div>';
-    for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];c+=`<div class="d${kk===k?' today':''}${kk===sk?' sel':''}" data-k="${kk}">${d}${g&&g.st?`<img src="ui/stamp.webp" alt="" style="--r:${seedRot(kk)}deg">`:''}</div>`;}
-    const n=Object.values(Me.d.diary).filter(x=>x&&x.st).length;
-    noteL.innerHTML=`<h3><button data-m="-1">‹</button>${y}년 ${m+1}월<button data-m="1">›</button></h3><div class="sub" style="text-align:center">해질녘 도장 ${n}개</div><div class="cal">${c}</div>`;
-    if(this.tab==='day'){const g=Me.d.diary[sk];noteR.innerHTML=`<h3>${this.title(sk)}</h3><div class="sub">${sk===k?'오늘도 해질녘, 영원한 이브':'그날의 해질녘'}</div>${this.list(sk)}${g&&g.st?`<div class="mini"><img src="ui/stamp.webp" alt="">이 날도 마을에 왔다.</div>`:''}`;}
-    else{const fr=Me.d.friends||{};const ids=Object.keys(fr);noteR.innerHTML=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들 · 나만 볼 수 있어</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');}
-    noteL.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.tab='day';this.render();});
-    noteL.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.ym=new Date(y,m+(+b.dataset.m),1);this.render();});}};
+    noteL.scrollTop=0;noteR.scrollTop=0;const k=ymd(),sk=this.sel||k;
+    if(this.tab==='day'){const dt=this.dt(sk);
+      noteL.innerHTML=`<h3><button data-d="-1">‹</button>${this.title(sk)}<button data-d="1"${sk>=k?' style="visibility:hidden"':''}>›</button></h3><div class="sub">${sk===k?'오늘도 해질녘, 영원한 이브':'그날의 해질녘'}</div>${this.list(sk)}`;
+      noteR.innerHTML=`<h3>${sk===k?'오늘':'이 날'} 붙인 것</h3><div class="sub">주운 실마리랑 도장이 여기 붙어</div>${this.stuck(sk)}`;
+      noteL.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=new Date(dt);d.setDate(d.getDate()+(+b.dataset.d));const nk=ymd(d);if(nk>k)return;this.sel=nk;this.render();});return;}
+    if(this.tab==='cal'){const base=this.ym||this.dt(sk);const y=base.getFullYear(),m=base.getMonth();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
+      let c=KDAY.map(d=>`<div class="h">${d}</div>`).join('');for(let i=0;i<first;i++)c+='<div></div>';
+      for(let d=1;d<=last;d++){const kk=ymd(new Date(y,m,d));const g=Me.d.diary[kk];c+=`<div class="d${kk===k?' today':''}${kk===sk?' sel':''}" data-k="${kk}">${d}${g&&g.st?`<img src="ui/stamp.webp" alt="" style="--r:${seedRot(kk)}deg">`:''}${this.mysDay(kk)?'<em>🕰</em>':''}</div>`;}
+      const n=Object.values(Me.d.diary).filter(x=>x&&x.st).length,nm=Object.keys(Me.d.diary).filter(x=>this.mysDay(x)).length;
+      noteL.innerHTML=`<h3><button data-m="-1">‹</button>${y}년 ${m+1}월<button data-m="1">›</button></h3><div class="cal">${c}</div>`;
+      noteR.innerHTML=`<h3>나의 해질녘들</h3><ul><li>해질녘 도장 ${n}개</li><li class="m">수수께끼가 있던 날 ${nm}일</li></ul><div class="empty">날짜를 누르면 그날 일기로 넘어가.</div>`;
+      noteL.querySelectorAll('.cal .d').forEach(el=>el.onclick=()=>{this.sel=el.dataset.k;this.tab='day';this.render();});
+      noteL.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.ym=new Date(y,m+(+b.dataset.m),1);this.render();});return;}
+    if(this.tab==='mys'){noteL.innerHTML=`<h3>멈춘 시계</h3>${Case.clock()}<div class="empty" style="font-size:14px">조각을 찾으면 숫자가 하나씩 돌아와.</div>`;noteR.innerHTML=Case.scrap();return;}
+    const fr=Me.d.friends||{};const ids=Object.keys(fr);noteL.innerHTML=`<h3>친구 목록</h3><div class="sub">이야기를 나눠본 친구들 · 나만 볼 수 있어</div>`+(ids.length?'<ul>'+ids.map(u=>`<li>${esc(fr[u].n||'이웃')}</li>`).join('')+'</ul>':'<div class="empty">아직 이야기 나눠본 친구가 없어.<br>마을에서 누군가에게 말을 걸어볼까?</div>');noteR.innerHTML='';}};
 noteEl.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{Note.tab=b.dataset.t;Note.render();}));
 noteEl.querySelector('.x').addEventListener('click',()=>Note.close());noteEl.addEventListener('click',e=>{if(e.target===noteEl)Note.close();});
 // ---- 가방: 지갑·수첩 + 물건 주머니 ----
@@ -1456,15 +1486,14 @@ const CASES={1:{id:1,kind:'소문편',npc:'🔮 달무리',nm:'달무리',ttl:'�
   alibi:['그날 밤? 가게 문 닫고 절벽 위에서 별 보고 있었지.','태엽이라니, 그건 그냥 실루엣일 뿐이라네.','…억울하구먼. 정말 억울해.'],
   tes:['그날 밤 늦게까지 만물상 불이 켜져 있던데?','달무리 아저씨가 그날 망원경 챙겨 나가는 거 봤어.','만물상 뒷문 쪽에서 종이 바스락거리는 소리가 났어.'],
   clues:[
-    {n:1,pl:'curio',mk:[27,69],at:[30,80],ic:'✨',nm:'실루엣 스케치',src:'만물상 미스터리 선반',a:'태엽처럼 보이지만…',b:'크기가 좀 작다? 진짜 태엽보다 손바닥 반만 해.'},
-    {n:2,pl:'camp',mk:[60,57],at:[60,64],ic:'🪁',nm:'들판지기의 증언',src:'🪁 들판지기',a:'"그날 밤? 별 보러 온 사람…',b:'아무도 없었는데. 나 밤새 여기 있었거든."'},
-    {n:3,pl:'plaza',mk:[36,69],at:[36,72],ic:'✨',nm:'반쪽 쪽지',src:'광장 바닥',a:'"…뒷문,',b:'11시…"'}],
-  concl:'별 보러 갔다는 건 거짓말 같다. 달무리는 그날 밤 뭔가 숨겼다.',
-  res:'달무리의 알리바이에 구멍. 하지만 증거 불충분. 수사는 계속된다.'}};
-const NEWS_BACK=['☕ 카페: 오늘의 음료는 군밤 라테, 포춘쿠키는 덤.','🔥 해변: 어젯밤 모닥불에 걱정 12개가 탔다.','🪁 들판: 꼬마전구 세 개 교체 완료.'];
+    {n:1,ty:'말',ic:'🗣',mi:'🪁',ml:'들판지기',pl:'camp',mk:[60,57],at:[60,64],nm:'들판지기의 말',src:'절벽 위 들판',tx:'"그날 밤 별 보러 온 사람? 아무도 없었는데. 나 밤새 여기 있었거든."'},
+    {n:2,ty:'물건',ic:'🎀',mi:'✨',ml:'',pl:'curio',mk:[27,69],at:[30,80],nm:'금빛 리본 조각',src:'만물상 바닥 구석',tx:'반짝이는 금빛 리본 끄트머리. 가위로 막 자른 것 같다.'},
+    {n:3,ty:'쪽지',ic:'📜',mi:'✨',ml:'',pl:'plaza',mk:[36,69],at:[36,72],nm:'찢어진 쪽지',src:'광장 바닥',tx:'"…뒷문, 11시…" 급하게 휘갈겨 쓴 글씨.'}],
+  concl:'달무리 아저씨는 별을 보러 가지 않았다. 밤 11시, 만물상 뒷문에서 금빛 리본으로 무언가를 하고 있었다.',
+  res:'달무리 아저씨의 "별 보러 갔다"는 말은 사실이 아니었다. 하지만 태엽과 관련이 있는지는 아직 아무도 모른다.'}};const NEWS_BACK=['☕ 카페: 오늘의 음료는 군밤 라테, 포춘쿠키는 덤.','🔥 해변: 어젯밤 모닥불에 걱정 12개가 탔다.','🪁 들판: 꼬마전구 세 개 교체 완료.'];
 // 테스트용 가짜 주민 게시글 (h=가진 단서, w=구하는 단서)
 const CS_FAKE=[{nm:'수딘',h:[2],w:[1]},{nm:'밍디',h:[3],w:[2]},{nm:'응비',h:[1],w:[3]},{nm:'채채',h:[],w:[1,2]}];
-const csEl=document.getElementById('cs'),csBody=document.getElementById('csBody'),csd=document.getElementById('csd'),csBtn=document.getElementById('csBtn');
+const csEl=document.getElementById('cs'),csBody=document.getElementById('csBody'),csd=document.getElementById('csd');
 const Case={
   D(){return Me.d.cs||(Me.d.cs={st:null,id:1,cl:{},ht:{},done:{},post:{},roll:0});},
   st(){return Me.ready&&Me.d&&Me.d.cs?Me.d.cs.st:null;},
@@ -1474,9 +1503,11 @@ const Case={
   myT(c){return (Math.floor(this.h(c)/7)+this.D().roll)%3;},
   has(c,n){return !!this.D().cl[c.id+'-'+n];},
   got(c){return [1,2,3].filter(n=>this.has(c,n));},
-  give(c,n,from){const D=this.D(),k=c.id+'-'+n;if(D.cl[k])return false;D.cl[k]={f:from||'',t:Date.now()};Me.save();return true;},
+  give(c,n,from){const D=this.D(),k=c.id+'-'+n;if(D.cl[k])return false;D.cl[k]={f:from||'',t:Date.now()};Me.save();
+    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>toast('실마리 셋이 다 모였어! 수첩의 🕰 수수께끼를 열어봐',3200),700);}
+    if(Note.on)Note.render();return true;},
   set(st){const D=this.D();D.st=st;Me.save();this.badge();this.marks();},
-  badge(){csBtn.style.display=(Me.test&&this.st())?'block':'none';const c=this.st()&&this.C();csBtn.classList.toggle('dot',!!(c&&this.got(c).length>=2&&!this.D().done[c.id]));},
+  badge(){},
   // 지도 위 표시(❗ 같은 것)
   marks(){document.querySelectorAll('.csMk,.csBird').forEach(e=>e.remove());const st=this.st();if(!st||!me)return;const c=this.C();const M=[];
     if(placeKey==='plaza'){
@@ -1484,7 +1515,7 @@ const Case={
       M.push({at:[12,41],go:[14,58.5],ic:'🗞️',t:st==='pre'?'내일 특종':'호외',f:()=>this.paper()});
       if(st==='open'){M.push({at:[22,50],go:[20,60],ic:'🐦',t:'제보',f:()=>this.tip()});M.push({at:[40,35],go:[40,48],ic:'📌',t:'게시판',f:()=>this.board()});}}
     if(st==='open'&&placeKey==='curio')M.push({at:[50,61],go:[50,74],ic:'❗',t:c.nm,f:()=>this.alibi()});
-    if(st==='open')c.clues.forEach(q=>{if(q.pl===placeKey&&!this.has(c,q.n))M.push({at:q.mk,go:q.at,ic:q.ic,t:'',f:()=>this.find(q)});});
+    if(st==='open')c.clues.forEach(q=>{if(q.pl===placeKey&&!this.has(c,q.n))M.push({at:q.mk,go:q.at,ic:q.mi,t:q.ml,f:()=>this.find(q)});});
     M.forEach(m=>{const b=document.createElement('button');b.className='csMk';b.innerHTML=`<span>${m.ic}</span>${m.t?`<i>${esc(m.t)}</i>`:''}`;b.style.left=m.at[0]+'%';b.style.top=m.at[1]+'%';
       const stop=e=>e.stopPropagation();b.addEventListener('pointerdown',stop);b.addEventListener('pointerup',e=>{e.stopPropagation();this.walk(m.go,m.f);});tagsEl.appendChild(b);});},
   walk(p,f){if(!me||switching)return;if(Math.hypot((p[0]-me.x)*AR,p[1]-me.y)<1.6&&!me.sitting){f();return;}goTo(me,p[0],p[1]);Net.move(p[0],p[1],-1);me.onArrive=f;},
@@ -1493,45 +1524,42 @@ const Case={
     csd.onclick=()=>{i++;if(i>=lines.length){csd.classList.remove('on');csd.onclick=null;if(done)done();}else r();};},
   open(h){csBody.innerHTML=h;csEl.classList.add('on');},close(){csEl.classList.remove('on');},
   paper(){const c=this.C(),st=this.st(),dt=new Date(),D=`${dt.getMonth()+1}월 ${dt.getDate()}일`;
-    const back=NEWS_BACK.map(t=>`<li>${esc(t)}</li>`).join('')+(st==='closed'?`<li class="rs">📋 수사 결과: ${esc(c.res)}</li>`:'');
+    const back=NEWS_BACK.map(t=>`<li>${esc(t)}</li>`).join('')+(st==='closed'?`<li class="rs">📋 그 뒤로 알려진 것: ${esc(c.res)}</li>`:'');
     const front=st==='pre'?`<h2>내일 아침, 특종 예정!</h2><p>까치 기자가 지금 취재 중이야. 내일 아침 가판대로 와 줘. 까악!</p>`
-      :`<h2>${esc(c.head)}</h2><p>${esc(c.lead)}</p><div class="sus"><b>용의자</b>${esc(c.npc)}<i>"그날 밤 행방은 아무도 모른다…"</i></div>`;
+      :`<h2>${esc(c.head)}</h2><p>${esc(c.lead)}</p><div class="sus"><b>의심받는 사람</b>${esc(c.npc)}<i>"그날 밤 행방은 아무도 모른다…"</i></div>`;
     this.open(`<div class="paper"><div class="mast">이브 빌리지 <b>호외</b></div><div class="dl">${D} · 까치 기자</div>${front}<div class="back"><div class="lb">마을 소식</div><ul>${back}</ul></div></div>`);
-    if(st==='open')Me.log(`신문 가판대에서 호외를 샀다. "${c.head}"`,'cs'+c.id+'_p');},
-  tip(){const c=this.C(),t=this.myT(c);this.talk('🐦 까치 기자',['까악! 제보가 하나 들어왔어. 너한테만 말해주는 거야.',c.tes[t],'다른 사람들은 또 다른 얘기를 들었다던데? 서로 물어봐!'],()=>{const D=this.D();D.ht[c.id]=t+1;Me.save();Me.log(`까치 기자의 제보: "${c.tes[t]}"`,'cs'+c.id+'_t');});},
-  alibi(){const c=this.C();this.talk(c.npc,c.alibi,()=>Me.log(`${c.nm}의 억울한 하소연을 들었다. "별 보고 있었다"고.`,'cs'+c.id+'_a'));},
+    if(st==='open')Me.log(`호외를 샀다. "${c.head}" 시계가 멈춘 게 정말 누군가의 짓일까?`,'cs'+c.id+'_p');},
+  tip(){const c=this.C(),t=this.myT(c);this.talk('🐦 까치 기자',['까악! 제보가 하나 들어왔어. 너한테만 말해주는 거야.',c.tes[t],'다른 사람들은 또 다른 얘기를 들었다던데? 서로 물어봐!'],()=>{const D=this.D();D.ht[c.id]=t+1;Me.save();Me.log(`까치가 나한테만 몰래 알려줬다. "${c.tes[t]}"`,'cs'+c.id+'_t');});},
+  alibi(){const c=this.C();this.talk(c.npc,c.alibi,()=>Me.log('달무리 아저씨가 그날 밤엔 별을 보러 갔다며 억울해했다. 근데 왠지 내 눈을 피했다.','cs'+c.id+'_a'));},
   find(q){const c=this.C();
-    if(this.myN(c)!==q.n){this.talk('📝 나',['…누가 먼저 훑고 간 것 같아.','여기 단서는 다른 사람이 갖고 있을지도 몰라. 광장 게시판에서 수소문해 볼까?']);return;}
-    this.give(c,q.n,'');Snd.syn&&Snd.syn('page',0.5);this.marks();this.badge();
-    this.talk('🔎 단서 발견!',[`${c.npc} 사건 · 단서 ${q.n}/3 「${q.nm}」`,q.a+' (뒷부분이 흐릿해서 안 읽혀…)','다른 단서랑 합치면 읽힐지도 몰라. 사건 수첩(🔎)에 넣어뒀어.'],()=>Me.log(`${q.src}에서 단서를 찾았다. 「${q.nm}」`,'cs'+c.id+'_c'+q.n));},
-  card(c,n){const q=c.clues[n-1],x=this.D().cl[c.id+'-'+n],done=this.D().done[c.id];
-    if(!x)return `<div class="cc no"><div class="ct">${esc(c.npc)} 사건 · 단서 ${n}/3</div><div class="cb">? 아직 없어 · 게시판에서 구해 봐</div></div>`;
-    return `<div class="cc"><div class="ct">${esc(c.npc)} 사건 · 단서 ${n}/3</div><div class="cn">「${esc(q.nm)}」<small>${esc(x.f?x.f+'에게 받음':q.src)}</small></div><div class="cb">${esc(q.a)} <span class="${done?'':'blur'}">${esc(q.b)}</span></div></div>`;},
-  file(){const c=this.C(),D=this.D(),g=this.got(c),done=D.done[c.id],st=this.st();
-    const ht=D.ht[c.id]?`<div class="tp">🐦 내가 들은 제보: "${esc(c.tes[D.ht[c.id]-1])}"</div>`:'';
-    const btn=!done&&g.length>=2?`<button class="go" data-a="mix">단서 ${g.length}개 합치기</button>`:'';
-    const cl=done?`<div class="cl"><b>추리 메모</b>${esc(c.concl)}</div>`:(g.length<2?`<div class="sub">단서 3개 중 2개가 모이면 합칠 수 있어. 지금 ${g.length}개.</div>`:'');
-    const rs=st==='closed'?`<div class="cl rs"><b>📋 수사 결과</b>${esc(c.res)}</div>`:'';
-    this.open(`<div class="file"><div class="hd">🔎 사건 수첩</div><div class="clk">🕰 시계판 조각 0/11 <small>(소문편은 조각이 안 나와)</small></div>
-      <div class="cs1"><div class="ttl">${esc(c.kind)} 1 · ${esc(c.ttl)}</div><div class="sub">용의자 ${esc(c.npc)} · ${st==='open'?'수사 중':st==='closed'?'종료':'예고'}</div>${ht}${[1,2,3].map(n=>this.card(c,n)).join('')}${btn}${cl}${rs}</div></div>`);
-    const m=csBody.querySelector('[data-a=mix]');if(m)m.onclick=()=>{D.done[c.id]=1;Me.save();Me.log(`${c.nm} 사건 단서를 합쳤다. ${c.concl}`,'cs'+c.id+'_x');this.badge();this.file();};},
-  board(){const c=this.C(),D=this.D(),mine=this.got(c),want=[1,2,3].filter(n=>!this.has(c,n));
-    const posts=CS_FAKE.filter(p=>p.nm!==me.name).map((p,i)=>{const can=p.h.filter(n=>!this.has(c,n));
-      return `<div class="pp"><div><b>${esc(p.nm)}</b> · ${esc(c.npc)} ${p.h.length?p.h.map(n=>n+'/3').join(', ')+' 있어요':''}${p.w.length?(p.h.length?' · ':'')+p.w.map(n=>n+'/3').join(', ')+' 구해요':''}</div>${can.map(n=>`<button class="mini" data-r="${i}-${n}">${n}/3 달라고 하기</button>`).join('')}${p.w.filter(n=>this.has(c,n)).map(n=>`<button class="mini g" data-s="${i}-${n}">내 ${n}/3 보내주기</button>`).join('')}</div>`;}).join('');
-    const my=D.post[c.id]?`<div class="pp me"><div><b>${esc(me.name)} (나)</b> · ${esc(c.npc)} ${mine.map(n=>n+'/3').join(', ')} 있어요${want.length?' · '+want.map(n=>n+'/3').join(', ')+' 구해요':''}</div></div>`:'';
+    if(this.myN(c)!==q.n){this.talk('📝 나',['…여긴 아무것도 없네. 누가 먼저 가져갔나 봐.','광장 게시판에서 구해 볼까?']);return;}
+    Snd.syn&&Snd.syn('page',0.5);
+    this.talk(`${q.ic} 실마리를 찾았어`,[`「${q.nm}」 · ${c.npc} 수수께끼 실마리 ${q.n}/3`,q.tx,'수첩에 붙여뒀어. 실마리 셋이 다 모이면 뭔가 보일 것 같아.'],()=>{Me.log(`${q.src}에서 실마리를 하나 찾았다. ${q.nm}.`,'cs'+c.id+'_c'+q.n);this.give(c,q.n,'');this.marks();});},
+  board(){const c=this.C(),D=this.D(),mine=this.got(c),want=[1,2,3].filter(n=>!this.has(c,n)),lab=n=>`${n}/3 ${c.clues[n-1].ic}`;
+    const F=CS_FAKE.filter(p=>p.nm!==me.name);
+    const posts=F.map((p,i)=>{const can=p.h.filter(n=>!this.has(c,n));
+      return `<div class="pp"><div><b>${esc(p.nm)}</b> · ${esc(c.npc)} ${p.h.length?p.h.map(lab).join(', ')+' 있어요':''}${p.w.length?(p.h.length?' · ':'')+p.w.map(lab).join(', ')+' 구해요':''}</div>${can.map(n=>`<button class="mini" data-r="${i}-${n}">${lab(n)} 부탁하기</button>`).join('')}${p.w.filter(n=>this.has(c,n)).map(n=>`<button class="mini g" data-s="${i}-${n}">내 ${lab(n)} 나눠주기</button>`).join('')}</div>`;}).join('');
+    const my=D.post[c.id]?`<div class="pp me"><div><b>${esc(me.name)} (나)</b> · ${esc(c.npc)} ${mine.map(lab).join(', ')} 있어요${want.length?' · '+want.map(lab).join(', ')+' 구해요':''}</div></div>`:'';
     this.open(`<div class="file"><div class="hd">📌 광장 게시판 · 구해요 / 있어요</div><div class="sub">테스트용 가짜 주민 글이야. 진짜로는 친구들이 올린 글이 떠.</div>${my}${posts}
-      ${mine.length&&!D.post[c.id]?'<button class="go" data-a="post">내 단서 게시판에 올리기</button>':''}</div>`);
-    csBody.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const [i,n]=b.dataset.r.split('-').map(Number),p=CS_FAKE.filter(p=>p.nm!==me.name)[i];b.disabled=true;b.textContent='요청 보냄…';
-      setTimeout(()=>{if(this.give(c,n,p.nm)){toast(`${josa(p.nm,'이','가')} 단서 ${n}/3 사본을 보내줬어!`,2200);Me.log(`게시판에서 ${p.nm}에게 ${c.nm} 사건 단서를 받았다.`,'cs'+c.id+'_g'+n);}this.badge();if(csEl.classList.contains('on'))this.board();},1500);});
-    csBody.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [i,n]=b.dataset.s.split('-').map(Number),p=CS_FAKE.filter(p=>p.nm!==me.name)[i];b.disabled=true;b.textContent='보냈어 ✓';toast(`${p.nm}에게 단서 ${n}/3 사본을 보냈어`,2000);Me.log(`게시판에서 ${p.nm}에게 단서를 나눠줬다.`,'cs'+c.id+'_s');});
+      ${mine.length&&!D.post[c.id]?'<button class="go" data-a="post">내 실마리 게시판에 올리기</button>':''}</div>`);
+    csBody.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const [i,n]=b.dataset.r.split('-').map(Number),p=F[i];b.disabled=true;b.textContent='부탁했어…';
+      setTimeout(()=>{if(!this.has(c,n)){Me.log(`게시판에서 ${josa(p.nm,'이','가')} 실마리를 나눠줬다. ${c.clues[n-1].nm}.`,'cs'+c.id+'_g'+n);this.give(c,n,p.nm);toast(`${josa(p.nm,'이','가')} 실마리 ${n}/3을 나눠줬어!`,2200);}if(csEl.classList.contains('on'))this.board();},1500);});
+    csBody.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const [i,n]=b.dataset.s.split('-').map(Number),p=F[i];b.disabled=true;b.textContent='나눠줬어 ✓';toast(`${p.nm}에게 실마리 ${n}/3을 나눠줬어`,2000);Me.log(`게시판에서 ${p.nm}에게 실마리를 나눠줬다.`,'cs'+c.id+'_s');});
     const pb=csBody.querySelector('[data-a=post]');if(pb)pb.onclick=()=>{D.post[c.id]=1;Me.save();this.board();};},
+  // 수첩 🕰 탭
+  clock(){let h='<div class="clock">';for(let i=1;i<=12;i++){const a=(i/12)*Math.PI*2,x=50+38*Math.sin(a),y=50-38*Math.cos(a);h+=`<span class="${i===12?'q':''}" style="left:${x}%;top:${y}%">${i===12?'?':i}</span>`;}
+    return h+'<i class="hh"></i><i class="mm"></i><b>5:30</b></div><div class="sub" style="text-align:center">돌아온 조각 0/11</div>';},
+  scrap(){const D=Me.d.cs;if(!D||!D.st)return '<h3>마을의 수수께끼</h3><div class="empty">아직 마을에 이상한 소문이 없어.<br>까치가 특종을 외치면 시작될 거야.</div>';const c=this.C(),done=D.done[c.id];
+    const sl=c.clues.map(q=>{const x=D.cl[c.id+'-'+q.n];return x?`<div class="scr" style="--r:${(q.n-2)*2.2}deg"><div class="st">${q.ic} ${esc(q.ty)} · ${q.n}/3</div><div class="sn">${esc(q.nm)}</div><div class="sx">${esc(q.tx)}</div><div class="sf">${esc(x.f?x.f+'에게 받음':q.src+'에서')}</div></div>`
+      :`<div class="scr no"><div class="st">${q.ic} ${esc(q.ty)} · ${q.n}/3</div><div class="sx">비어 있어 · 구해야 해</div></div>`;}).join('');
+    const ht=D.ht[c.id]?`<div class="hear">🐦 까치가 몰래 알려준 말<br>"${esc(c.tes[D.ht[c.id]-1])}"</div>`:'';
+    return `<h3>${esc(c.kind)} 1</h3><div class="sub">${esc(c.ttl)} · 의심받는 사람 ${esc(c.npc)}</div>${ht}${sl}${done?`<div class="scr big"><div class="st">🧩 맞춰진 실마리</div><div class="sx">${esc(c.concl)}</div></div>`:''}${D.st==='closed'?`<div class="hear">📋 그 뒤로 알려진 것<br>${esc(c.res)}</div>`:''}`;},
   admin(k){if(!Me.test){toast('테스트 모드에서만 돼',1500);return;}const D=this.D();
     if(k==='c_pre')this.set('pre');if(k==='c_open')this.set('open');if(k==='c_close')this.set('closed');
-    if(k==='c_reset'){delete Me.d.cs;Me.save();this.badge();this.marks();}
-    if(k==='c_all'){[1,2,3].forEach(n=>this.give(this.C(),n,''));this.badge();this.marks();}
-    if(k==='c_roll'){D.roll=(D.roll||0)+1;Me.save();this.marks();toast(`이제 내 단서는 ${this.myN(this.C())}/3번 자리야`,1800);}}};
+    if(k==='c_reset'){delete Me.d.cs;Object.values(Me.d.diary).forEach(g=>{if(g.e)g.e=g.e.filter(x=>!(x.g&&String(x.g).startsWith('cs')));if(g.tg)Object.keys(g.tg).forEach(t=>{if(t.startsWith('cs'))delete g.tg[t];});});Me.save();this.marks();}
+    if(k==='c_all'){[1,2,3].forEach(n=>this.give(this.C(),n,''));this.marks();}
+    if(k==='c_roll'){D.roll=(D.roll||0)+1;Me.save();this.marks();toast(`이제 내 실마리는 ${this.myN(this.C())}/3번 자리야`,1800);}}};
 csEl.querySelector('.x').addEventListener('click',()=>Case.close());csEl.addEventListener('click',e=>{if(e.target===csEl)Case.close();});
-csBtn.addEventListener('click',()=>Case.file());
 
 /* ===================== 관리자 (현디 전용) ===================== */
 const ADMIN_NAMES=['현디'];
@@ -1571,7 +1599,7 @@ const Admin={
       <div class="st">지금: ${Me.test?'테스트 (연습용 기록, 서버에 저장 안 됨)':'플레이 (진짜 기록)'} · ${(Me.d.sec||0)}초 · 물건 ${n}개 · 오늘 줍기 ${pickedToday()}/${PICK_MAX}</div>
       <div class="lb">리셋</div><div class="row">${b('sec','초 0으로')}${b('bag','가방 비우기')}${b('pick','오늘 줍기 횟수')}${b('stamp','오늘 도장 지우기')}${b('postr','우체국 기록')}${b('campr','내 텐트·받은편지')}${b('all','전부 처음으로')}</div>
       <div class="lb">치트</div><div class="row">${b('p100','+100초')}${b('kit','해변 물건 세트')}${b('respawn','해변 물건 다시 깔기')}${b('stampnow','오늘 도장 찍기')}${b('st5','우표 +5장씩')}${b('mailin','우편물 도착 (편지·소포·펜팔)')}</div>
-      ${Me.test?`<div class="lb">사건 테스트 · 소문편 1 (${({pre:'예고 중',open:'진행 중',closed:'종료'})[Case.st()]||'꺼짐'} · 내 단서 ${me?Case.myN(CASES[1]):'-'}/3)</div><div class="row">${b('c_pre','① 전날 밤 예고')}${b('c_open','② 사건 열기')}${b('c_close','③ 사건 닫기')}${b('c_roll','내 단서 번호 바꾸기')}${b('c_all','단서 3개 다 받기')}${b('c_reset','사건 기록 지우기')}</div>`:''}`;
+      ${Me.test?`<div class="lb">수수께끼 테스트 · 소문 1 (${({pre:'예고 중',open:'진행 중',closed:'종료'})[Case.st()]||'꺼짐'} · 내 실마리 ${me?Case.myN(CASES[1]):'-'}/3)</div><div class="row">${b('c_pre','① 전날 밤 예고')}${b('c_open','② 수수께끼 열기')}${b('c_close','③ 수수께끼 닫기')}${b('c_roll','내 실마리 번호 바꾸기')}${b('c_all','실마리 3개 다 받기')}${b('c_reset','수수께끼 기록 지우기')}</div>`:''}`;
     admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
 admBtn.addEventListener('click',()=>Admin.open());admEl.querySelector('.x').addEventListener('click',()=>Admin.close());admEl.addEventListener('click',e=>{if(e.target===admEl)Admin.close();});
 
