@@ -18,7 +18,7 @@
   html,body{margin:0;height:100%;overflow:hidden;background:#1b1a2a;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent;}
   #view{position:fixed;inset:0;overflow:hidden;}
   #stage{position:absolute;left:0;top:0;will-change:transform;transform-origin:0 0;}
-  #stage.zm .tag,#stage.zm .bub,#stage.zm .fcd{opacity:0;transition:opacity .4s;}
+  #stage.zm .tag,#stage.zm .bub{opacity:0;transition:opacity .4s;}
   #dofV{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse 62% 55% at 50% 50%,rgba(0,0,0,0) 55%,rgba(25,12,8,.42) 100%);z-index:1;}
   #map{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none;pointer-events:none;}
   #fx,#tags{position:absolute;inset:0;pointer-events:none;}
@@ -496,7 +496,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124i</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124j</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1420,10 +1420,10 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
 const FOCUS=[[15,5],[25,10],[50,25]]; // [분, 받는 초]
 const Focus={st:null,
   btn:document.getElementById('focusBtn'),
-  can(){return me&&me.sitting&&placeKey==='library';},
+  can(){return me&&me.sitting&&placeKey==='library'&&!(me.seat&&me.seat.nf);},
   ui(){const b=this.btn;if(!b)return;const show=(this.can()||!!this.st)&&!(me&&me.mv);b.style.display=show?'block':'none';if(!show)return;
-    {const s=charH(me.y),px=me.x/100*SW,py=me.y/100*SH,top=py-s*0.78;b.style.left=(px+s*0.34)+'px';b.style.top=(top+s*0.3)+'px';}
-    if(this.st){const r=Math.max(0,this.st.e-Date.now()),m=Math.floor(r/60000),sec=Math.floor(r/1000)%60;b.classList.add('on');const t='🕯 '+m+':'+String(sec).padStart(2,'0')+' · 그만';if(b.textContent!==t)b.textContent=t;}
+    {const s=charH(me.y),px=me.x/100*SW,py=me.y/100*SH,top=py-s*0.78;if(ZM_on){b.style.left=px+'px';b.style.top=(py+s*0.16)+'px';b.style.translate='-50% 0';b.style.transformOrigin='50% 0';}else{b.style.left=(px+s*0.34)+'px';b.style.top=(top+s*0.3)+'px';b.style.translate='';b.style.transformOrigin='';}}
+    if(this.st){const r=Math.max(0,this.st.e-Date.now()),m=Math.floor(r/60000),sec=Math.floor(r/1000)%60;b.classList.add('on');const t=ZM_on?'그만하기':'🕯 '+m+':'+String(sec).padStart(2,'0')+' · 그만';if(b.textContent!==t)b.textContent=t;}
     else{b.classList.remove('on');if(b.textContent!=='🕯 집중하기')b.textContent='🕯 집중하기';}},
   menu(){Camp.show(`<div class="hd">집중하기</div><div class="say"><b>📖 도서관</b>앉은 자리에서 책을 펴고 촛불을 켜. 촛불이 다 탈 때까지 집중하면, 쓴 시간만큼 초가 쌓여.</div>
       <div class="ft" style="justify-content:center;gap:8px;flex-wrap:wrap">${FOCUS.map(([m,r],i)=>`<button class="go" data-fm="${i}">${m}분 · +${r}초</button>`).join('')}</div>
@@ -1441,8 +1441,8 @@ const Focus={st:null,
   decor(c,px,top,s){const f=c.fo,on=f&&f.e>Date.now()&&c.sitting&&placeKey==='library';
     if(!on){if(c.fcd){c.fcd.remove();c.fcd=null;}if(c.fbk){c.fbk.remove();c.fbk=null;}this.tbookOff(c);return;}
     if(!c.fcd){c.fcd=document.createElement('div');c.fcd.className='fcd';c.fcd.innerHTML='<i></i><div class="wx"></div>';tagsEl.appendChild(c.fcd);}
-    const r=Math.max(0,f.e-Date.now()),fr=Math.min(1,r/(f.d*60000)),h=4+18*fr;c.fcd.style.left=px+'px';c.fcd.style.top=(top-(c.bub?44:16))+'px';
-    c.fcd.lastChild.style.height=h+'px';const tx=c===me?'':(c.name||'')+' 집중 중 · '+Math.ceil(r/60000)+'분';if(c.fcd.firstChild.textContent!==tx){c.fcd.firstChild.textContent=tx;c.fcd.firstChild.style.display=tx?'':'none';}
+    const r=Math.max(0,f.e-Date.now()),fr=Math.min(1,r/(f.d*60000)),h=4+18*fr;c.fcd.style.left=px+'px';c.fcd.style.top=(top-(c===me&&ZM_on?7:(c.bub?44:16)))+'px';
+    c.fcd.lastChild.style.height=h+'px';const tx=c===me?(ZM_on?`${Math.floor(r/60000)}:${String(Math.floor(r/1000)%60).padStart(2,'0')} 집중 중`:''):(c.name||'')+' 집중 중 · '+Math.ceil(r/60000)+'분';c.fcd.style.transform=c===me&&ZM_on?`translate(-50%,-100%) scale(${(1/(1+(ZMAX-1)*ZT*ZT*(3-2*ZT))).toFixed(3)})`:'';c.fcd.style.transformOrigin='50% 100%';if(c.fcd.firstChild.textContent!==tx){c.fcd.firstChild.textContent=tx;c.fcd.firstChild.style.display=tx?'':'none';}
     const tb=c.seat&&c.seat.tb,back=c.seat&&c.seat.look&&c.seat.look[1]<c.seat.y;
     if(tb){if(c.fbk){c.fbk.remove();c.fbk=null;}this.tbook(c,tb);}
     else{this.tbookOff(c);if(!c.fbk){c.fbk=document.createElement('img');c.fbk.className='fbk';c.fbk.src=window.MAPS.b_book;tagsEl.appendChild(c.fbk);}
@@ -1473,9 +1473,9 @@ const Lib={ // 배경에 그려진 가구 위에 앉는 자리 · 앞판(배경�
   // [x들, y, 방향(f=화면 쪽/b=뒤로), 깊이 z, 다가가는 y]
   rows:[[[24,28.7,33.4],65.1,'f',66.1,62.7,{tb:[67.4,69.6]}],[[66.8,71.1,75.4],65.1,'f',66.1,62.7,{tb:[67.4,69.6]}],[[38.3,43,47.7,52.4,57.1,61.8],76.2,'f',78.1,73.7,{tb:[79.8,83.1]}],
     [[26.35,31.05],72.0,'b',72.4,76.4],[[68.95,73.25],72.0,'b',72.4,76.4],[[40.65,45.35,50.05,54.75,59.45],85.8,'b',86.4,92.6],
-    [[28,33],57.0,'f',58.6,60.7,{sink:0.03,lx:4}],[[67,72],57.0,'f',58.6,60.7,{sink:0.03,lx:-4}],[[40.7],60.9,'f',62.3,66.3,{sink:0.04,lx:13}],[[59.3],60.9,'f',62.3,66.3,{sink:0.04,lx:-13}],[[46.5,50,53.5],64.3,'b',66.3,null,{sink:0.03}]],
+    [[28,33],57.0,'f',58.6,60.7,{sink:0.03,lx:4}],[[67,72],57.0,'f',58.6,60.7,{sink:0.03,lx:-4}],[[40.7],60.9,'f',62.3,66.3,{sink:0.04,lx:13,nf:1}],[[59.3],60.9,'f',62.3,66.3,{sink:0.04,lx:-13,nf:1}],[[46.5,50,53.5],64.3,'b',66.3,null,{sink:0.03,nf:1}]],
   build(){const L=PLACES.library;L.acts=[{r:[83.5,67.5,89.5,72.6],to:[86,84],act:'lib',bell:[86.3,70.9]}];L.bld=this.ov.map(o=>Object.assign({fp:[[o.cx,o.by]],noShadow:1},o));L.seats=[];
-    this.rows.forEach(([xs,y,f,z,ay,o])=>xs.forEach(x=>{o=o||{};const lx=o.lx||0,sr={x,y,look:f==='f'?[x+lx,y+30]:[x,y-30],pose:'chair',z,px:x,py:ay};if(o.sink)sr.sink=o.sink;if(o.tb)sr.tb=o.tb;
+    this.rows.forEach(([xs,y,f,z,ay,o])=>xs.forEach(x=>{o=o||{};const lx=o.lx||0,sr={x,y,look:f==='f'?[x+lx,y+30]:[x,y-30],pose:'chair',z,px:x,py:ay};if(o.sink)sr.sink=o.sink;if(o.tb)sr.tb=o.tb;if(o.nf)sr.nf=1;
       if(ay==null){sr.px=x<50?42.2:57.8;sr.py=66.6;}L.seats.push(sr);}));this.grid();},
   grid(){const gx=240,gy=160,g=new Uint8Array(gx*gy);
     for(let j=0;j<gy;j++)for(let i=0;i<gx;i++){const x=(i+0.5)/gx*100,y=(j+0.5)/gy*100;let ok=inPoly(x,y,this.floor);
