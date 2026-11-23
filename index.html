@@ -17,10 +17,12 @@
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#1b1a2a;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent;}
   #view{position:fixed;inset:0;overflow:hidden;}
-  #stage{position:absolute;left:0;top:0;will-change:transform;}
+  #stage{position:absolute;left:0;top:0;will-change:transform;transform-origin:0 0;}
+  #stage.zm .tag,#stage.zm .bub,#stage.zm .fcd{opacity:0;transition:opacity .4s;}
+  #dofV{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse 62% 55% at 50% 50%,rgba(0,0,0,0) 55%,rgba(25,12,8,.42) 100%);z-index:1;}
   #map{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none;pointer-events:none;}
   #fx,#tags{position:absolute;inset:0;pointer-events:none;}
-  #c{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;}
+  #c{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;transform-origin:0 0;}
   #fg{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;}
   #fg .lf{position:absolute;filter:blur(5px) brightness(.55) saturate(.8);opacity:.92;}
   #fg .bk{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,210,140,.42) 0%,rgba(255,190,120,.18) 45%,rgba(255,180,110,0) 70%);filter:blur(3px);animation:bkd 9s ease-in-out infinite alternate;}
@@ -487,14 +489,14 @@
 </script>
 </head>
 <body>
-<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div><div id="dofV"></div>
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124g</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124h</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -516,7 +518,7 @@
 <script>Object.assign(window.MAPS,{hill:"hill/hill.jpg",mask_hill:"hill/mask.png",fx_hill:"post/fx.png",b_clock:"bld/clock.webp",b_clockh:"bld/clockh.webp",b_board:"bld/board.webp",curio:"curio/curio.jpg",mask_curio:"curio/mask.png",fx_curio:"curio/fx.png",curio_float:"curio/float.png",post:"post/post.jpg?v=2",mask_post:"post/mask.png",fx_post:"post/fx.png",post_float:"post/float.png?v=2",camp:"grnd/camp.jpg",mask_camp:"post/mask.png",fx_camp:"post/fx.png",b_dome_on:"camp/dome_on.webp",b_dome_off:"camp/dome_off.webp",b_tipi_on:"camp/tipi_on.webp",b_tipi_off:"camp/tipi_off.webp",b_flag:"camp/flag.webp",b_mailbox:"camp/mailbox.webp",home:"home/room.jpg",mask_home:"post/mask.png",fx_home:"post/fx.png",b_h_bed:"home/bed.webp?v=2",b_h_bed_f:"home/bed_f.webp",b_h_bed_s_f:"home/bed_s_f.webp",b_h_armchair_f:"home/armchair_f.webp",b_h_armchair_s_f:"home/armchair_s_f.webp",b_h_rug:"home/rug.webp?v=2",b_h_stove:"home/stove.webp?v=2",b_h_table:"home/table.webp",b_h_chair:"home/chair.webp",b_h_armchair:"home/armchair.webp",b_h_rack:"home/rack.webp",b_h_shelf:"home/shelf.webp",b_h_plant:"home/plant.webp",b_h_lamp:"home/lamp.webp",b_h_side:"home/side.webp",b_h_chair_s:"home/chair_s.webp",b_h_armchair_s:"home/armchair_s.webp",b_h_shelf_s:"home/shelf_s.webp",b_h_rack_s:"home/rack_s.webp",b_h_stove_s:"home/stove_s.webp",b_h_bed_s:"home/bed_s.webp",b_h_win_sea:"home/win_sea.webp",b_h_win_forest:"home/win_forest.webp",b_h_win_sky:"home/win_sky.webp",it_shell_w:"items/shell_w.webp",it_shell_p:"items/shell_p.webp",it_shell_v:"items/shell_v.webp",it_wood:"items/wood.webp",it_glass_g:"items/glass_g.webp",it_conch:"items/conch.webp",it_glass_b:"items/glass_b.webp",it_star:"items/star.webp",it_pearl:"items/pearl.webp",it_bottle:"items/bottle.webp",plaza:"grnd/plaza2.jpg",beach:"grnd/beach.jpg",b_news:"bld/news.webp",b_cafe:"bld/cafe.webp",b_library:"bld/library.webp",b_curio2:"bld/curio2.webp",b_post2:"bld/post2.webp",b_pub:"bld/pub.webp",library:"lib3/hall.jpg",mask_library:"lib/mask_library.png",fx_library:"lib3/fx.png",b_l3_t1L:"lib3/t1L.webp",b_book:"lib2/book.webp",b_obook:"lib3/obook.webp",b_opage:"lib3/opage.webp",b_l3_t2L:"lib3/t2L.webp",b_l3_t3L:"lib3/t3L.webp",b_l3_t1:"lib3/t1.webp",b_l3_t2:"lib3/t2.webp",b_l3_t3:"lib3/t3.webp",b_l3_b1b:"lib3/b1b.webp",b_l3_b2b:"lib3/b2b.webp",b_l3_b3b:"lib3/b3b.webp",b_l3_sofa:"lib3/sofa.webp",b_l3_arm1:"lib3/arm1.webp",b_l3_arm2:"lib3/arm2.webp",b_l3_lect:"lib3/lect.webp",b_lb_table:"lib2/table.webp",b_lb_bench:"lib2/bench.webp",b_lb_sofa:"lib2/sofa.webp",b_lb_arm:"lib2/arm.webp",b_lb_gchair:"lib2/gchair.webp",b_lb_lamp:"lib2/lamp.webp",b_lb_desk:"lib2/desk.webp",b_lb_lectern:"lib2/lectern.webp",b_lb_sofa_f:"lib2/sofa_f.webp",b_lb_arm_f:"lib2/arm_f.webp",b_lb_gchair_f:"lib2/gchair_f.webp",candles:"lib/candles.png"});</script>
 <script type="module">
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';import * as SkelU from 'three/addons/utils/SkeletonUtils.js';
 
 /* ===================== 1. 장소 데이터 (좌표는 그림 기준 %) ===================== */
 let AR=2016/1140;const AR0=AR;
@@ -603,6 +605,14 @@ function layout(){SH=innerHeight;SW=SH*AR;if(SW<innerWidth&&!(P&&P.contain&&inne
   if(P&&P.charVh){if(P.sizeW){const t=innerHeight*P.charVh/(P.sizeW*1.05);if(SW<t){SW=t;SH=SW/AR;}}else{const t=innerHeight*P.charVh/(P.size*1.05);if(SH<t){SH=t;SW=SH*AR;}}} // 가까운 시점: 캐릭터가 화면 높이의 일정 비율이 되도록 확대
   stage.style.width=SW+'px';stage.style.height=SH+'px';renderer.setSize(innerWidth,innerHeight);setCam(panX,panY);}
 function setCam(x,y){camera.left=x;camera.right=x+innerWidth;camera.top=-y;camera.bottom=-(y+innerHeight);camera.updateProjectionMatrix();canvas.style.transform=`translate(${x}px,${y}px)`;}
+// 집중할 때 캐릭터 쪽으로 스윽 다가가는 카메라 (z배 확대, F=화면 가운데에 올 지점)
+function setView(Fx,Fy,z){const cx=innerWidth/2,cy=innerHeight/2,l=Fx-cx/z,t=Fy-cy/z;camera.left=l;camera.right=Fx+cx/z;camera.top=-t;camera.bottom=-(Fy+cy/z);camera.updateProjectionMatrix();
+  canvas.style.transform=`translate(${l}px,${t}px) scale(${1/z})`;stage.style.transform=`translate(${cx-z*Fx}px,${cy-z*Fy}px) scale(${z})`;}
+let ZT=0;const ZMAX=3.0;
+const DOF={uFoc:{value:new THREE.Vector2(0.5,0.5)},uBlur:{value:0},uAsp:{value:1}};
+const DOF_GLSL=`uniform vec2 uFoc;uniform float uBlur,uAsp;
+vec3 dofS(sampler2D m,vec2 uv){vec3 c=texture2D(m,uv).rgb;if(uBlur<=0.0001)return c;vec2 d=uv-uFoc;d.x*=uAsp;float k=smoothstep(0.03,0.2,length(d*vec2(0.75,1.0)));float r=uBlur*k;if(r<0.0003)return c;
+  vec3 s=c;for(int i=0;i<12;i++){float a=float(i)*2.39996;float rr=r*sqrt((float(i)+0.5)/12.0);vec2 o=vec2(cos(a)/uAsp,sin(a))*rr;s+=texture2D(m,uv+o).rgb;}return s/13.0;}`;
 layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();if(typeof buildSeats==='function')buildSeats();if(typeof relayoutSparks==='function')relayoutSparks();});
 // 해질녘 조명 (밤은 나중에 추가)
 scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
@@ -626,15 +636,16 @@ function vidSync(){if(vidWant){if(vidEl.paused){const p=vidEl.play();if(p&&p.cat
 addEventListener('pointerdown',vidSync);
 const VIDU={uVid:{value:vidTex},uVm:{value:null},uVidOn:{value:0}};
 const VID_GLSL='uniform sampler2D uVid,uVm;uniform float uVidOn;vec3 vidMix(vec3 c,vec2 uv){if(uVidOn<=0.0)return c;float m=texture2D(uVm,uv).r*uVidOn;return mix(c,texture2D(uVid,uv).rgb,m);}';
-const bgMat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:null},uFx:{value:null},uTime:{value:0}},VIDU),depthWrite:false,
+const bgMat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:null},uFx:{value:null},uTime:{value:0}},VIDU,DOF),depthWrite:false,
   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
   fragmentShader:`uniform sampler2D uMap,uFx;uniform float uTime;varying vec2 vUv;
 ${VID_GLSL}
+${DOF_GLSL}
   void main(){vec4 f=texture2D(uFx,vUv)*(1.0-uVidOn);vec2 uv=vUv;float w=f.r,aq=f.g;
     float gust=0.6+0.4*sin(uTime*0.35+vUv.x*3.0);
     uv.x+=w*0.0011*gust*sin(uTime*1.7+vUv.y*38.0+vUv.x*21.0);uv.y+=w*0.0006*gust*sin(uTime*1.3+vUv.x*30.0);
     uv.y+=aq*0.0016*sin(uTime*1.25+vUv.x*55.0+vUv.y*160.0);uv.x+=aq*0.0010*sin(uTime*0.9+vUv.y*120.0);
-    vec3 c=texture2D(uMap,uv).rgb;
+    vec3 c=dofS(uMap,uv);
     float s=aq*pow(max(0.,sin(uTime*1.6+vUv.x*95.0+vUv.y*310.0)*sin(uTime*0.7+vUv.x*41.0-vUv.y*170.0)),6.0);c+=s*0.35*vec3(1.,.86,.7);
     float fo=f.b*(0.5+0.5*sin(uTime*1.05-vUv.y*180.0+vUv.x*20.0));c=mix(c,vec3(1.,.95,.92),fo*0.18);
     c=vidMix(c,vUv);gl_FragColor=vec4(c,1.);}`});
@@ -691,10 +702,20 @@ const shCan=document.createElement('canvas');shCan.width=shCan.height=64;const s
 const shMat=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shCan),transparent:true,depthWrite:false});
 const PITCH=0.8;
 function makeChar(name,x,y,isMe){const g=new THREE.Group(),tilt=new THREE.Group(),turn=new THREE.Group();tilt.rotation.x=PITCH;g.add(tilt);tilt.add(turn);
-  const body=gltf.scene.clone(true);const cm=charMaterial();body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;turn.add(body);
+  const body=SkelU.clone(gltf.scene);const cm=charMaterial();body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;turn.add(body);
+  const bn={};body.traverse(o=>{if(o.isBone){bn[o.name]=o;o.userData.r0=o.quaternion.clone();}});
   const sh=new THREE.Mesh(new THREE.PlaneGeometry(0.8,0.8),shMat);sh.scale.y=0.42;sh.position.set(0,0.01,-0.5);g.add(sh);scene.add(g);
   const tag=document.createElement('div');tag.className='tag'+(isMe?' me':'');tag.textContent=name;tagsEl.appendChild(tag);
-  return {name,g,turn,body,sh,u:cm.u,look:null,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
+  return {name,g,turn,body,bn,sh,u:cm.u,look:null,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
+// 진짜 관절로 움직이기 (모델 기준 축: x=앞, y=위, z=옆)
+const _bq=new THREE.Quaternion(),_pq=new THREE.Quaternion(),_rq=new THREE.Quaternion(),AXX=new THREE.Vector3(1,0,0),AXZ=new THREE.Vector3(0,0,1);
+function boneRot(c,n,ax,a){const b=c.bn&&c.bn[n];if(!b||!a)return;c.body.getWorldQuaternion(_bq).invert();b.parent.updateWorldMatrix(true,false);b.parent.getWorldQuaternion(_pq);_pq.premultiply(_bq);
+  _rq.setFromAxisAngle(ax,a);b.quaternion.premultiply(_pq.clone().invert().multiply(_rq).multiply(_pq));b.updateMatrixWorld(true);}
+// 책 읽기: 두 팔로 책상 위 책을 잡고 고개 숙임, fl(0~1)일 때 오른손이 책장을 넘김
+function poseRead(c,w,fl,t){if(!c.bn)return;const on=w>0.002;if(!on&&!c._bp)return;for(const k in c.bn)c.bn[k].quaternion.copy(c.bn[k].userData.r0);c._bp=on;if(!on){c.body.updateMatrixWorld(true);return;}
+  const br=Math.sin(t*1.5+c.x)*0.025;boneRot(c,'Spine',AXZ,(-0.08+br)*w);boneRot(c,'Head',AXZ,(-0.26+Math.sin(t*0.6+c.x)*0.05)*w);
+  ['Left','Right'].forEach((s,i)=>{const sg=i?1:-1;boneRot(c,s+'Arm',AXZ,0.95*w);boneRot(c,s+'Arm',AXX,sg*0.35*w);boneRot(c,s+'ForeArm',AXZ,0.55*w);boneRot(c,s+'ForeArm',AXX,sg*0.25*w);});
+  if(fl>0){boneRot(c,'RightArm',AXZ,0.25*fl*w);boneRot(c,'RightForeArm',AXX,-0.85*fl*w);boneRot(c,'Head',AXX,0.1*fl*w);}}
 function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();if(c.fcd)c.fcd.remove();if(c.fbk)c.fbk.remove();if(c.bk)Focus.tbookOff(c);}
 const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
 // 솔부엉 할아버지: 모습은 안 보이고 천장 서랍 어딘가에서 목소리만 들림
@@ -726,8 +747,9 @@ function place(c,t){const s=charH(c.y),px=c.x/100*SW,py=c.y/100*SH;const zy=c.si
   const tk=(c.seat&&c.seat.tb&&P.hipSeat)?pc:0;c.g.rotation.x=P.hipSeat?-0.4*pc*c.sW:0;if(c.sh)c.sh.visible=!(P.hipSeat&&c.sitting);c.u.uSit.value=c.sW*(1-0.75*pl-pk)+pn*0.15;c.u.uShin.value=tk;c.u.uKnee.value=pc*c.sW*((c.seat&&c.seat.kn!=null)?c.seat.kn:(c.seat&&c.seat.pose==='chair'?1:0));
   // 책 읽기: 팔을 앞으로 모으고 고개를 살짝 숙임 · 책장 넘길 때 오른팔이 한 번 휙
   {const rdOn=c.sitting&&c.fo&&c.fo.e>Date.now()&&placeKey==='library'?1:0;c.rdW=(c.rdW||0)+(rdOn-(c.rdW||0))*Math.min(1,dt*4);
-   let fl=0;if(c._flip!=null){const u=(performance.now()-c._flip)/700;if(u>=1)c._flip=null;else fl=Math.sin(u*Math.PI);}
-   c.u.uArm.value=Math.max(c.rdW*0.78,P.hipSeat?pc*0.5:0);c.u.uArmR.value=fl*c.rdW;c.u.uHead.value=c.rdW*(0.75+Math.sin(t*0.7+c.x)*0.08);}
+   let fl=0;if(c._flip!=null){const u=(performance.now()-c._flip)/900;if(u>=1)c._flip=null;else fl=Math.sin(u*Math.PI);}
+   if(c.bn&&c.bn.RightArm){c.u.uArm.value=P.hipSeat?pc*0.5*(1-c.rdW):0;c.u.uArmR.value=0;c.u.uHead.value=0;poseRead(c,c.rdW,fl,t);}
+   else{c.u.uArm.value=Math.max(c.rdW*0.78,P.hipSeat?pc*0.5:0);c.u.uArmR.value=fl*c.rdW;c.u.uHead.value=c.rdW*(0.75+Math.sin(t*0.7+c.x)*0.08);}}
   let d=c.face-c.turn.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));c.turn.rotation.y+=d*0.2;
   const top=py-s*(c.sitting?(pk>0.5?0.55:0.66-0.06*(c.rdW||0)):0.98);c.tag.style.left=px+'px';c.tag.style.top=top+'px';
   if(c.bub){c.bub.style.left=px+'px';c.bub.style.top=(top-18)+'px';}
@@ -792,11 +814,12 @@ function buildCandles(){scene.remove(candleGroup);candleGroup=new THREE.Group();
     const m=new THREE.Mesh(g,mat);const cx=(k.x+k.w/2)/100*SW,cy=(k.y+k.h/2)/100*SH;m.position.set(cx,-cy,61/100*SH*ZK);m.userData={by:-cy,ph:i*1.73,sp:0.7+((i*37)%10)/25,amp:P.floatAmp||1,rot:!!P.floatTex};candleGroup.add(m);});}
 function bobCandles(t){candleGroup.children.forEach(m=>{const u=m.userData;m.position.y=u.by+(Math.sin(t*u.sp+u.ph)*SH*0.0042+Math.sin(t*u.sp*2.3+u.ph)*SH*0.0011)*u.amp;if(u.rot)m.rotation.z=Math.sin(t*u.sp*0.7+u.ph)*0.08;});}
 function buildOcc(){buildCandles();buildBld();scene.remove(occGroup);occGroup=new THREE.Group();scene.add(occGroup);
-  const mat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:rtex(P.img)},uMask:{value:rtex('mask_'+P.img)}},VIDU),
+  const mat=new THREE.ShaderMaterial({uniforms:Object.assign({uMap:{value:rtex(P.img)},uMask:{value:rtex('mask_'+P.img)}},VIDU,DOF),
     vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
     fragmentShader:`uniform sampler2D uMap,uMask;varying vec2 vUv;
 ${VID_GLSL}
- void main(){if(texture2D(uMask,vUv).g<0.5)discard;gl_FragColor=vec4(vidMix(texture2D(uMap,vUv).rgb,vUv),1.);}`});
+${DOF_GLSL}
+ void main(){if(texture2D(uMask,vUv).g<0.5)discard;gl_FragColor=vec4(vidMix(dofS(uMap,vUv),vUv),1.);}`});
   (P.occ||[]).forEach(o=>{const sh=new THREE.Shape(o.p.map(([x,y])=>new THREE.Vector2(x/100*SW,-y/100*SH)));const g=new THREE.ShapeGeometry(sh);
     const pos=g.attributes.position,uv=[];for(let i=0;i<pos.count;i++){uv.push(pos.getX(i)/SW,1+pos.getY(i)/SH);}g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
     const m=new THREE.Mesh(g,mat);m.position.z=o.b/100*SH*ZK;occGroup.add(m);});}
@@ -1424,16 +1447,20 @@ const Focus={st:null,
     else{this.tbookOff(c);if(!c.fbk){c.fbk=document.createElement('img');c.fbk.className='fbk';c.fbk.src=window.MAPS.b_book;tagsEl.appendChild(c.fbk);}
       c.fbk.style.display=back?'none':'block';c.fbk.style.width=(s*0.3)+'px';c.fbk.style.left=px+'px';c.fbk.style.top=(top+s*0.7)+'px';}
     if(c._fl==null)c._fl=performance.now()+3000+Math.random()*5000;
-    if(performance.now()>c._fl){c._fl=performance.now()+9000+Math.random()*12000;c._flip=performance.now();if(c.pg)c.pg.t0=performance.now();
+    if(performance.now()>c._fl){c._fl=performance.now()+(c===me?5500+Math.random()*4500:9000+Math.random()*12000);c._flip=performance.now();if(c.pg)c.pg.t0=performance.now();
       if(c.fbk){c.fbk.classList.remove('flip');void c.fbk.offsetWidth;c.fbk.classList.add('flip');}if(!back)Snd.syn('page',c===me?0.55:0.22);}},
   // 책상 위에 펼친 책(3D 평면, 책상보다 살짝 앞) + 넘어가는 한 장
   tbook(c,tb){const y=tb[0],z=tb[1],w=charH(y)*0.62,img=rtex('b_obook');
     if(!c.bk){const mk=(key,ax)=>{const t=rtex(key),m=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:t,transparent:true,depthWrite:false}));if(ax)m.geometry.translate(0.5,0,0);scene.add(m);return m;};
       c.bk=mk('b_obook');c.pg={m:mk('b_opage',1),t0:0};}
     const ar=img.image&&img.image.width?img.image.height/img.image.width:135/249,h=w*ar,X=c.seat.x/100*SW,Y=-(y/100*SH),Z=z/100*SH*ZK;
-    c.bk.scale.set(w,h,1);c.bk.position.set(X,Y,Z);
-    const pw=w*0.53,u=c.pg.t0?Math.min(1,(performance.now()-c.pg.t0)/700):1,sx=Math.cos(u*Math.PI);if(u>=1)c.pg.t0=0;
-    c.pg.m.visible=u<1;c.pg.m.scale.set(pw*sx,h,1);c.pg.m.position.set(X-w/2+w*0.47,Y,Z+1);},
+    let bx=X,by=Y,bz=Z,bw=w,bh=h;
+    // 관절 캐릭터는 두 손 사이에 책을 들고 읽음
+    if(c.bn&&c.bn.LeftHand&&c.rdW>0.01){const a=c.bn.LeftHand.getWorldPosition(new THREE.Vector3()),b=c.bn.RightHand.getWorldPosition(new THREE.Vector3()),s=charH(c.y),k=c.rdW;
+      const hw=s*0.5,hh=hw*ar,hx=(a.x+b.x)/2,hy=(a.y+b.y)/2-hh*0.18,hz=Math.max(a.z,b.z)+s*0.35;bx+=(hx-bx)*k;by+=(hy-by)*k;bz+=(hz-bz)*k;bw+=(hw-bw)*k;bh+=(hh-bh)*k;}
+    c.bk.scale.set(bw,bh,1);c.bk.position.set(bx,by,bz);const w2=bw;
+    const pw=w2*0.53,u=c.pg.t0?Math.min(1,(performance.now()-c.pg.t0)/700):1,sx=Math.cos(u*Math.PI);if(u>=1)c.pg.t0=0;
+    c.pg.m.visible=u<1;c.pg.m.scale.set(pw*sx,bh,1);c.pg.m.position.set(bx-w2/2+w2*0.47,by,bz+1);},
   tbookOff(c){if(c.bk){scene.remove(c.bk);scene.remove(c.pg.m);c.bk=null;c.pg=null;}}};
 tagsEl.appendChild(Focus.btn);Focus.btn.addEventListener('pointerdown',e=>e.stopPropagation());
 Focus.btn.addEventListener('pointerup',e=>{e.stopPropagation();if(Focus.st)Focus.stop('ask');else if(Focus.can())Focus.menu();});
@@ -1888,8 +1915,8 @@ function checkExit(){if(switching||Tut.lock)return;for(const ex of P.exits){if(i
   const n=pname(ex.to),indoor=!!P.outBtn;travel(indoor?n+ro(n)+' 나가는 중':n+ro(n)+' 가는 길',indoor?null:'· · ·',()=>enter(ex.to,ex.spawn,ex.face),indoor?900:1400);return;}}}
 
 /* ===================== 7. 입력 ===================== */
-const tapEl=document.getElementById('tap');
-document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex'||Home.edit||Tut.lock)return;Tut.tap();const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
+const tapEl=document.getElementById('tap'),dofV=document.getElementById('dofV');let ZM_on=false;
+document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex'||Home.edit||Tut.lock||ZM_on)return;Tut.tap();const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
   if(P.book&&Math.hypot((P.book.x-nx)*AR,P.book.y-ny)<7){say(me,'책 꺼내기는 곧 열려요');}
   me.onArrive=null;
@@ -2005,7 +2032,7 @@ let pv=null;
 function initPreview(canvas){const r=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});r.useLegacyLights=true;r.setPixelRatio(Math.min(2,devicePixelRatio));r.setClearColor(0,0);
   const sc=new THREE.Scene();sc.add(new THREE.HemisphereLight(0xfff2e6,0x8a6a70,0.8));const k=new THREE.DirectionalLight(0xffd2a8,0.7);k.position.set(1,1.4,1.2);sc.add(k);
   const cam=new THREE.PerspectiveCamera(26,1,0.1,50);cam.position.set(0,0.75,3.6);cam.lookAt(0,0.42,0);
-  const cm=charMaterial();const body=gltf.scene.clone(true);body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;
+  const cm=charMaterial();const body=SkelU.clone(gltf.scene);body.traverse(o=>{if(o.isMesh){o.material=cm.m;o.frustumCulled=false;}});body.position.y=0.5;
   const spin=new THREE.Group();spin.add(body);sc.add(spin);
   const shadow=new THREE.Mesh(new THREE.CircleGeometry(0.32,24),new THREE.MeshBasicMaterial({color:0x5a3f46,transparent:true,opacity:0.18}));shadow.rotation.x=-Math.PI/2;shadow.position.y=0.002;sc.add(shadow);
   pv={r,sc,cam,spin,body,u:cm.u,ang:-1.2,drag:null,canvas};
@@ -2049,7 +2076,13 @@ function frameBody(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t
   leadX+=(lx-leadX)*Math.min(1,dt*1.6);leadY+=(ly-leadY)*Math.min(1,dt*1.6);
   const fx0=(me?me.x/100*SW:SW/2)+leadX,fy0=(me?me.y/100*SH-charH(me.y)*0.4:SH/2)+leadY;
   const tx=SW<innerWidth?(SW-innerWidth)/2:Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=SH<innerHeight?(SH-innerHeight)/2:Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
-  if(snapPan&&me){panX=tx;panY=ty;snapPan=false;leadX=leadY=0;}else{const k=1-Math.pow(0.0025,dt);panX+=(tx-panX)*k;panY+=(ty-panY)*k;}stage.style.transform=`translate(${-panX}px,${-panY}px)`;setCam(panX,panY);
+  if(snapPan&&me){panX=tx;panY=ty;snapPan=false;leadX=leadY=0;}else{const k=1-Math.pow(0.0025,dt);panX+=(tx-panX)*k;panY+=(ty-panY)*k;}
+  {const zOn=!!(me&&me.sitting&&Focus.st&&placeKey==='library');ZT=Math.max(0,Math.min(1,ZT+(zOn?dt/1.6:-dt/1.1)));const ez=ZT*ZT*(3-2*ZT),z=1+ez*(ZMAX-1);
+   const cx=innerWidth/2,cy=innerHeight/2;let Fx=panX+cx,Fy=panY+cy;
+   if(ez>0.0005&&me){const hx=me.x/100*SW,hy=me.y/100*SH-charH(me.y)*0.3;Fx+=(hx-Fx)*ez;Fy+=(hy-Fy)*ez;const hw=cx/z,hh=cy/z;if(SW>2*hw)Fx=Math.max(hw,Math.min(SW-hw,Fx));if(SH>2*hh)Fy=Math.max(hh,Math.min(SH-hh,Fy));
+     DOF.uFoc.value.set(me.x/100,1-(me.y/100-charH(me.y)*0.25/SH));DOF.uAsp.value=SW/SH;}
+   DOF.uBlur.value=ez*0.0075;if(ez>0.0005){setView(Fx,Fy,z);}else{stage.style.transform=`translate(${-panX}px,${-panY}px)`;setCam(panX,panY);}
+   const zc=ez>0.3;if(stage.classList.contains('zm')!==zc)stage.classList.toggle('zm',zc);dofV.style.opacity=ez.toFixed(3);Focus.btn.style.scale=(1/z).toFixed(3);fgEl.style.opacity=(1-ez).toFixed(3);ZM_on=ez>0.02;}
   if(P.fg)fgEl.style.transform=`translate(${-panX*P.fg}px,${-panY*P.fg}px)`;
   updateSeats();Focus.tick();bobCandles(t);tickSparks(dt);tickDoors();Owl.tick(dt);Camp.near();Snd.update(dt,t);bgMat.uniforms.uTime.value=t;{const u=VIDU.uVidOn,g=(vidWant&&vidOk&&!vidEl.paused&&vidEl.readyState>=2)?1:0;u.value+=(g-u.value)*Math.min(1,dt*2.5);if(u.value<0.002)u.value=0;}renderer.render(scene,camera);previewFrame(t);}
 requestAnimationFrame(frame);
