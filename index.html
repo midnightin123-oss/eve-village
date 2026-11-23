@@ -496,7 +496,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124j</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124k</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -708,13 +708,13 @@ function makeChar(name,x,y,isMe){const g=new THREE.Group(),tilt=new THREE.Group(
   const tag=document.createElement('div');tag.className='tag'+(isMe?' me':'');tag.textContent=name;tagsEl.appendChild(tag);
   return {name,g,turn,body,bn,cut,sh,u:cm.u,look:null,wW:0,sW:0,tag,bub:null,bubT:0,x,y,face:-Math.PI/2,target:null,seat:null,sitting:false,walk:0,speed:0.16,wait:0,lineT:6+Math.random()*8};}
 // 진짜 관절로 움직이기 (모델 기준 축: x=앞, y=위, z=옆)
-const _hv=new THREE.Vector3(),_bq=new THREE.Quaternion(),_pq=new THREE.Quaternion(),_rq=new THREE.Quaternion(),AXX=new THREE.Vector3(1,0,0),AXZ=new THREE.Vector3(0,0,1);
+let TBUP=0.12;const _hv=new THREE.Vector3(),_bq=new THREE.Quaternion(),_pq=new THREE.Quaternion(),_rq=new THREE.Quaternion(),AXX=new THREE.Vector3(1,0,0),AXZ=new THREE.Vector3(0,0,1);
 function boneRot(c,n,ax,a){const b=c.bn&&c.bn[n];if(!b||!a)return;c.body.getWorldQuaternion(_bq).invert();b.parent.updateWorldMatrix(true,false);b.parent.getWorldQuaternion(_pq);_pq.premultiply(_bq);
   _rq.setFromAxisAngle(ax,a);b.quaternion.premultiply(_pq.clone().invert().multiply(_rq).multiply(_pq));b.updateMatrixWorld(true);}
 // 책 읽기: 두 팔로 책상 위 책을 잡고 고개 숙임, fl(0~1)일 때 오른손이 책장을 넘김
 function poseRead(c,w,fl,t){if(!c.bn)return;const on=w>0.002;if(!on&&!c._bp)return;for(const k in c.bn)c.bn[k].quaternion.copy(c.bn[k].userData.r0);c._bp=on;if(!on){c.body.updateMatrixWorld(true);return;}
   const br=Math.sin(t*1.5+c.x)*0.025;boneRot(c,'Spine',AXZ,(-0.08+br)*w);boneRot(c,'Head',AXZ,(-0.26+Math.sin(t*0.6+c.x)*0.05)*w);
-  ['Left','Right'].forEach((s,i)=>{const sg=i?1:-1;boneRot(c,s+'Arm',AXZ,0.95*w);boneRot(c,s+'Arm',AXX,sg*0.35*w);boneRot(c,s+'ForeArm',AXZ,0.55*w);boneRot(c,s+'ForeArm',AXX,sg*0.25*w);});
+  ['Left','Right'].forEach((s,i)=>{const sg=i?1:-1;boneRot(c,s+'Arm',AXZ,0.7*w);boneRot(c,s+'Arm',AXX,sg*0.35*w);boneRot(c,s+'ForeArm',AXZ,0.4*w);boneRot(c,s+'ForeArm',AXX,sg*0.25*w);});
   if(fl>0){boneRot(c,'RightArm',AXZ,0.25*fl*w);boneRot(c,'RightForeArm',AXX,-0.85*fl*w);boneRot(c,'Head',AXX,0.1*fl*w);}}
 function removeChar(c){scene.remove(c.g);c.tag.remove();if(c.bub)c.bub.remove();if(c.fcd)c.fcd.remove();if(c.fbk)c.fbk.remove();if(c.bk)Focus.tbookOff(c);}
 const faceTo=(c,tx,ty)=>{c.face=Math.atan2(-(ty-c.y),(tx-c.x)*AR);};
@@ -733,8 +733,8 @@ function say(c,text){if(c.bub)c.bub.remove();const b=document.createElement('div
 function seatZ(s){if(s.z!=null)return s.z;if(s.behind)return s.y;let z=s.y;(P.occ||[]).forEach(o=>{if(inPoly(s.x,s.y,o.p))z=Math.max(z,o.b);});return z+0.6;}
 const pScale=y=>{const q=P.persp;if(!q)return 0.78+0.45*y/100;return q[1]+(q[3]-q[1])*Math.max(0,Math.min(1,(y-q[0])/(q[2]-q[0])));};
 const charH=(y)=>(P.sizeW?SW*P.sizeW:SH*P.size)*pScale(y);
-function place(c,t){const s=charH(c.y),px=c.x/100*SW,py=c.y/100*SH;const zy=c.sitting&&c.seat?seatZ(c.seat)/100*SH:py;c.g.position.set(px,-py,zy*ZK);
-  if(c.cut){let cv=1e9;if(c.sitting&&c.seat&&c.seat.tb&&P.hipSeat&&c.bn&&c.bn.Hips&&(c.sW||0)>0.6){c.g.updateMatrixWorld(true);cv=-(c.bn.Hips.getWorldPosition(_hv).y+s*0.015);}c.cut.constant=cv;}c.g.scale.setScalar(s);
+function place(c,t){const s=charH(c.y),px=c.x/100*SW,py=c.y/100*SH;const zy=c.sitting&&c.seat?seatZ(c.seat)/100*SH:py;const tbs=(c.seat&&c.seat.tb&&P.hipSeat)?(c.sW||0):0;c.g.position.set(px,-(py-s*TBUP*tbs),zy*ZK);
+  if(c.cut){let cv=1e9;if(false){c.g.updateMatrixWorld(true);cv=-(c.bn.Hips.getWorldPosition(_hv).y+s*0.015);}c.cut.constant=cv;}c.g.scale.setScalar(s);
   const moving=!!(c.path&&c.path.length);
   const dt=c._dt||0.016;c.wW+=((moving?1:0)-c.wW)*Math.min(1,dt*10);c.sW+=((c.sitting?1:0)-c.sW)*Math.min(1,dt*8);
   if(moving)c.walk+=dt*(7+40*c.speed);
@@ -745,14 +745,14 @@ function place(c,t){const s=charH(c.y),px=c.x/100*SW,py=c.y/100*SH;const zy=c.si
   c.body.rotation.x=Math.sin(ph)*0.07*c.wW+pl*(1.42+Math.sin(t*0.9)*0.05);
   c.body.rotation.z=-0.06*c.wW+pc*(P.hipSeat?0.05:0.2)+pn*0.34+pp*0.05+pk*1.57;
   c.body.position.y+=(P.hipSeat?(0.005*c.sW-((c.seat&&c.seat.sink)||0)*pc):-(0.05+((c.seat&&c.seat.sink)||0))*pc)-0.08*pn+pl*(-0.12+Math.sin(t*0.9)*0.01)+pk*Math.sin(t*0.9)*0.006;
-  const tk=(c.seat&&c.seat.tb&&P.hipSeat)?pc:0;c.g.rotation.x=P.hipSeat?-0.4*pc*c.sW:0;if(c.sh)c.sh.visible=!(P.hipSeat&&c.sitting);c.u.uSit.value=c.sW*(1-0.75*pl-pk)+pn*0.15;c.u.uShin.value=tk;c.u.uKnee.value=pc*c.sW*((c.seat&&c.seat.kn!=null)?c.seat.kn:(c.seat&&c.seat.pose==='chair'?1:0));
+  const tk=(c.seat&&c.seat.tb&&P.hipSeat)?pc:0;c.g.rotation.x=P.hipSeat?-0.4*pc*c.sW:0;if(c.sh)c.sh.visible=!(P.hipSeat&&c.sitting);c.u.uSit.value=c.sW*(1-0.75*pl-pk)+pn*0.15;c.u.uShin.value=0;c.u.uKnee.value=pc*c.sW*((c.seat&&c.seat.kn!=null)?c.seat.kn:(c.seat&&c.seat.pose==='chair'?1:0));
   // 책 읽기: 팔을 앞으로 모으고 고개를 살짝 숙임 · 책장 넘길 때 오른팔이 한 번 휙
   {const rdOn=c.sitting&&c.fo&&c.fo.e>Date.now()&&placeKey==='library'?1:0;c.rdW=(c.rdW||0)+(rdOn-(c.rdW||0))*Math.min(1,dt*4);
    let fl=0;if(c._flip!=null){const u=(performance.now()-c._flip)/900;if(u>=1)c._flip=null;else fl=Math.sin(u*Math.PI);}
    if(c.bn&&c.bn.RightArm){c.u.uArm.value=P.hipSeat?pc*0.5*(1-c.rdW):0;c.u.uArmR.value=0;c.u.uHead.value=0;poseRead(c,c.rdW,fl,t);}
    else{c.u.uArm.value=Math.max(c.rdW*0.78,P.hipSeat?pc*0.5:0);c.u.uArmR.value=fl*c.rdW;c.u.uHead.value=c.rdW*(0.75+Math.sin(t*0.7+c.x)*0.08);}}
   let d=c.face-c.turn.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));c.turn.rotation.y+=d*0.2;
-  const top=py-s*(c.sitting?(pk>0.5?0.55:0.66-0.06*(c.rdW||0)):0.98);c.tag.style.left=px+'px';c.tag.style.top=top+'px';
+  const top=py-s*(c.sitting?(pk>0.5?0.55:0.66-0.06*(c.rdW||0)):0.98)-s*TBUP*tbs;c.tag.style.left=px+'px';c.tag.style.top=top+'px';
   if(c.bub){c.bub.style.left=px+'px';c.bub.style.top=(top-18)+'px';}
   if(c.fo||c.fcd)Focus.decor(c,px,top,s);}
 // 앉기/일어나기: 자리 앞(접근점)에서 돌아서서 자리로 들어가며 앉고, 일어날 땐 자리 앞으로 나옴
@@ -1458,7 +1458,7 @@ const Focus={st:null,
     let bx=X,by=Y,bz=Z,bw=w,bh=h;
     // 관절 캐릭터는 두 손 사이에 책을 들고 읽음
     if(c.bn&&c.bn.LeftHand&&c.rdW>0.01){const a=c.bn.LeftHand.getWorldPosition(new THREE.Vector3()),b=c.bn.RightHand.getWorldPosition(new THREE.Vector3()),s=charH(c.y),k=c.rdW;
-      const hw=s*0.4,hh=hw*ar,hx=(a.x+b.x)/2,hy=(a.y+b.y)/2+hh*0.05,hz=Math.max(a.z,b.z)+s*0.35;bx+=(hx-bx)*k;by+=(hy-by)*k;bz+=(hz-bz)*k;bw+=(hw-bw)*k;bh+=(hh-bh)*k;}
+      const hw=s*0.4,hh=hw*ar,hx=(a.x+b.x)/2,hy=(a.y+b.y)/2-hh*0.1,hz=Math.max(a.z,b.z)+s*0.35;bx+=(hx-bx)*k;by+=(hy-by)*k;bz+=(hz-bz)*k;bw+=(hw-bw)*k;bh+=(hh-bh)*k;}
     c.bk.scale.set(bw,bh,1);c.bk.position.set(bx,by,bz);const w2=bw;
     const pw=w2*0.5,u=c.pg.t0?Math.min(1,(performance.now()-c.pg.t0)/700):1,sx=Math.cos(u*Math.PI);if(u>=1)c.pg.t0=0;
     c.pg.m.visible=u<1;c.pg.m.scale.set(pw*sx,bh,1);c.pg.m.position.set(bx,by,bz+1);},
