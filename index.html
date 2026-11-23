@@ -49,25 +49,33 @@
   #place{position:fixed;top:calc(12px + env(safe-area-inset-top));left:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #whoF{position:fixed;top:calc(52px + env(safe-area-inset-top));left:14px;padding:4px 11px;border-radius:999px;background:rgba(40,30,45,.5);color:#ffe7b8;font-size:12px;backdrop-filter:blur(6px);z-index:5;display:none;}
   .memo{margin:6px 2px 2px;font:13px 'Nanum Pen Script','Gowun Dodum',cursive;color:#6b4a2e;background:#fff3c8;display:inline-block;padding:3px 8px;transform:rotate(-1.5deg);box-shadow:0 1px 3px rgba(0,0,0,.2);}
-  #ns{position:fixed;inset:0;z-index:14;display:none;flex-direction:column;align-items:center;background:#1c110c;font-family:'Gowun Dodum',sans-serif;}
-  #ns.on{display:flex;animation:nsIn .35s ease;} @keyframes nsIn{from{opacity:0}to{opacity:1}}
-  #ns .scene{position:relative;flex:none;width:min(100vw,calc((100vh - 210px)*0.664));aspect-ratio:1360/2048;background:url(news/front.webp) center/cover;}
+  #ns{position:fixed;inset:0;z-index:14;display:none;overflow:hidden;background:#1c110c;font-family:'Gowun Dodum',sans-serif;}
+  #ns.on{display:block;animation:nsIn .35s ease;} @keyframes nsIn{from{opacity:0}to{opacity:1}}
+  #ns .img{position:absolute;background:url(news/front.webp) center/100% 100% no-repeat;}
   #ns .hs{position:absolute;border:0;background:transparent;padding:0;border-radius:14px;-webkit-tap-highlight-color:transparent;}
   #ns .hs:active{background:radial-gradient(closest-side,rgba(255,226,160,.35),rgba(255,226,160,0));}
+  #ns .ring{position:absolute;border-radius:50%;pointer-events:none;box-shadow:0 0 0 3px rgba(255,244,210,.95),0 0 28px 10px rgba(255,220,150,.75);animation:nsRing 1.8s ease-in-out infinite;}
+  @keyframes nsRing{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1.05)}}
   #ns .sp{position:absolute;width:5px;height:5px;border-radius:50%;background:#ffe3a0;box-shadow:0 0 8px 2px rgba(255,214,140,.8);opacity:0;animation:nsSp 4.5s infinite;pointer-events:none;}
   #ns .sp.v{background:#e7c8ff;box-shadow:0 0 8px 2px rgba(200,160,255,.8);}
   @keyframes nsSp{0%{opacity:0;transform:translateY(8px)}30%{opacity:.9}100%{opacity:0;transform:translateY(-26px)}}
-  #ns .talk{flex:1;width:min(100vw,560px);box-sizing:border-box;padding:12px 14px calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:9px;color:#fff1de;background:linear-gradient(#3b2419,#21130d);border-top:3px solid #5b3a26;overflow:auto;}
-  #ns .who{font-size:13px;color:#ffd79a;}
-  #ns .say{background:#fff6e6;color:#4a2f20;border-radius:14px;padding:10px 13px;font-size:14px;line-height:1.5;min-height:42px;}
+  #ns .lbl{position:absolute;top:calc(12px + env(safe-area-inset-top));left:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:3;}
+  #ns .out{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;border:0;background:rgba(40,30,45,.55);color:#fff4e2;font:13px 'Gowun Dodum',sans-serif;backdrop-filter:blur(6px);z-index:3;}
+  #ns .dim{position:absolute;inset:0;background:rgba(22,14,24,.5);backdrop-filter:blur(3px);display:none;z-index:4;}
+  #ns.pop .dim{display:block;}
+  #ns .pan{position:absolute;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(92vw,520px);box-sizing:border-box;z-index:5;display:none;border-radius:16px;padding:12px;color:#fff4e6;font-size:13px;background:linear-gradient(180deg,#6b4330,#4e2f22);box-shadow:0 14px 30px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,220,180,.15);}
+  #ns.pop .pan{display:block;animation:nsUp .28s ease;} @keyframes nsUp{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+  #ns .pan .x{position:absolute;top:-14px;right:-8px;width:34px;height:34px;border-radius:50%;border:0;background:#fff4e2;color:#5a3a2b;font-size:18px;box-shadow:0 3px 8px rgba(0,0,0,.35);}
+  #ns .hd{font-size:14px;margin:0 0 8px;opacity:.9;}
+  #ns .say{position:relative;margin:4px 0 10px;padding:9px 11px;border-radius:12px;background:#fff4e6;color:#4a2a3e;line-height:1.5;min-height:38px;}
+  #ns .say:before{content:'';position:absolute;left:14px;top:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#fff4e6;}
   #ns .btns{display:flex;gap:7px;flex-wrap:wrap;}
-  #ns .btns button{flex:1;min-width:30%;border:0;border-radius:12px;padding:10px 6px;background:#f0d3a2;color:#4a2f20;font:600 13px 'Gowun Dodum',sans-serif;}
-  #ns .x{position:absolute;top:calc(10px + env(safe-area-inset-top));right:10px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,244,226,.92);color:#5a3a2b;font-size:18px;z-index:3;box-shadow:0 3px 8px rgba(0,0,0,.35);}
-  #ns .notes{flex:none;display:flex;flex-direction:column;gap:7px;max-height:34vh;overflow:auto;}
+  #ns .btns button{flex:1;min-width:28%;border:0;border-radius:12px;padding:9px 6px;background:#f0d3a2;color:#4a2f20;font:600 13px 'Gowun Dodum',sans-serif;}
+  #ns .notes{display:flex;flex-direction:column;gap:7px;max-height:32vh;overflow:auto;margin-bottom:9px;}
   #ns .nt{flex:none;background:#fff3c8;color:#5a3d26;border-radius:4px;padding:7px 10px;font:15px 'Nanum Pen Script','Gowun Dodum',cursive;box-shadow:0 1px 3px rgba(0,0,0,.25);}
   #ns .nt:nth-child(odd){transform:rotate(-.8deg);} #ns .nt:nth-child(even){transform:rotate(.6deg);}
   #ns .nt i{display:block;font-style:normal;color:#8a5a33;font-size:13px;margin-top:3px;}
-  #ns .wr{display:flex;gap:6px;} #ns .wr input{flex:1;min-width:0;border:0;border-radius:10px;padding:9px 10px;font:14px 'Gowun Dodum',sans-serif;}
+  #ns .wr{display:flex;gap:6px;margin-bottom:9px;} #ns .wr input{flex:1;min-width:0;border:0;border-radius:10px;padding:9px 10px;font:14px 'Gowun Dodum',sans-serif;}
   #ns .wr button{border:0;border-radius:10px;padding:0 12px;background:#f0d3a2;color:#4a2f20;font:600 13px 'Gowun Dodum',sans-serif;}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #seats{position:absolute;inset:0;pointer-events:none;}
@@ -511,14 +519,14 @@
 </script>
 </head>
 <body>
-<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div><div id="dofV"></div><div id="ns"><button class="x" aria-label="닫기">×</button><div class="scene"></div><div class="talk"></div></div>
+<div id="view"><div id="stage"><img id="map" alt=""><div id="fx"></div><canvas id="c"></canvas><div id="fxTop" style="position:absolute;inset:0;pointer-events:none"></div><div id="seats"></div><div id="tags"></div><div id="tap"></div></div><div id="fg"></div></div><div id="dofV"></div><div id="ns"><div class="img"></div><div class="lbl">신문 가판대</div><button class="out">광장으로 ›</button><div class="dim"></div><div class="pan"><button class="x" aria-label="닫기">×</button><div class="talk"></div></div></div>
 <div id="place">광장</div><button id="bagBtn" class="icobtn" aria-label="가방"><img src="ui/i_bag.webp" alt=""></button><button id="dressBtn" class="icobtn" aria-label="꾸미기"><img src="ui/i_dress.webp" alt=""></button>
 <div id="bagUI" class="ov"><div class="bag"><button class="x" aria-label="닫기">×</button><div class="inv" id="pockets"></div><div class="pg" id="bagPg"></div><div id="bagInfo"></div><div class="base"><button data-a="wallet"><img src="ui/i_wallet.webp" alt="">지갑</button><button data-a="note"><img src="ui/i_note.webp" alt="">수첩</button></div></div></div>
 <div id="wallet" class="ov"><div class="wc"><button class="x" aria-label="닫기">×</button><div class="clock"><img src="ui/watch.webp" alt=""><svg viewBox="0 0 200 200"><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b26b"/><stop offset=".55" stop-color="#e98a7a"/><stop offset="1" stop-color="#9f7bb0"/></linearGradient></defs><path id="wArc" d="" fill="url(#dusk)" opacity=".85"/><g stroke="#a3785e" stroke-width="3" stroke-linecap="round" opacity=".55"><line x1="100" y1="8" x2="100" y2="20"/><line x1="192" y1="100" x2="180" y2="100"/><line x1="100" y1="192" x2="100" y2="180"/><line x1="8" y1="100" x2="20" y2="100"/></g><line id="wHand" x1="100" y1="100" x2="100" y2="22" stroke="#6b4434" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="#c9974a" stroke="#6b4434" stroke-width="2"/></svg></div><div class="wn"><b id="wNum">0</b>초</div><div class="wsub">모아둔 멈춘 시간</div></div></div>
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124n</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1124o</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1967,27 +1975,35 @@ const NS_L={
  puzzle:['낱말퍼즐은 다음 호부터. 답지는 별도 판매고.'],
  box:['정직함 상자야. 내가 없을 때 쓰는 거. …난 늘 있지만.'],
  re:['미안하면 내일 두 개 넣어.','읽었어. 대답은 안 해. …했네.','좋은 말이네. 값은 안 깎아줘.','글씨가 귀엽군. 그래도 공짜는 없어.','알았어. 까치한테는 비밀로 할게.','이런 건 신문에 실어야 하는데. 원고료는 없어.']};
+const NS_NAME='잔돈';
 const News={el:null,last:{},
-  init(){if(this.el)return;this.el=document.getElementById('ns');this.sc=this.el.querySelector('.scene');this.tk=this.el.querySelector('.talk');
-    this.el.querySelector('.x').onclick=()=>this.close();
+  init(){if(this.el)return;this.el=document.getElementById('ns');this.sc=this.el.querySelector('.img');this.tk=this.el.querySelector('.talk');
+    this.el.querySelector('.out').onclick=()=>this.close();this.el.querySelector('.pan .x').onclick=()=>this.hide();this.el.querySelector('.dim').onclick=()=>this.hide();
     NS_HS.forEach(([k,x,y,w,hh])=>{const b=document.createElement('button');b.className='hs';Object.assign(b.style,{left:x+'%',top:y+'%',width:w+'%',height:hh+'%'});b.onclick=()=>this.tap(k);this.sc.appendChild(b);});
-    [[30,40,0],[55,44,1.2],[68,30,2.1],[22,58,3],[48,58,.6],[80,46,2.6],[62,18,3.6],[36,22,1.8]].forEach(([x,y,d],i)=>{const s=document.createElement('i');s.className='sp'+(i%3===1?' v':'');s.style.left=x+'%';s.style.top=y+'%';s.style.animationDelay=d+'s';this.sc.appendChild(s);});},
-  line(k){const L=NS_L[k];let i=Math.floor(Math.random()*L.length);if(L.length>1&&i===this.last[k])i=(i+1)%L.length;this.last[k]=i;return L[i];},
-  open(){this.init();this.mode='main';this.say=this.line('hi');this.el.classList.add('on');Snd.syn&&Snd.syn('page',0.4);this.render();},
-  close(){this.el.classList.remove('on');if(this.off){this.off();this.off=null;}},
+    const r=document.createElement('i');r.className='ring';Object.assign(r.style,{left:'38%',top:'71.5%',width:'24%',height:'8.5%'});this.ring=r;this.sc.appendChild(r);
+    [[30,40,0],[55,44,1.2],[68,30,2.1],[22,58,3],[48,58,.6],[80,46,2.6],[62,18,3.6],[36,22,1.8]].forEach(([x,y,d],i)=>{const s=document.createElement('i');s.className='sp'+(i%3===1?' v':'');s.style.left=x+'%';s.style.top=y+'%';s.style.animationDelay=d+'s';this.sc.appendChild(s);});
+    addEventListener('resize',()=>{if(this.el.classList.contains('on'))this.fit();});},
+  // 그림을 화면에 꽉 차게 (아래 카운터 기준), 핫스팟은 그림 위에 같이 붙음
+  fit(){const W=innerWidth,H=innerHeight,s=Math.max(W/1360,H/2048),iw=1360*s,ih=2048*s;Object.assign(this.sc.style,{width:iw+'px',height:ih+'px',left:((W-iw)*0.72)+'px',top:(H-ih)+'px'});},
+  open(){this.init();this.el.classList.add('on');this.el.classList.remove('pop');this.fit();Snd.syn&&Snd.syn('page',0.4);this.ring.style.display='';},
+  close(){this.hide();this.el.classList.remove('on');},
+  hide(){this.el.classList.remove('pop');if(this.off){this.off();this.off=null;}this.mode='main';},
+  show(k){this.mode='main';this.say=this.line(k);this.el.classList.add('pop');this.ring.style.display='none';this.render();},
   tap(k){if(k==='coin'){Snd.syn&&Snd.syn('tick');setTimeout(()=>Snd.syn&&Snd.syn('ding',0.35),90);}else Snd.syn&&Snd.syn('tap');
     if(k==='paper'&&typeof Case!=='undefined'&&Case.st()){this.close();Case.paper();return;}
-    if(k==='box'){this.boxOpen();return;}this.mode='main';this.say=this.line(k);this.render();},
+    if(k==='box'){this.el.classList.add('pop');this.ring.style.display='none';this.boxOpen();return;}
+    this.show(k==='coin'&&!this.el.classList.contains('pop')?'hi':k);},
   render(){if(this.mode==='box'){this.renderBox();return;}
-    this.tk.innerHTML=`<div class="who">🦝 가판대 주인 잔돈</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-b="paper">📰 신문</button><button data-b="puzzle">✏️ 낱말퍼즐</button><button data-b="box">📦 정직함 상자</button></div>`;
+    this.tk.innerHTML=`<div class="hd">🦝 가판대 주인 ${esc(NS_NAME)}</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-b="paper">📰 신문</button><button data-b="puzzle">✏️ 낱말퍼즐</button><button data-b="box">📦 정직함 상자</button></div>`;
     this.tk.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b;if(k==='puzzle'){Snd.syn&&Snd.syn('tap');this.say=this.line('puzzle');this.render();}else this.tap(k);});},
+  line(k){const L=NS_L[k];let i=Math.floor(Math.random()*L.length);if(L.length>1&&i===this.last[k])i=(i+1)%L.length;this.last[k]=i;return L[i];},
   // 정직함 상자: 주민들이 남긴 익명 메모 (온라인이면 모두가 같이 봄)
   boxOpen(){this.mode='box';this.boxSay=this.line('box');this.notes=null;this.renderBox();
     if(Net.online){const D=Net.fn;if(this.off)this.off();this.off=D.onValue(D.query(D.ref(Net.db,'chat/news_box'),D.limitToLast(20)),s=>{const a=[];s.forEach(c=>{const v=c.val();if(v&&v.text)a.push({id:c.key,text:v.text,ts:v.ts||0});});this.notes=a.reverse();if(this.mode==='box')this.renderBox();});}
     else{this.notes=(Me.d.hb||[]).slice().reverse();this.renderBox();}},
   reply(id){let s=0;for(const c of String(id))s=(s*31+c.charCodeAt(0))>>>0;return NS_L.re[s%NS_L.re.length];},
   renderBox(){const N=this.notes;
-    this.tk.innerHTML=`<div class="who">📦 정직함 상자 · 주민들이 남긴 쪽지</div><div class="say">🦝 ${esc(this.boxSay)}</div>
+    this.tk.innerHTML=`<div class="hd">📦 정직함 상자 · 주민들이 남긴 쪽지</div><div class="say">🦝 ${esc(this.boxSay)}</div>
       <div class="notes">${N==null?'<div class="nt">불러오는 중…</div>':N.length?N.map(n=>`<div class="nt">${esc(n.text)} — 익명<i>🦝 ${esc(this.reply(n.id))}</i></div>`).join(''):'<div class="nt">아직 아무 쪽지도 없어. 첫 번째가 돼 봐.</div>'}</div>
       <div class="wr"><input maxlength="50" placeholder="익명으로 한 줄 남기기"><button data-w>넣기</button></div><div class="btns"><button data-back>← 카운터로</button></div>`;
     const inp=this.tk.querySelector('input');this.tk.querySelector('[data-back]').onclick=()=>{if(this.off){this.off();this.off=null;}this.mode='main';this.say=this.line('hi');this.render();};
