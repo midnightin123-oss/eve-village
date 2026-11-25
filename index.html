@@ -729,7 +729,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126b</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126c</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1564,7 +1564,7 @@ function hexN(h){return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)
 const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:null,
   init(){this.base=PLACES.camp.bld.slice();this.apply();
     if(Net.online&&!Me.test){const D=Net.fn;D.onValue(D.ref(Net.db,'camp'),s=>{this.claims=s.val()||{};this.apply();});
-      D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};const all=Object.entries(v).map(([id,m])=>Object.assign({id},m));Talk.mail(all.filter(m=>m.k==='w'));this.inbox=all.filter(m=>m.k!=='w').sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.hAlert();});}
+      D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};const ms=(Me.d&&Me.d.mailSince)||0,all=Object.entries(v).map(([id,m])=>Object.assign({id},m)).filter(m=>(m.ts||0)>=ms);Talk.mail(all.filter(m=>m.k==='w'));this.inbox=all.filter(m=>m.k!=='w').sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.hAlert();});}
     else this.local();},
   local(){this.claims={};const h=Me.d.home;if(h)this.claims[h.id]={uid:'me',name:me?me.name:'나',t:h.t,c:h.c,f:h.f};this.inbox=(Me.d.inbox||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.apply();},
   // 현디 계정: 친구가 H에게 편지 보내면 누가 썼는지 알림
@@ -2215,7 +2215,7 @@ const Admin={
     const cs=World.cs?({open:'수수께끼 진행 중',closed:'수수께끼 닫힘',off:'평소'})[String(World.cs.text).split(':')[0]]||'평소':'평소';
     const hm=(Camp.inbox||[]).filter(m=>m.k==='l'&&m.from!=='H');
     admBody.innerHTML=`<h4>⚙ 관리자</h4><div class="row">${b('m_h','👑 H 관리자 모드',!P)}${b('m_pl','🎮 현디 플레이 모드',P)}</div>
-      ${P?`<div class="st">일반 주민이랑 똑같이 진행돼 · 지금 ${Quest.cur()||0}일차</div><div class="row">${b('ar_next','⏭ 날짜 넘기기')}${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div><div class="row">${b('ar_wipe','🧹 내 기록 다 지우고 처음부터')}</div>`
+      ${P?`<div class="st">일반 주민이랑 똑같이 진행돼 · 지금 ${Quest.cur()||0}일차</div><div class="row">${b('ar_next','⏭ 날짜 넘기기')}${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div><div class="row">${b('ar_mail','📭 받은 편지 비우기')}${b('ar_wipe','🧹 내 기록 다 지우고 처음부터')}</div>`
       :`<div class="st">모든 장소가 열려 있고 부탁은 건너뛰어. 마을 전체에 영향을 주는 건 여기서 해.</div>
       ${sec('🔍 수수께끼 (모두에게)',`<div class="st">지금 마을: ${cs}${ONL()?'':' · 오프라인이라 안 돼'}</div><div class="row">${b('w_open1','🗞️ 소문 1 시작')}${b('w_close','📋 닫기')}${b('w_off','평소로')}</div>`)}
       ${sec('📮 H에게 온 편지',`<div class="st">${hm.map(m=>`${esc(m.fromName||'?')} ${H_REPLY[m.fromName]?'✅맞춤답장':'⬜기본답장'} · ${new Date(m.ts||0).toLocaleDateString()}`).join('<br>')||'아직 없어'}</div>`)}
@@ -2250,9 +2250,10 @@ const Admin={
   click(k){if(k==='fps'){toggleFps();this.render();return;}if(k.startsWith('q_')){const m=Quest.admin(k);if(m)toast(m,2200);this.render();return;}
     if(k==='unl'){Me.d.unl=!Me.d.unl;Me.save();this.render();return;}
     if(k==='m_h'||k==='m_pl'){const on=k==='m_pl';if(!!Me.d.asRes===on)return;if(on)Me.d.asRes=1;else delete Me.d.asRes;Me.save();toast(on?'🎮 현디 플레이 모드 · 일반 주민처럼 진행돼':'👑 H 관리자 모드 · 모든 장소가 열려',2000);try{Case.marks();Quest.marks();Quest.check();}catch(e){}this.render();return;}
+    if(k==='ar_mail'){if(!confirm('지금까지 받은 편지·소포를 우편함에서 다 비울까? 되돌릴 수 없어.'))return;Me.d.mailSince=Date.now();delete Me.d.inbox;Me.save();if(Net.online&&!Me.test){Camp.inbox=[];Camp.count();}else Camp.local();toast('우편함을 비웠어',1600);this.render();return;}
     if(k==='ar_wipe'){if(!confirm('현디 기록을 전부 지울까? 수첩, 부탁, 수수께끼, 초, 가방, 텐트까지 다 사라지고 되돌릴 수 없어.'))return;
       (async()=>{try{if(ONL()){const id=Camp.mine();if(id!=null){const D=Net.fn;await D.remove(D.ref(Net.db,'camp/'+id));}}}catch(e){console.warn('텐트 비우기 실패',e&&e.code);}
-        Me.d={sec:0,bag:{},diary:{},asRes:1};Me.save();this.close();toast('기록을 다 지웠어. 처음부터 시작!',1800);
+        Me.d={sec:0,bag:{},diary:{},asRes:1,mailSince:Date.now()};Me.save();this.close();toast('기록을 다 지웠어. 처음부터 시작!',1800);
         setTimeout(()=>{Tut.lock=true;enter('plaza',[85,80.5],[60,70]);Tut.arrive();},600);})();return;}
     if(k==='ar_next'||k==='ar_all'){const r=Quest.admin(k==='ar_next'?'q_next':'q_all');if(r)toast(r,1800);this.render();return;}
     if(k==='w_wipe'){if(confirm('게시판, 교환 상자, 트리 오너먼트, 책 속 쪽지, 릴레이 책에 지금까지 쌓인 걸 모든 주민에게서 안 보이게 할까? 되돌릴 수 없어.'))World.wipeShared();return;}
@@ -2981,7 +2982,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126b';
+const APP_V='v1126c';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
