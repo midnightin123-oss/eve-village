@@ -729,7 +729,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125v</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125w</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1929,7 +1929,7 @@ const Home={edit:false,sel:null,drag:null,
   document.getElementById('decoBtn').addEventListener('click',()=>Home.start());}
 
 /* ===================== 사건 (지금은 테스트 모드 전용: 소문편 1) ===================== */
-const CASES={1:{id:1,kind:'소문',npc:'🔮 달무리',nm:'달무리',ttl:'태엽 실종과 만물상의 수상한 선반',
+const CASES={1:{id:1,solo:true,kind:'소문',npc:'🔮 달무리',nm:'달무리',ttl:'태엽 실종과 만물상의 수상한 선반',
   pre:'까악! 내일 아침 특종! 특종이다!',
   head:'시계탑 태엽 실종! 범인은 아직 마을에?',
   lead:'언제부턴가 광장 시계가 5시 30분에서 움직이지 않는다. 그런데 만물상 미스터리 선반에 태엽 모양 실루엣 상품이 올라왔다. 우연일까?',
@@ -1941,7 +1941,7 @@ const CASES={1:{id:1,kind:'소문',npc:'🔮 달무리',nm:'달무리',ttl:'태�
     {n:3,ty:'쪽지',ic:'📜',mi:'✨',ml:'',pl:'plaza',mk:[36,69],at:[36,72],nm:'찢어진 쪽지',src:'광장 바닥',tx:'"…뒷문, 11시…" 급하게 휘갈겨 쓴 글씨.'}],
   concl:'달무리 아저씨는 별을 보러 가지 않았다. 밤 11시, 만물상 뒷문에서 금빛 리본으로 무언가를 하고 있었다.',
   np:{head:'시계탑 태엽, 감쪽같이 사라지다',sub:'광장 시계 다섯 시 반에 멈춘 지 오래… 만물상 \'미스터리 선반\'에 태엽 모양 실루엣 상품 등장',csno:'소문 1',
-    cshow:'실마리는 말 · 물건 · 쪽지 세 가지. 사람마다 찾을 수 있는 게 달라요. 셋을 다 모으면 진실 한 조각이 보입니다. 못 찾은 실마리는 광장 게시판에서 구해 보세요.',
+    cshow:'실마리는 말 · 물건 · 쪽지 세 가지. 마을 어딘가에 흩어져 있어요. 셋을 다 모으면 진실 한 조각이 보입니다.',
     body:['이브 빌리지 광장 시계탑의 태엽이 사라진 사실이 본지 취재 결과 확인됐다. 시계탑은 언제부터인가 다섯 시 반을 가리킨 채 움직이지 않고 있으며, 주민 대부분은 "원래 그런 줄 알았다"고 답했다.',
      '그러나 어제 저녁, 만물상 \'미스터리 선반\'에 천으로 덮인 태엽 모양의 실루엣 상품이 올라오면서 마을이 술렁이기 시작했다. 만물상 주인 달무리 씨는 "그건 그냥 실루엣일 뿐"이라며 말을 아꼈다.',
      '달무리 씨는 태엽이 사라진 날 밤 "가게 문을 닫고 절벽 위에서 별을 보고 있었다"고 밝혔다. 그러나 이를 직접 봤다는 주민은 아직 나타나지 않았다.',
@@ -1984,10 +1984,10 @@ const Case={
   talk(nm,lines,done){let i=0;const r=()=>{csd.innerHTML=`<b>${esc(nm)}</b>${esc(lines[i])}<em>${i<lines.length-1?'▼':'닫기'}</em>`;};r();csd.classList.add('on');
     csd.onclick=()=>{i++;if(i>=lines.length){csd.classList.remove('on');csd.onclick=null;if(done)done();}else r();};},
   open(h,lock){csBody.innerHTML=h;csEl.classList.add('on');csEl.classList.toggle('lock',!!lock);},close(){csEl.classList.remove('on','lock');},
-  tip(){const c=this.C(),t=this.myT(c);this.talk('🐦 까치 · 마을 기자',['까악! 제보가 하나 들어왔어. 너한테만 말해주는 거야.',c.tes[t],'다른 사람들은 또 다른 얘기를 들었다던데? 서로 물어봐!'],()=>{const D=this.D();D.ht[c.id]=t+1;Me.save();Me.log(`까치가 나한테만 몰래 알려줬다. "${c.tes[t]}"`,'cs'+c.id+'_t');});},
+  tip(){const c=this.C(),t=this.myT(c);this.talk('🐦 까치 · 마을 기자',['까악! 제보가 하나 들어왔어. 너한테만 말해주는 거야.',c.tes[t],c.solo?'실마리는 세 개래. 광장, 만물상, 절벽 위 들판… 잘 뒤져 봐!':'다른 사람들은 또 다른 얘기를 들었다던데? 서로 물어봐!'],()=>{const D=this.D();D.ht[c.id]=t+1;Me.save();Me.log(`까치가 나한테만 몰래 알려줬다. "${c.tes[t]}"`,'cs'+c.id+'_t');});},
   alibi(){const c=this.C();this.talk(c.npc,c.alibi,()=>Me.log('달무리 아저씨가 그날 밤엔 별을 보러 갔다며 억울해했다. 근데 왠지 내 눈을 피했다.','cs'+c.id+'_a'));},
   find(q){const c=this.C();
-    if(this.myN(c)!==q.n){this.talk('📝 나',['…여긴 아무것도 없네. 누가 먼저 가져갔나 봐.','광장 게시판에서 구해 볼까?']);return;}
+    if(!c.solo&&this.myN(c)!==q.n){this.talk('📝 나',['…여긴 아무것도 없네. 누가 먼저 가져갔나 봐.','광장 게시판에서 구해 볼까?']);return;}
     Snd.syn&&Snd.syn('page',0.5);
     Me.log(`${q.src}에서 실마리를 하나 찾았다. ${q.nm}.`,'cs'+c.id+'_c'+q.n);this.give(c,q.n,'');this.marks();this.clueCard(c,q);},
   // 실마리 카드: 말풍선과 다르게 '수첩에 붙이는 사진' 느낌 + 수첩 펼치기 안내
@@ -2014,10 +2014,10 @@ const Case={
     return `<h3>마을의 수수께끼</h3><div class="sub">시계는 아직 5시 30분에 멈춰 있어</div>${it}`;},
   scrap(id){const D=Me.d.cs,c=CASES[id],done=D.done[c.id];
     const sl=c.clues.map(q=>{const x=D.cl[c.id+'-'+q.n];return x?`<div class="scr" style="--r:${(q.n-2)*2.2}deg"><div class="st">${q.ic} 실마리 ${q.n}/3</div><div class="sn">${esc(q.nm)}</div><div class="sx">${esc(q.tx)}</div><div class="sf">${esc(x.f?x.f+'에게 받음':q.src+'에서')}</div></div>`
-      :`<div class="scr no"><div class="st">${q.ic} 실마리 ${q.n}/3</div><div class="sx">비어 있어 · 구해야 해</div></div>`;}).join('');
+      :`<div class="scr no"><div class="st">${q.ic} 실마리 ${q.n}/3</div><div class="sx">${c.solo?'비어 있어 · 아직 못 찾았어':'비어 있어 · 구해야 해'}</div></div>`;}).join('');
     const ht=D.ht[c.id]?`<div class="hear">🐦 까치가 몰래 알려준 말<br>"${esc(c.tes[D.ht[c.id]-1])}"</div>`:'';
     const pic=done?`<div class="pic">${c.pic?`<img src="${c.pic}" alt="" onerror="this.parentNode.classList.add('none');this.remove()">`:''}<em>🎨 그림 준비 중</em></div><div class="scr big"><div class="st">🧩 맞춰진 실마리</div><div class="sx">${esc(c.concl)}</div></div>`:'';
-    const stp=D.st==='open'&&!done?`<div class="csteps"><div class="${this.paid()?'ok':''}">${this.paid()?'✓':'①'} 가판대에서 오늘 신문 사기</div><div class="${this.got(c).length===3?'ok':''}">${this.got(c).length===3?'✓':'②'} 실마리 3개 모으기 (${this.got(c).length}/3) · 못 찾은 건 게시판에서 구하기</div></div>`:'';
+    const stp=D.st==='open'&&!done?`<div class="csteps"><div class="${this.paid()?'ok':''}">${this.paid()?'✓':'①'} 가판대에서 오늘 신문 사기</div><div class="${this.got(c).length===3?'ok':''}">${this.got(c).length===3?'✓':'②'} 실마리 3개 모으기 (${this.got(c).length}/3)${c.solo?'':' · 못 찾은 건 게시판에서 구하기'}</div></div>`:'';
     return `<h3><button data-bk="1">‹</button><span style="flex:1">${esc(c.kind)} 1</span></h3><div class="sub">${esc(c.ttl)} · 의심받는 사람 ${esc(c.npc)}</div>${stp}${pic}${ht}${sl}${D.st==='closed'?`<div class="hear">📋 그 뒤로 알려진 것<br>${esc(c.res)}</div>`:''}`;},
   admin(k){if(!Me.test){toast('테스트 모드에서만 돼',1500);return;}const D=this.D();
     if(k==='c_open')this.set('open');if(k==='c_paid'){const D=this.D();D.pp=D.pp||{};D.pp[this.C().id]=1;Me.save();this.marks();}if(k==='c_close')this.set('closed');
@@ -2570,7 +2570,7 @@ const Paper={
       <div class="rule"></div>
       <div class="low"><div class="side"><div class="lb">마을 소식</div><ul>${side}</ul><div class="lb">까치 기자 수첩</div><p class="kk">${esc(note)}</p></div><div class="ads"><div class="lb">광고</div>${ads}<div class="ad pz"><b>✏️ 오늘의 낱말퍼즐</b><span>가판대에서 따로 판매 (3초) · 다 풀어 오면 10초</span></div></div></div>
       <div class="foot">이브빌리지 타임스는 시간이 멈춘 마을의 유일한 일간지입니다. 오늘 신문은 내일도 오늘 신문입니다.</div></div>`;
-    el.classList.add('on');Snd.syn&&Snd.syn('page',0.7);el.querySelector('.x').onclick=()=>{el.classList.remove('on');if(I.cs&&!Case.D().npTold){Case.D().npTold=1;Me.save();setTimeout(()=>Case.talk('🐦 까치 · 마을 기자',['까악! 신문 읽었지?','실마리는 마을 여기저기에 있어. 말, 물건, 쪽지. 사람마다 찾을 수 있는 게 달라.','못 찾은 건 광장 게시판에 "구해요" 붙여 봐. 서로 편지로 나눌 수 있어.']),400);}};}};
+    el.classList.add('on');Snd.syn&&Snd.syn('page',0.7);el.querySelector('.x').onclick=()=>{el.classList.remove('on');if(I.cs&&!Case.D().npTold){Case.D().npTold=1;Me.save();setTimeout(()=>Case.talk('🐦 까치 · 마을 기자',(Case.C()&&Case.C().solo?['까악! 신문 읽었지?','실마리는 마을 여기저기에 있어. 말, 물건, 쪽지. 세 개 다 찾아 봐.','광장, 만물상, 절벽 위 들판… 반짝이는 데를 잘 봐!']:['까악! 신문 읽었지?','실마리는 마을 여기저기에 있어. 말, 물건, 쪽지. 사람마다 찾을 수 있는 게 달라.','못 찾은 건 광장 게시판에 "구해요" 붙여 봐. 서로 편지로 나눌 수 있어.'])),400);}};}};
 // ---- 광장 게시판: 코르크판 · 압정 · 포스트잇 (쓴 사람에게 답장 + 실마리 동봉) ----
 const BOARD_RULES=['처음 보는 얼굴에게 먼저 인사하기.','모르는 사이라도 쪽지 한 장이면 아는 사이.','게시판 쪽지엔 답장해 주기. 짧아도 괜찮아요.','받은 만큼 나누기. 실마리도, 조개도.','도서관에서는 쉿.'];
 // 오래 붙어 있던 막광고들 [클래스, 위치 left%,top px,width%,회전, 내용html]
@@ -2585,9 +2585,10 @@ const BOARD_ADS=[
 const PIN_KIND={want:['🔎 구해요','#ffe98a'],have:['🙌 있어요','#ffc9d6'],talk:['💬 한마디','#c9ecd7']};
 const bHash=s=>{let x=9;for(const c of String(s))x=(x*31+c.charCodeAt(0))>>>0;return x;};
 const Board={
+  coop(){try{return Case.st()==='open'&&!!Case.C()&&!Case.C().solo;}catch(e){return false;}},
   async load(){let a=[];
     if(ONL()){try{const D=Net.fn;const s=await D.get(D.query(D.ref(Net.db,'chat/board'),D.limitToLast(40)));s.forEach(x=>{const v=x.val();if(v&&v.text)a.push(Object.assign({key:x.key},v));});}catch(e){}}
-    else{a=(Me.d.bdLocal||[]).slice();if(Me.test||DEMO)CS_FAKE.forEach((p,i)=>{if(p.nm===me.name)return;const c=CASES[1];const tx=[p.h.length?`${c.nm} 실마리 ${p.h.join(',')}/3 있어요!`:'',p.w.length?`${p.w.join(',')}/3 구해요 ㅠㅠ`:''].filter(Boolean).join(' ');a.unshift({key:'fk'+i,uid:'demo'+i,name:p.nm,text:tx||'안녕! 반가워',kind:p.h.length?'have':'want',ts:Date.now()-(i+1)*3600000,fake:i});});}
+    else{a=(Me.d.bdLocal||[]).slice();if((Me.test||DEMO)&&this.coop())CS_FAKE.forEach((p,i)=>{if(p.nm===me.name)return;const c=CASES[1];const tx=[p.h.length?`${c.nm} 실마리 ${p.h.join(',')}/3 있어요!`:'',p.w.length?`${p.w.join(',')}/3 구해요 ㅠㅠ`:''].filter(Boolean).join(' ');a.unshift({key:'fk'+i,uid:'demo'+i,name:p.nm,text:tx||'안녕! 반가워',kind:p.h.length?'have':'want',ts:Date.now()-(i+1)*3600000,fake:i});});}
     const lim=Date.now()-3*86400000;return a.filter(p=>(p.ts||0)>lim).sort((x,y)=>(y.ts||0)-(x.ts||0));},
   async open(){let el=document.getElementById('bd');if(!el){el=document.createElement('div');el.id='bd';document.body.appendChild(el);}
     this.el=el;el.classList.add('on');el.innerHTML='<div class="cork"><div class="ld">게시판 보는 중…</div></div>';Snd.syn&&Snd.syn('tap');this.posts=await this.load();this.render();},
@@ -2605,8 +2606,8 @@ const Board={
       wall.querySelector('.pits').innerHTML=its||`<div class="none" style="top:${top0+20}px">아직 붙은 포스트잇이 없어. 첫 장을 붙여 봐.</div>`;
       wall.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>this.view(P[+b.dataset.p]));};
     lay();},
-  write(){const d=document.createElement('div');d.className='bdrop';let kind='want';
-    d.innerHTML=`<div class="paper pi"><b>포스트잇 붙이기</b><div class="its">${Object.entries(PIN_KIND).map(([k,v])=>`<button data-k="${k}" class="${k==='want'?'on':''}">${v[0]}</button>`).join('')}</div><textarea maxlength="60" placeholder="예) 바람의 말 1/3 구해요! 리본 조각 있어요"></textarea><p class="sub">내 이름이 같이 붙어. 이 쪽지를 본 사람이 나한테 답장을 보낼 수 있어.</p><div class="row2"><button data-x>그만두기</button><button data-ok>붙이기</button></div></div>`;
+  write(){const d=document.createElement('div');d.className='bdrop';const co=this.coop();let kind=co?'want':'talk';
+    d.innerHTML=`<div class="paper pi"><b>${co?'포스트잇 붙이기':'📝 메모 붙이기'}</b>${co?`<div class="its">${Object.entries(PIN_KIND).map(([k,v])=>`<button data-k="${k}" class="${k==='want'?'on':''}">${v[0]}</button>`).join('')}</div>`:''}<textarea maxlength="60" placeholder="${co?'예) 바람의 말 1/3 구해요! 리본 조각 있어요':'예) 오늘 노을 진짜 예쁘다. 펍에서 만나요'}"></textarea><p class="sub">내 이름이 같이 붙어. 이 쪽지를 본 사람이 나한테 답장을 보낼 수 있어.</p><div class="row2"><button data-x>그만두기</button><button data-ok>붙이기</button></div></div>`;
     this.el.appendChild(d);d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{d.querySelectorAll('[data-k]').forEach(x=>x.classList.remove('on'));b.classList.add('on');kind=b.dataset.k;});
     d.querySelector('[data-x]').onclick=()=>d.remove();
     d.querySelector('[data-ok]').onclick=async()=>{const text=d.querySelector('textarea').value.trim();if(!text)return;const rec={uid:selfId(),name:selfName(),text,kind,ts:Date.now()};
@@ -2617,7 +2618,7 @@ const Board={
       <div class="row2"><button data-x>닫기</button>${mine?'':'<button data-ok>✉️ 답장 쓰기</button>'}</div></div>`;
     this.el.appendChild(d);d.querySelector('[data-x]').onclick=()=>d.remove();const ok=d.querySelector('[data-ok]');if(ok)ok.onclick=()=>{d.remove();this.reply(p);};},
   // 쓴 사람에게 바로 편지 (편지새가 물어다 줌) + 내 실마리 하나 동봉 가능
-  reply(p){const c=Case.st()?Case.C():null,mine=c?Case.got(c):[],d=document.createElement('div');d.className='bdrop';let cl=0;
+  reply(p){const c=this.coop()?Case.C():null,mine=c?Case.got(c):[],d=document.createElement('div');d.className='bdrop';let cl=0;
     d.innerHTML=`<div class="paper"><b>${esc(p.name||'이웃')}에게 답장</b><p class="sub">게시판 답장은 편지새가 바로 ${esc(p.name||'이웃')}의 우체통으로 물어다 줘.</p><textarea maxlength="200" placeholder="안녕! 게시판 보고 연락해"></textarea>
       ${c?`<div class="lb2">🔍 실마리 동봉하기 (내가 가진 것 · 나한테도 남아)</div><div class="its"><button data-c="0" class="on">안 넣기</button>${mine.map(n=>`<button data-c="${n}">${c.clues[n-1].ic} ${n}/3 ${esc(c.clues[n-1].nm)}</button>`).join('')}</div>`:''}
       <div class="row2"><button data-x>그만두기</button><button data-ok>편지새에게 맡기기</button></div></div>`;
@@ -2950,7 +2951,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1125v';
+const APP_V='v1125w';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
