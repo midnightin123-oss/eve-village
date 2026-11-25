@@ -264,6 +264,10 @@
   #pcard{position:fixed;z-index:9;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 12px;border-radius:14px;background:#2e1f1a;color:#f6e6d0;font:13px 'Gowun Dodum';box-shadow:0 6px 16px rgba(0,0,0,.4);animation:nsIn .2s ease;} #pcard button{border:0;border-radius:999px;padding:6px 12px;background:#e0874a;color:#fff;font:13px 'Gowun Dodum';}
   #newV{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top));z-index:60;border:0;border-radius:999px;padding:9px 16px;background:#e0874a;color:#fff;font:14px 'Gowun Dodum';box-shadow:0 4px 14px rgba(0,0,0,.35);}
   body.inPub #talkBtn{bottom:calc(214px + env(safe-area-inset-bottom));z-index:7;} body.inPub.talkOn #talkBtn{bottom:calc(178px + env(safe-area-inset-bottom));}
+  body>.payfx{position:fixed;top:calc(70px + env(safe-area-inset-top));z-index:30;}
+  .payfx.gain span{color:#a8f0a0;}
+  .gsand{position:fixed !important;z-index:31;}
+  #ns .btns .give{background:#f2c27a !important;color:#3a2420 !important;}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #seats{position:absolute;inset:0;pointer-events:none;}
   .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
@@ -724,7 +728,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125t</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125u</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1418,7 +1422,14 @@ const Pay={async fx(n,toEl){const from=Me.d.sec||0;if(from<n)return false;const 
       g.style.setProperty('--dx',(tx-sx)+'px');g.style.setProperty('--dy',(ty-sy)+'px');g.style.animationDelay=(0.15+i*0.045)+'s';host.appendChild(g);setTimeout(()=>g.remove(),1500);}
     const num=w.querySelector('b'),steps=Math.min(n,8);Me.addSec(-n);
     for(let i=1;i<=steps;i++){await new Promise(r=>setTimeout(r,85));num.textContent=Math.round(from-n*i/steps).toLocaleString();Snd.syn('tick');}
-    setTimeout(()=>{w.classList.add('out');setTimeout(()=>w.remove(),400);},650);return true;}};
+    setTimeout(()=>{w.classList.add('out');setTimeout(()=>w.remove(),400);},650);return true;},
+  // 받기: 모래알이 회중시계로 빨려 들어가며 숫자가 올라감
+  async gain(n,fromEl){const from=Me.d.sec||0,w=document.createElement('div');w.className='payfx gain';w.innerHTML=`<img src="ui/watch.webp" alt=""><b>${from.toLocaleString()}</b><span>+${n}초</span>`;document.body.appendChild(w);
+    const wr=w.getBoundingClientRect(),fr=fromEl&&fromEl.getBoundingClientRect();for(let i=0;i<16;i++){const g=document.createElement('i');g.className='sand gsand';const sx=fr?fr.left+fr.width*Math.random():innerWidth/2+(Math.random()-.5)*160,sy=fr?fr.top+fr.height/2:innerHeight*0.55,tx=wr.left+22,ty=wr.top+20;
+      g.style.left=sx+'px';g.style.top=sy+'px';g.style.setProperty('--dx',(tx-sx)+'px');g.style.setProperty('--dy',(ty-sy)+'px');g.style.animationDelay=(i*0.05)+'s';document.body.appendChild(g);setTimeout(()=>g.remove(),1600);}
+    await new Promise(r=>setTimeout(r,700));const num=w.querySelector('b'),steps=Math.min(n,10);Me.addSec(n);
+    for(let i=1;i<=steps;i++){await new Promise(r=>setTimeout(r,90));num.textContent=Math.round(from+n*i/steps).toLocaleString();Snd.syn('tick');}
+    Snd.syn&&Snd.syn('ding',0.4);setTimeout(()=>{w.classList.add('out');setTimeout(()=>w.remove(),400);},900);return true;}};
 const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
   async open(m){this.mode=m;this.box={};this.cur=-1;this.line=rnd(OWLP[m]);if(m==='desk'){const T=Camp.toReply();this.reTo=null;if(T.length){this.tab='r';this.reTo=T[0].id;this.draft={};this.line='답장할 편지로구나. 천천히 적어 보렴.';}}this.res=await Res.load();pstEl.classList.toggle('w',m==='window');pstEl.classList.add('on');this.render();Mail.flush().then(()=>{if(pstEl.classList.contains('on'))this.render();});},
   close(){this.box={};pstEl.classList.remove('on');},
@@ -2287,14 +2298,16 @@ const News={el:null,last:{},
     if(k==='paper'&&!Paper.bought()){this.el.classList.add('pop');this.ring.style.display='none';this.mode='buy';this.buyK='paper';this.say=`📰 오늘 신문은 5초. 살래? (지금 ${Me.d.sec||0}초 있어)`;this.render();return;}
     if(k==='paperOK'||k==='paper'){this.el.classList.add('pop');this.ring.style.display='none';Paper.buy().then(r=>{this.mode='main';this.say=r==='poor'?'5초야. 모자라면 해변에서 주워서 만물상에 팔고 와. 외상은 사절.':r==='again'?'이미 샀잖아. 다시 보는 건 공짜. …이번만.':'5초 받았어. 뽀득. 다 읽으면 접어서 가져가.';this.render();});return;}
     if(k==='box'){this.el.classList.add('pop');this.ring.style.display='none';this.boxOpen();return;}
-    if(k==='coin'&&Puzzle.done()&&Puzzle.S()&&!Puzzle.S().c){Puzzle.claim();this.mode='main';this.say='퍼즐 다 풀었구나. …보자. 맞네. 10초. 뽀득.';this.el.classList.add('pop');this.ring.style.display='none';this.render();return;}
+    if(k==='coin'&&Puzzle.done()&&Puzzle.S()&&!Puzzle.S().c){this.mode='main';this.el.classList.add('pop');this.ring.style.display='none';this.say='퍼즐 다 풀었어? 이리 줘 봐.';this.render();return;}
     this.show(k==='coin'&&!this.el.classList.contains('pop')?'hi':k);},
+  givePz(){Snd.syn&&Snd.syn('page',0.6);this.say='다 풀었어? …보자.';this.render();const btn=this.tk.querySelector('.btns');if(btn)btn.style.visibility='hidden';
+    setTimeout(()=>{this.say='…세로 열쇠까지 맞네. 쳇. 10초. 뽀득. 내일 것도 사 가.';Puzzle.claim();this.render();Pay.gain(10,this.tk);},1500);},
   render(){if(this.mode==='box'){this.renderBox();return;}
     if(this.mode==='buy'){this.tk.innerHTML=`<div class="hd">🦝 ${esc(NS_NAME)} · 가판대 주인</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-y>${this.buyK==='paper'?'5초 내고 사기':'3초 내고 사기'}</button><button data-n>그만두기</button></div>`;
       this.tk.querySelector('[data-n]').onclick=()=>{this.mode='main';this.say='구경만 하는구나. 익숙해.';this.render();};
       this.tk.querySelector('[data-y]').onclick=()=>{if(this.buyK==='paper')this.tap('paperOK');else Puzzle.buy().then(r=>{this.mode='main';this.say=r==='poor'?'3초도 없어? 해변에 조개 많던데.':'3초 받았어. 다 풀면 가져와. 맞으면 10초 줄게. 틀리면… 다시 풀어.';this.render();});};return;}
-    this.tk.innerHTML=`<div class="hd">🦝 ${esc(NS_NAME)} · 가판대 주인</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-b="paper">📰 신문</button><button data-b="puzzle">✏️ 낱말퍼즐</button><button data-b="box">📦 교환 상자</button></div>`;
-    this.tk.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b;if(k==='puzzle'){Snd.syn&&Snd.syn('tap');if(Puzzle.done()&&!Puzzle.S().c){Puzzle.claim();this.say='다 풀었어? …보자. 맞네. 10초. 뽀득. 내일 것도 사 가.';this.render();return;}if(Puzzle.bought()){this.say='오늘 퍼즐은 이미 샀잖아. 가방에 있어.';Puzzle.open();this.render();return;}this.mode='buy';this.buyK='puzzle';this.say=`✏️ 오늘의 낱말퍼즐은 3초. 살래? 다 풀어 오면 10초 줄게.`;this.render();}else this.tap(k);});},
+    this.tk.innerHTML=`<div class="hd">🦝 ${esc(NS_NAME)} · 가판대 주인</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-b="paper">📰 신문</button>${Puzzle.done()&&Puzzle.S()&&!Puzzle.S().c?'<button data-b="puzzle" class="give">✏️ 퍼즐 주기</button>':'<button data-b="puzzle">✏️ 낱말퍼즐</button>'}<button data-b="box">📦 교환 상자</button></div>`;
+    this.tk.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b;if(k==='puzzle'){Snd.syn&&Snd.syn('tap');if(Puzzle.done()&&!Puzzle.S().c){this.givePz();return;}if(Puzzle.bought()){this.say='오늘 퍼즐은 이미 샀잖아. 가방에 있어.';Puzzle.open();this.render();return;}this.mode='buy';this.buyK='puzzle';this.say=`✏️ 오늘의 낱말퍼즐은 3초. 살래? 다 풀어 오면 10초 줄게.`;this.render();}else this.tap(k);});},
   line(k){const L=NS_L[k];let i=Math.floor(Math.random()*L.length);if(L.length>1&&i===this.last[k])i=(i+1)%L.length;this.last[k]=i;return L[i];},
   // 잡동사니 교환 상자: 쓸데없는 물건 하나 + 쪽지를 넣으면, 남이 넣은 쓸데없는 것 하나를 가져감
   boxOpen(){this.mode='box';this.boxSay='쓸데없는 거 하나 넣으면, 쓸데없는 거 하나 가져가. 쪽지도 같이. 내 가게에서 제일 공정한 거래야.';this.got=null;this.renderBox();},
@@ -2653,7 +2666,7 @@ const Puzzle={
       <ol class="clues">${P.rows.map((r,i)=>`<li class="${s.r[i]?'ok':''}"><b>${i+1}.</b> ${esc(r[2])} <span>(${r[0].length}글자)</span></li>`).join('')}</ol>
       <div class="kc ${all?'ok':''}">🔑 세로 열쇠: ${all?`<b>${esc(P.key)}</b> — `:''}${esc(P.kc)}</div>
       ${all?`<div class="fin">${s.c?'초를 받았어. 내일 퍼즐도 기다려.':'다 풀었어! 가판대 동구리에게 가져가면 초를 받을 수 있어.'}</div>`:''}</div>`;
-    el.classList.add('on');el.querySelector('.x').onclick=()=>el.classList.remove('on');
+    el.classList.add('on');el.querySelector('.x').onclick=()=>{el.classList.remove('on');try{if(News.el&&News.el.classList.contains('on')&&News.tk){if(this.done()&&!this.S().c)News.say='다 풀었어? 그럼 이리 줘 봐.';News.render();}}catch(e){}};
     el.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>this.ask(+b.dataset.i));},
   ask(i){const P=this.P(),s=this.S(),r=P.rows[i];if(s.r[i])return;const el=document.getElementById('pz'),d=document.createElement('div');d.className='bdrop';
     d.innerHTML=`<div class="paper"><b>${i+1}. ${esc(r[2])}</b><p class="sub">${r[0].length}글자</p><input class="pzin" maxlength="${r[0].length+2}" placeholder="답 적기" autocomplete="off"><div class="row2"><button data-x>그만두기</button><button data-ok>확인</button></div></div>`;
@@ -2662,7 +2675,7 @@ const Puzzle={
       else{inp.value='';inp.placeholder='땡! 다시 생각해 봐';d.querySelector('.paper').classList.add('shake');setTimeout(()=>d.querySelector('.paper').classList.remove('shake'),400);}};
     d.querySelector('[data-ok]').onclick=go;inp.addEventListener('keydown',e=>{if(e.key==='Enter')go();});},
   // 가판대에 가져가면 10초
-  claim(){const s=this.S();if(!s||!this.done()||s.c)return false;s.c=1;Me.addSec(10);Me.save();Me.log('다 푼 낱말퍼즐을 동구리에게 가져갔다. 10초를 받았다. 동구리가 답을 한 번 더 확인했다.','pz_c'+ymd());return true;}};
+  claim(){const s=this.S();if(!s||!this.done()||s.c)return false;s.c=1;Me.save();Me.log('다 푼 낱말퍼즐을 동구리에게 가져갔다. 10초를 받았다. 동구리가 답을 한 번 더 확인했다.','pz_c'+ymd());return true;}};
 // ---- 칵테일 비주얼: 메뉴마다 다른 잔·색·장식 (코드로 그림) ----
 const DRINK_ART={
  '다섯 시 반':{g:'coupe',c:['#ffb347','#ff6f91'],gar:'sun'},
@@ -2773,11 +2786,11 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
     const p=el.querySelector('[data-play]');if(p)p.onclick=()=>this.play(el.querySelector('.yl').value);
     const st=el.querySelector('[data-stop]');if(st)st.onclick=()=>this.setSong('off');},
   ask(q,yes){this.mode='ask';this.say=q;this._yes=yes;this.render();},
-  talk(){const L=PUB_TALK;let i;do{i=Math.floor(Math.random()*L.length);}while(L.length>1&&i===this._ti);this._ti=i;this.mode='main';document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('tap',0.3);Case.talk('노을범 · 비치펍 주인',[L[i]]);
+  talk(){const L=PUB_TALK;let i;do{i=Math.floor(Math.random()*L.length);}while(L.length>1&&i===this._ti);this._ti=i;this.mode='main';document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('tap',0.3);Case.talk('🦭 노을범 · 비치펍 주인',[L[i]]);
     if(!this._tl){this._tl=1;Me.log('노을범이랑 바에서 시덥잖은 얘기를 했다.','pubtalk'+ymd());}},
   songOn(){const v=this.song;return !!v&&String(v.text).startsWith('v:');},
   async drink(m){this.mode='main';const ok=await Pay.fx(PUB_PRICE);if(ok===false){this.say=`${PUB_PRICE}초도 없어? 해변에 조개 많던데.`;this.render();return;}
-    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);this.mode='main';setTimeout(()=>Case.talk('노을범 · 비치펍 주인',[`${m[0]} ${m[1]} 나왔어. `+(PUB_SAY[m[1]]||'')]),500);
+    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);this.mode='main';setTimeout(()=>Case.talk('🦭 노을범 · 비치펍 주인',[`${m[0]} ${m[1]} 나왔어. `+(PUB_SAY[m[1]]||'')]),500);
     Me.log(`비치펍에서 「${m[1]}」을 마셨다. ${m[2]}`,'pub_'+m[1]+ymd());},
   async worry(){this.mode='main';const ok=await Pay.fx(WORRY_PRICE);if(ok===false){this.say='2초. 걱정에 비하면 싼 거야.';this.render();return;}Me.addItem('worry',1);Me.log('노을범에게 걱정종이를 한 장 샀다.','worry'+Date.now());
     this.say='적어서 모닥불에 태워. 나한텐 보여주지 마. 궁금하지도 않아. 별로.';this.render();},
@@ -2934,7 +2947,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1125t';
+const APP_V='v1125u';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
