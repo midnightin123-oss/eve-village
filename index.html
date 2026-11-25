@@ -118,14 +118,14 @@
   #rd .rprev{font-size:11px;color:#9a7a5a;text-align:center;margin:-8px 0 12px;}
   #rd .rart{position:absolute;inset:26px 24px 30px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;} #rd .rart img{max-width:100%;max-height:100%;border-radius:4px;}
   #rd .rart.wait{border:2px dashed rgba(138,106,74,.35);border-radius:6px;color:#9a7a5a;font-size:13px;} #rd .rart.wait svg{width:46%;fill:none;stroke:rgba(138,106,74,.45);stroke-width:2;stroke-linecap:round;}
-  .crum{display:inline-block;width:40px;height:40px;border-radius:44% 56% 48% 52%/52% 44% 56% 48%;background:radial-gradient(circle at 30% 30%,#fffbea,#efe2bf 45%,#d9c69a 75%),#efe2bf;box-shadow:inset -4px -5px 8px rgba(120,90,40,.35),inset 3px 3px 6px rgba(255,255,255,.7),1px 2px 4px rgba(0,0,0,.25);position:relative;}
-  .crum:after{content:'';position:absolute;inset:18%;background:linear-gradient(35deg,transparent 45%,rgba(120,90,40,.25) 47%,transparent 50%),linear-gradient(-50deg,transparent 40%,rgba(120,90,40,.2) 42%,transparent 46%),linear-gradient(80deg,transparent 55%,rgba(120,90,40,.22) 57%,transparent 60%);}
-  .crum.big{width:54px;height:54px;}
+  .crum{display:inline-block;width:34px;height:40px;position:relative;background:repeating-linear-gradient(180deg,transparent 0 7px,rgba(120,150,190,.35) 7px 8px),#fffaf0;border-radius:2px;transform:rotate(-6deg);box-shadow:1px 2px 4px rgba(0,0,0,.25);
+    clip-path:polygon(0 0,72% 0,100% 22%,100% 100%,0 100%);}
+  .crum:after{content:'';position:absolute;right:0;top:0;width:28%;height:22%;background:linear-gradient(225deg,transparent 50%,#e8dcc2 50%);}
+  .crum.big{width:46px;height:56px;}
   #rd .page.shake{animation:pgShake .45s ease;} @keyframes pgShake{20%{transform:rotate(-1.2deg)}40%{transform:rotate(1deg)}60%{transform:rotate(-.6deg)}80%{transform:rotate(.3deg)}}
   .crumFall{position:absolute;left:50%;top:22%;z-index:6;pointer-events:none;animation:crF 1.5s cubic-bezier(.35,.1,.5,1) forwards;}
   @keyframes crF{0%{transform:translate(-50%,-20px) rotate(0) scale(.6);opacity:0}15%{opacity:1}35%{transform:translate(-80%,90px) rotate(-120deg) scale(.9)}60%{transform:translate(-25%,180px) rotate(60deg) scale(1)}85%{transform:translate(-55%,250px) rotate(-30deg) scale(1)}100%{transform:translate(-50%,268px) rotate(0) scale(1.08)}}
-  .bdrop .paper.crumP{transform:rotate(-2deg);border-radius:2px;clip-path:polygon(0 2%,8% 0,22% 1.5%,40% 0,58% 2%,76% .5%,92% 2%,100% 0,99% 22%,100% 46%,98.5% 70%,100% 100%,80% 98.5%,60% 100%,38% 98%,18% 100%,0 98%,1.5% 74%,0 50%,1% 26%);
-    background:linear-gradient(32deg,rgba(0,0,0,0) 46%,rgba(120,90,40,.12) 47%,rgba(0,0,0,0) 49%),linear-gradient(-58deg,rgba(0,0,0,0) 52%,rgba(120,90,40,.1) 53%,rgba(0,0,0,0) 55%),linear-gradient(110deg,rgba(0,0,0,0) 30%,rgba(255,255,255,.5) 31%,rgba(0,0,0,0) 34%),linear-gradient(8deg,rgba(0,0,0,0) 70%,rgba(120,90,40,.1) 71%,rgba(0,0,0,0) 73%),radial-gradient(ellipse at 40% 35%,#fffbec,#f1e3c0 70%,#e6d3a8);animation:crOpen .45s ease;}
+  .bdrop .paper.crumP{transform:rotate(-2deg);border-radius:3px;background:repeating-linear-gradient(180deg,transparent 0 27px,rgba(120,150,190,.3) 27px 28px) 0 44px,#fffaf0;border-left:3px solid rgba(220,120,120,.35);animation:crOpen .45s ease;}
   @keyframes crOpen{from{transform:scale(.3) rotate(-30deg);opacity:0;filter:blur(1px)}to{transform:rotate(-2deg);opacity:1}}
   .bdrop{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(20,12,8,.45);}
   .bdrop .paper{width:min(84vw,360px);box-sizing:border-box;padding:16px;border-radius:4px;background:#fff6dc;color:#4a3420;box-shadow:0 10px 30px rgba(0,0,0,.4);transform:rotate(-1deg);animation:bdIn .5s cubic-bezier(.2,.9,.3,1.2);font-size:14px;}
@@ -141,7 +141,7 @@
   #np.on{display:block;animation:nsIn .3s ease;}
   #np .x{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,244,226,.95);color:#3a2a22;font-size:18px;z-index:2;}
   #np .sheet{max-width:560px;margin:0 auto;padding:16px 16px 20px;color:#1d1a16;font-family:'Nanum Myeongjo','Gowun Batang',serif;box-shadow:0 18px 40px rgba(0,0,0,.6);
-    background:url(news/paper.webp) center/cover,radial-gradient(ellipse at 30% 20%,#f4ecd8,#e6d9bb 70%,#d9c9a4);transform:rotate(-.4deg);}
+    background:url(news/paper.webp) center/cover,radial-gradient(ellipse at 30% 20%,#eeeeec,#d9d9d6 70%,#c8c8c4);transform:rotate(-.4deg);}
   #np .top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.3px;border-bottom:1px solid #1d1a16;padding-bottom:4px;}
   #np .mast{text-align:center;padding:8px 0 2px;} #np .mast .en{font:34px/1.05 'UnifrakturMaguntia',serif;} #np .mast .ko{font:800 13px 'Nanum Myeongjo',serif;letter-spacing:6px;margin-top:2px;}
   #np .dl{display:flex;justify-content:space-between;gap:6px;font-size:10px;border-top:3px double #1d1a16;border-bottom:1px solid #1d1a16;padding:4px 0;margin:6px 0 12px;flex-wrap:wrap;}
@@ -331,7 +331,7 @@
   .kk .bb:before{content:'';position:absolute;left:-6px;top:0;border:7px solid transparent;border-top-color:rgba(255,255,255,.84);border-right-color:rgba(255,255,255,.84);border-radius:2px;}
   .kk .tm{flex:none;font-size:10px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);}
   .kk .ok{display:inline-block;margin:6px 0 0 0;border:0;border-radius:999px;padding:5px 12px;background:#fee500;color:#3a2a1e;font:12.5px 'Gowun Dodum',sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.25);}
-  .mePop{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%);z-index:20;pointer-events:none;padding:9px 15px;border-radius:15px;background:rgba(255,255,255,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#4a2e24;font:12.5px/1.45 'Gowun Dodum',sans-serif;text-align:center;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.35);animation:popin .35s ease-out;transition:opacity .5s,translate .5s;}
+  .mePop{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%);z-index:71;pointer-events:none;padding:9px 15px;border-radius:15px;background:rgba(255,255,255,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#4a2e24;font:12.5px/1.45 'Gowun Dodum',sans-serif;text-align:center;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.35);animation:popin .35s ease-out;transition:opacity .5s,translate .5s;}
   .mePop b{display:block;font-weight:700;color:#c2563f;font-size:13.5px;margin-bottom:1px;} .mePop.out{opacity:0;translate:0 -10px;}
   @keyframes popin{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
   .ornM{border:0;background:none;padding:0;pointer-events:auto;}
@@ -412,8 +412,9 @@
   @keyframes ghB{50%{transform:translate(-50%,-6px)}}
   #adm details.ag{margin:8px 0;border-radius:10px;background:rgba(255,255,255,.06);padding:2px 10px 4px;} #adm details.ag summary{cursor:pointer;padding:8px 0;font-size:13px;list-style:none;} #adm details.ag summary:before{content:'▸ ';} #adm details.ag[open] summary:before{content:'▾ ';}
   #adm button.b.on{background:#e0574a;} #adm .lb{opacity:.65;font-size:11px;margin-top:10px;} #adm .st{opacity:.8;font-size:12px;}
-  #toast{position:fixed;left:50%;top:calc(58px + env(safe-area-inset-top));transform:translate(-50%,-10px);opacity:0;transition:all .35s;z-index:15;white-space:nowrap;
-    color:#fff8ec;font:15px 'Gowun Dodum',sans-serif;text-shadow:0 1px 3px rgba(40,15,20,.85),0 0 10px rgba(40,15,20,.5);display:flex;align-items:center;gap:6px;pointer-events:none;}
+  #toast{position:fixed;left:50%!important;top:calc(14px + env(safe-area-inset-top))!important;transform:translate(-50%,-16px);opacity:0;transition:all .35s;z-index:70;max-width:88vw;box-sizing:border-box;
+    padding:10px 16px;border-radius:16px;background:rgba(46,30,40,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 22px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,230,190,.18);
+    color:#fff8ec;font:14px/1.45 'Gowun Dodum',sans-serif;display:flex;align-items:center;gap:8px;pointer-events:none;}
   #toast.on{opacity:1;transform:translate(-50%,0);}
   #toast img{flex:0 0 auto;} #toast .ms{width:38px;height:38px;border-radius:50%;border:2px solid #c4523a;color:#c4523a;font-size:12px;line-height:13px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);font-weight:700;}
   #pst{position:fixed;inset:0;z-index:14;display:none;align-items:center;justify-content:center;background:rgba(22,14,24,.55);backdrop-filter:blur(3px);}
@@ -640,7 +641,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125d</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125e</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1170,7 +1171,7 @@ const Bag={on:false,page:0,sel:null,
     document.querySelectorAll('#bagPg [data-p]').forEach(b=>b.onclick=()=>{this.page=(this.page+(+b.dataset.p)+pages)%pages;this.render();});
     pocketsEl.querySelectorAll('.cell[data-id]').forEach(el=>el.onclick=()=>{const id=el.dataset.id,it=ITEMS[id];if(this.sel===id){this.sel=null;this.render();return;}this.sel=id;this.render();
       if(id[0]==='!'){const m=Camp.inbox.find(x=>x.id===id.slice(1));if(!m)return;this.info(`${icImg(m.k||'l',48)}<div><h4>${esc(Camp.mname(m))}</h4>${m.k==='c'?'풀어보면 안에 든 걸 가방에 넣을 수 있어.':m.read?'다시 읽어볼 수 있어.':'아직 안 읽은 '+(m.k==='p'?'펜팔 편지':'편지')+'야.'}<div style="margin-top:6px"><button class="sm" data-rd="1">${m.k==='c'?'풀어보기':'읽기'}</button></div></div>`);bagInfo.querySelector('[data-rd]').onclick=()=>{this.close();Camp.read(m);};return;}
-      if(id[0]==='%'){const n=(Me.d.notes||[])[+id.slice(1)];if(!n)return;this.info(`<span class="crum big"></span><div><h4>꼬깃한 쪽지</h4><span style="font:16px 'Nanum Pen Script',cursive">${esc(n.text)}</span><div style="font-size:11px;opacity:.7;margin-top:4px">${esc(n.src||'')}</div><div style="margin-top:6px"><button class="sm" data-tr="1">버리기</button></div></div>`);bagInfo.querySelector('[data-tr]').onclick=()=>{Me.d.notes.splice(+id.slice(1),1);Me.save();this.sel=null;this.render();};return;}
+      if(id[0]==='%'){const n=(Me.d.notes||[])[+id.slice(1)];if(!n)return;this.info(`<span class="crum big"></span><div><h4>주운 쪽지</h4><span style="font:16px 'Nanum Pen Script',cursive">${esc(n.text)}</span><div style="font-size:11px;opacity:.7;margin-top:4px">${esc(n.src||'')}</div><div style="margin-top:6px"><button class="sm" data-tr="1">버리기</button></div></div>`);bagInfo.querySelector('[data-tr]').onclick=()=>{Me.d.notes.splice(+id.slice(1),1);Me.save();this.sel=null;this.render();};return;}
       if(id[0]==='#'){const p=id==='#p';this.info(`${icImg(p?'sp':'n',48)}<div><h4>${p?'펜팔 우표':'일반 우표'} · ${postD().st[id[1]]}장</h4>${p?'창가에서 펜팔 편지에 붙이는 우표야.':'우체국 카운터에서 편지에 붙이는 기본 우표야.'}</div>`);return;}
       if(id[0]==='@'){const d=postD().dr[+id.slice(1)];this.info(`${icImg(d.k,48)}<div><h4>${esc(mailDesc(d))}</h4>${esc(d.q?'배달을 기다리는 중이야.':d.k==='p'?'창가에서 펜팔 우표를 붙여 날려 보내.':d.k==='c'?'우체국 카운터에서 부칠 수 있어. '+mailSub(d):'우체국 카운터에서 우표를 붙여 부칠 수 있어.')}</div>`);return;}
       this.info(`${itemImg(id,48)}<div><h4>${esc(it.name)} × ${Me.d.bag[id]}</h4>${esc(it.txt)}</div>`);});
@@ -1843,7 +1844,7 @@ const Case={
   has(c,n){return !!this.D().cl[c.id+'-'+n];},
   got(c){return [1,2,3].filter(n=>this.has(c,n));},
   give(c,n,from){const D=this.D(),k=c.id+'-'+n;if(D.cl[k])return false;D.cl[k]={f:from||'',t:Date.now()};Me.save();
-    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>toast('실마리 셋이 다 모였어! 수첩의 수수께끼를 열어봐',3200),700);}
+    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>popMe('<b>🧩 실마리 셋이 다 모였어!</b>수첩 → 🔍 수수께끼에서 맞춰 봐',3800),900);}
     if(Note.on)Note.render();return true;},
   set(st){const D=this.D();D.st=st;Me.save();this.badge();this.marks();},
   paid(){const D=this.D();return !!(D.pp&&D.pp[this.C().id]);},
@@ -2117,7 +2118,7 @@ admBtn.addEventListener('click',()=>Admin.open());admEl.querySelector('.x').addE
 /* ===================== 6. 장소 이동 ===================== */
 const fade=document.getElementById('fade'),placeEl=document.getElementById('place');
 let me=null,switching=false,snapPan=true;
-function enter(key,spawn,face){if(key!=='library'&&placeKey==='library'&&Me.ready&&Me.d.lib&&Me.d.lib.hold){delete Me.d.lib.hold;Me.save();setTimeout(()=>toast('🐿 빌린 책은 책다람이 제자리에 꽂아 뒀어',2200),1200);}if(doorBtn){doorBtn.remove();doorBtn=null;}doorFor=null;placeKey=key;if(Me.ready&&DLINE.visit[key])Me.log(DLINE.visit[key],'v_'+key);P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();buildSparks();
+function enter(key,spawn,face){if(key!=='library'&&placeKey==='library'&&Me.ready&&Me.d.lib&&Me.d.lib.hold){delete Me.d.lib.hold;Me.save();setTimeout(()=>popMe('<b>🐿 빌린 책은 제자리에</b>책다람이 꽂아 뒀어',2800),1300);}if(doorBtn){doorBtn.remove();doorBtn=null;}doorFor=null;placeKey=key;if(Me.ready&&DLINE.visit[key])Me.log(DLINE.visit[key],'v_'+key);P=PLACES[key];AR=P.ar||AR0;useGrid(key);layout();layoutBg();snapPan=true;mapImg.src=window.MAPS[P.img];setBg(P.img);placeEl.textContent=P.label;buildFx();buildOcc();buildSeats();buildSparks();
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   document.getElementById('outBtn').style.display=P.outBtn?'block':'none';
   {const t=document.getElementById('tentTag');if(t)t.remove();}Camp.badge();Home.onEnter();Case.marks();Case.badge();Quest.marks();bellHints();setTimeout(()=>{try{Quest.check();}catch(e){}},3000);if(key==='post')setTimeout(()=>Tip.once('post'),1500);
@@ -2339,7 +2340,7 @@ const Libr={
   fall(n,pn){const pg=this.rd.querySelector('.page');pg.classList.add('shake');setTimeout(()=>pg.classList.remove('shake'),500);Snd.syn&&Snd.syn('page',0.7);
     const f=document.createElement('div');f.className='crumFall';f.innerHTML='<span class="crum big"></span>';this.rd.appendChild(f);
     setTimeout(()=>{f.remove();Snd.syn&&Snd.syn('flap',0.4);const it=n.it&&ITEMS[n.it]?n.it:'';const d=document.createElement('div');d.className='bdrop';
-      d.innerHTML=`<div class="paper crumP"><b>${pn}쪽 사이에서 꼬깃한 쪽지가 떨어졌어</b><p>${esc(n.text)}</p>${it?`<div class="it">${itemImg(it,30)}<span>${esc(ITEMS[it].name)}이(가) 같이 끼워져 있었어.</span></div>`:''}<i>— 모르는 주민이 끼워 둔 쪽지</i>
+      d.innerHTML=`<div class="paper crumP"><b>${pn}쪽 사이에서 쪽지 한 장이 떨어졌어</b><p>${esc(n.text)}</p>${it?`<div class="it">${itemImg(it,30)}<span>${esc(ITEMS[it].name)}이(가) 같이 끼워져 있었어.</span></div>`:''}<i>— 모르는 주민이 끼워 둔 쪽지</i>
         <div class="row2"><button data-bag>📔 가방에 넣기</button><button data-back>🔖 다시 끼워 두기</button></div></div>`;
       this.rd.appendChild(d);
       d.querySelector('[data-bag]').onclick=()=>{const N=Me.d.notes||(Me.d.notes=[]);N.push({text:n.text,src:`『${this.b.t}』 ${pn}쪽에서 주움`,t:Date.now()});if(it)Me.addItem(it,1);Me.save();d.remove();toast(it?'쪽지랑 물건을 가방에 넣었어':'쪽지를 가방에 넣었어',1800);};
