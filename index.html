@@ -249,7 +249,7 @@
   #bul .ln{text-shadow:0 1px 6px rgba(0,0,0,.6);}
   #pubp .mb .wide{grid-column:1/-1;background:#e0874a;color:#fff;}
   #pubTab.hasSong:after{content:'🎵 노래 나오는 중';position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px);white-space:nowrap;padding:4px 9px;border-radius:999px;background:#e0874a;color:#fff;font:11.5px 'Gowun Dodum';animation:nbP 1.6s ease-in-out infinite;}
-  #talkBtn{position:fixed;right:12px;bottom:calc(178px + env(safe-area-inset-bottom));width:46px;height:46px;border-radius:50%;border:0;background:rgba(40,24,30,.6);font-size:22px;z-index:6;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  #talkBtn{display:none;position:fixed;right:12px;bottom:calc(178px + env(safe-area-inset-bottom));width:46px;height:46px;border-radius:50%;border:0;background:rgba(40,24,30,.6);font-size:22px;z-index:6;box-shadow:0 4px 12px rgba(0,0,0,.3);}
   #talkBtn em{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#e0574a;color:#fff;font:700 11px/18px sans-serif;font-style:normal;display:none;} #talkBtn.new em{display:block;} #talkBtn.new em:empty{min-width:10px;width:10px;height:10px;top:0;right:0;}
   body.talkOn #talkBtn{background:#e0874a;}
   #talk{position:fixed;right:8px;top:calc(104px + env(safe-area-inset-top));bottom:max(calc(172px + env(safe-area-inset-bottom)),calc(var(--kb,0px) + 66px));width:min(54vw,260px);z-index:5;display:none;flex-direction:column;border-radius:16px;background:rgba(28,18,22,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);overflow:hidden;font-family:'Gowun Dodum';}
@@ -723,7 +723,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125r</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125s</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2878,7 +2878,7 @@ setInterval(()=>{try{Fire.tick();}catch(e){}},400);
 const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null,unread:0,declined:null,
   el(){let e=document.getElementById('talk');if(e)return e;e=document.createElement('div');e.id='talk';e.innerHTML='<div class="tabs"></div><div class="body"></div>';document.body.appendChild(e);
     e.addEventListener('pointerdown',x=>x.stopPropagation());e.addEventListener('pointerup',x=>{x.stopPropagation();const t=x.target.closest('[data-tab]');if(t){this.tab=t.dataset.tab;if(this.tab.startsWith('w:'))this.W[this.tab.slice(2)].un=0;this.render();}const lv=x.target.closest('[data-leave]');if(lv)this.leave();});
-    let b=document.getElementById('talkBtn');if(!b){b=document.createElement('button');b.id='talkBtn';b.innerHTML='💬<em></em>';document.body.appendChild(b);b.addEventListener('pointerdown',x=>x.stopPropagation());b.addEventListener('pointerup',x=>{x.stopPropagation();this.toggle();});}
+    let b=document.getElementById('talkBtn');if(!b){b=document.createElement('button');b.id='talkBtn';b.innerHTML='💬<em></em>';document.body.appendChild(b);b.addEventListener('pointerdown',x=>x.stopPropagation());b.addEventListener('pointerup',x=>{x.stopPropagation();this.press();});}
     return e;},
   toggle(v){this.open=v==null?!this.open:v;this.el().classList.toggle('on',this.open);document.body.classList.toggle('talkOn',this.open);const m=document.getElementById('msg');if(this.open){this.unread=0;if(m)m.focus();}else if(m){m.blur();setTimeout(()=>dispatchEvent(new Event('resize')),350);}this.render();},
   ph(){const m=document.getElementById('msg');if(!m)return;m.placeholder=!this.open?'이웃에게 한마디':this.tab==='table'?'테이블에 한마디':this.tab.startsWith('w:')?`${this.W[this.tab.slice(2)].name}에게 속닥속닥`:'이웃에게 한마디';},
@@ -2899,11 +2899,14 @@ const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null
       else this.fake(this.tab);return true;}
     return false;},
   // 테이블: 같이 앉을 수 있는 자리(grp)에 앉으면 참여할지 물어봄
-  grpKey(){if(!me||!me.sitting||!me.seat||!me.seat.grp)return null;return 'tb_'+placeKey+'_'+me.seat.grp;},
-  tick(){const k=this.grpKey(),a=document.getElementById('tbAsk');if(this.tb&&this.tb!==k)this.leave();
-    const show=k&&!this.tb&&this.declined!==k+(me.seat&&me.seat.x);if(!a&&show){const d=document.createElement('div');d.id='tbAsk';d.innerHTML='<span>🍻 같이 앉은 사람들이랑 테이블 대화할래?</span><button data-n>괜찮아</button><button data-y>참여</button>';document.body.appendChild(d);
-      d.addEventListener('pointerdown',x=>x.stopPropagation());d.addEventListener('pointerup',x=>{x.stopPropagation();if(x.target.closest('[data-y]'))this.join();else if(x.target.closest('[data-n]')){this.declined=this.grpKey()+(me.seat&&me.seat.x);d.remove();}});}
-    else if(a&&!show)a.remove();},
+  grpOf(s){if(!s)return null;if(s.grp)return s.grp;if(placeKey==='library'){if(s.y>63&&s.y<74)return s.x<50?'t1':'t2';if(s.y>75&&s.y<87)return 't3';}return null;},
+  grpKey(){if(!me||!me.sitting||!me.seat)return null;const g=this.grpOf(me.seat);return g?'tb_'+placeKey+'_'+g:null;},
+  btnShow(){return !!(this.grpKey()||this.tb||Object.keys(this.W).length);},
+  press(){if(!this.tb&&this.grpKey()&&!this.open){this.askJoin();return;}this.toggle();},
+  askJoin(){let d=document.getElementById('tbAsk');if(d)d.remove();d=document.createElement('div');d.id='tbAsk';d.innerHTML='<span>🍻 같이 앉은 사람들이랑 테이블 대화할래?</span><button data-n>괜찮아</button><button data-y>참여</button>';document.body.appendChild(d);
+    d.addEventListener('pointerdown',x=>x.stopPropagation());d.addEventListener('pointerup',x=>{x.stopPropagation();if(x.target.closest('[data-y]'))this.join();else if(x.target.closest('[data-n]')){d.remove();if(Object.keys(this.W).length)this.toggle(true);}});},
+  tick(){const k=this.grpKey(),a=document.getElementById('tbAsk');if(this.tb&&this.tb!==k)this.leave();if(a&&!k)a.remove();
+    const b=document.getElementById('talkBtn');if(b){const s=this.btnShow();b.style.display=s?'block':'none';if(!s&&this.open)this.toggle(false);}},
   join(){const k=this.grpKey();if(!k)return;this.tb=k;this.L.table=[{sys:1,text:'테이블 대화에 들어왔어. 여기 말은 같이 앉은 사람만 봐.'}];const a=document.getElementById('tbAsk');if(a)a.remove();this.tab='table';this.toggle(true);
     if(ONL()){const D=Net.fn,since=Date.now();D.push(D.ref(Net.db,'chat/'+k),{uid:Net.uid,name:me.name,text:'__join',ts:Date.now()}).catch(()=>{});
       this.tbOff=D.onChildAdded(D.query(D.ref(Net.db,'chat/'+k),D.limitToLast(20)),s=>{const m=s.val();if(!m||m.uid===Net.uid)return;const nw=(m.ts||0)>=since-1000;
@@ -2926,9 +2929,11 @@ const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null
     setTimeout(()=>{if(ch==='table'&&!this.tb)return;this.add(ch,first?{sys:1,text:`${nm}이(가) 테이블 대화에 들어왔어`}:{name:nm,text:rnd(R)});},1400+Math.random()*1500);}};
 setInterval(()=>{try{Talk.tick();}catch(e){}},500);
 PLACES.pub.seats.forEach(s=>{s.grp='bar';});PLACES.beach.seats.forEach(s=>{if(Math.hypot((s.x-52)*AR0,s.y-63)<25)s.grp='fire';});
-if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,innerHeight-vv.height-vv.offsetTop);document.documentElement.style.setProperty('--kb',kb+'px');if(window.scrollY)window.scrollTo(0,0);};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);}
+if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,innerHeight-vv.height-vv.offsetTop),ch=document.getElementById('chat'),tk=document.getElementById('talk');
+    if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
+    else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1125r';
+const APP_V='v1125s';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
