@@ -269,6 +269,8 @@
   .gsand{position:fixed !important;z-index:31;}
   #ns .btns .give{background:#f2c27a !important;color:#3a2420 !important;}
   #ns .hint{margin-top:6px;font-size:12px;opacity:.6;text-align:center;}
+  .fbtn{position:static;display:block;width:100%;border:0;border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.14);color:inherit;font:14px 'Gowun Dodum';margin:8px 0 2px;}
+  .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-height:44vh;overflow:auto;margin-top:8px;} .fcell{border:0;border-radius:10px;background:rgba(255,255,255,.08);color:inherit;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font:12px 'Gowun Dodum';} .fcell img{width:100%;height:56px;object-fit:contain;} .fcell b{font-weight:400;font-size:12.5px;} .fcell span{opacity:.7;font-size:11px;}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #seats{position:absolute;inset:0;pointer-events:none;}
   .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
@@ -729,7 +731,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126c</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126d</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1367,20 +1369,32 @@ const KEEP={hi:['어서 와. 바다에서 뭘 가져왔나 볼까?','오호, 주
   pick:{shell_w:'하얀 조개군. 흔하지만 소리는 제일 맑지.',shell_p:'분홍 조개라… 노을이 스며들었군.',shell_v:'보라 조개! 해가 지기 직전에만 밀려오는 녀석이야.',wood:'유목이군. 먼 바다 냄새가 나.',glass_g:'초록 바다유리. 파도가 오래 다듬었어.',conch:'소라 껍데기라니, 귀에 대보면 누가 흥얼거린다지.',glass_b:'파란 바다유리! 이건 쉽게 안 나오지.',star:'불가사리군. 살살 다뤄줘.',pearl:'진주…? 정말 주운 거야? 대단한걸.'},
   deal:['거래 성사! 시간은 잘 쓰라고.','좋은 물건이었어. 또 와.','멈춘 시간, 지갑에 넣어뒀다.']};
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
-const Shop={tray:{},line:'',
-  open(){this.tray={};this.line=rnd(KEEP.hi);this.spam=bellSpam('shop');shopEl.classList.add('on');this.render();},
+// 만물상 가구 (기본 세트 침대·러그·스탠드·바다 창 말고는 여기서 사기)
+const FURN_SHOP=[['table',30],['chair',20],['armchair',45],['stove',50],['shelf',40],['rack',25],['side',15],['plant',15],['lamp',20],['rug',25],['win:forest',30],['win:sky',30],['win:sea',30]];
+const Shop={tray:{},line:'',mode:'sell',
+  open(){this.tray={};this.mode='sell';this.ask=null;this.line=rnd(KEEP.hi);this.spam=bellSpam('shop');shopEl.classList.add('on');this.render();},
   left(id){return (Me.d.bag[id]||0)-(this.tray[id]||0);},
-  render(){const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);
+  furn(){const R=Home.room(),own=k=>R.inv.concat(R.items).filter(o=>(o.k==='win'?'win:'+(o.v||'sea'):o.k)===k).length;
+    const cells=FURN_SHOP.map(([k,p])=>{const [kk,v]=k.split(':'),img=kk==='win'?`home/win_${v}.webp`:`home/${kk}.webp`,nm=kk==='win'?josa(HVIEWN[v],'이','가')+' 보이는 창':FURN[kk].n,n=own(k);
+      return `<button class="fcell" data-f="${k}" data-p="${p}"><img src="${img}" alt=""><b>${esc(nm)}</b><span>${p}초${n?` · ${n}개 있음`:''}</span></button>`;}).join('');
+    shopBody.innerHTML=`<div class="pan k"><div class="hd">🔮 달무리 · 만물상 주인</div><div class="say">${esc(this.line)}</div><div class="fgrid">${cells}</div>
+      ${this.ask?`<div class="ft"><span>${esc(this.ask[2])} · <b>${this.ask[1]}</b>초</span><button class="go" data-yes>살래</button></div>`:''}<div class="ft"><button class="fbtn" data-back style="width:auto;margin:0">‹ 물건 팔기</button><span>가진 시간 ${(Me.d.sec||0).toLocaleString()}초</span></div></div>`;
+    shopBody.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{const k=b.dataset.f,p=+b.dataset.p,[kk,v]=k.split(':');const nm=kk==='win'?josa(HVIEWN[v],'이','가')+' 보이는 창':FURN[kk].n;this.ask=[k,p,nm];this.line=rnd([`${nm}? 그거 ${p}초. 흥정 사절.`,`${nm}이라. 텐트 안이 좀 덜 휑하겠군. ${p}초.`,`좋은 눈이야. ${p}초.`]);this.render();});
+    const y=shopBody.querySelector('[data-yes]');if(y)y.onclick=async()=>{const [k,p,nm]=this.ask;const ok=await Pay.fx(p);if(ok===false){this.line='시간이 모자라. 바닷가에 물건 많던데.';this.ask=null;this.render();return;}
+      const [kk,v]=k.split(':');const R=Home.room();R.inv.push(kk==='win'?{k:'win',v}:{k:kk});Me.save();Me.log(`만물상에서 ${nm}를 샀다. 텐트 꾸미기 메뉴에 들어갔다.`,'furn'+Date.now());this.ask=null;this.line='텐트 꾸미기 메뉴에 넣어 뒀어. 들고 가는 건 내가 안 봤어.';this.render();};
+    shopBody.querySelector('[data-back]').onclick=()=>{this.mode='sell';this.ask=null;this.line=rnd(KEEP.hi);this.render();};},
+  render(){if(this.mode==='furn'){this.furn();return;}const ids=Object.keys(Me.d.bag).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);
     const cells=ids.map(id=>{const n=this.left(id),it=ITEMS[id];return `<button class="cell${it.nosell||n<=0?' no':''}" data-a="${id}">${itemImg(id,64)}<i>${n}</i></button>`;}).join('');
     const tr=Object.keys(this.tray).filter(id=>this.tray[id]>0);
     const tc=tr.map(id=>`<button class="cell" data-b="${id}">${itemImg(id,64)}<i>${this.tray[id]}</i></button>`).join('');
     const tot=tr.reduce((s,id)=>s+ITEMS[id].sec*this.tray[id],0);
     shopBody.innerHTML=`<div class="pan"><div class="hd"><img src="ui/i_bag.webp" width="22" height="22" alt="">내 가방</div><div class="grid">${cells||'<div style="grid-column:1/-1;opacity:.7;padding:10px 4px">비어 있어</div>'}</div><div class="sub">내놓을 물건을 골라봐. 달무리가 그 물건에 깃든 시간을 재어줄 거야</div></div>
-      <div class="pan k"><div class="hd">🔮 달무리 · 만물상 주인</div><div class="say">${esc(this.spam?'…한 번만 쳐도 들려. 귀는 좋아.':(ids.length?this.line:KEEP.empty))}</div><div class="memo">📌 흥정 사절. 불쌍한 표정도 흥정으로 간주함.</div><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
+      <div class="pan k"><div class="hd">🔮 달무리 · 만물상 주인</div><div class="say">${esc(this.spam?'…한 번만 쳐도 들려. 귀는 좋아.':(ids.length?this.line:KEEP.empty))}</div><div class="memo">📌 흥정 사절. 불쌍한 표정도 흥정으로 간주함.</div><button class="fbtn" data-furn>🪑 가구 구경하기</button><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
       <div class="ft"><span>받을 시간 <b>${tot}</b>초</span><button class="go"${tot?'':' disabled'}>바꾸기</button></div><div class="sub">가진 시간 ${(Me.d.sec||0).toLocaleString()}초</div></div>`;
     shopBody.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const id=b.dataset.a,it=ITEMS[id];
       if(it.nosell){this.line='그건 안 받아. 그런 건 주인이 따로 있는 법이지.';this.render();return;}
       if(this.left(id)<=0)return;this.tray[id]=(this.tray[id]||0)+1;this.line=`${KEEP.pick[id]||it.name+'이군.'} 하나에 ${it.sec}초 쳐주지.`;this.render();});
+    {const fb=shopBody.querySelector('[data-furn]');if(fb)fb.onclick=()=>{this.mode='furn';this.ask=null;this.line='가구는 여기. 앉아 보는 건 공짜, 일어나는 건 아니야.';this.render();};}
     shopBody.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const id=b.dataset.b;this.tray[id]--;if(this.tray[id]<=0)delete this.tray[id];this.line='마음이 바뀌었나? 괜찮아.';this.render();});
     const g=shopBody.querySelector('.go');if(g)g.onclick=()=>{let tot=0;for(const id in this.tray){const n=this.tray[id];tot+=ITEMS[id].sec*n;Me.addItem(id,-n);Me.log(`만물상에서 ${josa(ITEMS[id].name,'을','를')} 시간으로 바꿨다.`,'sell_'+id);}
       Me.addSec(tot);Tip.once('sell');Quest.mark('sell');this.tray={};this.line=rnd(KEEP.deal)+` (+${tot}초)`;this.render();};}};
@@ -1786,7 +1800,7 @@ const HVIEWS=['sea','forest','sky'],HVIEWN={sea:'바다',forest:'숲',sky:'하�
 const HOME_KINDS=['bed','shelf','rack','lamp','stove','rug','table','chair','armchair','side','plant'];
 const HENT=[40,91,60,100]; // 입구 앞은 비워둠
 const Home={edit:false,sel:null,drag:null,
-  room(){let R=Me.d.room;if(!R||R.ver!==3)R=Me.d.room={ver:3,items:[],inv:HOME_KINDS.map(k=>({k})).concat(HVIEWS.map(v=>({k:'win',v})))};R.inv=R.inv||[];return R;},
+  room(){let R=Me.d.room;if(!R||R.ver!==3)R=Me.d.room={ver:3,items:[],inv:[{k:'bed'},{k:'rug'},{k:'lamp'},{k:'win',v:'sea'}]};R.inv=R.inv||[];return R;},
   shelf(){const R=this.room();return R.shelf||(R.shelf={});},
   nm(o){return o.k==='win'?josa(HVIEWN[o.v||'sea'],'이','가')+' 보이는 창':FURN[o.k].n;},
   U0(){return PLACES.home.size*(0.78+0.45*0.7)*150;}, // 캐릭터 키를 가로 %로
@@ -2131,11 +2145,11 @@ const Quest={
   retro(n){const q=this.q(),D=q.days[n];let any=0;QUESTS[n-1].items.forEach(i=>{if(!i.n&&q.ev[i.k]&&!D.d[i.k]&&n>1){D.d[i.k]=Date.now();any=1;}});if(any){Me.save();setTimeout(()=>popMe('<b>✓ 이미 해 둔 부탁이 있어</b>수첩에 체크해 뒀어',2600),900);if(this.done(n))this.finish(n);if(Note.on)Note.render();}},
   doneOne(n,k){const it=QUESTS[n-1].items.find(i=>i.k===k);setTimeout(()=>{popMe(`<b>✓ H의 부탁 완료!</b>${esc(it.t)}`,3400);Snd.syn&&Snd.syn('ding',0.5);},900);Me.log(`H의 부탁을 하나 들어줬다. ${it.t}.`,'q_'+n+k);
     if(this.done(n))this.finish(n);},
-  finish(n){const D=this.q().days[n];if(D.gift)return;D.gift='ready';D.doneAt=Date.now();Me.save();
+  finish(n){const D=this.q().days[n];if(D.gift)return;D.gift='ready';D.doneAt=Date.now();D.doneDay=this.today();Me.save();
     setTimeout(()=>{popMe('<b>🎁 선물 상자 도착!</b>이브의 언덕 트리 밑을 확인해 봐',4200);Me.log(`H의 ${QUESTS[n-1].day}을 다 들어줬다. 이브의 언덕 트리 밑에 선물 상자가 도착했다.`,'q_gift'+n);this.marks();if(Note.on)Note.render();},4200);},
   // 다음 날 쪽지가 올 때가 됐는지 (전날 부탁을 다 했고, 날짜가 바뀌었으면)
   check(){if(!Me.ready||!me||Tut.step||switching)return;if(isHR())return;const n=this.cur();if(!n||n>=QUESTS.length||!this.done(n))return;
-    const D=this.q().days[n];if(!D.doneAt)return;if(this.today()<=ymd(new Date(D.doneAt)))return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()===n)Tut.bird(n+1);},2500);},
+    const D=this.q().days[n];if(!D.doneAt)return;if(this.today()<=(D.doneDay||ymd(new Date(D.doneAt))))return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()===n)Tut.bird(n+1);},2500);},
   reply(){const n=me.name,text=H_REPLY[n]?H_REPLY[n]+'\n\n— H':`${voc(n)}, 편지 잘 받았어!\n와 줘서 정말 고마워. 네가 이 마을에 있다고 생각하니까 벌써 든든해.\n\n우리 처음 만났던 날 기억나? 그때부터 지금까지 곁에 있어 줘서 고마워.\n\n오늘은 천천히 마을 구경하고 푹 쉬어. 내일도 편지새가 쪽지 가져갈 거야.\n\n— H`;
     setTimeout(async()=>{if(Me.test||!Net.online){const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push({id:'h'+Date.now(),k:'l',from:'H',fromName:H_NAME,text,ts:Date.now()});if(ib.length>30)ib.shift();Me.save();Camp.local();}
       else{try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+Net.uid),{k:'l',from:'H',fromName:H_NAME,text,ts:D.serverTimestamp()});}catch(e){console.warn('H 답장 실패',e&&e.code);}}
@@ -2982,7 +2996,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126c';
+const APP_V='v1126d';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
