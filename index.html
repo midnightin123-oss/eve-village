@@ -246,6 +246,8 @@
   #bul .bglow{position:absolute;left:50%;top:60%;width:70vw;height:50vw;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,190,90,.35),rgba(255,120,30,0) 65%);mix-blend-mode:screen;animation:bgl 1.7s ease-in-out infinite alternate;}
   @keyframes bgl{0%{opacity:.55;transform:translate(-50%,-50%) scale(.95)}35%{opacity:.9}60%{opacity:.65;transform:translate(-50%,-50%) scale(1.04)}100%{opacity:1}}
   #bul .ln{text-shadow:0 1px 6px rgba(0,0,0,.6);}
+  #pubp .mb .wide{grid-column:1/-1;background:#e0874a;color:#fff;}
+  #pubTab.hasSong:after{content:'🎵 노래 나오는 중';position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px);white-space:nowrap;padding:4px 9px;border-radius:999px;background:#e0874a;color:#fff;font:11.5px 'Gowun Dodum';animation:nbP 1.6s ease-in-out infinite;}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #seats{position:absolute;inset:0;pointer-events:none;}
   .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
@@ -706,7 +708,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125m</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125n</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2698,6 +2700,19 @@ const PUB_DRINKS=[['🌅','다섯 시 반','시계탑처럼 끝나지 않는 맛
  ['☕','모카곰의 곧 오픈','아직 안 열었는데 맛은 있어.',12,['👍','곧 오픈해도 되겠다','nod']],
  ['🦉','솔부엉 야간 근무','마시면 눈이 동그래져.',13,['👀','휘이…','up']]];
 const PUB_SOFT=[['🥛','편지새 우유','무알콜. 마시면 답장이 빨리 온다는 소문.',14,['🥛','(우유 수염)','nod']],['🏖️','모래성 에이드','무알콜. 마음이 살짝 무너져. 좋은 쪽으로.',15,['😌','아… 좋다','lean']]];
+const PUB_SAY={'다섯 시 반':'이 마을 이름 같은 잔이야. 천천히.','동구리의 영수증':'쓰다고 뱉지 마. 동구리가 보면 돈 내래.','불멍 하이볼':'불 꺼지기 전에 마셔. 아니, 안 꺼져.','노을범 스페셜':'오늘은 뭐 넣었더라. 몰라. 맛있을 거야.',
+ '걱정 한 스푼':'한 스푼만 넣었어. 두 스푼은 위험해.','바람이 쓴 시':'바람이 레시피를 시로 줘서, 반은 감으로 만들었어.','반쯤 쓴 편지':'끝은 네가 마저 써.','책다람의 연체료':'반납은 빨리, 원샷은 천천히.',
+ '해질녘 연장근무':'이거 마시면 퇴근 못 해. 원래 못 하지만.','첫눈 예보':'창밖 한 번 봐. …아직이네.','밀물 한 모금':'잔이 다시 차는 것 같으면 기분 탓이야. 리필 아니야.','까치 특종':'들은 얘기는 여기 두고 가.',
+ '모카곰의 곧 오픈':'곰한테 맛 평가 전해 줘. 곧 들을 거래.','솔부엉 야간 근무':'눈 동그래지면 성공이야.','편지새 우유':'우유 수염 생기면 사진 찍어 줄게. 카메라는 없지만.','모래성 에이드':'무너져도 괜찮아. 모래는 또 쌓으면 돼.'};
+const PUB_TALK=['여기 해가 안 지니까 해피아워가 끝나질 않아. 근데 할인은 안 해.','지느러미로 셰이커 흔드는 거, 생각보다 쉬워. 얼음이 좀 튀어서 그렇지.','동구리가 외상 달아 달래서 영수증 줬어. 처음 받아 보는 영수증이래.',
+ '까치가 특종 없냐길래 얼음 녹는 속도 알려줬어. 진짜 기사로 냈더라.','제일 오래 앉아 있는 손님은 저 의자야. 아무것도 안 시키고.','신청곡은 다 받아. 내 취향 아니면 소리를 조금 줄일 뿐.',
+ '바람이 술값 대신 시를 한 편 주고 갔어. 액자에 걸까 고민 중.','칵테일 이름은 다 내가 지었어. 맛은… 이름 따라가.','책다람이 연체료 대신 책을 두고 갔는데, 그 책도 연체됐어.',
+ '모카곰한테 카페 언제 여냐고 물었더니 곧이래. 곧이 제일 길어.','저 태블릿 금 간 거 아니야. 원래 그런 디자인이야. 그렇다고 해 줘.',
+ '해가 안 지니까 좋은 점이 하나 있어. 오늘을 끝까지 안 봐도 돼.','파도는 같은 소리를 두 번 안 낸대. 그래서 계속 듣게 되나 봐.','걱정종이 많이 팔린 날은, 그냥 얼음을 좀 더 넣어 줘.',
+ '혼자 와서 혼자 마셔도, 바에 앉으면 혼자가 아니야. 내가 있잖아.','손님들이 두고 간 빈 잔을 보면, 무슨 얘기를 하다 갔을까 궁금해.','이 마을에 눈이 오면 첫 잔은 공짜로 줄게. 약속은 아니고 계획.',
+ '문 쪽을 자꾸 보는 손님들이 있어. 누굴 기다리는 것처럼. 나도 가끔 그래.','오늘 어땠냐고 물으면 다들 그냥 그렇대. 그냥 그런 날을 버틴 것도 대단한 거야.','노을은 매일 같아 보여도, 보는 사람 기분 따라 색이 달라.',
+ '여기 앉은 사람들, 서로 모르는 것 같아도 다 같은 사람이 불러서 왔대. 신기하지.','빈 잔은 치우면 그만인데, 빈자리는 좀 오래 남아.','천천히 마셔. 여긴 시간이 많아. 너무 많아서 탈이지.',
+ '물범은 원래 바다에 있어야 한대. 근데 여기서 바다 보는 게 더 좋아.','마시멜로를 숯으로 만들어 오는 손님이 제일 행복해 보여. 이상하지.','가끔 아무 말 안 하고 앉아만 있다 가는 손님이 제일 반가워.'];
 const PUB_RAND=[['💗','오늘은 달다','nod'],['❓','이게 무슨 맛이지','tilt'],['🫧','딸꾹','shiver'],['✨','…맛있다','up']];
 const PUB_PRICE=3,WORRY_PRICE=2,MALLOW_PRICE=2;
 ITEMS.mallow={name:'마시멜로',sec:0,w:0,nosell:true,txt:'노을범이 파는 마시멜로. 해변 모닥불 바로 옆에서 구울 수 있어.'};
@@ -2725,19 +2740,28 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
     if(this.mode==='drink')body=`<div class="dl">${M.map((m,i)=>`<button data-d="${i}"><i><img src="pub/dk/d${m[3]}.webp" alt=""></i><b>${esc(m[1])}</b><span>${esc(m[2])}</span><em>${PUB_PRICE}초</em></button>`).join('')}</div><button class="bk" data-m="main">‹ 뒤로</button>`;
     else if(this.mode==='req')body=`<textarea class="rq" maxlength="40" placeholder="가수 - 노래 제목 (한마디도 OK)"></textarea><div class="row2"><button data-m="main">그만두기</button><button data-send>쪽지 내기</button></div>`;
     else if(this.mode==='dj')body=`<input class="yl" placeholder="유튜브 링크 붙여넣기" autocomplete="off"><div class="row2"><button data-play>▶ 틀기</button><button data-stop>■ 끄기</button></div><div class="rqs">${this.reqs.length?this.reqs.map(r=>`<p><b>${esc(r.name||'?')}</b> ${esc(r.text)}</p>`).join(''):'<p>아직 신청곡 없어</p>'}</div><button class="bk" data-m="main">‹ 뒤로</button>`;
-    else body=`<div class="mb"><button data-m="drink">🍹 오늘의 칵테일</button><button data-m="req">🎵 신청곡 쪽지</button><button data-worry>📝 걱정종이 <em>${WORRY_PRICE}초</em></button><button data-mallow>🍡 마시멜로 <em>${MALLOW_PRICE}초</em></button>${this.isH()||Me.test?'<button data-m="dj">🎧 노래 틀기 <em>현디 전용</em></button>':''}</div>`;
+    else if(this.mode==='ask')body=`<div class="row2"><button data-m="main">아니</button><button data-yes>응, 살래</button></div>`;
+    else if(this.mode==='talk')body=`<div class="row2"><button data-m="main">‹ 그만</button><button data-talk>또 얘기하기</button></div>`;
+    else body=`<div class="mb">${this.songOn()?`<button data-listen class="wide">${this.joined?'🔇 나만 노래 끄기':'🎧 지금 나오는 노래 같이 듣기'}</button>`:''}<button data-talk>💬 노을범이랑 수다</button><button data-m="drink">🍹 오늘의 칵테일</button><button data-m="req">🎵 신청곡 쪽지</button><button data-worry>📝 걱정종이 <em>${WORRY_PRICE}초</em></button><button data-mallow>🍡 마시멜로 <em>${MALLOW_PRICE}초</em></button>${this.isH()||Me.test?'<button data-m="dj">🎧 노래 틀기 <em>현디 전용</em></button>':''}</div>`;
     el.innerHTML=`<div class="card"><div class="hd">🦭 노을범 <small>비치펍 주인</small></div><p class="say">${esc(this.say)}</p>${body}</div>`;
     el.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.mode=b.dataset.m;if(this.mode==='req')this.say='듣고 싶은 거 적어. 틀지 말지는 내 맘.';if(this.mode==='drink')this.say='오늘 되는 건 이 넷. 내일은 또 달라.';if(this.mode==='dj')this.say='사장님 오셨어요. 아, 사장은 나지.';this.render();});
-    el.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>this.drink(M[+b.dataset.d]));
-    const w=el.querySelector('[data-worry]');if(w)w.onclick=()=>this.worry();
-    const ml=el.querySelector('[data-mallow]');if(ml)ml.onclick=async()=>{const ok=await Pay.fx(MALLOW_PRICE);if(ok===false){this.say='마시멜로 살 돈도 없으면 불만 봐.';this.render();return;}Me.addItem('mallow',1);this.say='모닥불 바로 옆에서 구워. 태우면 그것도 맛이야.';this.render();};
+    el.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const m=M[+b.dataset.d];this.ask(`${m[0]} ${m[1]}, ${PUB_PRICE}초. 만들어 줄까?`,()=>this.drink(m));});
+    const w=el.querySelector('[data-worry]');if(w)w.onclick=()=>this.ask(`걱정종이 한 장 ${WORRY_PRICE}초. 살래?`,()=>this.worry());
+    const ml=el.querySelector('[data-mallow]');if(ml)ml.onclick=()=>this.ask(`마시멜로 하나 ${MALLOW_PRICE}초. 살래?`,async()=>{const ok=await Pay.fx(MALLOW_PRICE);if(ok===false){this.say='마시멜로 살 돈도 없으면 불만 봐.';this.mode='main';this.render();return;}Me.addItem('mallow',1);this.mode='main';this.say='모닥불 바로 옆에서 구워. 태우면 그것도 맛이야.';this.render();});
+    const y=el.querySelector('[data-yes]');if(y)y.onclick=()=>{const f=this._yes;this._yes=null;if(f)f();};
+    const tk=el.querySelector('[data-talk]');if(tk)tk.onclick=()=>this.talk();
+    const ls=el.querySelector('[data-listen]');if(ls)ls.onclick=()=>{if(this.joined){this.joined=false;this.stop();this.say='네 쪽만 껐어. 파도 소리나 들어.';}else{this.joined=true;el.classList.remove('on');this.apply();}this.mode='main';this.render();};
     const s=el.querySelector('[data-send]');if(s)s.onclick=()=>this.req(el.querySelector('.rq').value);
     const p=el.querySelector('[data-play]');if(p)p.onclick=()=>this.play(el.querySelector('.yl').value);
     const st=el.querySelector('[data-stop]');if(st)st.onclick=()=>this.setSong('off');},
-  async drink(m){const ok=await Pay.fx(PUB_PRICE);if(ok===false){this.say=`${PUB_PRICE}초도 없어? 해변에 조개 많던데.`;this.render();return;}
-    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);setTimeout(()=>popMe('<b>'+m[0]+' '+esc(m[1])+' 나왔어</b>아래 「한 모금」을 눌러 마셔 봐',2600),700);
+  ask(q,yes){this.mode='ask';this.say=q;this._yes=yes;this.render();},
+  talk(){const L=PUB_TALK;let i;do{i=Math.floor(Math.random()*L.length);}while(L.length>1&&i===this._ti);this._ti=i;this.mode='talk';this.say=L[i];Snd.syn&&Snd.syn('tap',0.3);this.render();
+    if(!this._tl){this._tl=1;Me.log('노을범이랑 바에서 시덥잖은 얘기를 했다.','pubtalk'+ymd());}},
+  songOn(){const v=this.song;return !!v&&String(v.text).startsWith('v:');},
+  async drink(m){this.mode='main';const ok=await Pay.fx(PUB_PRICE);if(ok===false){this.say=`${PUB_PRICE}초도 없어? 해변에 조개 많던데.`;this.render();return;}
+    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);this.mode='main';setTimeout(()=>popMe(`<b>🦭 ${esc(PUB_SAY[m[1]]||'자, 나왔어.')}</b>${m[0]} ${esc(m[1])} · 「한 모금」 눌러 마셔`,3400),600);
     Me.log(`비치펍에서 「${m[1]}」을 마셨다. ${m[2]}`,'pub_'+m[1]+ymd());},
-  async worry(){const ok=await Pay.fx(WORRY_PRICE);if(ok===false){this.say='2초. 걱정에 비하면 싼 거야.';this.render();return;}Me.addItem('worry',1);Me.log('노을범에게 걱정종이를 한 장 샀다.','worry'+Date.now());
+  async worry(){this.mode='main';const ok=await Pay.fx(WORRY_PRICE);if(ok===false){this.say='2초. 걱정에 비하면 싼 거야.';this.render();return;}Me.addItem('worry',1);Me.log('노을범에게 걱정종이를 한 장 샀다.','worry'+Date.now());
     this.say='적어서 모닥불에 태워. 나한텐 보여주지 마. 궁금하지도 않아. 별로.';this.render();},
   async req(t){t=(t||'').trim();if(!t)return;if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/pubreq'),{uid:Net.uid,name:me.name,text:t.slice(0,40),ts:Date.now()});}catch(e){toast('쪽지가 바람에 날아갔어. 다시 해 볼래?',1800);return;}}
     else this.reqs.unshift({name:me.name,text:t.slice(0,40)});
@@ -2765,21 +2789,21 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
       s.animate([{transform:'translate(0,0) rotate(0)',opacity:0},{opacity:.95,offset:.2},{transform:`translate(${(Math.random()-.5)*40}px,${140+Math.random()*80}px) rotate(180deg)`,opacity:0}],{duration:2600+Math.random()*1800,delay:Math.random()*900,easing:'linear'}).onfinish=()=>s.remove();}}},
   big(){const t=document.getElementById('pubTab');return !!t&&t.classList.contains('big');},
   vid(u){u=(u||'').trim();const m=u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/)||u.match(/^([\w-]{11})$/);return m?m[1]:null;},
-  play(u){const id=this.vid(u);if(!id){this.say='그거 유튜브 링크 맞아?';this.render();return;}this.setSong('v:'+id);document.getElementById('pubp').classList.remove('on');},
+  play(u){const id=this.vid(u);if(!id){this.say='그거 유튜브 링크 맞아?';this.render();return;}this.joined=true;this.setSong('v:'+id);document.getElementById('pubp').classList.remove('on');},
   async setSong(text){if(ONL()){const D=Net.fn;try{await D.push(D.ref(Net.db,'chat/pubsong'),{uid:Net.uid,text,ts:D.serverTimestamp()});}catch(e){toast('틀기 실패. 다시 해 봐',1800);}}
     else{this.song={text,ts:Date.now()};this.apply();}if(text==='off'){this.say='껐어. 이제 파도 소리 들어.';this.render();}},
   now(){return Date.now()+this.off;},
   apply(){const t=document.getElementById('pubTab');if(!t||placeKey!=='pub')return;const v=this.song;
-    if(!v||!String(v.text).startsWith('v:')||this.small===v.ts){this.stop();return;}const id=v.text.slice(2),at=Math.max(0,(this.now()-(v.ts||this.now()))/1000);
+    t.classList.toggle('hasSong',this.songOn()&&!this.joined);if(!this.songOn()||!this.joined){this.stop();return;}const id=v.text.slice(2),at=Math.max(0,(this.now()-(v.ts||this.now()))/1000);
     t.classList.add('big');document.getElementById('outBtn').classList.add('pubUp');
     this.ytLoad(()=>{if(this.yt&&this.yt._id===id){this.sync(at);return;}if(this.yt){try{this.yt.destroy();}catch(e){}this.yt=null;}
       const box=document.getElementById('pubYT');box.innerHTML='<div id="pubYTp"></div>';
       this.yt=new YT.Player('pubYTp',{width:'100%',height:'100%',videoId:id,playerVars:{playsinline:1,start:Math.floor(at),rel:0},events:{
         onReady:e=>{this.yt._id=id;e.target.playVideo();setTimeout(()=>{if(this.yt&&this.yt.getPlayerState&&this.yt.getPlayerState()!==1)t.classList.add('ask');},1800);},
-        onStateChange:e=>{if(e.data===1)t.classList.remove('ask');if(e.data===0){this.small=v.ts;this.stop();}}}});});},
+        onStateChange:e=>{if(e.data===1)t.classList.remove('ask');if(e.data===0){this.stop();}}}});});},
   sync(at){try{this.yt.seekTo(at,true);this.yt.playVideo();}catch(e){}},
   listen(){const t=document.getElementById('pubTab');t.classList.remove('ask');const v=this.song;if(this.yt&&v)this.sync(Math.max(0,(this.now()-v.ts)/1000));},
-  shrink(){if(this.song)this.small=this.song.ts;this.stop();popMe('<b>📺 작게</b>태블릿을 엎어 뒀어. 노래도 같이 꺼졌어',2600);},
+  shrink(){this.joined=false;this.stop();popMe('<b>📺 작게</b>태블릿을 엎어 뒀어. 노래도 같이 꺼졌어',2600);},
   stop(){if(this.yt){try{this.yt.destroy();}catch(e){}this.yt=null;}const t=document.getElementById('pubTab');if(t){t.classList.remove('big','ask');const b=document.getElementById('pubYT');if(b)b.innerHTML='';}document.getElementById('outBtn').classList.remove('pubUp');},
   ytLoad(cb){if(window.YT&&YT.Player){cb();return;}this._cb=cb;if(!document.getElementById('ytapi')){const s=document.createElement('script');s.id='ytapi';s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
       window.onYouTubeIframeAPIReady=()=>{if(this._cb)this._cb();};}}};
