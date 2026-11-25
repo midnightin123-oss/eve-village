@@ -157,11 +157,11 @@
   #bd{position:fixed;inset:0;z-index:16;display:none;background:rgba(20,14,10,.6);}
   #bd.on{display:block;animation:nsIn .3s ease;}
   #bd .x{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,244,226,.95);color:#3a2a22;font-size:18px;z-index:3;}
-  #bd .cork{position:absolute;inset:calc(54px + env(safe-area-inset-top)) 10px calc(16px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto;border-radius:6px;border:12px solid #7a4f2d;box-shadow:inset 0 0 0 2px #5c3a20,0 18px 40px rgba(0,0,0,.6),inset 0 0 40px rgba(60,30,10,.45);
-    background:url(board/cork.webp) center top/100% auto repeat-y local,radial-gradient(circle at 20% 30%,rgba(90,50,20,.35) 1px,transparent 2px) 0 0/9px 9px,radial-gradient(circle at 70% 60%,rgba(255,220,170,.25) 1px,transparent 2px) 3px 4px/11px 11px,linear-gradient(#c3925f,#b07d4c);overflow:auto;display:flex;flex-direction:column;}
+  #bd .cork{position:absolute;inset:calc(54px + env(safe-area-inset-top)) 10px calc(16px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto;border-radius:6px;border:10px solid #8a5a34;box-shadow:inset 0 0 0 2px #5c3a20,0 18px 40px rgba(0,0,0,.6);
+    background:url(board/cork.webp) center top/100% auto repeat-y local,#c58f5c;overflow:auto;display:flex;flex-direction:column;}
   #bd .ld{color:#fff3df;text-align:center;margin-top:40%;font-family:'Gowun Dodum';}
   #bd .tt{font:700 15px 'Gowun Dodum';color:#3b2412;background:#f3e2c0;align-self:center;padding:4px 14px;margin:10px 0 4px;transform:rotate(-1deg);box-shadow:0 2px 4px rgba(0,0,0,.3);}
-  #bd .wall{position:relative;margin:4px 0 0;}
+  #bd .wall{position:relative;margin:0;} #bd .bimg{position:absolute;left:0;top:0;width:100%;display:block;pointer-events:none;}
   #bd .pin{position:absolute;top:4px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a7a,#c0392b 60%,#7a1d14);box-shadow:1px 2px 2px rgba(0,0,0,.4);z-index:2;} #bd .pin.r{left:auto;right:8px;background:radial-gradient(circle at 35% 35%,#9fd0ff,#2f6fb3 60%,#173a63);} #bd .pin.s{width:9px;height:9px;margin-left:-4.5px;top:3px;}
   #bd .rules{position:absolute;left:10%;top:12px;width:80%;box-sizing:border-box;padding:16px 14px 10px;background:#fbf6ea;color:#3b2a1c;font:13px/1.65 'Nanum Myeongjo',serif;transform:rotate(-1.2deg);box-shadow:2px 4px 10px rgba(0,0,0,.35);z-index:3;}
   #bd .rules b{display:block;text-align:center;margin-bottom:4px;} #bd .rules ol{margin:0;padding-left:20px;} #bd .rules em{display:block;text-align:right;font-size:11px;opacity:.7;margin-top:4px;}
@@ -177,7 +177,7 @@
   #bd .pit{position:absolute;width:21%;aspect-ratio:1;padding:12px 6px 4px;box-sizing:border-box;border:0;transform:rotate(var(--r));box-shadow:1px 3px 5px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:flex-start;overflow:hidden;z-index:4;}
   #bd .pit:active{transform:rotate(var(--r)) scale(1.06);} #bd .pit small{font-size:11px;} #bd .pit span{font:13px/1.2 'Nanum Pen Script','Gowun Dodum',cursive;text-align:left;word-break:keep-all;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
   #bd .none{position:absolute;left:0;right:0;top:700px;text-align:center;color:#fff3df;font:16px 'Nanum Pen Script',cursive;}
-  #bd .bar{position:sticky;bottom:0;padding:10px;display:flex;justify-content:center;} #bd .bar button{border:0;border-radius:999px;padding:10px 18px;background:#fff3c8;color:#4a2f20;font:700 14px 'Gowun Dodum';box-shadow:0 3px 8px rgba(0,0,0,.35);}
+  #bd .bar{position:sticky;bottom:0;margin-top:auto;padding:10px;display:flex;justify-content:center;} #bd .bar button{border:0;border-radius:999px;padding:10px 18px;background:#fff3c8;color:#4a2f20;font:700 14px 'Gowun Dodum';box-shadow:0 3px 8px rgba(0,0,0,.35);}
   #bd .bdrop{position:fixed;z-index:4;} .bdrop .paper.pi p{font:20px/1.4 'Nanum Pen Script','Gowun Dodum',cursive;} .bdrop small{font-size:12px;opacity:.75;}
   .mcl{margin-top:8px;padding:8px 10px;border-radius:10px;background:#2e2333;color:#ffe7b8;font-size:13px;display:flex;align-items:center;gap:8px;justify-content:space-between;} .mcl span{opacity:.7;font-size:12px;}
   #note .csteps{margin:8px 0 10px;padding:8px 10px;border-radius:8px;background:rgba(255,246,220,.75);font-size:13px;line-height:1.8;} #note .csteps .ok{color:#7a9a6a;text-decoration:line-through;}
@@ -641,7 +641,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125e</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125g</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2461,17 +2461,18 @@ const Board={
     this.el=el;el.classList.add('on');el.innerHTML='<div class="cork"><div class="ld">게시판 보는 중…</div></div>';Snd.syn&&Snd.syn('tap');this.posts=await this.load();this.render();},
   close(){if(this.el)this.el.classList.remove('on');},
   render(){const el=this.el,P=this.posts||[];
-    const rules=`<div class="rules"><i class="pin"></i><i class="pin r"></i><b>📜 이브 빌리지 마을 규칙</b><ol>${BOARD_RULES.map(r=>`<li>${esc(r)}</li>`).join('')}</ol><em>— 마을 일동 (사실 까치가 씀)</em></div>`;
-    const ads=BOARD_ADS.map(([c,l,t,w,r,x])=>`<div class="ad ${c}" style="left:${l}%;top:${t}px;width:${w}%;--r:${r}deg"><i class="tape"></i>${x}</div>`).join('');
-    // 포스트잇: 작게, 가운데 아래쪽 빈자리에 마구잡이로 (아이디로 위치가 정해져 늘 같은 자리)
-    const cols=4,top0=690;const its=P.map((p,i)=>{const k=PIN_KIND[p.kind]||PIN_KIND.talk,hh=bHash(p.key||p.ts||i),c=i%cols,rw=Math.floor(i/cols);
-      const L=3+c*24+(hh%9)-4,T=top0+rw*92+((hh>>4)%30)-12,R=((hh>>8)%17)-8;
-      return `<button class="pit" data-p="${i}" style="left:${L}%;top:${T}px;--r:${R}deg;background:${k[1]}"><i class="pin s"></i><small>${k[0].split(' ')[0]}</small><span>${esc(p.text)}</span></button>`;}).join('');
-    const H=top0+Math.ceil(Math.max(P.length,1)/cols)*92+90;
-    el.innerHTML=`<button class="x" aria-label="닫기">×</button><div class="cork"><div class="tt">📌 광장 게시판</div><div class="wall" style="height:${H}px">${rules}${ads}${its||'<div class="none">아직 붙은 포스트잇이 없어. 첫 장을 붙여 봐.</div>'}</div>
+    el.innerHTML=`<button class="x" aria-label="닫기">×</button><div class="cork"><div class="tt">📌 광장 게시판</div><div class="wall"><div class="pits"></div></div>
       <div class="bar"><button data-w="1">📝 포스트잇 붙이기</button></div></div>`;
     el.querySelector('.x').onclick=()=>this.close();el.querySelector('[data-w]').onclick=()=>this.write();
-    el.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>this.view(P[+b.dataset.p]));},
+    const wall=el.querySelector('.wall'),lay=()=>{const W=wall.clientWidth,IH=0,top0=14,cols=4,step=Math.max(78,W*0.25);
+      // 포스트잇: 작게, 그림 아래 빈 코르크에 마구잡이로 (아이디로 자리가 정해져 늘 같은 곳)
+      const its=P.map((p,i)=>{const k=PIN_KIND[p.kind]||PIN_KIND.talk,hh=bHash(p.key||p.ts||i),c=i%cols,rw=Math.floor(i/cols);
+        const L=3+c*24+(hh%9)-4,T=top0+rw*step+((hh>>4)%26)-10,R=((hh>>8)%17)-8;
+        return `<button class="pit" data-p="${i}" style="left:${L}%;top:${T}px;--r:${R}deg;background:${k[1]}"><i class="pin s"></i><small>${k[0].split(' ')[0]}</small><span>${esc(p.text)}</span></button>`;}).join('');
+      wall.style.height=Math.max(420,top0+Math.ceil(Math.max(P.length,1)/cols)*step+70)+'px';
+      wall.querySelector('.pits').innerHTML=its||`<div class="none" style="top:${top0+20}px">아직 붙은 포스트잇이 없어. 첫 장을 붙여 봐.</div>`;
+      wall.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>this.view(P[+b.dataset.p]));};
+    lay();},
   write(){const d=document.createElement('div');d.className='bdrop';let kind='want';
     d.innerHTML=`<div class="paper pi"><b>포스트잇 붙이기</b><div class="its">${Object.entries(PIN_KIND).map(([k,v])=>`<button data-k="${k}" class="${k==='want'?'on':''}">${v[0]}</button>`).join('')}</div><textarea maxlength="60" placeholder="예) 바람의 말 1/3 구해요! 리본 조각 있어요"></textarea><p class="sub">내 이름이 같이 붙어. 이 쪽지를 본 사람이 나한테 답장을 보낼 수 있어.</p><div class="row2"><button data-x>그만두기</button><button data-ok>붙이기</button></div></div>`;
     this.el.appendChild(d);d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{d.querySelectorAll('[data-k]').forEach(x=>x.classList.remove('on'));b.classList.add('on');kind=b.dataset.k;});
