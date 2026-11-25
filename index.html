@@ -238,7 +238,8 @@
   .pubCup svg{width:100%;height:100%;display:block;}
   @keyframes cupIn{0%{transform:translate(-50%,40%);opacity:0}60%{opacity:1}100%{transform:translate(-50%,-100%)}}
   #outBtn.topOut,#outBtn.topOut.pubUp{top:calc(64px + env(safe-area-inset-top));bottom:auto;left:12px;transform:none;}
-  #sipBtn{display:none;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(64px + env(safe-area-inset-bottom));border:0;padding:10px 20px;border-radius:999px;background:#f2a65a;color:#3a2420;font:15px 'Gowun Dodum';z-index:7;box-shadow:0 4px 14px rgba(40,20,30,.35);}
+  #sipBtn{display:none;position:absolute;translate:-50% -100%;border:0;padding:4px 10px;white-space:nowrap;pointer-events:auto;border-radius:999px;background:rgba(40,28,48,.82);color:#ffe9c4;font:600 12px 'Gowun Dodum',sans-serif;box-shadow:0 4px 14px rgba(20,10,20,.35);z-index:6;}
+  body.talkOn #pubTab:not(.big){display:none;} body.talkOn.pubBig #talk{bottom:calc(62px + 300px + env(safe-area-inset-bottom));} body.talkOn #talkBtn{right:calc(min(54vw,260px) + 14px);}
   .pubCup img{height:100%;width:auto;display:block;} .pubCup{aspect-ratio:auto;width:auto;} .pubCup.gone{transition:opacity .5s;opacity:0;}
   #pubp .dl i img{width:30px;height:34px;object-fit:contain;}
   .rxEmo{position:fixed;z-index:9;font-size:20px;pointer-events:none;font-style:normal;} .rxSnow{position:fixed;z-index:9;color:#fff;pointer-events:none;font-style:normal;text-shadow:0 0 4px rgba(160,200,255,.9);}
@@ -248,6 +249,19 @@
   #bul .ln{text-shadow:0 1px 6px rgba(0,0,0,.6);}
   #pubp .mb .wide{grid-column:1/-1;background:#e0874a;color:#fff;}
   #pubTab.hasSong:after{content:'🎵 노래 나오는 중';position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px);white-space:nowrap;padding:4px 9px;border-radius:999px;background:#e0874a;color:#fff;font:11.5px 'Gowun Dodum';animation:nbP 1.6s ease-in-out infinite;}
+  #talkBtn{position:fixed;right:12px;bottom:calc(178px + env(safe-area-inset-bottom));width:46px;height:46px;border-radius:50%;border:0;background:rgba(40,24,30,.6);font-size:22px;z-index:6;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  #talkBtn em{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:#e0574a;color:#fff;font:700 11px/18px sans-serif;font-style:normal;display:none;} #talkBtn.new em{display:block;} #talkBtn.new em:empty{min-width:10px;width:10px;height:10px;top:0;right:0;}
+  body.talkOn #talkBtn{background:#e0874a;}
+  #talk{position:fixed;right:8px;top:calc(104px + env(safe-area-inset-top));bottom:calc(172px + env(safe-area-inset-bottom));width:min(54vw,260px);z-index:5;display:none;flex-direction:column;border-radius:16px;background:rgba(28,18,22,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);overflow:hidden;font-family:'Gowun Dodum';}
+  #talk.on{display:flex;animation:nsIn .25s ease;}
+  #talk .tabs{display:flex;gap:4px;padding:6px;overflow-x:auto;flex:none;scrollbar-width:none;} #talk .tabs button{flex:none;border:0;border-radius:999px;padding:5px 10px;background:rgba(255,255,255,.12);color:#f6e6d0;font:12px 'Gowun Dodum';white-space:nowrap;} #talk .tabs button.on{background:#f6e6d0;color:#3a2420;} #talk .tabs .lv{margin-left:auto;background:none;opacity:.7;}
+  #talk .body{flex:1;overflow-y:auto;padding:6px 8px 10px;display:flex;flex-direction:column;gap:6px;} #talk .body>:first-child{margin-top:auto;}
+  #talk .m{display:flex;flex-direction:column;align-items:flex-start;max-width:92%;} #talk .m b{font-size:11px;color:#f7c873;margin:0 0 2px 4px;font-weight:400;} #talk .m span{background:#fffaf2;color:#2e1f1a;padding:6px 10px;border-radius:4px 14px 14px 14px;font-size:13.5px;line-height:1.4;word-break:break-all;}
+  #talk .m.me{align-self:flex-end;align-items:flex-end;} #talk .m.me span{background:#ffe36e;border-radius:14px 4px 14px 14px;}
+  #talk .sys{margin:2px auto;text-align:center;font-size:11.5px;color:rgba(246,230,208,.65);}
+  #tbAsk{position:fixed;left:50%;transform:translateX(-50%);top:calc(110px + env(safe-area-inset-top));z-index:7;display:flex;align-items:center;gap:6px;padding:7px 8px 7px 14px;border-radius:999px;background:rgba(40,24,30,.82);color:#f6e6d0;font:13px 'Gowun Dodum';white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  #tbAsk button{border:0;border-radius:999px;padding:5px 10px;font:12.5px 'Gowun Dodum';background:rgba(255,255,255,.14);color:#f6e6d0;} #tbAsk [data-y]{background:#e0874a;color:#fff;}
+  #pcard{position:fixed;z-index:9;display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 12px;border-radius:14px;background:#2e1f1a;color:#f6e6d0;font:13px 'Gowun Dodum';box-shadow:0 6px 16px rgba(0,0,0,.4);animation:nsIn .2s ease;} #pcard button{border:0;border-radius:999px;padding:6px 12px;background:#e0874a;color:#fff;font:13px 'Gowun Dodum';}
   #who{position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;padding:6px 12px;border-radius:999px;background:rgba(40,30,45,.55);color:#fff4e2;font-size:13px;backdrop-filter:blur(6px);z-index:5;}
   #seats{position:absolute;inset:0;pointer-events:none;}
   .seatm{position:absolute;border-radius:50%;border:2px solid rgba(255,238,196,.95);background:rgba(255,226,170,.18);box-shadow:0 0 10px 2px rgba(255,205,130,.65);transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;animation:seatp 1.5s ease-in-out infinite;}
@@ -708,7 +722,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125n</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125p</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -826,7 +840,8 @@ const DOF={uFoc:{value:new THREE.Vector2(0.5,0.5)},uBlur:{value:0},uAsp:{value:1
 const DOF_GLSL=`uniform vec2 uFoc;uniform float uBlur,uAsp;
 vec3 dofS(sampler2D m,vec2 uv){vec3 c=texture2D(m,uv).rgb;if(uBlur<=0.0001)return c;vec2 d=uv-uFoc;d.x*=uAsp;float k=smoothstep(0.03,0.2,length(d*vec2(0.75,1.0)));float r=uBlur*k;if(r<0.0003)return c;
   vec3 s=c;for(int i=0;i<12;i++){float a=float(i)*2.39996;float rr=r*sqrt((float(i)+0.5)/12.0);vec2 o=vec2(cos(a)/uAsp,sin(a))*rr;s+=texture2D(m,uv+o).rgb;}return s/13.0;}`;
-layout();addEventListener('resize',()=>{layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();if(typeof buildSeats==='function')buildSeats();if(typeof relayoutSparks==='function')relayoutSparks();});
+const KB={w:innerWidth,hold(){const a=document.activeElement;return a&&/INPUT|TEXTAREA/.test(a.tagName)&&innerWidth===this.w;}};
+layout();addEventListener('resize',()=>{if(KB.hold())return;KB.w=innerWidth;layout();layoutBg();if(typeof buildOcc==='function')buildOcc();buildFx();if(typeof buildSeats==='function')buildSeats();if(typeof relayoutSparks==='function')relayoutSparks();});
 // 해질녘 조명 (밤은 나중에 추가)
 scene.add(new THREE.HemisphereLight(0xf6c9b4,0x6a5070,0.68));
 const key=new THREE.DirectionalLight(0xffb070,0.55);key.position.set(1,1,1);scene.add(key);
@@ -1134,7 +1149,7 @@ const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),c
   dropPeer(uid){const c=this.peers.get(uid);if(c){removeChar(c);this.peers.delete(uid);}},
   refreshPlace(){[...this.peers.keys()].forEach(k=>this.dropPeer(k));this.all.forEach((d,uid)=>{if(uid!==this.uid)this.applyPeer(uid,d);});
     if(!this.online)return;const D=this.fn;if(this.chatOff)this.chatOff();const since=Date.now()-5000;
-    this.chatOff=D.onChildAdded(D.query(D.ref(this.db,'chat/'+netPlace().replace(':','_')),D.limitToLast(15)),s=>{const m=s.val();if(!m||m.uid===this.uid||(m.ts||0)<since)return;const c=this.peers.get(m.uid);if(c)say(c,m.text);});},
+    this.chatOff=D.onChildAdded(D.query(D.ref(this.db,'chat/'+netPlace().replace(':','_')),D.limitToLast(15)),s=>{const m=s.val();if(!m)return;const old=(m.ts||0)<since;if(m.uid===this.uid&&!old)return;Talk.add('place',{name:m.name,text:m.text,mine:m.uid===this.uid?1:0});if(old)return;const c=this.peers.get(m.uid);if(c)say(c,m.text);});},
   chat(text){if(!this.online)return;const D=this.fn;D.push(D.ref(this.db,'chat/'+netPlace().replace(':','_')),{uid:this.uid,name:me.name,text,ts:Date.now()});}};
 function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d.place===netPlace())n++;});}else n+=npcs.length;
   let k=0;if(placeKey==='library'){const now=Date.now();[me,...Net.peers.values()].forEach(c=>{if(c&&c.fo&&c.fo.e>now)k++;});}
@@ -1533,7 +1548,7 @@ function hexN(h){return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)
 const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:null,
   init(){this.base=PLACES.camp.bld.slice();this.apply();
     if(Net.online&&!Me.test){const D=Net.fn;D.onValue(D.ref(Net.db,'camp'),s=>{this.claims=s.val()||{};this.apply();});
-      D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};this.inbox=Object.entries(v).map(([id,m])=>Object.assign({id},m)).sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.hAlert();});}
+      D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};const all=Object.entries(v).map(([id,m])=>Object.assign({id},m));Talk.mail(all.filter(m=>m.k==='w'));this.inbox=all.filter(m=>m.k!=='w').sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.hAlert();});}
     else this.local();},
   local(){this.claims={};const h=Me.d.home;if(h)this.claims[h.id]={uid:'me',name:me?me.name:'나',t:h.t,c:h.c,f:h.f};this.inbox=(Me.d.inbox||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.apply();},
   // 현디 계정: 친구가 H에게 편지 보내면 누가 썼는지 알림
@@ -2217,7 +2232,7 @@ function enter(key,spawn,face){if(key!=='library'&&placeKey==='library'&&Me.read
   me.x=spawn[0];me.y=spawn[1];me.target=null;me.path=null;me.seat=null;me.sitting=false;if(face)faceTo(me,...face);spawnNpcs();
   document.getElementById('outBtn').style.display=P.outBtn?'block':'none';document.getElementById('outBtn').classList.toggle('topOut',key==='pub');document.getElementById('outBtn').textContent=key==='pub'?'‹ 해변으로 나가기':'나가기';
   {const t=document.getElementById('tentTag');if(t)t.remove();}Camp.badge();Home.onEnter();Case.marks();Case.badge();Quest.marks();bellHints();setTimeout(()=>{try{Quest.check();}catch(e){}},3000);if(key==='post')setTimeout(()=>Tip.once('post'),1500);
-  if(key==='pub')Pub.enter();else Pub.leave();
+  if(key==='pub')Pub.enter();else Pub.leave();Talk.onPlace();
   Owl.clear();if(key==='post'){const k0=++Owl.n0;setTimeout(()=>{if(placeKey==='post'&&Owl.n0===k0)Owl.say(Camp.toShip().length?'ship':Camp.toReply().length?'reply':'hi');},900);}
   Net.refreshPlace();updateWho();Net.move(me.x,me.y,-1);}
 let msgCool=0;
@@ -2741,7 +2756,6 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
     else if(this.mode==='req')body=`<textarea class="rq" maxlength="40" placeholder="가수 - 노래 제목 (한마디도 OK)"></textarea><div class="row2"><button data-m="main">그만두기</button><button data-send>쪽지 내기</button></div>`;
     else if(this.mode==='dj')body=`<input class="yl" placeholder="유튜브 링크 붙여넣기" autocomplete="off"><div class="row2"><button data-play>▶ 틀기</button><button data-stop>■ 끄기</button></div><div class="rqs">${this.reqs.length?this.reqs.map(r=>`<p><b>${esc(r.name||'?')}</b> ${esc(r.text)}</p>`).join(''):'<p>아직 신청곡 없어</p>'}</div><button class="bk" data-m="main">‹ 뒤로</button>`;
     else if(this.mode==='ask')body=`<div class="row2"><button data-m="main">아니</button><button data-yes>응, 살래</button></div>`;
-    else if(this.mode==='talk')body=`<div class="row2"><button data-m="main">‹ 그만</button><button data-talk>또 얘기하기</button></div>`;
     else body=`<div class="mb">${this.songOn()?`<button data-listen class="wide">${this.joined?'🔇 나만 노래 끄기':'🎧 지금 나오는 노래 같이 듣기'}</button>`:''}<button data-talk>💬 노을범이랑 수다</button><button data-m="drink">🍹 오늘의 칵테일</button><button data-m="req">🎵 신청곡 쪽지</button><button data-worry>📝 걱정종이 <em>${WORRY_PRICE}초</em></button><button data-mallow>🍡 마시멜로 <em>${MALLOW_PRICE}초</em></button>${this.isH()||Me.test?'<button data-m="dj">🎧 노래 틀기 <em>현디 전용</em></button>':''}</div>`;
     el.innerHTML=`<div class="card"><div class="hd">🦭 노을범 <small>비치펍 주인</small></div><p class="say">${esc(this.say)}</p>${body}</div>`;
     el.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{this.mode=b.dataset.m;if(this.mode==='req')this.say='듣고 싶은 거 적어. 틀지 말지는 내 맘.';if(this.mode==='drink')this.say='오늘 되는 건 이 넷. 내일은 또 달라.';if(this.mode==='dj')this.say='사장님 오셨어요. 아, 사장은 나지.';this.render();});
@@ -2755,11 +2769,11 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
     const p=el.querySelector('[data-play]');if(p)p.onclick=()=>this.play(el.querySelector('.yl').value);
     const st=el.querySelector('[data-stop]');if(st)st.onclick=()=>this.setSong('off');},
   ask(q,yes){this.mode='ask';this.say=q;this._yes=yes;this.render();},
-  talk(){const L=PUB_TALK;let i;do{i=Math.floor(Math.random()*L.length);}while(L.length>1&&i===this._ti);this._ti=i;this.mode='talk';this.say=L[i];Snd.syn&&Snd.syn('tap',0.3);this.render();
+  talk(){const L=PUB_TALK;let i;do{i=Math.floor(Math.random()*L.length);}while(L.length>1&&i===this._ti);this._ti=i;this.mode='main';document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('tap',0.3);Case.talk('노을범 · 비치펍 주인',[L[i]]);
     if(!this._tl){this._tl=1;Me.log('노을범이랑 바에서 시덥잖은 얘기를 했다.','pubtalk'+ymd());}},
   songOn(){const v=this.song;return !!v&&String(v.text).startsWith('v:');},
   async drink(m){this.mode='main';const ok=await Pay.fx(PUB_PRICE);if(ok===false){this.say=`${PUB_PRICE}초도 없어? 해변에 조개 많던데.`;this.render();return;}
-    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);this.mode='main';setTimeout(()=>popMe(`<b>🦭 ${esc(PUB_SAY[m[1]]||'자, 나왔어.')}</b>${m[0]} ${esc(m[1])} · 「한 모금」 눌러 마셔`,3400),600);
+    document.getElementById('pubp').classList.remove('on');Snd.syn&&Snd.syn('ding',0.4);this.serve(m);this.mode='main';setTimeout(()=>Case.talk('노을범 · 비치펍 주인',[`${m[0]} ${m[1]} 나왔어. `+(PUB_SAY[m[1]]||'')]),500);
     Me.log(`비치펍에서 「${m[1]}」을 마셨다. ${m[2]}`,'pub_'+m[1]+ymd());},
   async worry(){this.mode='main';const ok=await Pay.fx(WORRY_PRICE);if(ok===false){this.say='2초. 걱정에 비하면 싼 거야.';this.render();return;}Me.addItem('worry',1);Me.log('노을범에게 걱정종이를 한 장 샀다.','worry'+Date.now());
     this.say='적어서 모닥불에 태워. 나한텐 보여주지 마. 궁금하지도 않아. 별로.';this.render();},
@@ -2770,8 +2784,8 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
   serve(m){this.clearCup();const x=me.sitting&&me.seat?me.seat.x:me.x,d=document.createElement('div');d.className='pubCup';d.style.left=x+'%';d.innerHTML=`<img src="pub/dk/d${m[3]}.webp" alt="" draggable="false">`;
     document.getElementById('fxTop').appendChild(d);this.cup=d;this.cupM=m;this.cupX=x;this.sips=0;Snd.syn&&Snd.syn('tap');this.sipBtn();},
   clearCup(){if(this.cup){this.cup.remove();this.cup=null;}this.cupM=null;this.pose=null;const b=document.getElementById('sipBtn');if(b)b.style.display='none';},
-  sipBtn(){let b=document.getElementById('sipBtn');if(!b){b=document.createElement('button');b.id='sipBtn';document.body.appendChild(b);b.addEventListener('pointerdown',e=>e.stopPropagation());b.addEventListener('pointerup',e=>{e.stopPropagation();this.sip();});}
-    b.textContent=this.sips?`🍹 한 모금 더 (${3-this.sips})`:'🍹 한 모금';b.style.display=this.cupM?'block':'none';},
+  sipBtn(){let b=document.getElementById('sipBtn');if(!b){b=document.createElement('button');b.id='sipBtn';tagsEl.appendChild(b);const lp=()=>{if(b.style.display!=='none'&&me){const s=charH(me.y);b.style.left=(me.x/100*SW)+'px';b.style.top=(me.y/100*SH-s*0.98-(me.bub?84:44))+'px';}requestAnimationFrame(lp);};lp();b.addEventListener('pointerdown',e=>e.stopPropagation());b.addEventListener('pointerup',e=>{e.stopPropagation();this.sip();});}
+    b.textContent=this.sips?`🍹 한 모금 더 · ${3-this.sips}`:'🍹 한 모금';b.style.display=this.cupM?'block':'none';},
   // 한 모금: 잔을 들어 입으로 → 고개 젖히고 → 내려놓기. 첫 모금에 리액션
   sip(){if(!this.cupM||this.pose==='sip'||!me.sitting)return;this.pose='sip';this.t0=performance.now();const m=this.cupM,cup=this.cup,bx=this.cupX;cup.classList.add('lift');
     const D=2300,loop=()=>{if(this.pose!=='sip'||!this.cup){return;}const u=(performance.now()-this.t0)/D;const v=new THREE.Vector3();const hb=me.bn&&me.bn.RightHand;
@@ -2795,7 +2809,7 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
   now(){return Date.now()+this.off;},
   apply(){const t=document.getElementById('pubTab');if(!t||placeKey!=='pub')return;const v=this.song;
     t.classList.toggle('hasSong',this.songOn()&&!this.joined);if(!this.songOn()||!this.joined){this.stop();return;}const id=v.text.slice(2),at=Math.max(0,(this.now()-(v.ts||this.now()))/1000);
-    t.classList.add('big');document.getElementById('outBtn').classList.add('pubUp');
+    t.classList.add('big');document.body.classList.add('pubBig');document.getElementById('outBtn').classList.add('pubUp');
     this.ytLoad(()=>{if(this.yt&&this.yt._id===id){this.sync(at);return;}if(this.yt){try{this.yt.destroy();}catch(e){}this.yt=null;}
       const box=document.getElementById('pubYT');box.innerHTML='<div id="pubYTp"></div>';
       this.yt=new YT.Player('pubYTp',{width:'100%',height:'100%',videoId:id,playerVars:{playsinline:1,start:Math.floor(at),rel:0},events:{
@@ -2804,7 +2818,7 @@ const Pub={on:false,song:null,yt:null,small:0,reqs:[],off:0,
   sync(at){try{this.yt.seekTo(at,true);this.yt.playVideo();}catch(e){}},
   listen(){const t=document.getElementById('pubTab');t.classList.remove('ask');const v=this.song;if(this.yt&&v)this.sync(Math.max(0,(this.now()-v.ts)/1000));},
   shrink(){this.joined=false;this.stop();popMe('<b>📺 작게</b>태블릿을 엎어 뒀어. 노래도 같이 꺼졌어',2600);},
-  stop(){if(this.yt){try{this.yt.destroy();}catch(e){}this.yt=null;}const t=document.getElementById('pubTab');if(t){t.classList.remove('big','ask');const b=document.getElementById('pubYT');if(b)b.innerHTML='';}document.getElementById('outBtn').classList.remove('pubUp');},
+  stop(){if(this.yt){try{this.yt.destroy();}catch(e){}this.yt=null;}const t=document.getElementById('pubTab');if(t){t.classList.remove('big','ask');const b=document.getElementById('pubYT');if(b)b.innerHTML='';}document.getElementById('outBtn').classList.remove('pubUp');document.body.classList.remove('pubBig');},
   ytLoad(cb){if(window.YT&&YT.Player){cb();return;}this._cb=cb;if(!document.getElementById('ytapi')){const s=document.createElement('script');s.id='ytapi';s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
       window.onYouTubeIframeAPIReady=()=>{if(this._cb)this._cb();};}}};
 // ---- 해변 모닥불: 걱정 태우기 · 마시멜로 굽기 · 불멍 ----
@@ -2857,6 +2871,58 @@ const Bul={on:false,t0:0,VID:null, // 영상이 생기면 VID:'pub/bul.mp4'
 setInterval(()=>{try{Fire.tick();}catch(e){}},400);
 {const _ar=Admin.render;Admin.render=function(){_ar.apply(this,arguments);const w=document.getElementById('wlist');if(!w)return;
   if(!ONL()){w.innerHTML=(Me.d.wlocal||[]).map(esc).join('<br>')||'아직 없어';return;}const D=Net.fn;D.get(D.query(D.ref(Net.db,'chat/worry'),D.limitToLast(40))).then(s=>{const a=[];s.forEach(x=>{a.push(x.val().text);});w.innerHTML=a.reverse().map(t=>'· '+esc(t)).join('<br>')||'아직 없어';}).catch(()=>{w.textContent='못 불러왔어';});};}
+// ---- 대화창: 여기(장소) · 테이블(같이 앉은 사람, 참여 선택) · 귓속말(1:1) ----
+const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null,unread:0,declined:null,
+  el(){let e=document.getElementById('talk');if(e)return e;e=document.createElement('div');e.id='talk';e.innerHTML='<div class="tabs"></div><div class="body"></div>';document.body.appendChild(e);
+    e.addEventListener('pointerdown',x=>x.stopPropagation());e.addEventListener('pointerup',x=>{x.stopPropagation();const t=x.target.closest('[data-tab]');if(t){this.tab=t.dataset.tab;if(this.tab.startsWith('w:'))this.W[this.tab.slice(2)].un=0;this.render();}const lv=x.target.closest('[data-leave]');if(lv)this.leave();});
+    let b=document.getElementById('talkBtn');if(!b){b=document.createElement('button');b.id='talkBtn';b.innerHTML='💬<em></em>';document.body.appendChild(b);b.addEventListener('pointerdown',x=>x.stopPropagation());b.addEventListener('pointerup',x=>{x.stopPropagation();this.toggle();});}
+    return e;},
+  toggle(v){this.open=v==null?!this.open:v;this.el().classList.toggle('on',this.open);document.body.classList.toggle('talkOn',this.open);if(this.open){this.unread=0;}this.render();},
+  ph(){const m=document.getElementById('msg');if(!m)return;m.placeholder=this.tab==='table'?'테이블에 한마디':this.tab.startsWith('w:')?`${this.W[this.tab.slice(2)].name}에게 속닥속닥`:'이웃에게 한마디';},
+  add(ch,m){const L=ch.startsWith('w:')?(this.W[ch.slice(2)]||(this.W[ch.slice(2)]={name:m.name,msgs:[],un:0})).msgs:this.L[ch];L.push(m);if(L.length>80)L.shift();
+    if(!m.mine&&!m.sys){if(!this.open)this.unread++;if(ch.startsWith('w:')&&this.tab!==ch)this.W[ch.slice(2)].un++;}this.render();},
+  render(){const e=this.el(),b=document.getElementById('talkBtn');b.querySelector('em').textContent=this.unread?this.unread:'';b.classList.toggle('new',!!this.unread||Object.values(this.W).some(w=>w.un));
+    const tabs=[['place','🗣 여기']].concat(this.tb?[['table','🍻 테이블']]:[]).concat(Object.entries(this.W).map(([u,w])=>['w:'+u,'🤫 '+w.name+(w.un?' •':'')]));
+    if(!tabs.some(t=>t[0]===this.tab))this.tab='place';
+    e.querySelector('.tabs').innerHTML=tabs.map(([k,n])=>`<button data-tab="${k}" class="${k===this.tab?'on':''}">${esc(n)}</button>`).join('')+(this.tab==='table'?'<button data-leave class="lv">나가기</button>':'');
+    const L=this.tab.startsWith('w:')?this.W[this.tab.slice(2)].msgs:this.L[this.tab]||[];const bd=e.querySelector('.body');
+    bd.innerHTML=L.length?L.map(m=>m.sys?`<p class="sys">${esc(m.text)}</p>`:`<div class="m ${m.mine?'me':''}">${m.mine?'':`<b>${esc(m.name||'이웃')}</b>`}<span>${esc(m.text)}</span></div>`).join(''):`<p class="sys">${this.tab==='table'?'같이 앉은 사람들이랑만 보이는 대화야':this.tab.startsWith('w:')?'둘만 보는 대화야':'이 장소에 있는 사람들이 다 볼 수 있어'}</p>`;
+    bd.scrollTop=bd.scrollHeight;this.ph();},
+  onPlace(){this.L.place=[];this.leave(true);this.render();},
+  // 보내기: 지금 탭에 따라
+  send(t){if(this.tab==='table'&&this.tb){say(me,t);this.add('table',{name:me.name,text:t,mine:1});if(ONL()){const D=Net.fn;D.push(D.ref(Net.db,'chat/'+this.tb),{uid:Net.uid,name:me.name,text:t,ts:Date.now()}).catch(()=>{});}else this.fake('table');return true;}
+    if(this.tab.startsWith('w:')){const u=this.tab.slice(2),w=this.W[u];this.add(this.tab,{name:me.name,text:t,mine:1});
+      if(ONL()&&!u.startsWith('npc:')){const D=Net.fn,rec={k:'w',from:Net.uid,fromName:me.name,to:u,toName:w.name,text:t,ts:Date.now()};D.push(D.ref(Net.db,'mail/'+u),rec).catch(()=>toast('귓속말이 바람에 날아갔어',1600));D.push(D.ref(Net.db,'mail/'+Net.uid),rec).catch(()=>{});}
+      else this.fake(this.tab);return true;}
+    this.add('place',{name:me.name,text:t,mine:1});return false;},
+  // 테이블: 같이 앉을 수 있는 자리(grp)에 앉으면 참여할지 물어봄
+  grpKey(){if(!me||!me.sitting||!me.seat||!me.seat.grp)return null;return 'tb_'+placeKey+'_'+me.seat.grp;},
+  tick(){const k=this.grpKey(),a=document.getElementById('tbAsk');if(this.tb&&this.tb!==k)this.leave();
+    const show=k&&!this.tb&&this.declined!==k+(me.seat&&me.seat.x);if(!a&&show){const d=document.createElement('div');d.id='tbAsk';d.innerHTML='<span>🍻 같이 앉은 사람들이랑 테이블 대화할래?</span><button data-n>괜찮아</button><button data-y>참여</button>';document.body.appendChild(d);
+      d.addEventListener('pointerdown',x=>x.stopPropagation());d.addEventListener('pointerup',x=>{x.stopPropagation();if(x.target.closest('[data-y]'))this.join();else if(x.target.closest('[data-n]')){this.declined=this.grpKey()+(me.seat&&me.seat.x);d.remove();}});}
+    else if(a&&!show)a.remove();},
+  join(){const k=this.grpKey();if(!k)return;this.tb=k;this.L.table=[{sys:1,text:'테이블 대화에 들어왔어. 여기 말은 같이 앉은 사람만 봐.'}];const a=document.getElementById('tbAsk');if(a)a.remove();this.tab='table';this.toggle(true);
+    if(ONL()){const D=Net.fn,since=Date.now();D.push(D.ref(Net.db,'chat/'+k),{uid:Net.uid,name:me.name,text:'__join',ts:Date.now()}).catch(()=>{});
+      this.tbOff=D.onChildAdded(D.query(D.ref(Net.db,'chat/'+k),D.limitToLast(20)),s=>{const m=s.val();if(!m||m.uid===Net.uid)return;const nw=(m.ts||0)>=since-1000;
+        if(m.text==='__join'){if(nw)this.add('table',{sys:1,text:`${m.name}이(가) 테이블 대화에 들어왔어`});return;}if(m.text==='__leave'){if(nw)this.add('table',{sys:1,text:`${m.name}이(가) 자리를 떴어`});return;}
+        if(!nw&&(Date.now()-(m.ts||0))>15*60000)return;this.add('table',{name:m.name,text:m.text});if(nw){const c=Net.peers.get(m.uid);if(c)say(c,m.text);}});}
+    else this.fake('table',1);this.render();},
+  leave(silent){if(!this.tb)return;if(ONL()&&!silent){const D=Net.fn;D.push(D.ref(Net.db,'chat/'+this.tb),{uid:Net.uid,name:me.name,text:'__leave',ts:Date.now()}).catch(()=>{});}if(this.tbOff){this.tbOff();this.tbOff=null;}this.tb=null;this.L.table=[];if(this.tab==='table')this.tab='place';this.render();},
+  // 귓속말: 다른 캐릭터를 누르면 이름 카드
+  card(uid,c){let d=document.getElementById('pcard');if(d)d.remove();d=document.createElement('div');d.id='pcard';const r=c.tag.getBoundingClientRect();
+    d.innerHTML=`<b>${esc(c.name||'이웃')}</b><button data-w>🤫 귓속말</button>`;d.style.left=Math.min(innerWidth-150,Math.max(10,r.left+r.width/2-70))+'px';d.style.top=Math.max(60,r.top-58)+'px';document.body.appendChild(d);
+    d.addEventListener('pointerdown',x=>x.stopPropagation());d.addEventListener('pointerup',x=>{x.stopPropagation();if(x.target.closest('[data-w]')){this.W[uid]=this.W[uid]||{name:c.name,msgs:[],un:0};this.tab='w:'+uid;this.toggle(true);d.remove();setTimeout(()=>document.getElementById('msg').focus(),80);}});
+    setTimeout(()=>{if(d.isConnected)d.remove();},4000);},
+  peerAt(nx,ny){let best=null,bd=1e9;const hit=(c,uid)=>{const hh=charH(c.y)/SH*100,dx=Math.abs(nx-c.x)*AR;if(dx<3.2&&ny<c.y+1&&ny>c.y-hh){const d=dx+Math.abs(ny-(c.y-hh/2));if(d<bd){bd=d;best=[uid,c];}}};
+    Net.peers.forEach((c,uid)=>hit(c,uid));if(!Net.online)npcs.forEach(c=>hit(c,'npc:'+c.name));return best;},
+  // 받은 귓속말 (내 우편함에 같이 들어옴)
+  mail(list){list.sort((a,b)=>(a.ts||0)-(b.ts||0));const seen=this._ws||(this._ws=new Set());list.forEach(m=>{if(seen.has(m.id))return;seen.add(m.id);const mine=m.from===Net.uid,u=mine?m.to:m.from,nm=mine?m.toName:m.fromName;
+      const w=this.W[u]||(this.W[u]={name:nm,msgs:[],un:0});const fresh=Date.now()-(m.ts||0)<60000;if(mine&&fresh&&w.msgs.some(x=>x.mine&&x.text===m.text))return;
+      w.msgs.push({name:m.fromName,text:m.text,mine:mine?1:0});if(!mine&&fresh){if(!this.open||this.tab!=='w:'+u)w.un++;if(!this.open)this.unread++;toast(`🤫 ${esc(nm)}의 귓속말`,1800);}});this.render();},
+  fake(ch,first){const R=['ㅋㅋㅋ 그치','나도 방금 그 생각했어','오 진짜?','여기 노을 좋다','…응','그거 재밌다','잠깐 딴짓함'],nm=ch==='table'?(npcs[0]&&npcs[0].name)||'파도':this.W[ch.slice(2)]&&this.W[ch.slice(2)].name;
+    setTimeout(()=>{if(ch==='table'&&!this.tb)return;this.add(ch,first?{sys:1,text:`${nm}이(가) 테이블 대화에 들어왔어`}:{name:nm,text:rnd(R)});if(!first&&ch==='table'&&npcs[0])say(npcs[0],'…');},1400+Math.random()*1500);}};
+setInterval(()=>{try{Talk.tick();}catch(e){}},500);
+PLACES.pub.seats.forEach(s=>{s.grp='bar';});PLACES.beach.seats.forEach(s=>{if(Math.hypot((s.x-52)*AR0,s.y-63)<25)s.grp='fire';});
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
 function bellHints(){document.querySelectorAll('.bellHint').forEach(e=>e.remove());(P.acts||[]).forEach(a=>{if(!a.bell)return;const d=document.createElement('div');d.className='bellHint';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';tagsEl.appendChild(d);});}
@@ -2867,6 +2933,7 @@ function checkExit(){if(switching||Tut.lock)return;for(const ex of P.exits){if(i
 const tapEl=document.getElementById('tap'),dofV=document.getElementById('dofV');let ZM_on=false;
 document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switching||dressEl.style.display==='flex'||Home.edit||Tut.lock||ZM_on)return;Tut.tap();const nx=(e.clientX+panX)/SW*100,ny=(e.clientY+panY)/SH*100;
   if(Quest.placing&&placeKey==='hill'){Quest.pick(nx,ny);return;}
+  {const pc=Talk.peerAt(nx,ny);if(pc){Talk.card(pc[0],pc[1]);return;}}
   tapEl.style.left=nx+'%';tapEl.style.top=ny+'%';tapEl.classList.remove('go');void tapEl.offsetWidth;tapEl.classList.add('go');
   if(placeKey==='pub'&&(ny>73.2||(nx>81.8&&ny>66))){Pub.open();return;}
   if(P.book&&Math.hypot((P.book.x-nx)*AR,P.book.y-ny)<7){say(me,'책 꺼내기는 곧 열려요');}
@@ -2881,7 +2948,7 @@ document.getElementById('view').addEventListener('pointerup',e=>{if(!me||switchi
   goTo(me,nx,ny);const d=me.path&&me.path.length?me.path[me.path.length-1]:[me.x,me.y];Net.move(d[0],d[1],-1);});
 // 출구 쪽은 걸을 수 있게
 const baseWalk=walkable;
-document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('msg');const t=inp.value.trim();if(!t||!me)return;say(me,t);Net.chat(t);if(DLINE.chat[placeKey])Me.log(DLINE.chat[placeKey],'c_'+placeKey);inp.value='';inp.blur();});
+document.getElementById('chat').addEventListener('submit',e=>{e.preventDefault();const inp=document.getElementById('msg');const t=inp.value.trim();if(!t||!me)return;if(Talk.send(t)){inp.value='';return;}say(me,t);Net.chat(t);if(DLINE.chat[placeKey])Me.log(DLINE.chat[placeKey],'c_'+placeKey);inp.value='';inp.blur();});
 
 /* ===================== 8. 입장 화면 ===================== */
 let saved='';try{saved=LS.getItem('sbv_name')||'';}catch(e){}
@@ -3026,7 +3093,7 @@ function frameBody(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const t
   npcs.forEach(c=>{try{npcThink(c,dt);stepChar(c,dt);}catch(e){}});Net.peers.forEach(c=>stepChar(c,dt));Net.tick();
   [me,...npcs,...Net.peers.values()].forEach(c=>{if(c){c._dt=dt;try{place(c,t);}catch(e){if(!window._pe){window._pe=1;console.warn('place 오류',e);}}}});
   let lx=0,ly=0;if(me&&me.target&&!me.sitting&&P.charVh){const dx=(me.target[0]-me.x)/100*SW,dy=(me.target[1]-me.y)/100*SH,d=Math.hypot(dx,dy)||1;lx=dx/d*innerWidth*0.14;ly=dy/d*innerHeight*0.12;}
-  if(placeKey==='pub'&&Pub.big())lx=innerWidth*0.26;
+  if(placeKey==='pub'&&Pub.big())lx=innerWidth*0.26;else if(Talk.open)lx=innerWidth*0.24;
   leadX+=(lx-leadX)*Math.min(1,dt*1.6);leadY+=(ly-leadY)*Math.min(1,dt*1.6);
   const fx0=(me?me.x/100*SW:SW/2)+leadX,fy0=(me?me.y/100*SH-charH(me.y)*0.4:SH/2)+leadY;
   const tx=SW<innerWidth?(SW-innerWidth)/2:Math.max(0,Math.min(SW-innerWidth,fx0-innerWidth/2)),ty=SH<innerHeight?(SH-innerHeight)/2:Math.max(0,Math.min(SH-innerHeight,fy0-innerHeight/2));
