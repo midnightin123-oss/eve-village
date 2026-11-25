@@ -729,7 +729,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125y</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125z</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2222,7 +2222,7 @@ const Admin={
         <div class="lb">신문 가판대</div><div class="row">${b('n_open','가판대 열기')}</div>`:''}
         <div class="lb">우체국 · 들판</div><div class="row">${b('mailin','우편물 도착 (편지·소포·펜팔)')}${b('st5','우표 +5장씩')}${b('postr','우체국 기록 지우기')}${b('campr','내 텐트·받은편지 지우기')}</div>
         <div class="lb">해변</div><div class="row">${b('respawn','물건 다시 깔기')}${b('pick','오늘 줍기 횟수 지우기')}${b('kit','해변 물건 세트')}</div>`)}
-      ${!T&&me&&me.name===H_NAME?sec('asres','🧑 일반 주민처럼 처음부터 해보기',Me.d.asRes?`<div class="st">지금 일반 주민처럼 하는 중 · ${Quest.cur()||0}일차</div><div class="row">${b('ar_next','⏭ 하루 넘기기')}${b('ar_all','✅ 오늘 부탁 다 끝내기')}${b('ar_off','👑 관리자 모드로 돌아가기')}</div>`:`<div class="st">도착 장면부터 다시 해. 지금 기록은 따로 보관했다가 돌아올 때 되돌려 놔. 관리자 메뉴는 그대로 있어.</div><div class="row">${b('ar_on','처음부터 시작')}</div>`,true):''}
+      ${!T&&me&&me.name===H_NAME?sec('asres','🧑 처음부터 해보기',Me.d.asRes?`<div class="st">일반 주민처럼 하는 중 · ${Quest.cur()||0}일차</div><div class="row">${b('ar_next','⏭ 날짜 넘기기')}${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div>`:`<div class="st">현디 기록(수첩·부탁·수수께끼·초·가방·텐트)을 전부 지우고 도착 장면부터 다시 시작해. 되돌릴 수 없어.</div><div class="row">${b('ar_wipe','🧹 기록 다 지우고 처음부터')}</div>`,true):''}
       ${!T&&me&&me.name===H_NAME?sec('worry','🔥 태운 걱정 (이름 없음)',`<div class="st" id="wlist">불러오는 중…</div>`,false):''}
       ${!T&&me&&me.name===H_NAME?sec('hmail','📮 H에게 온 편지',`<div class="st">${(Camp.inbox||[]).filter(m=>m.k==='l'&&m.from!=='H').map(m=>`${esc(m.fromName||'?')} ${H_REPLY[m.fromName]?'✅맞춤답장':'⬜기본답장'} · ${new Date(m.ts||0).toLocaleDateString()}`).join('<br>')||'아직 없어'}</div>`,true):''}
       ${!T?sec('world','📣 마을 전체 (진짜 서버 · 모두에게)',`<div class="st">지금 마을: ${World.cs?esc(World.cs.text):'평소'} ${ONL()?'':'(오프라인이라 안 돼)'}</div><div class="row">${b('w_open1','🗞️ 소문 1 시작 (오늘 신문 1면)')}${b('w_close','📋 수수께끼 닫기')}${b('w_off','평소로 돌리기')}</div>`,true):''}
@@ -2232,11 +2232,10 @@ const Admin={
     admBody.querySelectorAll('details.ag').forEach(d=>d.addEventListener('toggle',()=>{this.op=this.op||{};this.op[d.dataset.g]=d.open;}));
     admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k.startsWith('q_')){const m=Quest.admin(k);if(m)toast(m,2200);this.render();return;}
     if(k==='unl'){Me.d.unl=!Me.d.unl;Me.save();this.render();return;}
-    if(k==='ar_on'){if(!confirm('일반 주민처럼 처음부터 해볼까? 지금 부탁·수수께끼·초·가방 기록은 보관해 뒀다가 관리자 모드로 돌아갈 때 되돌려 놔.'))return;
-      const K=['q','tut','cs','pz','sec','bag','notes','lib'];Me.d._bak={};K.forEach(k=>{if(Me.d[k]!==undefined)Me.d._bak[k]=JSON.parse(JSON.stringify(Me.d[k]));});
-      ['q','cs','pz','notes','lib'].forEach(k=>delete Me.d[k]);Me.d.tut={};Me.d.sec=0;Me.d.bag={};Me.d.asRes=1;Me.save();this.close();
-      setTimeout(()=>{Tut.lock=true;enter('plaza',[85,80.5],[60,70]);Tut.arrive();},300);return;}
-    if(k==='ar_off'){if(!confirm('관리자 모드로 돌아갈까? 보관해 둔 기록으로 되돌려 놔.'))return;const B=Me.d._bak||{};Object.keys(B).forEach(k=>{Me.d[k]=B[k];});delete Me.d._bak;delete Me.d.asRes;Me.save();this.close();toast('관리자 모드로 돌아왔어',1600);setTimeout(()=>location.reload(),900);return;}
+    if(k==='ar_wipe'){if(!confirm('현디 기록을 전부 지울까? 수첩, 부탁, 수수께끼, 초, 가방, 텐트까지 다 사라지고 되돌릴 수 없어.'))return;
+      (async()=>{try{if(ONL()){const id=Camp.mine();if(id!=null){const D=Net.fn;await D.remove(D.ref(Net.db,'camp/'+id));}}}catch(e){console.warn('텐트 비우기 실패',e&&e.code);}
+        Me.d={sec:0,bag:{},diary:{},asRes:1};Me.save();this.close();toast('기록을 다 지웠어. 처음부터 시작!',1800);
+        setTimeout(()=>{Tut.lock=true;enter('plaza',[85,80.5],[60,70]);Tut.arrive();},600);})();return;}
     if(k==='ar_next'||k==='ar_all'){const r=Quest.admin(k==='ar_next'?'q_next':'q_all');if(r)toast(r,1800);this.render();return;}
     if(k==='w_open1'||k==='w_close'||k==='w_off'){const m={w_open1:['open',1,'소문 1을 마을 전체에 열까? 모든 주민의 오늘 신문 1면이 사건 기사로 바뀌어.'],w_close:['closed',Case.D().id||1,'수수께끼를 닫을까?'],w_off:['off',0,'평소로 돌릴까?']}[k];if(confirm(m[2]))World.setCase(m[0],m[1]).then(()=>this.render());return;}
     if(k==='alt'){Me.d.alt=!Me.d.alt;Me.save();toast(Me.d.alt?'👤 지금부터 너는 테스트친구야':'다시 나로 돌아왔어',1800);this.render();return;}
@@ -2960,7 +2959,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1125y';
+const APP_V='v1125z';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
