@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=UnifrakturMaguntia&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Black+Han+Sans&family=UnifrakturMaguntia&family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Nanum+Brush+Script&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>이브 빌리지</title>
@@ -161,12 +161,22 @@
     background:url(board/cork.webp) center/cover,radial-gradient(circle at 20% 30%,rgba(90,50,20,.35) 1px,transparent 2px) 0 0/9px 9px,radial-gradient(circle at 70% 60%,rgba(255,220,170,.25) 1px,transparent 2px) 3px 4px/11px 11px,linear-gradient(#c3925f,#b07d4c);overflow:auto;display:flex;flex-direction:column;}
   #bd .ld{color:#fff3df;text-align:center;margin-top:40%;font-family:'Gowun Dodum';}
   #bd .tt{font:700 15px 'Gowun Dodum';color:#3b2412;background:#f3e2c0;align-self:center;padding:4px 14px;margin:10px 0 4px;transform:rotate(-1deg);box-shadow:0 2px 4px rgba(0,0,0,.3);}
-  #bd .wall{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;padding:14px 12px 10px;align-content:start;}
-  #bd .pn{position:relative;transform:rotate(var(--r));box-shadow:2px 4px 8px rgba(0,0,0,.35);padding:16px 10px 10px;font:13px/1.5 'Gowun Dodum',sans-serif;color:#3b2a1c;text-align:left;border:0;}
-  #bd .pn .pin{position:absolute;top:4px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a7a,#c0392b 60%,#7a1d14);box-shadow:1px 2px 2px rgba(0,0,0,.4);}
-  #bd .rules{grid-column:1/-1;background:#fbf6ea;font-family:'Nanum Myeongjo',serif;} #bd .rules b{display:block;text-align:center;margin-bottom:4px;} #bd .rules ol{margin:0;padding-left:20px;font-size:12.5px;} #bd .rules em{display:block;text-align:right;font-size:11px;opacity:.7;margin-top:4px;}
-  #bd .ad b{display:block;font-size:13px;} #bd .ad span{font-size:12px;}
-  #bd .it{aspect-ratio:1;display:flex;flex-direction:column;gap:4px;} #bd .it small{font-size:11px;opacity:.75;} #bd .it span{font:17px/1.35 'Nanum Pen Script','Gowun Dodum',cursive;flex:1;overflow:hidden;word-break:keep-all;} #bd .it em{font-size:11px;font-style:normal;opacity:.7;align-self:flex-end;}
+  #bd .wall{position:relative;margin:4px 0 0;}
+  #bd .pin{position:absolute;top:4px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a7a,#c0392b 60%,#7a1d14);box-shadow:1px 2px 2px rgba(0,0,0,.4);z-index:2;} #bd .pin.r{left:auto;right:8px;background:radial-gradient(circle at 35% 35%,#9fd0ff,#2f6fb3 60%,#173a63);} #bd .pin.s{width:9px;height:9px;margin-left:-4.5px;top:3px;}
+  #bd .rules{position:absolute;left:10%;top:12px;width:80%;box-sizing:border-box;padding:16px 14px 10px;background:#fbf6ea;color:#3b2a1c;font:13px/1.65 'Nanum Myeongjo',serif;transform:rotate(-1.2deg);box-shadow:2px 4px 10px rgba(0,0,0,.35);z-index:3;}
+  #bd .rules b{display:block;text-align:center;margin-bottom:4px;} #bd .rules ol{margin:0;padding-left:20px;} #bd .rules em{display:block;text-align:right;font-size:11px;opacity:.7;margin-top:4px;}
+  #bd .ad{position:absolute;box-sizing:border-box;padding:14px 10px 10px;transform:rotate(var(--r));box-shadow:1px 3px 6px rgba(0,0,0,.35);font:12px/1.45 'Gowun Dodum',sans-serif;color:#3a2a1e;text-align:center;filter:sepia(.35) saturate(.85);
+    clip-path:polygon(0 3%,12% 0,30% 2%,52% 0,70% 3%,88% 0,100% 2%,98% 30%,100% 60%,97% 100%,76% 97%,55% 100%,33% 96%,14% 100%,1% 97%,3% 60%,0 30%);}
+  #bd .ad:after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 70% 80%,rgba(120,80,30,.22),transparent 55%),radial-gradient(ellipse at 15% 20%,rgba(255,255,255,.25),transparent 40%),repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 1px,transparent 1px 3px);}
+  #bd .ad .tape{position:absolute;top:-6px;left:50%;width:46px;height:16px;margin-left:-23px;background:rgba(240,225,180,.7);transform:rotate(-6deg);box-shadow:0 1px 2px rgba(0,0,0,.15);z-index:2;}
+  #bd .ad b{display:block;margin-bottom:4px;} #bd .ad span{display:block;} #bd .ad em{display:block;font-style:normal;font-size:11px;margin-top:5px;opacity:.75;}
+  #bd .ad .big{font:900 22px/1.1 'Black Han Sans','Gowun Dodum',sans-serif;color:#b2341f;} #bd .ad .stamp{font:700 17px 'Nanum Myeongjo',serif;border:2px solid #2f5d8a;color:#2f5d8a;display:inline-block;padding:1px 8px;transform:rotate(-3deg);}
+  #bd .ad .hand{font:26px/1 'Nanum Pen Script',cursive;color:#3b2a1c;} #bd .ad .news{font:800 20px 'Nanum Myeongjo',serif;border-bottom:3px double #1d1a16;}
+  #bd .ad .tabs{display:flex;margin:8px -10px -10px;} #bd .ad .tabs i{flex:1;font:10px/1.2 'Gowun Dodum';font-style:normal;writing-mode:vertical-rl;padding:4px 0;border-left:1px dashed rgba(0,0,0,.35);height:44px;} #bd .ad .tabs i:nth-child(2){opacity:0;} #bd .ad .tabs i:nth-child(4){transform:translateY(6px) rotate(4deg);}
+  #bd .a1{background:#f7e7c4;} #bd .a2{background:#dfe9f0;} #bd .a3{background:#efe2c8;z-index:1;} #bd .a4{background:#f1e9cf;} #bd .a5{background:#f3d9c9;opacity:.85;} #bd .a6{background:#f6e0b0;opacity:.9;} #bd .a7{background:#fff9e8;}
+  #bd .pit{position:absolute;width:21%;aspect-ratio:1;padding:12px 6px 4px;box-sizing:border-box;border:0;transform:rotate(var(--r));box-shadow:1px 3px 5px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:flex-start;overflow:hidden;z-index:4;}
+  #bd .pit:active{transform:rotate(var(--r)) scale(1.06);} #bd .pit small{font-size:11px;} #bd .pit span{font:13px/1.2 'Nanum Pen Script','Gowun Dodum',cursive;text-align:left;word-break:keep-all;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  #bd .none{position:absolute;left:0;right:0;top:700px;text-align:center;color:#fff3df;font:16px 'Nanum Pen Script',cursive;}
   #bd .bar{position:sticky;bottom:0;padding:10px;display:flex;justify-content:center;} #bd .bar button{border:0;border-radius:999px;padding:10px 18px;background:#fff3c8;color:#4a2f20;font:700 14px 'Gowun Dodum';box-shadow:0 3px 8px rgba(0,0,0,.35);}
   #bd .bdrop{position:fixed;z-index:4;} .bdrop .paper.pi p{font:20px/1.4 'Nanum Pen Script','Gowun Dodum',cursive;} .bdrop small{font-size:12px;opacity:.75;}
   .mcl{margin-top:8px;padding:8px 10px;border-radius:10px;background:#2e2333;color:#ffe7b8;font-size:13px;display:flex;align-items:center;gap:8px;justify-content:space-between;} .mcl span{opacity:.7;font-size:12px;}
@@ -630,7 +640,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125b</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1125c</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1568,7 +1578,7 @@ const Focus={st:null,
     this.wake(true);const gone=this.left?Date.now()-this.left:0;this.left=0;if(gone<3000||!me)return;
     me._lu=performance.now();setTimeout(()=>{if(!this.st||!me)return;const L=['어디 갔다 왔어?','앗, 왔다! 어디 갔다 왔어?','기다리고 있었어. 어디 갔다 왔어?','어디 갔다 왔어? 나 혼자 세 장 읽었어.'];say(me,L[Math.floor(Math.random()*L.length)]);if(me.bub){me.bub.classList.add('zkeep');me.bubT=4.5;}},700);},
   ui(){const b=this.btn;if(!b)return;const show=(this.can()||!!this.st)&&!(me&&me.mv);b.style.display=show?'block':'none';if(!show)return;
-    {const s=charH(me.y),px=me.x/100*SW,py=me.y/100*SH,top=py-s*0.78;if(ZM_on){b.style.left=px+'px';b.style.top=(py+s*0.16)+'px';b.style.translate='-50% 0';b.style.transformOrigin='50% 0';}else{b.style.left=(px+s*0.34)+'px';b.style.top=(top+s*0.3)+'px';b.style.translate='';b.style.transformOrigin='';}}
+    {const s=charH(me.y),px=me.x/100*SW,py=me.y/100*SH,top=py-s*0.78;if(ZM_on){b.style.left=px+'px';b.style.top=(py+s*0.16)+'px';b.style.translate='-50% 0';b.style.transformOrigin='50% 0';}else if(this.st){b.style.left=(px+s*0.34)+'px';b.style.top=(top+s*0.3)+'px';b.style.translate='';b.style.transformOrigin='';}else{b.style.left=px+'px';b.style.top=(top-22)+'px';b.style.translate='-50% -100%';b.style.transformOrigin='';}}
     if(this.st){const r=Math.max(0,this.st.e-Date.now()),m=Math.floor(r/60000),sec=Math.floor(r/1000)%60;b.classList.add('on');const t=ZM_on?'그만하기':'🕯 '+m+':'+String(sec).padStart(2,'0')+' · 그만';if(b.textContent!==t)b.textContent=t;}
     else{b.classList.remove('on');if(b.textContent!=='📖 읽기 · 🕯 집중')b.textContent='📖 읽기 · 🕯 집중';}},
   menu(){const hb=Libr.held();Camp.show(`<div class="hd">자리에서 뭐 할까?</div>
@@ -2080,6 +2090,9 @@ const Admin={
       ${T?sec('day',`📅 일차별 진행 · 지금 ${Quest.cur()||0}일차${Quest.q()&&Quest.q().off?` (날짜 +${Quest.q().off}일)`:''}`,`<div class="st">열린 곳: 광장·해변·들판·우체국·언덕${opened.length?' · '+opened.join('·'):''}${Me.d.unl?' (잠금 무시 중)':''}</div>
         <div class="row">${b('q_reset','1일차 처음부터')}${b('q_day2','2일차')}${b('q_day3','3일차')}${b('q_day4','4일차')}${b('q_day5','5일차')}</div>
         <div class="row">${b('q_all','오늘 부탁 다 하기')}${b('q_next','하루 넘기기 (다음 쪽지)')}${b('unl',Me.d.unl?'장소 잠금 다시 켜기':'장소 잠금 무시',Me.d.unl)}</div>`,true):''}
+      ${T?sec('sim',`🧪 다른 주민 흉내 · 지금 ${Me.d.alt?'👤 테스트친구인 척 하는 중':'나 ('+esc(me?me.name:'')+')'}`,`<div class="st">'테스트친구인 척'을 켜고 쪽지·물건·포스트잇을 넣은 다음, 끄고 나로 돌아와서 받아 보면 돼.</div>
+        <div class="row">${b('alt',Me.d.alt?'나로 돌아오기':'👤 테스트친구인 척 하기',Me.d.alt)}</div>
+        <div class="lb">테스트친구가 바로 해 주기</div><div class="row">${b('f_book','책 2쪽에 쪽지+물건 끼우기')}${b('f_junk','교환 상자에 물건 넣기')}${b('f_board','게시판에 포스트잇 붙이기')}${b('f_mail','나에게 편지 (+실마리)')}${b('f_open','받은 편지 바로 열기')}</div>`):''}
       ${sec('place','🏠 장소별',`${T?`<div class="lb">도서관</div><div class="row">${b('l_open','책다람 부르기')}${b('l_relay','릴레이 책')}${b('l_fake','가짜 주민 쪽지')}${b('l_art','그림 대기 목록')}${b('l_reset','도서관 기록 지우기')}</div>
         <div class="lb">신문 가판대</div><div class="row">${b('n_open','가판대 열기')}</div>`:''}
         <div class="lb">우체국 · 들판</div><div class="row">${b('mailin','우편물 도착 (편지·소포·펜팔)')}${b('st5','우표 +5장씩')}${b('postr','우체국 기록 지우기')}${b('campr','내 텐트·받은편지 지우기')}</div>
@@ -2089,7 +2102,13 @@ const Admin={
       ${sec('sys','⚠ 전체 · 성능',`<div class="row">${b('all','전부 처음으로')}${b('fps','FPS 표시 '+(window._fps?'끄기':'켜기'))}${b('errclr','오류 기록 지우기')}</div><div class="st" style="word-break:break-all">${(()=>{try{const e=JSON.parse(LS.getItem('ev_err')||'null');return e?`최근 오류 (${new Date(e.t).toLocaleString('ko-KR')} · ${esc(e.pl)} · ${esc(e.where)}): ${esc(e.m)}`:'최근 오류 없음';}catch(_){return '';}})()}</div>`)}`;
     admBody.querySelectorAll('details.ag').forEach(d=>d.addEventListener('toggle',()=>{this.op=this.op||{};this.op[d.dataset.g]=d.open;}));
     admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>{const k=x.dataset.k;if(k==='fps'){toggleFps();this.render();return;}if(k.startsWith('q_')){const m=Quest.admin(k);if(m)toast(m,2200);this.render();return;}
-    if(k==='unl'){Me.d.unl=!Me.d.unl;Me.save();this.render();return;}if(k==='n_open'){this.close();News.open();return;}if(k==='l_open'){this.close&&this.close();Libr.open();return;}if(k==='l_relay'){this.close&&this.close();Relay.open();return;}
+    if(k==='unl'){Me.d.unl=!Me.d.unl;Me.save();this.render();return;}
+    if(k==='alt'){Me.d.alt=!Me.d.alt;Me.save();toast(Me.d.alt?'👤 지금부터 너는 테스트친구야':'다시 나로 돌아왔어',1800);this.render();return;}
+    if(k==='f_book'){const L=Libr.me(),l=L.local||(L.local=[]);l.push({key:'f'+Date.now(),b:'b_dal',uid:'alt',text:'이 쪽을 읽다가 울 뻔했어. 너도 그러면 우리 친구 하자.',pg:2,it:'shell_p',ts:Date.now()});Me.save();toast('테스트친구가 『주인 없는 물건들의 밤』 2쪽에 쪽지랑 분홍 조개를 끼웠어',2600);return;}
+    if(k==='f_junk'){const L=Me.d.jkLocal||(Me.d.jkLocal=[]);const ids=['wood','glass_g','shell_w','conch','star'];L.push({key:'j'+Date.now(),uid:'alt',it:ids[Math.floor(Math.random()*ids.length)],text:'주머니에 오래 있던 거야. 너한테 가면 좋겠다.',ts:Date.now()});Me.save();toast('테스트친구가 교환 상자에 물건을 넣었어',2000);return;}
+    if(k==='f_board'){const L=Me.d.bdLocal||(Me.d.bdLocal=[]);L.push({key:'b'+Date.now(),uid:'alt',name:'테스트친구',text:'바람의 말 1/3 구해요! 리본 조각 있어요',kind:'want',ts:Date.now()});Me.save();toast('테스트친구가 게시판에 포스트잇을 붙였어',2000);return;}
+    if(k==='f_mail'){const c=Case.st()?Case.C():CASES[1],n=[1,2,3].find(n=>!Case.has(c,n));const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push({id:'fm'+Date.now(),k:'l',from:'alt',fromName:'테스트친구',text:'게시판 보고 연락해! 내 실마리 하나 넣을게.',ts:Date.now(),bd:1,cl:n?c.id+'-'+n:undefined});Me.save();if(Camp.local)Camp.local();toast('테스트친구가 편지를 보냈어 (실마리 동봉)',2000);return;}
+    if(k==='f_open'){const m=(Me.d.inbox||[]).slice(-1)[0];if(!m){toast('받은 편지가 없어',1500);return;}this.close();Camp.read(m);return;}if(k==='n_open'){this.close();News.open();return;}if(k==='l_open'){this.close&&this.close();Libr.open();return;}if(k==='l_relay'){this.close&&this.close();Relay.open();return;}
     if(k==='l_fake'){const L=Libr.me(),l=L.local||(L.local=[]);l.push({key:'f'+Date.now(),b:'b_dal',uid:'demoX',text:'이 쪽을 읽다가 울 뻔했어. 너도 그러면 우리 친구 하자.',pg:2,it:Object.keys(ITEMS)[0],ts:Date.now()});Me.save();toast('『주인 없는 물건들의 밤』 2쪽에 가짜 쪽지를 넣었어 (체험 모드 전용)',2600);return;}
     if(k==='l_art'){Relay.adminList().then(r=>{Case.open(`<div class="hlet"><div class="lt">그림 기다리는 쪽 ${r.length}개</div>${r.length?r.map(x=>`<p style="font-size:13px">${esc(x)}</p>`).join(''):'<p>없어</p>'}<p class="sg">이 목록을 Claude에게 보내면 그려 넣어 줄 거야</p></div>`);});return;}
     if(k==='l_reset'){delete Me.d.lib;Me.save();toast('도서관 기록을 지웠어',1600);return;}if(k==='errclr'){LS.removeItem('ev_err');this.render();return;}if(k==='m_play')this.setTest(false);else if(k==='m_test')this.setTest(true);else if(k.startsWith('c_')){Case.admin(k);this.render();}else this.act(k);});}};
@@ -2108,6 +2127,10 @@ let msgCool=0;
 // 카운터 벨: 누르면 딸랑 + 반짝
 
 // ---- 신문 가판대: 카운터 앞에 선 1인칭 화면, 주인은 짠돌이 너구리 '잔돈' (말풍선만) ----
+// 테스트 모드에선 서버에 안 쓰고, '다른 주민인 척'이면 내 아이디를 바꿔서 내 쪽지·물건이 나한테 떨어지게
+function ONL(){return Net.online&&!Me.test;}
+function selfId(){return Me.test&&Me.d.alt?'alt':(ONL()?Net.uid:'me');}
+function selfName(){return Me.test&&Me.d.alt?'테스트친구':(me?me.name:'');}
 const NS_HS=[ // [x,y,w,h](%), 대사 키
  ['coin',37,71,26,10],['paper',0,65,28,22],['reg',59,49,34,21],['box',77,63,23,20],['candy',6,49,26,20],
  ['clock',46,11,17,15],['scope',72,21,18,9],['bottle',13,26,24,9],['scroll',10,35,29,15],['tin',40,27,31,8],
@@ -2145,18 +2168,22 @@ const News={el:null,last:{},
   show(k){this.mode='main';this.say=this.line(k);this.el.classList.add('pop');this.ring.style.display='none';this.render();},
   tap(k){if(k==='coin'){Snd.syn&&Snd.syn('tick');setTimeout(()=>Snd.syn&&Snd.syn('ding',0.35),90);}else Snd.syn&&Snd.syn('tap');
     if(k==='coin')Quest.mark('nshi');
-    if(k==='paper'){this.el.classList.add('pop');this.ring.style.display='none';Paper.buy().then(r=>{this.mode='main';this.say=r==='poor'?'5초야. 모자라면 해변에서 주워서 만물상에 팔고 와. 외상은 사절.':r==='again'?'이미 샀잖아. 다시 보는 건 공짜. …이번만.':'5초 받았어. 뽀득. 다 읽으면 접어서 가져가.';this.render();});return;}
+    if(k==='paper'&&!Paper.bought()){this.el.classList.add('pop');this.ring.style.display='none';this.mode='buy';this.buyK='paper';this.say=`📰 오늘 신문은 5초. 살래? (지금 ${Me.d.sec||0}초 있어)`;this.render();return;}
+    if(k==='paperOK'||k==='paper'){this.el.classList.add('pop');this.ring.style.display='none';Paper.buy().then(r=>{this.mode='main';this.say=r==='poor'?'5초야. 모자라면 해변에서 주워서 만물상에 팔고 와. 외상은 사절.':r==='again'?'이미 샀잖아. 다시 보는 건 공짜. …이번만.':'5초 받았어. 뽀득. 다 읽으면 접어서 가져가.';this.render();});return;}
     if(k==='box'){this.el.classList.add('pop');this.ring.style.display='none';this.boxOpen();return;}
     this.show(k==='coin'&&!this.el.classList.contains('pop')?'hi':k);},
   render(){if(this.mode==='box'){this.renderBox();return;}
+    if(this.mode==='buy'){this.tk.innerHTML=`<div class="hd">🦝 ${esc(NS_NAME)} · 가판대 주인</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-y>${this.buyK==='paper'?'5초 내고 사기':'3초 내고 사기'}</button><button data-n>그만두기</button></div>`;
+      this.tk.querySelector('[data-n]').onclick=()=>{this.mode='main';this.say='구경만 하는구나. 익숙해.';this.render();};
+      this.tk.querySelector('[data-y]').onclick=()=>{if(this.buyK==='paper')this.tap('paperOK');else{this.mode='main';this.say='…아, 퍼즐 아직 인쇄 중이었네. 돈은 안 받을게. 이번만.';this.render();}};return;}
     this.tk.innerHTML=`<div class="hd">🦝 ${esc(NS_NAME)} · 가판대 주인</div><div class="say">${esc(this.say)}</div><div class="btns"><button data-b="paper">📰 신문</button><button data-b="puzzle">✏️ 낱말퍼즐</button><button data-b="box">📦 교환 상자</button></div>`;
-    this.tk.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b;if(k==='puzzle'){Snd.syn&&Snd.syn('tap');this.say='낱말퍼즐은 3초. 근데 아직 인쇄 중이야. 다음 호부터. 답지는 별도 판매고.';this.render();}else this.tap(k);});},
+    this.tk.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b;if(k==='puzzle'){Snd.syn&&Snd.syn('tap');this.mode='buy';this.buyK='puzzle';this.say=`✏️ 오늘의 낱말퍼즐은 3초. 살래? 답지는 별도 판매.`;this.render();}else this.tap(k);});},
   line(k){const L=NS_L[k];let i=Math.floor(Math.random()*L.length);if(L.length>1&&i===this.last[k])i=(i+1)%L.length;this.last[k]=i;return L[i];},
   // 잡동사니 교환 상자: 쓸데없는 물건 하나 + 쪽지를 넣으면, 남이 넣은 쓸데없는 것 하나를 가져감
   boxOpen(){this.mode='box';this.boxSay='쓸데없는 거 하나 넣으면, 쓸데없는 거 하나 가져가. 쪽지도 같이. 내 가게에서 제일 공정한 거래야.';this.got=null;this.renderBox();},
-  myId(){return Net.online?Net.uid:'me';},
+  myId(){return selfId();},
   async pool(){let a=[],cl={};
-    if(Net.online){try{const D=Net.fn;const [s,c]=await Promise.all([D.get(D.query(D.ref(Net.db,'chat/junk'),D.limitToLast(60))),D.get(D.ref(Net.db,'chat/junkc'))]);s.forEach(x=>{const v=x.val();if(v&&v.it)a.push(Object.assign({key:x.key},v));});c.forEach(x=>{cl[x.key]=1;});}catch(e){}}
+    if(ONL()){try{const D=Net.fn;const [s,c]=await Promise.all([D.get(D.query(D.ref(Net.db,'chat/junk'),D.limitToLast(60))),D.get(D.ref(Net.db,'chat/junkc'))]);s.forEach(x=>{const v=x.val();if(v&&v.it)a.push(Object.assign({key:x.key},v));});c.forEach(x=>{cl[x.key]=1;});}catch(e){}}
     else{a=(Me.d.jkLocal||[]).slice();if(!Me.d.jkSeed){Me.d.jkSeed=1;a.push({key:'s1',uid:'demoA',it:'wood',text:'모양이 오리 같아서 주웠어. 근데 오리는 아니야.'},{key:'s2',uid:'demoB',it:'glass_g',text:'해 질 때 비춰 보면 예뻐. 근데 늘 해질녘이지.'});Me.d.jkLocal=a;Me.save();}(Me.d.jkGot||[]).forEach(k=>cl[k]=1);}
     return a.filter(x=>!cl[x.key]&&x.uid!==this.myId());},
   renderBox(){const ids=Object.keys(Me.d.bag||{}).filter(id=>Me.d.bag[id]>0&&ITEMS[id]),G=this.got;
@@ -2169,11 +2196,11 @@ const News={el:null,last:{},
     this.tk.querySelector('[data-w]').onclick=async()=>{const it=this.pi,t=inp.value.trim();if(!it||!(Me.d.bag[it]>0)){toast('넣을 물건부터 골라 줘',1500);return;}if(!t){toast('쪽지도 한 줄 써 줘',1400);return;}
       const day=ymd(),J=Me.d.jk||(Me.d.jk={});if((J[day]||0)>=2){this.boxSay='오늘은 두 번 바꿨잖아. 상자도 쉬어야 해.';this.renderBox();return;}
       const rec={uid:this.myId(),name:'',text:t,it,ts:Date.now()};
-      if(Net.online){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/junk'),rec);}catch(e){toast('상자가 안 열려. 다시 해 볼래?',1600);return;}}
+      if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/junk'),rec);}catch(e){toast('상자가 안 열려. 다시 해 볼래?',1600);return;}}
       else{const L=Me.d.jkLocal||(Me.d.jkLocal=[]);L.push(Object.assign({key:'j'+Date.now()},rec));}
       Me.addItem(it,-1);J[day]=(J[day]||0)+1;this.pi=null;Snd.syn&&Snd.syn('tick');Quest.mark('nsbox');Me.log(`잡동사니 교환 상자에 ${ITEMS[it].name}이랑 쪽지를 넣었다.`,'ns_box'+Date.now());
       const P=await this.pool(),pick=P[Math.floor(Math.random()*P.length)];
-      if(pick){let ok=true;if(Net.online){try{const D=Net.fn;await D.set(D.ref(Net.db,'chat/junkc/'+pick.key),{uid:Net.uid,text:'1',ts:Date.now()});}catch(e){ok=false;}}else{const g=Me.d.jkGot||(Me.d.jkGot=[]);g.push(pick.key);}
+      if(pick){let ok=true;if(ONL()){try{const D=Net.fn;await D.set(D.ref(Net.db,'chat/junkc/'+pick.key),{uid:Net.uid,text:'1',ts:Date.now()});}catch(e){ok=false;}}else{const g=Me.d.jkGot||(Me.d.jkGot=[]);g.push(pick.key);}
         if(ok){if(ITEMS[pick.it])Me.addItem(pick.it,1);const N=Me.d.notes||(Me.d.notes=[]);N.push({text:pick.text,src:'잡동사니 교환 상자에서',t:Date.now()});this.got=pick;this.boxSay='손 넣어서 하나 꺼냈지? 반품은 안 돼. 교환도 안 돼. 아, 이게 교환이구나.';Me.log(`교환 상자에서 ${ITEMS[pick.it]?ITEMS[pick.it].name:'무언가'}를 꺼냈다. 쪽지엔 "${pick.text}"`,'ns_got'+Date.now());}}
       else this.boxSay='상자가 비어 있었네. 네 게 첫 번째야. 다음 사람이 꺼내 갈 거야.';
       Me.save();this.renderBox();};}};
@@ -2296,15 +2323,15 @@ const Libr={
     if(p.k==='txt'&&!this.relay){const s=this.me().seen,S=s[b.id]||(s[b.id]={p:{}});if(!S.p[p.n]){S.p[p.n]=1;Me.save();}this.dropCheck(p.n);if(p.n===b.pg.length&&!S.done){S.done=1;Me.save();Me.log(`『${b.t}』을 끝까지 읽었다.`,'lib_done_'+b.id);}}},
   // ---- 책 속 쪽지: 원하는 쪽에 끼우면 그 쪽을 처음 펼친 다른 주민에게 한 번 떨어짐 ----
   async loadNotes(id){this.notes=[];this.claimed={};
-    if(Net.online){try{const D=Net.fn;const [a,c]=await Promise.all([D.get(D.ref(Net.db,'chat/bn_'+id)),D.get(D.ref(Net.db,'chat/bc_'+id))]);
+    if(ONL()){try{const D=Net.fn;const [a,c]=await Promise.all([D.get(D.ref(Net.db,'chat/bn_'+id)),D.get(D.ref(Net.db,'chat/bc_'+id))]);
       a.forEach(x=>{const v=x.val();if(v&&v.text)this.notes.push({key:x.key,uid:v.uid,text:v.text,pg:v.pg,it:v.it||'',ts:v.ts||0});});c.forEach(x=>{this.claimed[x.key]=1;});}catch(e){console.warn('쪽지 불러오기 실패',e&&e.code);}}
     else{(this.me().local||[]).filter(n=>n.b===id).forEach(n=>this.notes.push(n));(this.me().got||[]).forEach(k=>this.claimed[k]=1);}
     const p=this.pages()[this.pi];if(p&&p.k==='txt'&&!this.relay)this.dropCheck(p.n);},
-  myUid(){return Net.online?Net.uid:'me';},
+  myUid(){return selfId();},
   async dropCheck(pn){if(this.relay||!this.b||!this.b.id)return;
     if(this.b.id==='b_dar'&&pn===6&&Quest.cur()===5){const D5=Quest.q().days[5];if(D5&&!D5.d.hnote){Quest.mark('hnote');setTimeout(()=>{Snd.syn&&Snd.syn('flap',0.5);const d=document.createElement('div');d.className='bdrop';d.innerHTML=`<div class="paper"><b>책 사이에서 낯익은 글씨의 쪽지가 떨어졌어</b><p>여기까지 와 줘서 고마워. 그런데 요즘 마을에 이상한 소문이 돌기 시작했어. 시계탑 태엽이… 아니, 이건 직접 듣는 게 좋겠다. 까치가 곧 찾아갈 거야.</p><i>— H</i><button>고이 접어 두기</button></div>`;this.rd.appendChild(d);d.querySelector('button').onclick=()=>d.remove();},650);Me.log('도서관 책 마지막 쪽에서 H의 쪽지를 찾았다. 마을에 이상한 소문이 돈다고 했다.','q_hnote');return;}}const n=this.notes.find(x=>x.pg===pn&&x.uid!==this.myUid()&&!this.claimed[x.key]);if(!n)return;
     this.claimed[n.key]=1;
-    if(Net.online){try{const D=Net.fn;await D.set(D.ref(Net.db,'chat/bc_'+this.b.id+'/'+n.key),{uid:Net.uid,text:'1',ts:Date.now()});}catch(e){return;}}
+    if(ONL()){try{const D=Net.fn;await D.set(D.ref(Net.db,'chat/bc_'+this.b.id+'/'+n.key),{uid:Net.uid,text:'1',ts:Date.now()});}catch(e){return;}}
     else{const g=this.me().got||(this.me().got=[]);g.push(n.key);Me.save();}
     this.fall(n,pn);
     Me.log(`『${this.b.t}』 ${pn}쪽에서 누군가 끼워 둔 쪽지를 찾았다. "${n.text}"`,'lib_got_'+n.key);},
@@ -2317,7 +2344,7 @@ const Libr={
       this.rd.appendChild(d);
       d.querySelector('[data-bag]').onclick=()=>{const N=Me.d.notes||(Me.d.notes=[]);N.push({text:n.text,src:`『${this.b.t}』 ${pn}쪽에서 주움`,t:Date.now()});if(it)Me.addItem(it,1);Me.save();d.remove();toast(it?'쪽지랑 물건을 가방에 넣었어':'쪽지를 가방에 넣었어',1800);};
       d.querySelector('[data-back]').onclick=async()=>{const rec={uid:this.myUid(),text:n.text,pg:pn,it,ts:Date.now()};
-        if(Net.online){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/bn_'+this.b.id),rec);}catch(e){}}else{const L=this.me(),l=L.local||(L.local=[]);l.push(Object.assign({key:'r'+Date.now(),b:this.b.id},rec));Me.save();}
+        if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/bn_'+this.b.id),rec);}catch(e){}}else{const L=this.me(),l=L.local||(L.local=[]);l.push(Object.assign({key:'r'+Date.now(),b:this.b.id},rec));Me.save();}
         d.remove();toast('🔖 다시 살짝 끼워 뒀어. 다음 사람에게 갈 거야.',2200);};},1500);},
   insert(pn){const L=this.me(),t=ymd(),used=L.ins[t]||0;if(used>=3){toast('쪽지는 하루에 세 장까지야',1800);return;}
     const ids=Object.keys(Me.d.bag||{}).filter(id=>Me.d.bag[id]>0&&ITEMS[id]);
@@ -2327,7 +2354,7 @@ const Libr={
     d.querySelector('[data-x]').onclick=()=>d.remove();
     d.querySelector('[data-ok]').onclick=async()=>{const text=d.querySelector('textarea').value.trim();if(!text){toast('한 줄은 써 줘',1400);return;}
       const rec={uid:this.myUid(),text,pg:pn,it,ts:Date.now()};
-      if(Net.online){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/bn_'+this.b.id),rec);}catch(e){toast('끼우지 못했어',1600);return;}}
+      if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/bn_'+this.b.id),rec);}catch(e){toast('끼우지 못했어',1600);return;}}
       else{const l=L.local||(L.local=[]);l.push(Object.assign({key:'l'+Date.now(),b:this.b.id},rec));}
       if(it)Me.addItem(it,-1);L.ins[t]=used+1;Me.save();d.remove();Snd.syn&&Snd.syn('page',0.5);toast('🔖 살짝 끼워 뒀어. 누가 찾을지는 아무도 몰라.',2600);
       Me.log(`『${this.b.t}』 ${pn}쪽에 쪽지를 끼워 두었다.`,'lib_ins_'+Date.now());if(typeof Quest!=='undefined')Quest.mark('libnote');};}};
@@ -2335,7 +2362,7 @@ const Libr={
 const Relay={
   async load(){const out=[];let v=1;
     for(;v<50;v++){let ch=[];
-      if(Net.online){try{const D=Net.fn;const s=await D.get(D.ref(Net.db,'chat/relay_v'+v));s.forEach(x=>{const o=x.val();if(o&&o.pid)ch.push(o);});}catch(e){break;}}
+      if(ONL()){try{const D=Net.fn;const s=await D.get(D.ref(Net.db,'chat/relay_v'+v));s.forEach(x=>{const o=x.val();if(o&&o.pid)ch.push(o);});}catch(e){break;}}
       else ch=((Libr.me().relay||{})['v'+v]||[]);
       const pm={};ch.forEach(o=>{const p=pm[o.pid]||(pm[o.pid]={pid:o.pid,uid:o.uid,ts:o.ts||0,n:o.n||1,parts:[]});p.parts[o.i||0]=o.text;p.ts=Math.min(p.ts,o.ts||p.ts);});
       const pages=Object.values(pm).filter(p=>p.parts.filter(x=>x!=null).length>=p.n).sort((a,b)=>a.ts-b.ts).slice(0,RELAY_N).map(p=>({pid:p.pid,uid:p.uid,ts:p.ts,t:p.parts.join('')}));
@@ -2363,7 +2390,7 @@ const Relay={
     Libr.rd.appendChild(d);const ta=d.querySelector('textarea');ta.oninput=()=>{d.querySelector('.cnt').textContent=ta.value.length+' / '+RELAY_MAX;};d.querySelector('[data-x]').onclick=()=>d.remove();
     d.querySelector('[data-ok]').onclick=async()=>{const t=ta.value.trim();if(t.length<10){toast('한 쪽이니까 조금만 더 써 줘',1600);return;}
       const pid='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),parts=[];for(let i=0;i<t.length;i+=60)parts.push(t.slice(i,i+60));const ts=Date.now(),uid=Libr.myUid();
-      if(Net.online){try{const D=Net.fn;for(let i=0;i<parts.length;i++)await D.push(D.ref(Net.db,'chat/relay_v'+v.v),{uid,text:parts[i],pid,i,n:parts.length,ts});}catch(e){toast('쓰지 못했어. 다시 해 볼래?',1800);return;}}
+      if(ONL()){try{const D=Net.fn;for(let i=0;i<parts.length;i++)await D.push(D.ref(Net.db,'chat/relay_v'+v.v),{uid,text:parts[i],pid,i,n:parts.length,ts});}catch(e){toast('쓰지 못했어. 다시 해 볼래?',1800);return;}}
       else{const R=Libr.me().relay||(Libr.me().relay={}),a=R['v'+v.v]||(R['v'+v.v]=[]);parts.forEach((x,i)=>a.push({uid,text:x,pid,i,n:parts.length,ts}));}
       Libr.me().rw=ymd();Me.save();d.remove();Snd.syn&&Snd.syn('page',0.6);toast('✎ 한 쪽을 이어 썼어. 다음 사람은 이 쪽만 보고 이어 쓸 거야.',2800);
       Me.log(`도서관 독서대의 릴레이 책 ${v.v}권에 한 쪽을 이어 썼다.`,'relay_'+ts);if(typeof Quest!=='undefined')Quest.mark('relay');const vols=await this.load();this.vols=vols;this.cur=vols[vols.length-1];this.show(this.cur,false);};},
@@ -2412,22 +2439,35 @@ const Paper={
       <div class="foot">이브빌리지 타임스는 시간이 멈춘 마을의 유일한 일간지입니다. 오늘 신문은 내일도 오늘 신문입니다.</div></div>`;
     el.classList.add('on');Snd.syn&&Snd.syn('page',0.7);el.querySelector('.x').onclick=()=>{el.classList.remove('on');if(I.cs&&!Case.D().npTold){Case.D().npTold=1;Me.save();setTimeout(()=>Case.talk('🐦 까치 · 마을 기자',['까악! 신문 읽었지?','실마리는 마을 여기저기에 있어. 말, 물건, 쪽지. 사람마다 찾을 수 있는 게 달라.','못 찾은 건 광장 게시판에 "구해요" 붙여 봐. 서로 편지로 나눌 수 있어.']),400);}};}};
 // ---- 광장 게시판: 코르크판 · 압정 · 포스트잇 (쓴 사람에게 답장 + 실마리 동봉) ----
-const BOARD_RULES=['시간은 다섯 시 반입니다. 지각은 없습니다.','바다 물건은 주운 사람이 임자. 바다한테 허락은 안 받음.','도서관에서는 쉿.','모르는 얼굴에게 먼저 인사하기.','게시판 쪽지는 떼지 마세요. 답장은 환영.'];
-const BOARD_ADS=[['🔮','만물상','주운 물건 초로 바꿔 드림. 흥정 사절.','#f6d4a6'],['🦉','우체국','편지는 빨리, 답장은 마음대로.','#d9e7f2'],['🐿','도서관','신간 입고. 도토리 반입 금지.','#e2d6bd'],['🦝','가판대','신문 5초. 어제 신문 반값.','#f3e18a']];
+const BOARD_RULES=['처음 보는 얼굴에게 먼저 인사하기.','모르는 사이라도 쪽지 한 장이면 아는 사이.','게시판 쪽지엔 답장해 주기. 짧아도 괜찮아요.','받은 만큼 나누기. 실마리도, 조개도.','도서관에서는 쉿.'];
+// 오래 붙어 있던 막광고들 [클래스, 위치 left%,top px,width%,회전, 내용html]
+const BOARD_ADS=[
+ ['a1',2,232,44,-4,'<b class="big">주운 물건<br>삽니다!!</b><span>조개 · 유리 · 유목 · 그 밖의 반짝이는 것</span><em>🔮 만물상 · 흥정 사절</em><div class="tabs">'+'<i>만물상</i>'.repeat(5)+'</div>'],
+ ['a2',54,214,42,5,'<b class="stamp">편지 배달</b><span>늦은 답장도 제때 도착합니다</span><em>🦉 우체국 · 부엉</em>'],
+ ['a3',57,330,38,-7,'<b class="hand">신간 입고!</b><span>도토리 반입 금지</span><em>🐿 도서관</em>'],
+ ['a4',4,372,36,3,'<b class="news">신문 5초</b><span>어제 신문 반값<br>(어제랑 오늘이 똑같지만)</span><em>🦝 가판대</em>'],
+ ['a5',38,470,30,9,'<b class="hand">곧 오픈</b><span>아직 물 끓이는 중</span><em>🐻 모카곰 카페</em>'],
+ ['a6',70,452,27,-5,'<b class="stamp">신청곡 받음</b><span>언젠가 틀어 드림</span><em>🦭 비치펍</em>'],
+ ['a7',60,548,30,-8,'<b class="hand">장갑 한 짝<br>찾아요</b><span>오른손 · 보면 만물상으로</span>']];
 const PIN_KIND={want:['🔎 구해요','#ffe98a'],have:['🙌 있어요','#ffc9d6'],talk:['💬 한마디','#c9ecd7']};
+const bHash=s=>{let x=9;for(const c of String(s))x=(x*31+c.charCodeAt(0))>>>0;return x;};
 const Board={
   async load(){let a=[];
-    if(Net.online){try{const D=Net.fn;const s=await D.get(D.query(D.ref(Net.db,'chat/board'),D.limitToLast(40)));s.forEach(x=>{const v=x.val();if(v&&v.text)a.push(Object.assign({key:x.key},v));});}catch(e){}}
+    if(ONL()){try{const D=Net.fn;const s=await D.get(D.query(D.ref(Net.db,'chat/board'),D.limitToLast(40)));s.forEach(x=>{const v=x.val();if(v&&v.text)a.push(Object.assign({key:x.key},v));});}catch(e){}}
     else{a=(Me.d.bdLocal||[]).slice();if(Me.test||DEMO)CS_FAKE.forEach((p,i)=>{if(p.nm===me.name)return;const c=CASES[1];const tx=[p.h.length?`${c.nm} 실마리 ${p.h.join(',')}/3 있어요!`:'',p.w.length?`${p.w.join(',')}/3 구해요 ㅠㅠ`:''].filter(Boolean).join(' ');a.unshift({key:'fk'+i,uid:'demo'+i,name:p.nm,text:tx||'안녕! 반가워',kind:p.h.length?'have':'want',ts:Date.now()-(i+1)*3600000,fake:i});});}
     const lim=Date.now()-3*86400000;return a.filter(p=>(p.ts||0)>lim).sort((x,y)=>(y.ts||0)-(x.ts||0));},
   async open(){let el=document.getElementById('bd');if(!el){el=document.createElement('div');el.id='bd';document.body.appendChild(el);}
     this.el=el;el.classList.add('on');el.innerHTML='<div class="cork"><div class="ld">게시판 보는 중…</div></div>';Snd.syn&&Snd.syn('tap');this.posts=await this.load();this.render();},
   close(){if(this.el)this.el.classList.remove('on');},
-  render(){const el=this.el,P=this.posts||[],rot=i=>((i*37)%9-4)*0.7;
-    const rules=`<div class="pn rules" style="--r:-1.5deg"><i class="pin"></i><b>📜 이브 빌리지 마을 규칙</b><ol>${BOARD_RULES.map(r=>`<li>${esc(r)}</li>`).join('')}</ol><em>— 마을 일동 (사실 까치가 씀)</em></div>`;
-    const ads=BOARD_ADS.map(([e,n,t,c],i)=>`<div class="pn ad" style="--r:${rot(i+3)}deg;background:${c}"><i class="pin"></i><b>${e} ${esc(n)}</b><span>${esc(t)}</span></div>`).join('');
-    const its=P.map((p,i)=>{const k=PIN_KIND[p.kind]||PIN_KIND.talk;return `<button class="pn it" data-p="${i}" style="--r:${rot(i)}deg;background:${k[1]}"><i class="pin"></i><small>${k[0]}</small><span>${esc(p.text)}</span><em>— ${esc(p.name||'이웃')}</em></button>`;}).join('');
-    el.innerHTML=`<button class="x" aria-label="닫기">×</button><div class="cork"><div class="tt">📌 광장 게시판</div><div class="wall">${rules}${ads}${its||''}</div>
+  render(){const el=this.el,P=this.posts||[];
+    const rules=`<div class="rules"><i class="pin"></i><i class="pin r"></i><b>📜 이브 빌리지 마을 규칙</b><ol>${BOARD_RULES.map(r=>`<li>${esc(r)}</li>`).join('')}</ol><em>— 마을 일동 (사실 까치가 씀)</em></div>`;
+    const ads=BOARD_ADS.map(([c,l,t,w,r,x])=>`<div class="ad ${c}" style="left:${l}%;top:${t}px;width:${w}%;--r:${r}deg"><i class="tape"></i>${x}</div>`).join('');
+    // 포스트잇: 작게, 가운데 아래쪽 빈자리에 마구잡이로 (아이디로 위치가 정해져 늘 같은 자리)
+    const cols=4,top0=690;const its=P.map((p,i)=>{const k=PIN_KIND[p.kind]||PIN_KIND.talk,hh=bHash(p.key||p.ts||i),c=i%cols,rw=Math.floor(i/cols);
+      const L=3+c*24+(hh%9)-4,T=top0+rw*92+((hh>>4)%30)-12,R=((hh>>8)%17)-8;
+      return `<button class="pit" data-p="${i}" style="left:${L}%;top:${T}px;--r:${R}deg;background:${k[1]}"><i class="pin s"></i><small>${k[0].split(' ')[0]}</small><span>${esc(p.text)}</span></button>`;}).join('');
+    const H=top0+Math.ceil(Math.max(P.length,1)/cols)*92+90;
+    el.innerHTML=`<button class="x" aria-label="닫기">×</button><div class="cork"><div class="tt">📌 광장 게시판</div><div class="wall" style="height:${H}px">${rules}${ads}${its||'<div class="none">아직 붙은 포스트잇이 없어. 첫 장을 붙여 봐.</div>'}</div>
       <div class="bar"><button data-w="1">📝 포스트잇 붙이기</button></div></div>`;
     el.querySelector('.x').onclick=()=>this.close();el.querySelector('[data-w]').onclick=()=>this.write();
     el.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>this.view(P[+b.dataset.p]));},
@@ -2435,10 +2475,10 @@ const Board={
     d.innerHTML=`<div class="paper pi"><b>포스트잇 붙이기</b><div class="its">${Object.entries(PIN_KIND).map(([k,v])=>`<button data-k="${k}" class="${k==='want'?'on':''}">${v[0]}</button>`).join('')}</div><textarea maxlength="60" placeholder="예) 바람의 말 1/3 구해요! 리본 조각 있어요"></textarea><p class="sub">내 이름이 같이 붙어. 이 쪽지를 본 사람이 나한테 답장을 보낼 수 있어.</p><div class="row2"><button data-x>그만두기</button><button data-ok>붙이기</button></div></div>`;
     this.el.appendChild(d);d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{d.querySelectorAll('[data-k]').forEach(x=>x.classList.remove('on'));b.classList.add('on');kind=b.dataset.k;});
     d.querySelector('[data-x]').onclick=()=>d.remove();
-    d.querySelector('[data-ok]').onclick=async()=>{const text=d.querySelector('textarea').value.trim();if(!text)return;const rec={uid:Net.online?Net.uid:'me',name:me.name,text,kind,ts:Date.now()};
-      if(Net.online){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/board'),rec);}catch(e){toast('못 붙였어',1500);return;}}else{const L=Me.d.bdLocal||(Me.d.bdLocal=[]);L.push(Object.assign({key:'b'+Date.now()},rec));Me.save();}
+    d.querySelector('[data-ok]').onclick=async()=>{const text=d.querySelector('textarea').value.trim();if(!text)return;const rec={uid:selfId(),name:selfName(),text,kind,ts:Date.now()};
+      if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'chat/board'),rec);}catch(e){toast('못 붙였어',1500);return;}}else{const L=Me.d.bdLocal||(Me.d.bdLocal=[]);L.push(Object.assign({key:'b'+Date.now()},rec));Me.save();}
       d.remove();Snd.syn&&Snd.syn('tick');Me.log(`광장 게시판에 포스트잇을 붙였다. "${text}"`,'bd_'+rec.ts);this.posts=await this.load();this.render();};},
-  view(p){const mine=p.uid===(Net.online?Net.uid:'me'),k=PIN_KIND[p.kind]||PIN_KIND.talk,d=document.createElement('div');d.className='bdrop';
+  view(p){const mine=p.uid===selfId(),k=PIN_KIND[p.kind]||PIN_KIND.talk,d=document.createElement('div');d.className='bdrop';
     d.innerHTML=`<div class="paper pi" style="background:${k[1]}"><small>${k[0]}</small><p>${esc(p.text)}</p><i>— ${esc(p.name||'이웃')} · ${new Date(p.ts).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'})}</i>
       <div class="row2"><button data-x>닫기</button>${mine?'':'<button data-ok>✉️ 답장 쓰기</button>'}</div></div>`;
     this.el.appendChild(d);d.querySelector('[data-x]').onclick=()=>d.remove();const ok=d.querySelector('[data-ok]');if(ok)ok.onclick=()=>{d.remove();this.reply(p);};},
@@ -2450,8 +2490,9 @@ const Board={
     this.el.appendChild(d);d.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{d.querySelectorAll('[data-c]').forEach(x=>x.classList.remove('on'));b.classList.add('on');cl=+b.dataset.c;});
     d.querySelector('[data-x]').onclick=()=>d.remove();
     d.querySelector('[data-ok]').onclick=async()=>{const text=d.querySelector('textarea').value.trim();if(!text){toast('한 줄은 써 줘',1400);return;}
-      const rec={k:'l',from:Net.online?Net.uid:'me',fromName:me.name,text,ts:Date.now(),bd:1};if(cl&&c)rec.cl=c.id+'-'+cl;
-      if(Net.online){try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+p.uid),rec);}catch(e){toast('편지새가 길을 잃었어. 다시 해 볼래?',1800);return;}}
+      const rec={k:'l',from:selfId(),fromName:selfName(),text,ts:Date.now(),bd:1};if(cl&&c)rec.cl=c.id+'-'+cl;
+      if(ONL()){try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+p.uid),rec);}catch(e){toast('편지새가 길을 잃었어. 다시 해 볼래?',1800);return;}}
+      else if(p.uid==='me'||(p.uid===Net.uid&&Me.test)){const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push(Object.assign({id:'bd'+Date.now()},rec));Me.save();if(typeof Camp!=='undefined'&&Camp.local)Camp.local();setTimeout(()=>popMe(`<b>🕊 ${esc(rec.fromName)}의 편지 도착</b>(테스트) 텐트 우체통을 열어 봐`,3000),1500);}
       d.remove();Snd.syn&&Snd.syn('flap',0.5);toast(`🕊 편지새가 ${p.name||'이웃'}에게 날아갔어`,2200);Me.log(`게시판을 보고 ${p.name||'이웃'}에게 답장을 보냈다.${cl?' 실마리도 하나 넣었다.':''}`,'bd_r'+rec.ts);
       if(p.fake!=null&&c){const F=CS_FAKE[p.fake];const giv=F.h.find(n=>!Case.has(c,n));setTimeout(()=>{const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push({id:'bdr'+Date.now(),k:'l',from:'demo'+p.fake,fromName:F.nm,text:giv?`답장 고마워! 내 실마리 하나 넣을게. 나중에 나도 도와줘!`:'편지 고마워! 나도 아직 찾는 중이야.',ts:Date.now(),cl:giv?c.id+'-'+giv:undefined,bd:1});Me.save();if(typeof Camp!=='undefined'&&Camp.local)Camp.local();popMe(`<b>🕊 ${esc(F.nm)}의 답장 도착</b>텐트 우체통을 열어 봐`,3200);},4000);}};}};
 // 받은 편지에 동봉된 실마리
