@@ -748,7 +748,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128d</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128e</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1339,7 +1339,7 @@ const Note={on:false,tab:'day',sel:null,ym:null,
         const gift=D.gift==='open'?'<div class="hear">🎄 선물 상자를 열고 이브의 언덕 트리에 오너먼트를 달았어.</div>':done?'<div class="hear">🎁 이브의 언덕 트리 밑에 선물 상자가 도착했어! 가서 열어 봐.</div>':'<div class="sub" style="margin-top:8px">셋 다 하면 이브의 언덕 트리 밑에 H의 선물 상자가 도착해.</div>';
         return `<div class="scr qcard"><div class="st">📜 ${esc(Q.day)}</div>${li}${gift}</div>`;};
       let h='';for(let n=cur;n>=1;n--)h+=card(n);
-      for(let n=cur+1;n<=QUESTS.length;n++){const nx=n===cur+1;h+=`<div class="mc sh"><span>📜</span><div><b>${esc(QUESTS[n-1].day)}</b><i>${nx?(Quest.done(cur)?'내일 편지새가 가져올 거야':'오늘 부탁을 다 들어주면 내일 와'):'아직 오지 않았어'}</i></div></div>`;}
+      for(let n=cur+1;n<=QUESTS.length;n++){const nx=n===cur+1;h+=`<div class="mc sh"><span>📜</span><div><b>${esc(QUESTS[n-1].day)}</b><i>${nx?(cur===1&&!Quest.done(1)?'첫날 부탁을 다 들어주면 내일 와':'내일 편지새가 가져올 거야. 못 한 부탁은 그대로 남아 있어'):'아직 오지 않았어'}</i></div></div>`;}
       noteL.innerHTML=`<h3>H의 부탁</h3><div class="sub">편지새가 물어다 준 쪽지들</div>${h}`;return;}
     if(this.tab==='mys'){noteR.innerHTML='';if(this.mys){noteL.innerHTML=Case.scrap(this.mys);noteL.querySelector('[data-bk]').onclick=()=>{this.mys=null;this.render();};}
       else{noteL.innerHTML=Case.list();noteL.querySelectorAll('[data-cs]').forEach(b=>b.onclick=()=>{this.mys=+b.dataset.cs;this.render();});}return;}
@@ -2273,7 +2273,7 @@ const Tut={lock:false,step:0,
     this.say('편지새가 쪽지를 떨구고 갔어. 쪽지를 눌러 봐.');},
   greet(n){this.hide();n=n||1;const nm=me.name,Q=QUESTS[n-1];
     Case.open(`<div class="hlet"><div class="lt">${esc(voc(nm))}, ${esc(Q.hi)}</div>${Q.note.map(p=>`<p>${esc(p)}</p>`).join('')}<p class="sg">— H</p><button class="go" data-a="ok">수첩에 끼워 두기</button></div>`,true);
-    csBody.querySelector('[data-a=ok]').onclick=()=>{const q=Quest.q(true),now=Date.now();if(n===1){postD().st.n+=1;q.got=q.got||now;}q.days[n]={got:now,d:{},pick:0};const t=Me.d.tut||(Me.d.tut={});t.done=1;Me.save();
+    csBody.querySelector('[data-a=ok]').onclick=()=>{const q=Quest.q(true),now=Date.now();if(n===1){postD().st.n+=1;q.got=q.got||now;}q.days[n]={got:now,gotDay:Quest.today(),d:{},pick:0};const t=Me.d.tut||(Me.d.tut={});t.done=1;Me.save();
       Me.log(`편지새가 H의 쪽지를 물어다 줬다. ${Q.day}이 세 가지 적혀 있었다.`,'q_note'+n);Case.close();
       if(OPEN_N[n])setTimeout(()=>think(`어? ${OPEN_N[n][1]} 문이 열렸네. 가 볼까?`),400);
       if(n===1)think('어? 가방에 우표가 한 장 생겼네. 열어 볼까?');
@@ -2325,8 +2325,11 @@ const Quest={
   cur(){const q=Me.ready&&this.q();if(!q)return 0;let n=0;for(let i=1;i<=QUESTS.length;i++)if(q.days[i]&&q.days[i].got)n=i;return n;},
   done(n){const q=this.q(),D=q&&q.days[n];return !!D&&QUESTS[n-1].items.every(i=>D.d[i.k]);},
   today(){const q=this.q(),d=new Date();d.setDate(d.getDate()+((q&&q.off)||0));return ymd(d);},
-  mark(k){if(!Me.ready)return;const q=this.q();if(!q)return;q.ev[k]=q.ev[k]||Date.now();const n=this.cur();if(!n){Me.save();return;}const D=q.days[n],it=QUESTS[n-1].items.find(i=>i.k===k);
-    if(it&&!D.d[k]){if(it.n){D.pick=(D.pick||0)+1;if(D.pick>=it.n){D.d[k]=Date.now();this.doneOne(n,k);}}else{D.d[k]=Date.now();this.doneOne(n,k);}}
+  // 부탁은 쌓임: 아직 못 끝낸 날의 부탁도 전부 열려 있어서, 해당하는 일을 하면 그 날 것도 같이 체크
+  open_(){const q=this.q();if(!q)return [];const L=[];for(let i=1;i<=QUESTS.length;i++)if(q.days[i]&&q.days[i].got&&!this.done(i))L.push(i);return L;},
+  mark(k){if(!Me.ready)return;const q=this.q();if(!q)return;q.ev[k]=q.ev[k]||Date.now();const L=this.open_();if(!L.length){Me.save();return;}
+    for(const n of L){const D=q.days[n],it=QUESTS[n-1].items.find(i=>i.k===k);
+      if(it&&!D.d[k]){if(it.n){D.pick=(D.pick||0)+1;if(D.pick>=it.n){D.d[k]=Date.now();this.doneOne(n,k);}}else{D.d[k]=Date.now();this.doneOne(n,k);}}}
     Me.save();if(Note.on)Note.render();},
   // 쪽지 받기 전에 이미 해 둔 일은 받자마자 체크
   retro(n){const q=this.q(),D=q.days[n];let any=0;QUESTS[n-1].items.forEach(i=>{if(!i.n&&q.ev[i.k]&&!D.d[i.k]&&n>1){D.d[i.k]=Date.now();any=1;}});if(any){Me.save();setTimeout(()=>think('이건 벌써 해 둔 거네. 수첩에 체크해 놔야지.'),900);if(this.done(n))this.finish(n);if(Note.on)Note.render();}},
@@ -2335,8 +2338,11 @@ const Quest={
   finish(n){const D=this.q().days[n];if(D.gift)return;D.gift='ready';D.doneAt=Date.now();D.doneDay=this.today();Me.save();
     setTimeout(()=>{think('다 했다! 언덕 트리 밑에 뭐가 와 있을 것 같은데.');Me.log(`H의 ${QUESTS[n-1].day}을 다 들어줬다. 이브의 언덕 트리 밑에 선물 상자가 도착했다.`,'q_gift'+n);this.marks();if(Note.on)Note.render();},4200);},
   // 다음 날 쪽지가 올 때가 됐는지 (전날 부탁을 다 했고, 날짜가 바뀌었으면)
-  check(){if(!Me.ready||!me||Tut.step||switching)return;if(isHR())return;const n=this.cur();if(!n||n>=QUESTS.length||!this.done(n))return;
-    const D=this.q().days[n];if(!D.doneAt)return;if(this.today()<=(D.doneDay||ymd(new Date(D.doneAt))))return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()===n)Tut.bird(n+1);},2500);},
+  // 다음 날 쪽지: 전날 부탁을 다 못 했어도 날짜가 바뀌면 와 (못 한 건 수첩에 그대로 남아 쌓임). 첫날만 다 해야 둘째 날이 와
+  check(){if(!Me.ready||!me||Tut.step||switching)return;if(isHR())return;const n=this.cur();if(!n||n>=QUESTS.length)return;
+    const D=this.q().days[n];if(n===1&&!this.done(1))return;if(!D.gotDay){D.gotDay=D.doneDay&&this.done(n)?D.doneDay:ymd(new Date(D.got));Me.save();}
+    if(this.today()<=D.gotDay)return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()!==n)return;Tut.bird(n+1);
+      const left=this.open_().filter(i=>i<=n);if(left.length)setTimeout(()=>think(`${QUESTS[left[0]-1].day}도 아직 남아 있지. 천천히 같이 하자.`),9000);},2500);},
   // H 답장은 다음 날 우체통에 도착 (날짜 넘기기 반영)
   replyText(){const n=me.name;const text=H_REPLY[n]?H_REPLY[n]+'\n\n— H':`${voc(n)}, 편지 잘 받았어!\n와 줘서 정말 고마워. 네가 이 마을에 있다고 생각하니까 벌써 든든해.\n\n우리 처음 만났던 날 기억나? 그때부터 지금까지 곁에 있어 줘서 고마워.\n\n오늘은 천천히 마을 구경하고 푹 쉬어. 내일도 편지새가 쪽지 가져갈 거야.\n\n— H`;return text;},
   reply(){Me.d.hrPend={text:this.replyText(),day:this.today(),c:H_REPLY[me.name]?1:0};Me.save();},
@@ -3213,7 +3219,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1128d';
+const APP_V='v1128e';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
