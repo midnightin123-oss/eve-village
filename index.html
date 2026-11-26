@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126p</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127a</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -911,77 +911,96 @@ layoutBg();mapImg.style.visibility='hidden';
 function soften(mat,sat){mat.onBeforeCompile=(sh)=>{sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
   float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,${sat.toFixed(2)});`);};return mat;}
 function b64buf(b){const bin=atob(b);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u.buffer;}
-const gltf=await new Promise((res,rej)=>new GLTFLoader().parse(b64buf(window.MODELS.villager),'',res,rej));
+// 기본 몸 (훈위안 3D → tools/bakebody.py) · 뼈와 가중치는 여기서 위치로 직접 붙임
+const BODY_J={Hips:[0.03,-0.33,0],Spine:[0.03,-0.2,0],Head:[0.03,0.0,0],LeftArm:[0.03,-0.03,-0.15],LeftForeArm:[0.03,-0.11,-0.2],LeftHand:[0.03,-0.19,-0.235],RightArm:[0.03,-0.03,0.15],RightForeArm:[0.03,-0.11,0.2],RightHand:[0.03,-0.19,0.235],
+  LeftUpLeg:[0.03,-0.34,-0.08],LeftLeg:[0.03,-0.42,-0.085],LeftFoot:[0.03,-0.47,-0.09],RightUpLeg:[0.03,-0.34,0.08],RightLeg:[0.03,-0.42,0.085],RightFoot:[0.03,-0.47,0.09]};
+const BODY_P={Spine:'Hips',Head:'Spine',LeftArm:'Spine',LeftForeArm:'LeftArm',LeftHand:'LeftForeArm',RightArm:'Spine',RightForeArm:'RightArm',RightHand:'RightForeArm',LeftUpLeg:'Hips',LeftLeg:'LeftUpLeg',LeftFoot:'LeftLeg',RightUpLeg:'Hips',RightLeg:'RightUpLeg',RightFoot:'RightLeg'};
+const gltf=await (async()=>{const g=await new Promise((res,rej)=>new GLTFLoader().load('body/villager.glb?v=1',res,undefined,rej));let src;g.scene.traverse(o=>{if(o.isMesh&&!src)src=o;});
+  const geo=src.geometry;geo.computeVertexNormals();const names=Object.keys(BODY_J),bones={};names.forEach(n=>{const b=new THREE.Bone();b.name=n;bones[n]=b;});
+  names.forEach(n=>{const p=BODY_P[n],w=BODY_J[n];if(p){const q=BODY_J[p];bones[n].position.set(w[0]-q[0],w[1]-q[1],w[2]-q[2]);bones[p].add(bones[n]);}else bones[n].position.set(...w);});
+  const ss=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t);};const pos=geo.attributes.position,N=pos.count,si=new Uint16Array(N*4),sw=new Float32Array(N*4);
+  for(let i=0;i<N;i++){const y=pos.getY(i),z=pos.getZ(i),az=Math.abs(z),S=z<0?'Left':'Right',W={};const hd=ss(-0.01,0.04,y);
+    const arm=ss(0.13,0.165,az)*(1-ss(-0.03,0.01,y))*ss(-0.27,-0.23,y)*(1-hd),leg=ss(-0.31,-0.35,y)*(1-arm),fo=ss(-0.08,-0.13,y),hn=ss(-0.17,-0.2,y),sh=ss(-0.40,-0.44,y);
+    W.Head=hd;W[S+'Arm']=arm*(1-fo);W[S+'ForeArm']=arm*fo*(1-hn);W[S+'Hand']=arm*fo*hn;W[S+'UpLeg']=leg*(1-sh);W[S+'Leg']=leg*sh;const rk=y>-0.27?'Spine':'Hips';W[rk]=(W[rk]||0)+Math.max(0,1-hd-arm-leg);
+    const L=Object.entries(W).filter(e=>e[1]>0.001).sort((a,b)=>b[1]-a[1]).slice(0,4),t=L.reduce((a,e)=>a+e[1],0)||1;L.forEach((e,k)=>{si[i*4+k]=names.indexOf(e[0]);sw[i*4+k]=e[1]/t;});}
+  geo.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(si,4));geo.setAttribute('skinWeight',new THREE.Float32BufferAttribute(sw,4));
+  const sc=new THREE.Group(),am=new THREE.Object3D();am.name='Armature';sc.add(am);const mesh=new THREE.SkinnedMesh(geo,src.material);mesh.name='villager';am.add(mesh);am.add(bones.Hips);sc.updateMatrixWorld(true);
+  mesh.bind(new THREE.Skeleton(names.map(n=>bones[n])));return {scene:sc};})();
 let baseMap=null;gltf.scene.traverse(o=>{if(o.isMesh)baseMap=o.material.map;});
 // 동숲식 몸짓: 팔다리를 고무처럼 휘지 않고, 다리는 번갈아 딛고 팔은 반대로 살짝 흔들기 (정점 셰이더)
 const DEFORM=`vec3 transformed=vec3(position);
-float hip=-0.30;float wl=smoothstep(hip+0.03,hip-0.05,position.y);float sL=clamp(position.z/0.035,-1.,1.);
-float sp=sin(uPhase);float lk=clamp((hip-position.y)/0.2,0.,1.);
-transformed.x+=wl*sL*sp*0.16*uWalk*lk;transformed.y+=wl*max(0.,sL*cos(uPhase))*0.035*uWalk*lk;
-float wa=smoothstep(0.15,0.185,abs(position.z))*smoothstep(-0.34,-0.29,position.y)*(1.-smoothstep(-0.09,-0.04,position.y));
-transformed.x+=wa*(-sign(position.z))*sp*0.12*uWalk*clamp((-0.05-position.y)/0.25,0.,1.);
-// 부드러운 뼈대: 점마다 어느 관절을 따를지 비율(가중치)로 나눠서, 꺾여도 끊기지 않게
+float hip=-0.33;float wl=smoothstep(hip+0.03,hip-0.05,position.y);float sL=clamp(position.z/0.035,-1.,1.);
+float sp=sin(uPhase);float lk=clamp((hip-position.y)/0.17,0.,1.);
+transformed.x+=wl*sL*sp*0.16*uWalk*lk;transformed.y+=wl*max(0.,sL*cos(uPhase))*0.03*uWalk*lk;
 float az=abs(position.z);
-float wLeg=smoothstep(-0.27,-0.335,position.y)*(1.-smoothstep(0.15,0.172,az));
-float wShin=wLeg*smoothstep(-0.375,-0.425,position.y);
-float wArm=smoothstep(0.148,0.176,az)*(1.-smoothstep(-0.10,-0.055,position.y))*smoothstep(-0.36,-0.30,position.y);
-float wHead=smoothstep(-0.075,-0.02,position.y);
+float wa=smoothstep(0.13,0.165,az)*smoothstep(-0.27,-0.23,position.y)*(1.-smoothstep(-0.03,0.01,position.y));
+transformed.x+=wa*(-sign(position.z))*sp*0.11*uWalk*clamp((0.0-position.y)/0.2,0.,1.);
+float wLeg=smoothstep(-0.30,-0.36,position.y)*(1.-wa);
+float wShin=wLeg*smoothstep(-0.40,-0.44,position.y);
+float wArm=wa;
+float wHead=smoothstep(-0.01,0.04,position.y);
 vec3 q=transformed;
-if(wShin>0.){float a=-uKnee*1.25;vec2 k=vec2(0.025,-0.40);vec2 d=q.xy-k;q.xy=mix(q.xy,k+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wShin);q.xy=k+(q.xy-k)*(1.-0.8*wShin*uShin);}
-if(wLeg>0.){float a=uSit*1.42;vec2 h=vec2(0.025,-0.305);vec2 d=q.xy-h;q.xy=mix(q.xy,h+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wLeg);}
-if(wArm>0.){float a=uArm*1.05+(position.z>0.?uArmR:0.)*0.55;vec2 sh=vec2(0.03,-0.095);vec2 d=q.xy-sh;q.xy=mix(q.xy,sh+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wArm);
+if(wShin>0.){float a=-uKnee*1.25;vec2 k=vec2(0.03,-0.42);vec2 d=q.xy-k;q.xy=mix(q.xy,k+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wShin);q.xy=k+(q.xy-k)*(1.-0.8*wShin*uShin);}
+if(wLeg>0.){float a=uSit*1.42;vec2 h=vec2(0.03,-0.34);vec2 d=q.xy-h;q.xy=mix(q.xy,h+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wLeg);}
+if(wArm>0.){float a=uArm*1.05+(position.z>0.?uArmR:0.)*0.55;vec2 sh=vec2(0.03,-0.02);vec2 d=q.xy-sh;q.xy=mix(q.xy,sh+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wArm);
   q.z=mix(q.z,q.z-sign(position.z)*0.05*uArm,wArm);}
-if(wHead>0.){float a=-uHead*0.32;vec2 nk=vec2(0.03,-0.05);vec2 d=q.xy-nk;q.xy=mix(q.xy,nk+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wHead);}
+if(wHead>0.){float a=-uHead*0.32;vec2 nk=vec2(0.03,0.0);vec2 d=q.xy-nk;q.xy=mix(q.xy,nk+vec2(d.x*cos(a)-d.y*sin(a),d.x*sin(a)+d.y*cos(a)),wHead);}
 transformed=q;`;
 // 꾸미기 팔레트 (첫 번째가 기본색)
-const BASE={k:[226,171,123],h:[119,76,49],s:[227,195,152],p:[142,144,95],o:[145,97,65]};
+const BASE={k:[196,158,136],h:[119,76,49],s:[175,173,171],p:[144,142,141],o:[105,106,106]};
 const PAL={h:{t:'머리색',c:['#774c31','#2b2522','#e0b860','#e7a0b0','#8fb8d8','#c9c6cc','#c8703a']},
   s:{t:'윗옷',c:['#e3c398','#f4f1ea','#a8c8e0','#f0b8c0','#b5dcc5','#f0d890','#4a5a80','#c0463c']},
   p:{t:'바지',c:['#8e905f','#5a7898','#cdb48e','#3a3838','#7a5636','#b0503c']},
   k:{t:'피부',c:['#e2ab7b','#f3cfb4','#d9a27a','#a8724c']},
-  o:{t:'신발',c:['#916141','#f2efe8','#3a3838','#c0463c']}};
-const regionTex=new THREE.TextureLoader().load(window.MODELS.region);regionTex.magFilter=regionTex.minFilter=THREE.NearestFilter;regionTex.generateMipmaps=false;regionTex.flipY=false;
+  o:{t:'신발',c:['#7a5238','#f2efe8','#3a3838','#c0463c']}};
+const regionTex=new THREE.TextureLoader().load('body/region.png?v=2');regionTex.magFilter=regionTex.minFilter=THREE.NearestFilter;regionTex.generateMipmaps=false;regionTex.flipY=false;
 const hex3=(h)=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-function tintFor(key,idx){const c=hex3(PAL[key].c[idx]||PAL[key].c[0]),b=BASE[key];return idx?new THREE.Vector3(...[0,1,2].map(i=>Math.pow(c[i]/b[i],2.2))):new THREE.Vector3(1,1,1);} // 선형 색공간 기준 비율
+function tintFor(key,idx){const c=hex3(PAL[key].c[idx]||PAL[key].c[0]),b=BASE[key];return new THREE.Vector3(...[0,1,2].map(i=>Math.pow(c[i]/b[i],2.2)));} // 선형 색공간 기준 비율
 // 꾸미기: 머리 모양·옷·소품 (모델 위에 붙이는 조각들)
 const HAIRS=['단발보브','똥머리','양갈래','긴생머리','반묶음리본'],OUTFITS=['기본 티셔츠','니트스웨터','멜빵바지','곰귀모자 후드티','체크파자마','망토케이프'],ACCS=[['s','목도리'],['g','안경'],['p','헤드셋']];
+// 새 머리 모델 (훈위안 3D → tools/fitglb.py로 가볍게) · s=크기, p=머리 기준 위치
+const HAIR_GLB={0:{f:'hair/bob.glb?v=3',s:[0.56,0.44,0.56],p:[-0.045,0.41,0]}};const _hairG={};
+function hairGeo(k){const H=HAIR_GLB[k];if(!H)return null;return _hairG[k]||(_hairG[k]=new Promise(res=>new GLTFLoader().load(H.f,g=>{let m;g.scene.traverse(o=>{if(o.isMesh&&!m)m=o;});m.geometry.computeVertexNormals();res(m.geometry);},undefined,()=>res(null))));}
 const Acc={
   mat(c,col){const m=new THREE.MeshLambertMaterial({color:new THREE.Color(col)});if(c.cut)m.clippingPlanes=[c.cut];return m;},
   ball(m,r,x,y,z,sx=1,sy=1,sz=1){const o=new THREE.Mesh(new THREE.SphereGeometry(r,20,14),m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);return o;},
   apply(c,look){const key=[look.hs,look.cl,look.ac,look.h,look.s].join('|');if(c._accK===key)return;c._accK=key;
     (c._acc||[]).forEach(g=>{g.parent&&g.parent.remove(g);g.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});});c._acc=[];
     const hb=c.body.getObjectByName('Head'),sp=c.body.getObjectByName('Spine');if(!hb||!sp)return;
-    const H=new THREE.Group();H.position.set(-0.03,0.02,0);hb.add(H);const S=new THREE.Group();S.position.set(-0.03,0.15,0);sp.add(S);c._acc.push(H,S);
-    const hc=PAL.h.c[look.h]||PAL.h.c[0],hm=this.mat(c,hc),B=this.ball.bind(this);
-    if(look.hs===1){H.add(B(hm,0.15,-0.07,0.41,0,1,0.85,1));const t=new THREE.Mesh(new THREE.TorusGeometry(0.1,0.022,10,24),this.mat(c,'#e8798f'));t.rotation.x=Math.PI/2;t.position.set(-0.06,0.33,0);H.add(t);}
-    else if(look.hs===2){[-1,1].forEach(s=>{H.add(B(this.mat(c,'#e8798f'),0.045,-0.06,0.22,s*0.3));const tl=B(hm,0.085,-0.08,0.05,s*0.34,1,1.9,1);tl.rotation.x=-s*0.18;H.add(tl);H.add(B(hm,0.06,-0.08,-0.12,s*0.36,1,1.2,1));});}
-    else if(look.hs===3){H.add(B(hm,0.25,-0.15,0.02,0,0.5,1.08,0.98));[-1,1].forEach(s=>H.add(B(hm,0.06,0.07,-0.02,s*0.27,0.8,2.6,0.75)));}
-    else if(look.hs===4){H.add(B(hm,0.08,-0.26,0.26,0,1,1,1.2));const rm=this.mat(c,'#e8798f');[-1,1].forEach(s=>{const w=B(rm,0.07,-0.3,0.27,s*0.09,0.5,0.85,1.3);w.rotation.x=s*0.5;H.add(w);});H.add(B(rm,0.035,-0.33,0.27,0));}
-    if(look.cl===3){const sm=this.mat(c,PAL.s.c[look.s]||PAL.s.c[0]),im=this.mat(c,'#f3cfb4');[-1,1].forEach(s=>{H.add(B(sm,0.085,-0.03,0.44,s*0.21,0.7,1,1));H.add(B(im,0.05,0.015,0.445,s*0.21,0.5,0.8,0.8));});}
-    if(look.cl===5){const cm=this.mat(c,'#a8463e');cm.side=THREE.DoubleSide;const g=new THREE.CylinderGeometry(0.16,0.23,0.3,24,1,true,Math.PI*1.12,Math.PI*0.76);const cp=new THREE.Mesh(g,cm);cp.position.set(-0.03,-0.27,0);cp.scale.set(1,1,1.08);S.add(cp);
-      const cl=new THREE.Mesh(new THREE.TorusGeometry(0.15,0.03,10,28),cm);cl.rotation.x=Math.PI/2;cl.position.set(0.0,-0.065,0);cl.scale.set(0.85,1,1);S.add(cl);S.add(B(this.mat(c,'#e0b860'),0.025,0.14,-0.12,0));}
+    const H=new THREE.Group();H.position.set(-0.03,0,0);hb.add(H);const S=new THREE.Group();S.position.set(-0.03,0.2,0);sp.add(S);c._acc.push(H,S);
+    const hc=PAL.h.c[look.h]||PAL.h.c[0],hm=this.mat(c,hc),B=this.ball.bind(this);const hk=HAIR_GLB[look.hs]?look.hs:0;
+    {const HG=HAIR_GLB[hk];hairGeo(hk).then(g=>{if(!g||c._accK!==key)return;const m=this.mat(c,hc);m.vertexColors=true;m.side=THREE.DoubleSide;const o=new THREE.Mesh(g,m);Array.isArray(HG.s)?o.scale.set(...HG.s):o.scale.setScalar(HG.s);o.position.set(...HG.p);o.frustumCulled=false;H.add(o);});}
+    if(look.hs===1&&!HAIR_GLB[1]){H.add(B(hm,0.12,-0.08,0.58,0,1,0.85,1));const t=new THREE.Mesh(new THREE.TorusGeometry(0.1,0.022,10,24),this.mat(c,'#e8798f'));t.rotation.x=Math.PI/2;t.position.set(-0.07,0.5,0);H.add(t);}
+    else if(look.hs===2&&!HAIR_GLB[2]){[-1,1].forEach(s=>{H.add(B(this.mat(c,'#e8798f'),0.04,-0.08,0.3,s*0.3));const tl=B(hm,0.075,-0.1,0.15,s*0.33,1,1.9,1);tl.rotation.x=-s*0.18;H.add(tl);H.add(B(hm,0.055,-0.1,0.0,s*0.35,1,1.2,1));});}
+    else if(look.hs===3&&!HAIR_GLB[3]){H.add(B(hm,0.24,-0.16,0.06,0,0.45,1.0,0.95));[-1,1].forEach(s=>H.add(B(hm,0.06,0.07,-0.02,s*0.27,0.8,2.6,0.75)));}
+    else if(look.hs===4&&!HAIR_GLB[4]){H.add(B(hm,0.07,-0.25,0.33,0,1,1,1.2));const rm=this.mat(c,'#e8798f');[-1,1].forEach(s=>{const w=B(rm,0.065,-0.29,0.34,s*0.085,0.5,0.85,1.3);w.rotation.x=s*0.5;H.add(w);});H.add(B(rm,0.032,-0.32,0.34,0));}
+    if(look.cl===3){const sm=this.mat(c,PAL.s.c[look.s]||PAL.s.c[0]),im=this.mat(c,'#f3cfb4');[-1,1].forEach(s=>{H.add(B(sm,0.075,-0.02,0.46,s*0.15,0.7,1,1));H.add(B(im,0.045,0.02,0.465,s*0.15,0.5,0.8,0.8));});}
+    if(look.cl===5){const cm=this.mat(c,'#a8463e');cm.side=THREE.DoubleSide;const g=new THREE.CylinderGeometry(0.13,0.2,0.28,24,1,true,Math.PI*1.12,Math.PI*0.76);const cp=new THREE.Mesh(g,cm);cp.position.set(0.0,-0.15,0);cp.scale.set(1,1,1.1);S.add(cp);
+      const cl=new THREE.Mesh(new THREE.TorusGeometry(0.12,0.028,10,28),cm);cl.rotation.x=Math.PI/2;cl.position.set(0.03,0.0,0);cl.scale.set(0.9,1,1);S.add(cl);S.add(B(this.mat(c,'#e0b860'),0.022,0.15,-0.03,0));}
     const ac=look.ac||'';
-    if(ac.includes('s')){const m=this.mat(c,'#c9463c'),t=new THREE.Mesh(new THREE.TorusGeometry(0.14,0.05,12,28),m);t.rotation.x=Math.PI/2;t.position.set(0.01,-0.06,0);t.scale.set(0.9,1,1.05);S.add(t);const tl=B(m,0.045,0.13,-0.16,0.07,0.6,1.8,1);tl.rotation.x=0.15;S.add(tl);}
-    if(ac.includes('g')){const m=this.mat(c,'#3a2a24');[-1,1].forEach(s=>{const r=new THREE.Mesh(new THREE.TorusGeometry(0.055,0.011,8,24),m);r.rotation.y=Math.PI/2;r.position.set(0.235,0.04,s*0.085);H.add(r);});
-      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.008,0.008,0.06,6),m);br.rotation.x=Math.PI/2;br.position.set(0.24,0.05,0);H.add(br);}
-    if(ac.includes('p')){const m=this.mat(c,'#f2efe8'),cu=this.mat(c,'#e7a0b0'),a=new THREE.Mesh(new THREE.TorusGeometry(0.34,0.025,10,32,Math.PI),m);a.rotation.y=Math.PI/2;a.position.set(-0.02,0.15,0);H.add(a);
-      [-1,1].forEach(s=>{const q=new THREE.Mesh(new THREE.CylinderGeometry(0.075,0.075,0.05,20),cu);q.rotation.x=Math.PI/2;q.position.set(-0.02,0.12,s*0.33);H.add(q);});}
+    if(ac.includes('s')){const m=this.mat(c,'#c9463c'),t=new THREE.Mesh(new THREE.TorusGeometry(0.115,0.045,12,28),m);t.rotation.x=Math.PI/2;t.position.set(0.03,0.005,0);t.scale.set(0.95,1,1.05);S.add(t);const tl=B(m,0.04,0.14,-0.08,0.06,0.6,1.8,1);tl.rotation.x=0.15;S.add(tl);}
+    if(ac.includes('g')){const m=this.mat(c,'#3a2a24');[-1,1].forEach(s=>{const r=new THREE.Mesh(new THREE.TorusGeometry(0.05,0.01,8,24),m);r.rotation.y=Math.PI/2;r.position.set(0.235,0.17,s*0.095);H.add(r);});
+      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.008,0.008,0.06,6),m);br.rotation.x=Math.PI/2;br.position.set(0.245,0.18,0);H.add(br);}
+    if(ac.includes('p')){const m=this.mat(c,'#f2efe8'),cu=this.mat(c,'#e7a0b0'),a=new THREE.Mesh(new THREE.TorusGeometry(0.27,0.022,10,32,Math.PI),m);a.rotation.y=Math.PI/2;a.position.set(0.0,0.22,0);H.add(a);
+      [-1,1].forEach(s=>{const q=new THREE.Mesh(new THREE.CylinderGeometry(0.075,0.075,0.05,20),cu);q.rotation.x=Math.PI/2;q.position.set(0.0,0.2,s*0.265);H.add(q);});}
   }};
-function setLook(c,look){look=Object.assign({h:0,s:0,p:0,k:0,o:0,hs:0,cl:0,ac:''},look||{});c.look=look;c.u.uOut.value=look.cl||0;if(c.body)Acc.apply(c,look);const t=c.u.uTints.value;t[0].copy(tintFor('k',look.k));t[1].copy(tintFor('h',look.h));t[2].copy(tintFor('s',look.s));t[3].copy(tintFor('p',look.p));t[4].copy(tintFor('o',look.o));}
+function setLook(c,look){look=Object.assign({h:0,s:0,p:0,k:0,o:0,hs:0,cl:0,ac:''},look||{});c.look=look;c.u.uOut.value=look.cl||0;c.u.uSleeve.value=[1,2,1,2,2,1][look.cl||0];c.u.uLongP.value=look.cl===4?1:0;if(c.body)Acc.apply(c,look);const t=c.u.uTints.value;t[0].copy(tintFor('k',look.k));t[1].copy(tintFor('h',look.h));t[2].copy(tintFor('s',look.s));t[3].copy(tintFor('p',look.p));t[4].copy(tintFor('o',look.o));}
 const FABRIC={};['knit','denim','check'].forEach(k=>{const t=new THREE.TextureLoader().load('tex/'+k+'.jpg');t.wrapS=t.wrapT=THREE.RepeatWrapping;FABRIC[k]=t;});
-function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uKnit:{value:FABRIC.knit},uDenim:{value:FABRIC.denim},uCheck:{value:FABRIC.check},uOut:{value:0},uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uKnee:{value:0},uShin:{value:0},uArm:{value:0},uArmR:{value:0},uHead:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
-  m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='varying vec3 vOP;uniform float uPhase;uniform float uWalk;uniform float uSit;uniform float uKnee;uniform float uShin;uniform float uArm;uniform float uArmR;uniform float uHead;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM+'vOP=position;');
-    sh.fragmentShader='varying vec3 vOP;uniform float uOut;uniform sampler2D uKnit;uniform sampler2D uDenim;uniform sampler2D uCheck;uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
-    float rg=texture2D(uRegion,vMapUv).r;vec3 tn=vec3(1.);
+function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uSleeve:{value:1},uLongP:{value:0},uHairHide:{value:0},uKnit:{value:FABRIC.knit},uDenim:{value:FABRIC.denim},uCheck:{value:FABRIC.check},uOut:{value:0},uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uKnee:{value:0},uShin:{value:0},uArm:{value:0},uArmR:{value:0},uHead:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
+  m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='varying vec3 vOP;uniform sampler2D uRegion;uniform float uHairHide;uniform float uPhase;uniform float uWalk;uniform float uSit;uniform float uKnee;uniform float uShin;uniform float uArm;uniform float uArmR;uniform float uHead;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM.replace('vec3 transformed=vec3(position);','vec3 transformed=vec3(position);if(uHairHide>0.5){float rgv=texture2D(uRegion,uv).r;if(rgv>=0.13&&rgv<0.32){vec3 hc=vec3(-0.03,0.13,0.);transformed=hc+(position-hc)*0.45;transformed.y=max(transformed.y,0.1);}}')+'vOP=position;');
+    sh.fragmentShader='varying vec3 vOP;uniform float uSleeve;uniform float uLongP;uniform float uHairHide;uniform float uOut;uniform sampler2D uKnit;uniform sampler2D uDenim;uniform sampler2D uCheck;uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+    float rg=texture2D(uRegion,vMapUv).r;vec3 tn=vec3(1.);float aZ=abs(vOP.z);
+    if(rg<0.13&&uSleeve>0.5&&vOP.y<0.03&&((aZ>0.135&&vOP.y>(uSleeve>1.5?-0.165:-0.085))||(aZ<=0.135&&vOP.y>-0.21&&(aZ>0.08||vOP.y<-0.045)))){float l=dot(diffuseColor.rgb,vec3(.3,.59,.11));diffuseColor.rgb=vec3(0.43)*l/0.40;rg=0.55;}
+    else if(rg<0.13&&uLongP>0.5&&vOP.y<-0.33&&vOP.y>-0.425&&aZ<0.17){float l=dot(diffuseColor.rgb,vec3(.3,.59,.11));diffuseColor.rgb=vec3(0.28)*l/0.40;rg=0.75;}
     if(rg<0.13)tn=uTints[0];else if(rg<0.32)tn=uTints[1];else if(rg<0.45)tn=vec3(1.);else if(rg<0.62)tn=uTints[2];else if(rg<0.87)tn=uTints[3];else tn=uTints[4];
-    diffuseColor.rgb=min(diffuseColor.rgb*tn,vec3(1.));
-    bool shR=rg>=0.45&&rg<0.62,paR=rg>=0.62&&rg<0.87;vec3 pc=min(vec3(0.27,0.28,0.115)*uTints[3],vec3(1.));
+    diffuseColor.rgb=min(diffuseColor.rgb*tn,vec3(1.));if(uHairHide>0.5&&rg>=0.13&&rg<0.32)diffuseColor.rgb=min(vec3(0.76,0.41,0.2)*uTints[0],vec3(1.));
+    bool shR=rg>=0.45&&rg<0.62,paR=rg>=0.62&&rg<0.87;vec3 pc=min(vec3(0.28)*uTints[3],vec3(1.));
     vec2 fu=vec2(vOP.z+vOP.x*0.55,vOP.y);
-    if(uOut>0.5&&uOut<1.5&&shR){diffuseColor.rgb*=mix(1.,texture2D(uKnit,fu*vec2(3.2,1.8)).r*1.25,0.9);if(vOP.y<-0.27)diffuseColor.rgb*=0.88;}
+    if(uOut>0.5&&uOut<1.5&&shR){diffuseColor.rgb*=mix(1.,texture2D(uKnit,fu*vec2(3.2,1.8)).r*1.25,0.9);if(vOP.y<-0.12)diffuseColor.rgb*=0.88;}
     else if(uOut>1.5&&uOut<2.5){float dn=texture2D(uDenim,fu*vec2(4.,2.2)).r*1.25;
-      if(shR&&vOP.x>0.&&(abs(abs(vOP.z)-0.075)<0.022||(vOP.y<-0.205&&abs(vOP.z)<0.098))){diffuseColor.rgb=pc*dn;if(vOP.y>-0.215&&vOP.y<-0.19&&abs(abs(vOP.z)-0.075)<0.016)diffuseColor.rgb=vec3(0.75,0.6,0.3);}
+      if(shR&&vOP.x>0.&&(abs(abs(vOP.z)-0.07)<0.02||(vOP.y<-0.075&&abs(vOP.z)<0.095))){diffuseColor.rgb=pc*dn;if(vOP.y>-0.085&&vOP.y<-0.06&&abs(abs(vOP.z)-0.07)<0.015)diffuseColor.rgb=vec3(0.75,0.6,0.3);}
       else if(paR)diffuseColor.rgb*=mix(1.,dn,0.9);}
-    else if(uOut>2.5&&uOut<3.5&&shR&&vOP.x>0.05&&vOP.y<-0.235&&vOP.y>-0.3&&abs(vOP.z)<0.085)diffuseColor.rgb*=0.84;
+    else if(uOut>2.5&&uOut<3.5&&shR&&vOP.x>0.05&&vOP.y<-0.07&&vOP.y>-0.13&&abs(vOP.z)<0.085)diffuseColor.rgb*=0.84;
     else if(uOut>3.5&&uOut<4.5&&(shR||paR)){diffuseColor.rgb*=clamp(1.+(texture2D(uCheck,fu*vec2(2.2,1.25)).r*1.25-1.)*1.8,0.45,1.25);}
     float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,0.85);`);};
   m.customProgramCacheKey=()=>'villagerDeform';return {m,u};}
@@ -3108,7 +3127,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126p';
+const APP_V='v1127a';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
