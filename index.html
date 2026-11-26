@@ -748,7 +748,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128c</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128d</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1240,9 +1240,9 @@ const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),c
     if(!this.online)return;const D=this.fn;if(this.chatOff)this.chatOff();const since=Date.now()-5000;
     this.chatOff=D.onChildAdded(D.query(D.ref(this.db,'chat/'+netPlace().replace(':','_')),D.limitToLast(15)),s=>{const m=s.val();if(!m)return;const old=(m.ts||0)<since;if(m.uid===this.uid&&!old)return;if(old)return;const c=this.peers.get(m.uid);if(c)say(c,m.text);});},
   chat(text){if(!this.online)return;const D=this.fn;D.push(D.ref(this.db,'chat/'+netPlace().replace(':','_')),{uid:this.uid,name:me.name,text,ts:Date.now()});}};
-function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d.place===netPlace())n++;});}else n+=npcs.length;
+function updateWho(){let n=1;if(Net.online){Net.all.forEach((d,uid)=>{if(uid!==Net.uid&&d&&d.name)n++;});}else n+=npcs.length;
   let k=0;if(placeKey==='library'){const now=Date.now();[me,...Net.peers.values()].forEach(c=>{if(c&&c.fo&&c.fo.e>now)k++;});}
-  const t=n+'명이 '+P.label+'에 있어요',w=document.getElementById('who');if(w.textContent!==t)w.textContent=t;
+  const t='지금 빌리지에 '+n+'명',w=document.getElementById('who');if(w.textContent!==t)w.textContent=t;
   let f=document.getElementById('whoF');if(!f){f=document.createElement('div');f.id='whoF';document.body.appendChild(f);}const ft=k?`🕯 ${k}명이 집중하는 중`:'';if(f.textContent!==ft)f.textContent=ft;f.style.display=k?'block':'none';}
 setInterval(()=>{try{if(me&&P)updateWho();}catch(e){}},2000);
 const LINES={pub:['한 잔 더?','노래 좀 틀어 주지','여기 노을은 안 져','걱정종이 샀어?'],hill:['눈이 공중에 멈춰 있어…','트리 꼭대기 별은 왜 꺼져 있을까','여기선 마을이 다 내려다보여','벤치가 차가워!'],curio:['저 열쇠, 어제부터 혼자 떠다녀','카운터에 조개 가져오면 시간으로 바꿔준대','찻잔이 식질 않네…','이 가게 천장 끝이 어딜까'],home:['아늑하다'],camp:['저기 우리 해변 보인다','텐트 불빛 예쁘다','바람 시원해','어느 자리가 좋을까'],post:['편지 새가 또 날아갔어','서랍이 천장까지 있네…','누구한테 편지 쓸까','창밖 노을 봐'],library:['여기 2층 창가 자리 최고야','벽난로 따뜻하다…','무슨 책 읽어?','쉿, 도서관이야','해먹에서 자고 싶다'],plaza:['오늘 노을 진짜 예쁘다','카페 새 메뉴 나왔대','도서관 2층 자리 좋더라','분수 소리 좋다…','해변 모닥불 갈 사람?'],
@@ -3213,7 +3213,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1128c';
+const APP_V='v1128d';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
