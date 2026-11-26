@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127y</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127z</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -3143,10 +3143,11 @@ setInterval(()=>{try{Fire.tick();}catch(e){}},400);
 // ---- 대화창: 여기(장소) · 테이블(같이 앉은 사람, 참여 선택) · 귓속말(1:1) ----
 const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null,unread:0,declined:null,
   el(){let e=document.getElementById('talk');if(e)return e;e=document.createElement('div');e.id='talk';e.innerHTML='<div class="tabs"></div><div class="body"></div>';document.body.appendChild(e);
-    e.addEventListener('pointerdown',x=>x.stopPropagation());e.addEventListener('pointerup',x=>{x.stopPropagation();const t=x.target.closest('[data-tab]');if(t){this.tab=t.dataset.tab;if(this.tab.startsWith('w:'))this.W[this.tab.slice(2)].un=0;this.render();}const lv=x.target.closest('[data-leave]');if(lv)this.leave();});
+    e.addEventListener('pointerdown',x=>x.stopPropagation());e.addEventListener('pointerup',x=>{x.stopPropagation();const t=x.target.closest('[data-tab]');if(t){if(t.dataset.tab!==this.tab)this.wEnd();this.tab=t.dataset.tab;if(this.tab.startsWith('w:')&&this.W[this.tab.slice(2)])this.W[this.tab.slice(2)].un=0;this.render();}const lv=x.target.closest('[data-leave]');if(lv)this.leave();});
     let b=document.getElementById('talkBtn');if(!b){b=document.createElement('button');b.id='talkBtn';b.innerHTML='💬<em></em>';document.body.appendChild(b);b.addEventListener('pointerdown',x=>x.stopPropagation());b.addEventListener('pointerup',x=>{x.stopPropagation();this.press();});}
     return e;},
-  toggle(v){this.open=v==null?!this.open:v;this.el().classList.toggle('on',this.open);document.body.classList.toggle('talkOn',this.open);const m=document.getElementById('msg');if(this.open){this.unread=0;if(m)m.focus();}else if(m){m.blur();setTimeout(()=>dispatchEvent(new Event('resize')),350);}this.render();},
+  wEnd(){const t=this.tab;if(!t||!t.startsWith('w:'))return;const u=t.slice(2),w=this.W[u];if(!w)return;(Me.d.wCut||(Me.d.wCut={}))[u]=Date.now();Me.save();delete this.W[u];this.tab='place';},
+  toggle(v){const was=this.open;this.open=v==null?!this.open:v;if(was&&!this.open)this.wEnd();this.el().classList.toggle('on',this.open);document.body.classList.toggle('talkOn',this.open);const m=document.getElementById('msg');if(this.open){this.unread=0;if(m)m.focus();}else if(m){m.blur();setTimeout(()=>dispatchEvent(new Event('resize')),350);}this.render();},
   ph(){const m=document.getElementById('msg');if(!m)return;m.placeholder=!this.open?'이웃에게 한마디':this.tab==='table'?'테이블에 한마디':this.tab.startsWith('w:')?`${this.W[this.tab.slice(2)].name}에게 속닥속닥`:'이웃에게 한마디';},
   add(ch,m){const L=ch.startsWith('w:')?(this.W[ch.slice(2)]||(this.W[ch.slice(2)]={name:m.name,msgs:[],un:0})).msgs:this.L[ch];L.push(m);if(L.length>80)L.shift();
     if(!m.mine&&!m.sys){if(!this.open)this.unread++;if(ch.startsWith('w:')&&this.tab!==ch)this.W[ch.slice(2)].un++;}this.render();},
@@ -3188,7 +3189,7 @@ const Talk={open:false,tab:'place',L:{place:[],table:[]},W:{},tb:null,tbOff:null
   peerAt(nx,ny){let best=null,bd=1e9;const hit=(c,uid)=>{const hh=charH(c.y)/SH*100,dx=Math.abs(nx-c.x)*AR;if(dx<3.2&&ny<c.y+1&&ny>c.y-hh){const d=dx+Math.abs(ny-(c.y-hh/2));if(d<bd){bd=d;best=[uid,c];}}};
     Net.peers.forEach((c,uid)=>hit(c,uid));if(!Net.online)npcs.forEach(c=>hit(c,'npc:'+c.name));return best;},
   // 받은 귓속말 (내 우편함에 같이 들어옴)
-  mail(list){list.sort((a,b)=>(a.ts||0)-(b.ts||0));const seen=this._ws||(this._ws=new Set());list.forEach(m=>{if(seen.has(m.id))return;seen.add(m.id);const mine=m.from===Net.uid,u=mine?m.to:m.from,nm=mine?m.toName:m.fromName;Friends.add(u,nm,'w');
+  mail(list){list.sort((a,b)=>(a.ts||0)-(b.ts||0));const seen=this._ws||(this._ws=new Set());const WC=Me.d.wCut||{};list.forEach(m=>{if(seen.has(m.id))return;seen.add(m.id);const mine=m.from===Net.uid,u=mine?m.to:m.from,nm=mine?m.toName:m.fromName;Friends.add(u,nm,'w');if((m.ts||0)<=(WC[u]||0))return;
       const w=this.W[u]||(this.W[u]={name:nm,msgs:[],un:0});const fresh=Date.now()-(m.ts||0)<60000;if(mine&&fresh&&w.msgs.some(x=>x.mine&&x.text===m.text))return;
       w.msgs.push({name:m.fromName,text:m.text,mine:mine?1:0});if(!mine&&fresh){if(!this.open||this.tab!=='w:'+u)w.un++;if(!this.open)this.unread++;toast(`🤫 ${esc(nm)}의 귓속말`,1800);}});this.render();},
   fake(ch,first){const R=['ㅋㅋㅋ 그치','나도 방금 그 생각했어','오 진짜?','여기 노을 좋다','…응','그거 재밌다','잠깐 딴짓함'],nm=ch==='table'?(npcs[0]&&npcs[0].name)||'파도':this.W[ch.slice(2)]&&this.W[ch.slice(2)].name;
@@ -3199,7 +3200,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1127y';
+const APP_V='v1127z';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
