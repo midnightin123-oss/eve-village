@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127z</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128a</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1199,7 +1199,7 @@ const FIREBASE_CONFIG=DEMO?null:{
   storageBucket:"eve-village.firebasestorage.app",
   messagingSenderId:"1028668127265",
   appId:"1:1028668127265:web:c0118c0b3a5cb5b41e0b60"};
-function netPlace(){return placeKey==='home'?'home:'+(Net.uid||'me'):placeKey;}
+function netPlace(){return placeKey==='home'?'home:'+((typeof Home!=='undefined'&&Home.host&&Home.host.uid)||Net.uid||'me'):placeKey;}
 const Net={online:false,uid:null,db:null,fn:null,all:new Map(),peers:new Map(),chatOff:null,lastSync:0,
   sid:Math.random().toString(36).slice(2),
   async init(name,pw,mode){if(!FIREBASE_CONFIG)return {ok:true,offline:true};
@@ -1406,7 +1406,7 @@ let sparkT=0;
 let doorBtn=null,doorFor=null;
 // 장소 이동: 화면이 어두워지며 '어디로 가는 길'이 잠깐 보임
 const PNAME={plaza:'광장',beach:'해변',camp:'절벽 위 들판',home:'내 텐트',hill:'이브의 언덕'};
-const pname=k=>PNAME[k]||(PLACES[k]&&PLACES[k].label)||'';
+const pname=k=>k==='home'&&typeof Home!=='undefined'&&Home.host?Home.host.name+'의 텐트':PNAME[k]||(PLACES[k]&&PLACES[k].label)||'';
 const ro=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;if(c<0||c>11171)return '로';const j=c%28;return (j===0||j===8)?'로':'으로';};
 function travel(cap,sub,go,hold){if(switching)return;switching=true;document.getElementById('fcap').innerHTML=cap?esc(cap)+(sub?`<i>${esc(sub)}</i>`:''):'';fade.classList.toggle('cap',!!cap);fade.style.opacity=1;
   setTimeout(()=>{try{go();}catch(e){reportErr(e,'travel');}setTimeout(()=>{fade.style.opacity=0;fade.classList.remove('cap');switching=false;},120);},hold||(cap?1150:520));}
@@ -1668,7 +1668,7 @@ const FPAL=['#e8584a','#f2a93b','#5aa86b','#4f8fd6','#9a6ad6','#f07fae'];
 function hexN(h){return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];}
 const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:null,
   init(){this.base=PLACES.camp.bld.slice();this.apply();
-    if(Net.online&&!Me.test){const D=Net.fn;D.onValue(D.ref(Net.db,'camp'),s=>{this.claims=s.val()||{};this.apply();});
+    if(Net.online&&!Me.test){const D=Net.fn;D.onValue(D.ref(Net.db,'camp'),s=>{this.claims=s.val()||{};this.apply();if(!this._pub){const m=this.mine();if(m!=null){this._pub=1;if(!this.claims[m].room&&Home.room().items.length)Home.pub();}}});
       D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};const ms=(Me.d&&Me.d.mailSince)||0,all=Object.entries(v).map(([id,m])=>Object.assign({id},m)).filter(m=>(m.ts||0)>=ms);Talk.mail(all.filter(m=>m.k==='w'));this.rn=all.filter(m=>m.k==='rn');if(this.rn.length!==(this._rnN||0)){this._rnN=this.rn.length;try{if(admEl.classList.contains('on'))Admin.render();}catch(e){}}this.hbox=all.filter(m=>m.toH&&m.k!=='rn').sort((a,b)=>(b.ts||0)-(a.ts||0));this.inbox=all.filter(m=>m.k!=='w'&&m.k!=='rn'&&!m.toH).sort((a,b)=>(b.ts||0)-(a.ts||0));this.inbox.forEach(m=>{if(m.k!=='p'&&!m.fromH&&m.fromName)Friends.add(m.from,m.fromName,'mail');});this.count();this.hAlert();});}
     else this.local();},
   local(){this.claims={};const h=Me.d.home;if(h)this.claims[h.id]={uid:'me',name:me?me.name:'나',t:h.t,c:h.c,f:h.f};this.inbox=(Me.d.inbox||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.apply();},
@@ -1733,7 +1733,8 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   tap(id){const cl=this.claims[id],m=this.mine();this.cur=id;
     if(!cl){const b=this.base.find(x=>x.tent===id);this.sel={t:b.t,c:b.c,f:Math.floor(Math.random()*6)};if(m!=null){const h=this.claims[m];this.sel={t:h.t,c:h.c,f:h.f};}this.form(m!=null?'move':'new');return;}
     if(cl.uid===this.myUid())return; // 내 텐트: 앞에 서면 '내 집 들어가기' 버튼
-    this.show(`<div class="hd">${esc(cl.name)}의 텐트</div><div class="say"><b>🍃 바람</b>${esc(cl.name)}의 텐트에서 따뜻한 불빛이 새어 나와. 노크는 곧 할 수 있게 될 거야.</div>`);},
+    this.show(`<div class="hd">${esc(cl.name)}의 텐트</div><div class="say"><b>🍃 바람</b>${cl.room?`${esc(cl.name)}의 텐트에서 따뜻한 불빛이 새어 나와. 살짝 들어가 볼래? 주인이 없어도 구경은 돼.`:`${esc(cl.name)}는 아직 텐트 안을 안 꾸몄나 봐. 꾸미면 놀러 갈 수 있어.`}</div>${cl.room?'<div class="ft"><button class="go" id="visitGo">🚪 놀러 가기</button></div>':''}`);
+    const vg=document.getElementById('visitGo');if(vg)vg.onclick=()=>Home.visit(id);},
   show(h){pstEl.classList.remove('w');pstBody.innerHTML=h;pstEl.classList.add('on');},
   form(mode){const s=this.sel;
     this.show(`<div class="hd">${mode==='edit'?'내 텐트 꾸미기':'빈 텐트 자리'}</div><div class="say"><b>🍃 바람</b>${mode==='new'?'여기 자리가 비어 있어. 마음에 들면 텐트를 쳐봐.':mode==='move'?'이미 다른 자리에 텐트가 있구나. 여기로 옮겨갈래?':'모양이랑 천 색을 바꿔봐.'}</div>
@@ -1748,11 +1749,11 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
   async claim(mode){const id=mode==='edit'?this.mine():this.cur,old=this.mine(),s=this.sel,rec={uid:this.myUid(),name:me.name,t:s.t,c:s.c,f:s.f};
     const btn=pstBody.querySelector('[data-claim]');if(btn)btn.disabled=true;
     if(Net.online&&!Me.test){const D=Net.fn;try{
-        if(mode==='edit'){await D.set(D.ref(Net.db,'camp/'+id),rec);}
+        if(mode==='edit'){const old0=this.claims[id];if(old0&&old0.room)rec.room=old0.room;await D.set(D.ref(Net.db,'camp/'+id),rec);}
         else{const r=await D.runTransaction(D.ref(Net.db,'camp/'+id),cur=>cur?undefined:rec);if(!r.committed){this.show('<div class="hd">앗</div><div class="say"><b>🍃 바람</b>방금 다른 친구가 이 자리에 텐트를 쳤어. 다른 자리를 골라봐.</div>');return;}
           if(old!=null&&old!==id)await D.set(D.ref(Net.db,'camp/'+old),null);}
       }catch(e){console.warn('텐트 저장 실패',e&&e.code,e&&e.message);const den=/permission/i.test(String((e&&e.code)||'')+String((e&&e.message)||''));this.show(`<div class="hd">앗</div><div class="say"><b>🍃 바람</b>바람이 세서 텐트를 못 쳤어. 잠시 뒤에 다시 해봐.</div>`);return;}}
-    Me.d.home={id,t:s.t,c:s.c,f:s.f};if(mode!=='edit')Quest.mark('tent');if(mode!=='edit')Me.log(mode==='move'?'절벽 위 들판에서 새 자리로 텐트를 옮겼다.':'절벽 위 들판에 내 텐트를 쳤다. 이제 여기가 내 자리야.','home');Me.save();
+    Me.d.home={id,t:s.t,c:s.c,f:s.f};setTimeout(()=>Home.pub(),1500);if(mode!=='edit')Quest.mark('tent');if(mode!=='edit')Me.log(mode==='move'?'절벽 위 들판에서 새 자리로 텐트를 옮겼다.':'절벽 위 들판에 내 텐트를 쳤다. 이제 여기가 내 자리야.','home');Me.save();
     if(!(Net.online&&!Me.test))this.local();
     Post.close();Snd.syn('tap');if(mode!=='edit'){Snd.sfx('bell');setTimeout(()=>say(me,mode==='move'?'새 자리 좋다!':'여기가 내 자리야!'),300);}},
   // 편지새가 날아와 내 우체통에 우편물을 두고 감 (테스트: 관리자 '우편물 도착')
@@ -1946,9 +1947,9 @@ const Bench={
 const HVIEWS=['sea','forest','sky'],HVIEWN={sea:'바다',forest:'숲',sky:'하늘'};
 const HOME_KINDS=['bed','shelf','rack','lamp','stove','rug','table','chair','armchair','side','plant'];
 const HENT=[40,91,60,100]; // 입구 앞은 비워둠
-const Home={edit:false,sel:null,drag:null,
-  room(){let R=Me.d.room;if(!R||R.ver!==3)R=Me.d.room={ver:3,items:[],inv:[{k:'bed'},{k:'rug'},{k:'lamp'},{k:'win',v:'sea'}]};R.inv=R.inv||[];return R;},
-  shelf(){const R=this.room();return R.shelf||(R.shelf={});},
+const Home={edit:false,sel:null,drag:null,host:null,
+  room(){if(this.host)return this.host.R;let R=Me.d.room;if(!R||R.ver!==3)R=Me.d.room={ver:3,items:[],inv:[{k:'bed'},{k:'rug'},{k:'lamp'},{k:'win',v:'sea'}]};R.inv=R.inv||[];return R;},
+  shelf(){if(this.host)return this.host.R.shelf||{};const R=this.room();return R.shelf||(R.shelf={});},
   nm(o){return o.k==='win'?josa(HVIEWN[o.v||'sea'],'이','가')+' 보이는 창':FURN[o.k].n;},
   U0(){return PLACES.home.size*(0.78+0.45*0.7)*150;}, // 캐릭터 키를 가로 %로
   view(o){const F=FURN[o.k],r=F.rot[(o.d||0)%F.rot.length];return {side:r[0]==='s',flip:!!r[1]};},
@@ -1977,7 +1978,7 @@ const Home={edit:false,sel:null,drag:null,
       if(F.wall){bld.push({img:'h_win_'+(o.v||'sea'),cx:o.x,by:o.y,w:d.w,fp:[[o.x,o.y]],z:o.y,noShadow:1,ho:o});continue;}
       const b={img:'h_'+o.k+(v.side?'_s':''),cx:o.x,by:o.y,w:d.sw,fp:[[o.x,o.y]],flip:v.flip,ho:o};
       if(F.flat){b.z=-50;b.noShadow=1;}
-      if(F.use){b.door=[o.x,+Math.min(98,o.y+3.5).toFixed(2)];b.use=F.use;}
+      if(F.use&&!this.host){b.door=[o.x,+Math.min(98,o.y+3.5).toFixed(2)];b.use=F.use;}
       // 수집 선반(정면): 진열한 물건을 칸마다 올려 보여줌 (3단 × 3칸)
       if(o.k==='shelf'&&!v.side){const S=Object.keys(this.shelf()).filter(id=>this.shelf()[id]>0&&ITEMS[id]).slice(0,9),HH=d.sw*F.ar*(2/3);
         S.forEach((id,i)=>{const px=[120,213,306][i%3],py=[203,328,447][Math.floor(i/3)];window.MAPS['b_it_'+id]=window.MAPS['b_it_'+id]||'items/'+id+'.webp';
@@ -1997,10 +1998,16 @@ const Home={edit:false,sel:null,drag:null,
     for(let j=0;j<gy;j++)for(let i=0;i<gx;i++){const x=(i+0.5)/gx*100,y=(j+0.5)/gy*100;let ok=inPoly(x,y,poly)||(y>97&&x>42&&x<58);
       if(ok)for(const b of blk)if(x>b[0]&&x<b[2]&&y>b[1]&&y<b[3]){ok=false;break;}g[j*gx+i]=ok?1:0;}
     GRID.home=g;GDIM.home=[gx,gy];if(placeKey==='home')useGrid('home');},
-  go(){const id=Camp.mine();if(id==null)return;const b=Camp.base.find(x=>x.tent===id);Post.close();if(switching)return;
+  // 친구 텐트 구경: 친구가 꾸민 걸 공개 자리(camp/<자리>/room)에서 읽어 와서 그대로 보여 줌
+  pub(){if(!ONL()||Me.test||this.host)return;const id=Camp.mine();if(id==null)return;const R=this.room();try{const D=Net.fn;D.set(D.ref(Net.db,'camp/'+id+'/room'),JSON.stringify({items:R.items,shelf:R.shelf||{}})).catch(e=>console.warn('텐트 공개 실패',e&&e.code));}catch(e){}},
+  visit(id){const cl=Camp.claims[id];if(!cl||!cl.room)return;let R;try{R=JSON.parse(cl.room);}catch(e){return;}R.inv=[];R.items=(R.items||[]).filter(o=>FURN[o.k]);
+    const b=Camp.base.find(x=>x.tent===id);Post.close();if(switching)return;this.host={uid:cl.uid,name:cl.name,R};
+    PLACES.home.exits=[{poly:[[42,97.8],[58,97.8],[58,99.8],[42,99.8]],to:'camp',spawn:b.door,face:[b.door[0],b.door[1]+10]}];
+    Snd.sfx('creak');travel(cl.name+'의 텐트로',null,()=>{P=PLACES.home;this.build();enter('home',[50,93],[50,60]);Me.log(`${cl.name}의 텐트에 놀러 갔다.`,'visit_'+cl.uid);setTimeout(()=>think(rnd([`${cl.name}네 텐트, 생각보다 아늑하다.`,`여기가 ${cl.name}네구나. 남의 집은 왜 더 좋아 보일까.`,`${cl.name}네 텐트 구경 중. 만지지는 말자.`])),900);},900);},
+  go(){this.host=null;const id=Camp.mine();if(id==null)return;const b=Camp.base.find(x=>x.tent===id);Post.close();if(switching)return;
     PLACES.home.exits=[{poly:[[42,97.8],[58,97.8],[58,99.8],[42,99.8]],to:'camp',spawn:b.door,face:[b.door[0],b.door[1]+10]}];
     Snd.sfx('creak');travel('내 텐트 안으로',null,()=>{P=PLACES.home;this.build();enter('home',[50,93],[50,60]);},900);},
-  onEnter(){const on=placeKey==='home';document.getElementById('decoBtn').style.display=on?'block':'none';if(!on&&this.edit)this.stop(true);if(on&&!this.room().items.length)setTimeout(()=>{if(placeKey==='home'&&!this.edit)say(me,'텅 비었네. 꾸미기를 눌러 가구를 놓아볼까?');},700);},
+  onEnter(){const on=placeKey==='home';if(!on&&this.host){this.host=null;}document.getElementById('decoBtn').style.display=on&&!this.host?'block':'none';if(!on&&this.edit)this.stop(true);if(on&&!this.host&&!this.room().items.length)setTimeout(()=>{if(placeKey==='home'&&!this.edit)say(me,'텅 비었네. 꾸미기를 눌러 가구를 놓아볼까?');},700);},
   /* ---- 편지꽂이: 받은 편지를 꽂아 보관 · 수집 선반: 물건 진열 겸 보관 ---- */
   rack(){const on=Camp.onRack(),bag=Camp.inBag().filter(m=>m.k==='l'||m.k==='p');
     const row=(m,btns)=>`<div class="row${m.read?'':' new'}">${icImg(m.k,34)}<div class="t">${esc(Camp.mname(m))}<i>${esc((m.text||'').slice(0,30))}</i></div>${btns}</div>`;
@@ -2012,7 +2019,7 @@ const Home={edit:false,sel:null,drag:null,
     pstBody.querySelectorAll('[data-ro]').forEach(b=>b.onclick=()=>{Camp.unSt(F(b.dataset.ro),'rk');Snd.syn('tap');this.rack();});
     pstBody.querySelectorAll('[data-ri]').forEach(b=>b.onclick=()=>{Camp.setSt(F(b.dataset.ri),'rk');Snd.syn('tap');this.rack();});
     const a=pstBody.querySelector('[data-rall]');if(a)a.onclick=()=>{bag.forEach(m=>Camp.setSt(m,'rk'));Snd.syn('tap');this.rack();};},
-  shelfUpd(){this.build();buildOcc();buildSeats();buildFx();Me.save();},
+  shelfUpd(){this.build();buildOcc();buildSeats();buildFx();Me.save();this.pub();},
   shelfPanel(){const S=this.shelf(),on=Object.keys(S).filter(id=>S[id]>0&&ITEMS[id]),bag=Object.keys(Me.d.bag||{}).filter(id=>Me.d.bag[id]>0&&ITEMS[id]),tot=on.reduce((a,id)=>a+S[id],0);
     const sv=this.room().items.find(o=>o.k==='shelf'),side=sv&&this.view(sv).side;
     Camp.show(`<div class="hd">수집 선반</div><div class="sub" style="margin-bottom:8px">${side?'옆으로 돌려둔 선반이라 진열은 안 보여. 보관은 그대로 돼.':'올려둔 물건은 앞에서부터 9가지가 선반에 보여.'} 가방이 꽉 차면 여기 보관해.</div>
@@ -2030,7 +2037,7 @@ const Home={edit:false,sel:null,drag:null,
     f.style.left='0px';f.style.top='0px';f.style.width=SW+'px';f.style.height=SH+'px';
     w.style.left=(HWALL.x0/100*SW)+'px';w.style.top=(HWALL.y0/100*SH)+'px';w.style.width=((HWALL.x1-HWALL.x0)/100*SW)+'px';w.style.height=((HWALL.y1-HWALL.y0)/100*SH)+'px';},
   stop(silent){this.edit=false;this.sel=null;this.drag=null;document.body.classList.remove('deco');['hFloor','hWall','hHi'].forEach(i=>{const e=document.getElementById(i);if(e)e.remove();});
-    document.getElementById('homeBar').classList.remove('on');this.build();buildOcc();buildSeats();buildFx();Me.save();if(!silent){document.getElementById('decoBtn').style.display=placeKey==='home'?'block':'none';Me.log('텐트 안을 내 마음대로 꾸몄다.','deco');}},
+    document.getElementById('homeBar').classList.remove('on');this.build();buildOcc();buildSeats();buildFx();Me.save();this.pub();if(!silent){document.getElementById('decoBtn').style.display=placeKey==='home'?'block':'none';Me.log('텐트 안을 내 마음대로 꾸몄다.','deco');}},
   bar(){const R=this.room(),el=document.getElementById('homeBar'),o=this.sel,F=o&&FURN[o.k],tid=Camp.mine();
     if(o||tid==null)this.tab='furn';
     const tabs=tid!=null?`<div class="htab"><button data-tab="furn"${this.tab!=='tent'?' class="on"':''}>가구</button><button data-tab="tent"${this.tab==='tent'?' class="on"':''}>텐트 겉모습</button></div>`:'';
@@ -3200,7 +3207,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1127z';
+const APP_V='v1128a';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
