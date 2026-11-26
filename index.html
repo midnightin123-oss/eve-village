@@ -737,7 +737,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126e</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126f</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1412,13 +1412,14 @@ const Res={list:[],at:0,
   reg(){if(!Net.online||!me)return;const D=Net.fn;D.set(D.ref(Net.db,'residents/'+Net.uid),{name:me.name,ts:D.serverTimestamp()}).catch(e=>console.warn('주민 등록 실패',e&&e.code));},
   async load(){if(Net.online&&Date.now()-this.at>60000){try{const D=Net.fn;const v=(await D.get(D.ref(Net.db,'residents'))).val()||{};
       this.list=Object.entries(v).filter(([u,r])=>u!==Net.uid&&r&&r.name).map(([u,r])=>({uid:u,name:String(r.name)})).sort((a,b)=>a.name.localeCompare(b.name,'ko'));this.at=Date.now();}catch(e){console.warn('주민 목록 읽기 실패',e&&e.code);}}
-    if(!this.list.length&&(Me.test||!Net.online))return [{uid:'demoH',name:H_NAME},{uid:'demo1',name:'연습 이웃'},{uid:'demo2',name:'연습 이웃2'}].filter(r=>!me||r.name!==me.name);return (me&&me.name===H_NAME&&Me.d.asRes&&!this.list.some(r=>r.name===H_NAME))?[{uid:Net.online?Net.uid:'demoH',name:H_NAME}].concat(this.list):this.list;}};
+    if(!this.list.length&&(Me.test||!Net.online))return [{uid:'demoH',name:H_NAME},{uid:'demo1',name:'연습 이웃'},{uid:'demo2',name:'연습 이웃2'}].filter(r=>!me||r.name!==me.name);const L=(me&&me.name===H_NAME&&Me.d.asRes&&!this.list.some(r=>r.name===H_NAME))?[{uid:Net.online?Net.uid:'demoH',name:H_NAME}].concat(this.list):this.list.slice();
+    return L.sort((a,b)=>(b.name===H_NAME)-(a.name===H_NAME));}};
 const Mail={
   async deliver(d){if(Me.test||!Net.online||String(d.to).startsWith('demo')){const ib=Me.d.inbox||(Me.d.inbox=[]);if(d.to!=='demoH')ib.push({id:'t'+Date.now(),k:d.k,from:'demo1',fromName:'연습 이웃',pen:d.k==='p'?'바닷바람':undefined,text:d.text||'',items:d.k==='c'?d.items:undefined,ts:Date.now()});if(ib.length>30)ib.shift();if(typeof Camp!=='undefined'&&Camp.base)Camp.local();return true;}const D=Net.fn;
     const r={k:d.k,from:Net.uid,text:d.text||'',ts:D.serverTimestamp()};if(d.k==='p'){r.pen=d.pen;if(d.re)r.re=true;}else r.fromName=me.name;if(d.k==='c')r.items=d.items;
     try{await D.push(D.ref(Net.db,'mail/'+d.to),r);return true;}catch(e){console.warn('편지 배달 실패',e&&e.code);return false;}},
   done(d){const P=postD();P.dr=P.dr.filter(x=>x!==d);P.sent.unshift({k:d.k,to:d.k==='p'?'':d.toName,t:Date.now(),s:(d.text||'').slice(0,30)});P.sent=P.sent.slice(0,30);
-    if(d.k==='l')Me.log(`우체국에서 ${d.toName}에게 편지를 부쳤다.`,'ml_'+d.to);
+    if(d.k==='l')Me.log(`우체국에서 ${d.toName===H_NAME?'H':d.toName}에게 편지를 부쳤다.`,'ml_'+d.to);
     if(d.k==='l'&&d.toName===H_NAME&&Quest.on()){const fst=!Quest.q().ev.mail;Quest.mark('mail');if(fst)Quest.reply();}
     else if(d.k==='c')Me.log(`우체국에서 ${d.toName}에게 소포를 부쳤다.`,'mc_'+d.to);
     else Me.log('우체국 창가에서 펜팔 편지를 바람에 날려 보냈다.','mp');Me.save();},
@@ -1432,7 +1433,7 @@ const OWLP={counter:['부엉. 우표가 필요하니, 아니면 부칠 편지가
   desk:['편지지는 넉넉하단다. 천천히 써 보렴.','깃펜이 오늘따라 잘 써지는구나.'],
   window:['창밖 바람이 오늘따라 다정하구나. 펜팔 편지를 날려 보낼 테냐?','바람은 늘 누군가에게로 불어간단다.']};
 const BOXL={shell_w:'하얀 조개구나. 받는 이가 귀에 대면 파도 소리가 날 게다.',shell_p:'분홍 조개라… 노을 한 조각을 보내는 셈이구나.',shell_v:'보라 조개는 귀하지. 상자 한가운데 두마.',wood:'유목이로구나. 바다 냄새가 상자 가득 배겠어.',glass_g:'초록 바다유리. 햇빛에 비춰 보라고 쪽지에 적어주렴.',conch:'소라 껍데기라니, 새들이 무겁다고 투덜대겠구나, 부엉.',glass_b:'파란 바다유리… 받는 이가 한참 들여다보겠구나.',star:'불가사리는 모서리에 닿지 않게 솜을 넣어주마.',pearl:'진주를 보내다니! 아주 소중한 사람인가 보구나.',bottle:'병 속 편지라… 주인을 찾아가는 물건이지. 잘 생각했다.'};
-const mailDesc=d=>d.re?`${d.k==='p'?(d.toPen||'펜팔 친구'):(d.toName||'이웃')}에게 보낼 답장`:d.k==='p'?`펜팔 편지 · ${d.pen}`:`${d.toName}에게 갈 ${d.k==='c'?'소포':'편지'}`;
+const mailDesc=d=>d.re?`${d.k==='p'?(d.toPen||'펜팔 친구'):(d.toName||'이웃')}에게 보낼 답장`:d.k==='p'?`펜팔 편지 · ${d.pen}`:`${d.toName===H_NAME?'H':d.toName}에게 갈 ${d.k==='c'?'소포':'편지'}`;
 const mailSub=d=>d.k==='c'?'담은 것: '+Object.entries(d.items).map(([id,n])=>ITEMS[id].name+' '+n).join(', '):(d.text||'');
 // 시간 치르기 연출: 회중시계가 튀어나와 째깍째깍 줄어들고, 금빛 모래가 흘러감
 const Pay={async fx(n,toEl){const from=Me.d.sec||0;if(from<n)return false;const host=document.getElementById('pst').classList.contains('on')?document.querySelector('#pst .card'):document.body;
@@ -1458,7 +1459,7 @@ const Post={mode:'counter',tab:'l',line:'',box:{},draft:{},cur:-1,
   tray(filter,stamps){const P=postD(),dr=P.dr;const L=dr.map((d,i)=>[d,i]).filter(([d])=>!filter||filter(d));
     const S=stamps?[['n','일반 우표'],['p','펜팔 우표']].filter(([k])=>P.st[k]>0):[];
     return `<div class="tray">${L.map(([d,i])=>`<button class="mi${this.cur===i&&this.mode!=='desk'?' on':''}" data-m="${i}" title="${esc(mailDesc(d))}">${icImg(d.k,40)}${d.st?'<em>✓</em>':''}${d.q?'<em class="q">…</em>':''}</button>`).join('')}${S.length?'<span class="dv"></span>':''}${S.map(([k,n])=>`<button class="mi st" data-s="${k}" title="${n}">${icImg(k==='p'?'sp':'n',40)}<em class="c">${P.st[k]}</em></button>`).join('')}${!L.length&&!S.length?'<span class="sub">아직 없어</span>':''}</div>`;},
-  sel(){return `<select id="pTo">${this.res.length?this.res.map(r=>`<option value="${esc(r.uid)}"${this.draft.to===r.uid?' selected':''}>${esc(r.name)}</option>`).join(''):'<option value="">아직 다른 주민이 없어</option>'}</select>`;},
+  sel(){return `<select id="pTo">${this.res.length?this.res.map(r=>`<option value="${esc(r.uid)}"${this.draft.to===r.uid?' selected':''}>${r.name===H_NAME?'✉️ H':esc(r.name)}</option>`).join(''):'<option value="">아직 다른 주민이 없어</option>'}</select>`;},
   bench(d){// 고른 우편물을 크게 올려두는 작업대
     const st=d.k==='p'?'sp':'n';
     let h=`<div class="bench"><div class="big${d.k==='c'?' box':''}">${icImg(d.k,160)}${d.k!=='c'?`<div class="slot${d.st?' full':''}">${d.st?icImg(st,46,'stuck'):'<span>우표 자리</span>'}</div>`:''}${d.pm?`<div class="pm${this.slam?' slam':''}">${icImg('pm',60)}<b>${esc(d.pm)}</b></div>`:''}</div>
@@ -1984,7 +1985,7 @@ const Case={
   has(c,n){return !!this.D().cl[c.id+'-'+n];},
   got(c){return [1,2,3].filter(n=>this.has(c,n));},
   give(c,n,from){const D=this.D(),k=c.id+'-'+n;if(D.cl[k])return false;D.cl[k]={f:from||'',t:Date.now()};Me.save();
-    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>think('실마리가 셋 다 모였어! 수첩 수수께끼 칸에서 맞춰 보자.',['수첩 열기',()=>Note.open('mys')]),900);}
+    if(this.got(c).length===3&&!D.done[c.id]){D.done[c.id]=Date.now();Me.save();Me.log(`실마리 세 개가 맞춰졌다. ${c.concl}`,'cs'+c.id+'_x');setTimeout(()=>think('실마리가 셋 다 모였어! 수첩 수수께끼 칸에서 맞춰 보자.'),900);}
     if(Note.on)Note.render();return true;},
   set(st){const D=this.D();D.st=st;Me.save();this.badge();this.marks();},
   paid(){const D=this.D();return !!(D.pp&&D.pp[this.C().id]);},
@@ -2111,7 +2112,7 @@ const Tut={lock:false,step:0,
     csBody.querySelector('[data-a=ok]').onclick=()=>{const q=Quest.q(true),now=Date.now();if(n===1){postD().st.n+=1;q.got=q.got||now;}q.days[n]={got:now,d:{},pick:0};const t=Me.d.tut||(Me.d.tut={});t.done=1;Me.save();
       Me.log(`편지새가 H의 쪽지를 물어다 줬다. ${Q.day}이 세 가지 적혀 있었다.`,'q_note'+n);Case.close();
       if(OPEN_N[n])setTimeout(()=>think(`어? ${OPEN_N[n][1]} 문이 열렸네. 가 볼까?`),400);
-      if(n===1)think('어? 가방에 우표가 한 장 생겼네. 열어 볼까?',['가방 열기',()=>Bag.open()]);
+      if(n===1)think('어? 가방에 우표가 한 장 생겼네. 열어 볼까?');
       this.step=0;setTimeout(()=>{Quest.retro(n);Note.open('req');if(n===1)setTimeout(()=>Coach.note(),350);},n===1?2900:600);};},
   // 이미 가입했던 주민도 처음 들어오면 쪽지를 받게 (현디는 테스트 모드에서만)
   resume(){if(!Me.ready||!me){setTimeout(()=>this.resume(),600);return;}if(isHR())return;if(Quest.cur()){Quest.check();return;}setTimeout(()=>{if(!Quest.cur()&&!this._g)this.bird(1);},3000);}};
@@ -3014,7 +3015,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126e';
+const APP_V='v1126f';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
