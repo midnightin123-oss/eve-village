@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127b</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127c</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -959,7 +959,7 @@ function tintFor(key,idx){const c=hex3(PAL[key].c[idx]||PAL[key].c[0]),b=BASE[ke
 // 꾸미기: 머리 모양·옷·소품 (모델 위에 붙이는 조각들)
 const HAIRS=['단발보브','똥머리','양갈래','긴생머리','반묶음리본'],OUTFITS=['기본 티셔츠','니트스웨터','멜빵바지','곰귀모자 후드티','체크파자마','망토케이프'],ACCS=[['s','목도리'],['g','안경'],['p','헤드셋']];
 // 새 머리 모델 (훈위안 3D → tools/fitglb.py로 가볍게) · s=크기, p=머리 기준 위치
-const HAIR_GLB={0:{f:'hair/bob.glb?v=4',s:1.05,p:[0.001,-0.0125,0]}};const _hairG={};
+const HAIR_GLB={0:{f:'hair/bob.glb?v=4',s:1.05,p:[0.001,-0.0125,0]},1:{f:'hair/bun.glb?v=4',s:1.05,p:[0.001,-0.0125,0]},3:{f:'hair/long.glb?v=1',s:1.05,p:[0.001,-0.0125,0]}};const _hairG={};
 function hairGeo(k){const H=HAIR_GLB[k];if(!H)return null;return _hairG[k]||(_hairG[k]=new Promise(res=>new GLTFLoader().load(H.f,g=>{let m;g.scene.traverse(o=>{if(o.isMesh&&!m)m=o;});m.geometry.computeVertexNormals();res(m.geometry);},undefined,()=>res(null))));}
 const Acc={
   mat(c,col){const m=new THREE.MeshLambertMaterial({color:new THREE.Color(col)});if(c.cut)m.clippingPlanes=[c.cut];return m;},
@@ -968,7 +968,7 @@ const Acc={
     (c._acc||[]).forEach(g=>{g.parent&&g.parent.remove(g);g.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});});c._acc=[];
     const hb=c.body.getObjectByName('Head'),sp=c.body.getObjectByName('Spine');if(!hb||!sp)return;
     const H=new THREE.Group();H.position.set(-0.03,0,0);hb.add(H);const S=new THREE.Group();S.position.set(-0.03,0.2,0);sp.add(S);c._acc.push(H,S);
-    const hc=PAL.h.c[look.h]||PAL.h.c[0],hm=this.mat(c,hc),B=this.ball.bind(this);const hk=HAIR_GLB[look.hs]?look.hs:0;
+    const hc=PAL.h.c[look.h]||PAL.h.c[0],hm=this.mat(c,hc),B=this.ball.bind(this);const hk=HAIR_GLB[look.hs]?look.hs:0;c.u.uHairHide.value=1;
     {const HG=HAIR_GLB[hk];hairGeo(hk).then(g=>{if(!g||c._accK!==key)return;const m=this.mat(c,hc);m.vertexColors=true;m.side=THREE.DoubleSide;const o=new THREE.Mesh(g,m);Array.isArray(HG.s)?o.scale.set(...HG.s):o.scale.setScalar(HG.s);o.position.set(...HG.p);o.frustumCulled=false;H.add(o);});}
     if(look.hs===1&&!HAIR_GLB[1]){H.add(B(hm,0.12,-0.08,0.58,0,1,0.85,1));const t=new THREE.Mesh(new THREE.TorusGeometry(0.1,0.022,10,24),this.mat(c,'#e8798f'));t.rotation.x=Math.PI/2;t.position.set(-0.07,0.5,0);H.add(t);}
     else if(look.hs===2&&!HAIR_GLB[2]){[-1,1].forEach(s=>{H.add(B(this.mat(c,'#e8798f'),0.04,-0.08,0.3,s*0.3));const tl=B(hm,0.075,-0.1,0.15,s*0.33,1,1.9,1);tl.rotation.x=-s*0.18;H.add(tl);H.add(B(hm,0.055,-0.1,0.0,s*0.35,1,1.2,1));});}
@@ -987,7 +987,7 @@ const Acc={
 function setLook(c,look){look=Object.assign({h:0,s:0,p:0,k:0,o:0,hs:0,cl:0,ac:''},look||{});c.look=look;c.u.uOut.value=look.cl||0;c.u.uSleeve.value=[1,2,1,2,2,1][look.cl||0];c.u.uLongP.value=look.cl===4?1:0;if(c.body)Acc.apply(c,look);const t=c.u.uTints.value;t[0].copy(tintFor('k',look.k));t[1].copy(tintFor('h',look.h));t[2].copy(tintFor('s',look.s));t[3].copy(tintFor('p',look.p));t[4].copy(tintFor('o',look.o));}
 const FABRIC={};['knit','denim','check'].forEach(k=>{const t=new THREE.TextureLoader().load('tex/'+k+'.jpg');t.wrapS=t.wrapT=THREE.RepeatWrapping;FABRIC[k]=t;});
 function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uSleeve:{value:1},uLongP:{value:0},uHairHide:{value:0},uKnit:{value:FABRIC.knit},uDenim:{value:FABRIC.denim},uCheck:{value:FABRIC.check},uOut:{value:0},uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uKnee:{value:0},uShin:{value:0},uArm:{value:0},uArmR:{value:0},uHead:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
-  m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='varying vec3 vOP;uniform sampler2D uRegion;uniform float uHairHide;uniform float uPhase;uniform float uWalk;uniform float uSit;uniform float uKnee;uniform float uShin;uniform float uArm;uniform float uArmR;uniform float uHead;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM.replace('vec3 transformed=vec3(position);','vec3 transformed=vec3(position);if(uHairHide>0.5){float rgv=texture2D(uRegion,uv).r;if(rgv>=0.13&&rgv<0.32){vec3 hc=vec3(-0.03,0.13,0.);transformed=hc+(position-hc)*0.45;transformed.y=max(transformed.y,0.1);}}')+'vOP=position;');
+  m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='varying vec3 vOP;uniform sampler2D uRegion;uniform float uHairHide;uniform float uPhase;uniform float uWalk;uniform float uSit;uniform float uKnee;uniform float uShin;uniform float uArm;uniform float uArmR;uniform float uHead;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM.replace('vec3 transformed=vec3(position);','vec3 transformed=vec3(position);if(uHairHide>0.5&&position.y>0.28){vec3 hc=vec3(0.,0.25,0.);transformed=hc+(position-hc)*(1.-0.09*smoothstep(0.28,0.36,position.y));}')+'vOP=position;');
     sh.fragmentShader='varying vec3 vOP;uniform float uSleeve;uniform float uLongP;uniform float uHairHide;uniform float uOut;uniform sampler2D uKnit;uniform sampler2D uDenim;uniform sampler2D uCheck;uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
     float rg=texture2D(uRegion,vMapUv).r;vec3 tn=vec3(1.);float aZ=abs(vOP.z);
     if(rg<0.13&&uSleeve>0.5&&vOP.y<0.03&&((aZ>0.135&&vOP.y>(uSleeve>1.5?-0.165:-0.085))||(aZ<=0.135&&vOP.y>-0.21&&(aZ>0.08||vOP.y<-0.045)))){float l=dot(diffuseColor.rgb,vec3(.3,.59,.11));diffuseColor.rgb=vec3(0.43)*l/0.40;rg=0.55;}
@@ -3127,7 +3127,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1127b';
+const APP_V='v1127c';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
