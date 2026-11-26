@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127s</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1127t</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1893,7 +1893,7 @@ Object.entries(DECO).forEach(([k,d])=>{FURN[k]={n:d[0],sw:k==='starlights'?0.5:0
 // 옷은 만물상에서 하나씩 (day=그날부터 진열). 니트·멜빵·파자마는 3D 오면 추가
 // 색까지 정해서 파는 옷 (같은 옷을 색만 바꿔 또 팔 수 있게). cl=옷 모양, col=색
 const OUT_SHOP={hood_brown:{cl:3,col:'#8a5a3c',nm:'갈색 곰돌이귀 후드',p:32,day:2,line:'곰 귀 달린 후드야. 쓰면 곰이 되는 건 아니고, 곰 같아지긴 해.'},
-  cape_red:{cl:5,col:'#b8453c',nm:'빨간 망토',p:28,day:4,line:'망토야. 날 수는 없어. 그래도 날 것 같은 기분은 공짜로 줄게.'}};
+  cape_red:{off:1,cl:5,col:'#b8453c',nm:'빨간 망토',p:28,day:4,line:'망토야. 날 수는 없어. 그래도 날 것 같은 기분은 공짜로 줄게.'}};
 function ownCl(v){if(!v)return true;const L=Me.d.clo;return Array.isArray(L)?L.includes(v):!!(L&&Object.values(L).includes(v));}
 const RBENCH_SLOT=[[80,68.9],[82.7,74],[85.4,64.1],[87.9,68.4]]; // 미스터리 · 옷 · 잡다구리 2 (가방 버튼에 안 가리게 위쪽만)
 // 만물상 왼쪽 벤치: 가구 진열 (뒷단 고정 4 + 앞단 날마다 4)
@@ -1918,7 +1918,7 @@ const Bench={
   apply(){const L=BENCH_FIX.concat(this.today()),SO=this.sold();
     PLACES.curio.bld=L.map((k,i)=>{if(SO.includes(k))return null;const [x,y]=BENCH_SLOT[i],kk=k.split(':')[0],sw=Math.min(FURN[kk].sw,1.1),w=(6.4+(y-63)*0.2)*(0.62+0.42*sw)*(kk==='win'?0.85:1),key='fx_'+k.replace(':','_');
       window.MAPS['b_'+key]=this.img(k);return {img:key,cx:x,by:y,w:BENCH_SIDE[kk]?w*0.85:w,z:y,fp:[[x-w/2,y-1],[x+w/2,y]],furn:k,rot:i>=4,noShadow:1,flip:!!BENCH_SIDE[kk]};}).filter(Boolean);
-    const T=this.rtoday(),day=(Quest.cur&&Quest.cur()||0)+1,oc=Object.keys(OUT_SHOP).filter(i=>OUT_SHOP[i].day<=day&&!ownCl(i)),RL=[{k:'myst',img:this.myst()}].concat(oc.slice(0,1).map(i=>({k:'out'+i,img:'out',cl:i}))).concat(T.map(k=>({k})));RL.length=4;
+    const T=this.rtoday(),day=(Quest.cur&&Quest.cur()||0)+1,oc=Object.keys(OUT_SHOP).filter(i=>!OUT_SHOP[i].off&&OUT_SHOP[i].day<=day&&!ownCl(i)),RL=[{k:'myst',img:this.myst()}].concat(oc.slice(0,1).map(i=>({k:'out'+i,img:'out',cl:i}))).concat(T.map(k=>({k})));RL.length=4;
     RL.forEach((o,i)=>{if(!o||SO.includes(o.k))return;const [x,y]=RBENCH_SLOT[i],im=o.img||o.k,ar=o.img==='out'?1:o.img?(o.img==='cloth_gear'?0.797:1.075):DECO[o.k][3],w=(5+(y-63)*0.16)*(o.k==='myst'?1.35:o.k==='starlights'?1.3:1)/Math.max(0.8,Math.sqrt(ar));
       window.MAPS['b_dx_'+im]=im==='out'?'ui/i_dress.webp':'deco/'+im+'.webp';PLACES.curio.bld.push({img:'dx_'+im,cx:x,by:y,w,z:y,fp:[[x-w/2,y-1],[x+w/2,y]],deco:o.k,today:o.today,noShadow:1});});},
   dcard(k,today){if(k==='myst'&&this.myst()!=='cloth_gear'){const mk=this.mystK(),d=DECO[mk];
@@ -2412,7 +2412,7 @@ const Admin={
       ${sec('🪪 주민 진짜 이름',`<div class="st">${(Camp.rn||[]).map(m=>`${esc(m.fromName||'?')} = <b>${esc(m.text||'')}</b>`).join('<br>')||'아직 없어'}</div>`)}
       ${sec('📮 H에게 온 편지',`<div class="st">${hm.map((m,i)=>`<a data-hm="${i}" style="text-decoration:underline">${esc(m.fromName||'?')}</a> ${H_REPLY[m.fromName]?'✅맞춤답장':'⬜기본답장'} · ${new Date(m.ts||0).toLocaleDateString()}`).join('<br>')||'아직 없어'}</div>`)}
       ${sec('🔥 태운 걱정 (이름 없음)','<div class="st" id="wlist">불러오는 중…</div>')}
-      ${sec('🎮 현디 플레이 테스트',`<div class="st">현디 플레이 기록 · 지금 ${Quest.cur()||0}일차. 날짜를 고르고 위에서 🎮 플레이 모드로 바꾸면 그날 쪽지부터 시작해.</div><div class="lb">며칠차부터 해볼까</div><div class="row">${QUESTS.map(q=>b('ar_d'+q.id,q.id+'일차')).join('')}</div><div class="row">${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div><div class="row">${b('ar_mail','📭 받은 편지 비우기')}${b('ar_wipe','🧹 플레이 기록 다 지우고 처음부터')}</div>`)}
+      ${sec('🎮 현디 플레이 테스트',`<div class="st">현디 플레이 기록 · 지금 ${Quest.cur()||0}일차. 날짜를 고르고 위에서 🎮 플레이 모드로 바꾸면 그날 쪽지부터 시작해.</div><div class="lb">며칠차부터 해볼까</div><div class="row">${QUESTS.map(q=>b('ar_d'+q.id,q.id+'일차')).join('')}</div><div class="row">${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div><div class="lb">현디 플레이용 초 채우기 (지금 ${(Me.d.sec||0).toLocaleString()}초)</div><div class="row">${b('ar_s100','+100초')}${b('ar_s500','+500초')}${b('ar_s0','0초로')}</div><div class="row">${b('ar_mail','📭 받은 편지 비우기')}${b('ar_wipe','🧹 플레이 기록 다 지우고 처음부터')}</div>`)}
       ${sec('🧽 오픈 준비',`<div class="row">${b('w_wipe','공용 기록 비우기')}</div><div class="st">게시판 · 교환 상자 · 트리 · 책 속 쪽지 · 릴레이 책에 쌓인 걸 모두에게서 안 보이게 해.</div>`)}`}`;
     admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>this.click(x.dataset.k));
     admBody.querySelectorAll('[data-hm]').forEach(x=>x.onclick=()=>{const m=hm[+x.dataset.hm];if(!m)return;Case.open(`<div class="hlet"><div class="lt">${esc(m.fromName||'이웃')} → H</div><p style="white-space:pre-wrap">${esc(m.text||'')}</p></div>`);});},
@@ -2449,6 +2449,7 @@ const Admin={
       (async()=>{try{if(ONL()){const id=Camp.mine();if(id!=null){const D=Net.fn;await D.remove(D.ref(Net.db,'camp/'+id));}}}catch(e){console.warn('텐트 비우기 실패',e&&e.code);}
         Me.d={sec:0,bag:{},diary:{},asRes:1,mailSince:Date.now()};Me.save();this.close();toast('기록을 다 지웠어. 처음부터 시작!',1800);
         setTimeout(()=>{Tut.lock=true;enter('plaza',[85,80.5],[60,70]);Tut.arrive();},600);})();return;}
+    if(/^ar_s\d+$/.test(k)){const n=+k.slice(4);Me.d.sec=n?(Me.d.sec||0)+n:0;Me.save();toast(n?`+${n}초`:'초를 0으로',1200);this.render();return;}
     if(/^ar_d\d$/.test(k)){const n=+k.slice(4),r=Quest.admin(n===1?'q_reset':'q_day'+n);if(r)toast(r,2200);this.render();return;}
     if(k==='ar_next'||k==='ar_all'){const r=Quest.admin(k==='ar_next'?'q_next':'q_all');if(r)toast(r,1800);this.render();return;}
     if(k==='w_wipe'){if(confirm('게시판, 교환 상자, 트리 오너먼트, 책 속 쪽지, 릴레이 책에 지금까지 쌓인 걸 모든 주민에게서 안 보이게 할까? 되돌릴 수 없어.'))World.wipeShared();return;}
@@ -3190,7 +3191,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1127s';
+const APP_V='v1127t';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
