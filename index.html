@@ -515,7 +515,9 @@
   #adm button.b{border:0;border-radius:999px;padding:6px 11px;font:12px 'Gowun Dodum',sans-serif;background:#4b3a52;color:#fff4e6;}
   body.ornPick #view{cursor:crosshair;} #ornGhost{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translateX(-50%);width:44px;display:none;z-index:9;pointer-events:none;filter:drop-shadow(0 0 8px rgba(255,220,150,.9));animation:ghB 1.4s ease-in-out infinite;}
   @keyframes ghB{50%{transform:translate(-50%,-6px)}}
-  #adm details.ag{margin:8px 0;border-radius:10px;background:rgba(255,255,255,.06);padding:2px 10px 4px;} #adm details.ag summary{cursor:pointer;padding:8px 0;font-size:13px;list-style:none;} #adm details.ag summary:before{content:'▸ ';} #adm details.ag[open] summary:before{content:'▾ ';}
+  #adm details.ag{}
+  .stabs{display:flex !important;flex-wrap:nowrap !important;gap:6px;overflow-x:auto;padding:8px 0 6px;margin:4px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}.stabs::-webkit-scrollbar{display:none;}.stabs button{flex:none;border:0;border-radius:999px;padding:7px 12px;font:inherit;font-size:12.5px;background:rgba(255,255,255,.1);color:inherit;white-space:nowrap;}.stabs button.on{background:#f0c27a;color:#3a2230;font-weight:700;}.stb{background:rgba(255,255,255,.06);border-radius:10px;padding:8px 10px;}
+  .ag{margin:8px 0;border-radius:10px;background:rgba(255,255,255,.06);padding:2px 10px 4px;} #adm details.ag summary{cursor:pointer;padding:8px 0;font-size:13px;list-style:none;} #adm details.ag summary:before{content:'▸ ';} #adm details.ag[open] summary:before{content:'▾ ';}
   #adm button.b.on{background:#e0574a;} #adm .lb{opacity:.65;font-size:11px;margin-top:10px;} #adm .st{opacity:.8;font-size:12px;}
   #toast{position:fixed;left:50%!important;top:calc(14px + env(safe-area-inset-top))!important;transform:translate(-50%,-16px);opacity:0;transition:all .35s;z-index:70;max-width:88vw;box-sizing:border-box;
     padding:10px 16px;border-radius:16px;background:rgba(46,30,40,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 22px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,230,190,.18);
@@ -746,7 +748,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128b</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128c</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2417,7 +2419,7 @@ const Admin={
     Me.save();Me.hud();if(Bag.on)Bag.render();if(Note.on)Note.render();toast('완료',1000);this.render();},
   // 평소엔 꼭 필요한 것만. 개발용 전체 메뉴는 주소에 ?dev 를 붙이거나 테스트 모드일 때만
   render(){if(!(DEMO||/[?&]dev/.test(location.search)||Me.test)){this.slim();return;}this.full();},
-  slim(){const b=(k,t,c)=>`<button class="b${c?' on':''}" data-k="${k}">${t}</button>`,sec=(t,body)=>`<details class="ag" open><summary>${t}</summary>${body}</details>`,P=!!Me.d.asRes;
+  slim(){const b=(k,t,c)=>`<button class="b${c?' on':''}" data-k="${k}">${t}</button>`,SEC=[],sec=(t,body)=>{const i=SEC.length;SEC.push(t);return `<div class="stb" data-si="${i}" style="${(this.stab||0)===i?'':'display:none'}">${body}</div>`;},P=!!Me.d.asRes;
     const cs=World.cs?({open:'수수께끼 진행 중',closed:'수수께끼 닫힘',off:'평소'})[String(World.cs.text).split(':')[0]]||'평소':'평소';
     const hm=Camp.hbox||[];
     admBody.innerHTML=`<h4>⚙ 관리자</h4><div class="row">${P?b('m_h','👑 H 관리자 모드로 돌아가기'):b('m_h','👑 H 관리자 모드',1)+b('m_pl','🎮 현디 플레이 모드')}</div>
@@ -2430,6 +2432,8 @@ const Admin={
       ${sec('🔥 태운 걱정 (이름 없음)','<div class="st" id="wlist">불러오는 중…</div>')}
       ${sec('🎮 현디 플레이 테스트',`<div class="st">현디 플레이 기록 · 지금 ${Quest.cur()||0}일차. 날짜를 고르고 위에서 🎮 플레이 모드로 바꾸면 그날 쪽지부터 시작해.</div><div class="lb">며칠차부터 해볼까</div><div class="row">${QUESTS.map(q=>b('ar_d'+q.id,q.id+'일차')).join('')}</div><div class="row">${b('ar_all','✅ 오늘 부탁 다 한 걸로')}</div><div class="lb">현디 플레이용 초 채우기 (지금 ${(Me.d.sec||0).toLocaleString()}초)</div><div class="row">${b('ar_s100','+100초')}${b('ar_s500','+500초')}${b('ar_s0','0초로')}</div><div class="row">${b('ar_mail','📭 받은 편지 비우기')}${b('ar_wipe','🧹 플레이 기록 다 지우고 처음부터')}</div>`)}
       ${sec('🧽 오픈 준비',`<div class="row">${b('w_wipe','공용 기록 비우기')}</div><div class="st">게시판 · 교환 상자 · 트리 · 책 속 쪽지 · 릴레이 책에 쌓인 걸 모두에게서 안 보이게 해.</div>`)}`}`;
+    if(SEC.length){const first=admBody.querySelector('.stb');const bar=document.createElement('div');bar.className='stabs';bar.innerHTML=SEC.map((t,i)=>`<button data-st="${i}" class="${(this.stab||0)===i?'on':''}">${t}</button>`).join('');first.parentNode.insertBefore(bar,first);
+      bar.querySelectorAll('[data-st]').forEach(x=>x.onclick=()=>{this.stab=+x.dataset.st;bar.querySelectorAll('button').forEach(y=>y.classList.toggle('on',y===x));admBody.querySelectorAll('.stb').forEach(s=>s.style.display=+s.dataset.si===this.stab?'':'none');x.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});});const on0=bar.querySelector('.on');if(on0)bar.scrollLeft=on0.offsetLeft-bar.offsetWidth/2+on0.offsetWidth/2;}
     {const el=admBody.querySelector('#resList');if(el){Res.at=0;Res.load().then(()=>{const L=Res.list.filter(r=>r.name!==H_NAME);el.innerHTML=`<b>${L.length}명</b> (현디 빼고)<br>`+(L.map(r=>esc(r.name)).join(', ')||'아직 없어');}).catch(()=>{el.textContent='불러오기 실패 · 온라인일 때만 돼';});}}
     admBody.querySelectorAll('[data-k]').forEach(x=>x.onclick=()=>this.click(x.dataset.k));
     admBody.querySelectorAll('[data-hm]').forEach(x=>x.onclick=()=>{const m=hm[+x.dataset.hm];if(!m)return;Case.open(`<div class="hlet"><div class="lt">${esc(m.fromName||'이웃')} → H</div><p style="white-space:pre-wrap">${esc(m.text||'')}</p></div>`);});},
@@ -3209,7 +3213,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1128b';
+const APP_V='v1128c';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
