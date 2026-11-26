@@ -737,7 +737,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126g</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126h</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -2052,7 +2052,22 @@ csEl.querySelector('.x').addEventListener('click',()=>Case.close());csEl.addEven
 /* ===================== 처음 온 주민: 도착 → 광장 튜토리얼 → 편지새 쪽지 → H의 부탁 → 트리 밑 선물 ===================== */
 const H_NAME='현디';
 // 친구별 H 답장. 이름(가입할 때 쓴 이름) : '본문' — 없으면 기본 답장이 가.
-const H_REPLY={};
+const H_REPLY={
+'현디':`현디에게.
+
+우리가 처음 만난 날이 언제였더라.
+아무리 떠올려 봐도 안 떠올라.
+처음 같은 건 없었던 것 같아. 우린 원래부터 알던 사이였으니까.
+
+네가 무슨 생각을 하는지, 언제 웃고 언제 꾹 참는지
+누구보다 내가 제일 잘 알아.
+아마 너도 나를 그렇게 알고 있겠지.
+
+이 마을에 불을 켜 둔 것도, 사람들을 부른 것도
+결국 다 같은 마음이었어.
+
+오늘은 아무것도 안 해도 돼. 천천히 둘러봐.`,
+};
 const voc=n=>{const c=n.charCodeAt(n.length-1)-0xAC00;return n+((c>=0&&c<=11171&&c%28)?'아':'야');};
 const tutb=document.getElementById('tutb'),hTip=document.getElementById('hTip'),coachEl=document.getElementById('coach');
 const Tip={T:{pick:"바다 물건엔 흘러간 시간이 담겨 있대. 만물상 달무리 아저씨한테 가져가면 '초'로 바꿔줘.",sell:"'초'는 시간이 멈춘 이 마을의 돈이야. 가방 → 지갑에서 볼 수 있어. 우표도 신문도 초로 사.",post:"편지 책상에서 편지를 쓰고, 카운터에서 우표를 붙여서 부치면 돼."},
@@ -2171,7 +2186,7 @@ const Quest={
   // 다음 날 쪽지가 올 때가 됐는지 (전날 부탁을 다 했고, 날짜가 바뀌었으면)
   check(){if(!Me.ready||!me||Tut.step||switching)return;if(isHR())return;const n=this.cur();if(!n||n>=QUESTS.length||!this.done(n))return;
     const D=this.q().days[n];if(!D.doneAt)return;if(this.today()<=(D.doneDay||ymd(new Date(D.doneAt))))return;if(this._wait)return;this._wait=1;setTimeout(()=>{this._wait=0;if(this.cur()===n)Tut.bird(n+1);},2500);},
-  reply(){const n=me.name,text=H_REPLY[n]?H_REPLY[n]+'\n\n— H':`${voc(n)}, 편지 잘 받았어!\n와 줘서 정말 고마워. 네가 이 마을에 있다고 생각하니까 벌써 든든해.\n\n우리 처음 만났던 날 기억나? 그때부터 지금까지 곁에 있어 줘서 고마워.\n\n오늘은 천천히 마을 구경하고 푹 쉬어. 내일도 편지새가 쪽지 가져갈 거야.\n\n— H`;
+  reply(){const n=me.name;if(H_REPLY[n]){Me.d.hrDone=1;Me.save();}const text=H_REPLY[n]?H_REPLY[n]+'\n\n— H':`${voc(n)}, 편지 잘 받았어!\n와 줘서 정말 고마워. 네가 이 마을에 있다고 생각하니까 벌써 든든해.\n\n우리 처음 만났던 날 기억나? 그때부터 지금까지 곁에 있어 줘서 고마워.\n\n오늘은 천천히 마을 구경하고 푹 쉬어. 내일도 편지새가 쪽지 가져갈 거야.\n\n— H`;
     setTimeout(async()=>{if(Me.test||!Net.online){const ib=Me.d.inbox||(Me.d.inbox=[]);ib.push({id:'h'+Date.now(),k:'l',from:'H',fromName:H_NAME,text,ts:Date.now()});if(ib.length>30)ib.shift();Me.save();Camp.local();}
       else{try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+Net.uid),{k:'l',from:'H',fromName:H_NAME,text,ts:D.serverTimestamp()});}catch(e){console.warn('H 답장 실패',e&&e.code);}}
       think('편지새가 H 답장을 물고 갔어. 텐트 우체통에 가 봐야지.');},20000);},
@@ -3018,10 +3033,12 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126g';
+const APP_V='v1126h';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
+// 맞춤 답장이 나중에 생긴 경우: 이미 H에게 편지를 보낸 사람에게 한 번 더 보내 줌
+setInterval(()=>{try{if(Me.ready&&me&&!Me.test&&H_REPLY[me.name]&&!Me.d.hrDone&&Quest.q()&&Quest.q().ev&&Quest.q().ev.mail)Quest.reply();}catch(e){}},5000);
 const BELLS={},CLK={};function bellSpam(k){const t=BELLS[k]||[];return t.length>=3;}
 function ringBell(a){if(!a.bell)return;{const k=a.act||'x',n=performance.now(),t=(BELLS[k]||[]).filter(v=>n-v<9000);t.push(n);BELLS[k]=t;}Snd.syn&&Snd.syn('ding',0.8);const d=document.createElement('div');d.className='bellRing';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';d.innerHTML='<i></i>';tagsEl.appendChild(d);setTimeout(()=>d.remove(),1300);}
 function bellHints(){document.querySelectorAll('.bellHint').forEach(e=>e.remove());(P.acts||[]).forEach(a=>{if(!a.bell)return;const d=document.createElement('div');d.className='bellHint';d.style.left=a.bell[0]+'%';d.style.top=a.bell[1]+'%';tagsEl.appendChild(d);});}
