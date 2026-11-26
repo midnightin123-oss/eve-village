@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126l</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126m</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1404,7 +1404,7 @@ const Shop={tray:{},line:'',mode:'sell',
     const tc=tr.map(id=>`<button class="cell" data-b="${id}">${itemImg(id,64)}<i>${this.tray[id]}</i></button>`).join('');
     const tot=tr.reduce((s,id)=>s+ITEMS[id].sec*this.tray[id],0);
     shopBody.innerHTML=`<div class="pan"><div class="hd"><img src="ui/i_bag.webp" width="22" height="22" alt="">내 가방</div><div class="grid">${cells||'<div style="grid-column:1/-1;opacity:.7;padding:10px 4px">비어 있어</div>'}</div><div class="sub">내놓을 물건을 골라봐. 달무리가 그 물건에 깃든 시간을 재어줄 거야</div></div>
-      <div class="pan k"><div class="hd">🔮 달무리 · 만물상 주인</div><div class="say">${esc(this.spam?'…한 번만 쳐도 들려. 귀는 좋아.':(ids.length?this.line:KEEP.empty))}</div><div class="memo">📌 흥정 사절. 불쌍한 표정도 흥정으로 간주함.</div><button class="fbtn" data-furn>🪑 가구는 어딨어?</button><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
+      <div class="pan k"><div class="hd">🔮 달무리 · 만물상 주인</div><div class="say">${esc(this.spam?'…한 번만 쳐도 들려. 귀는 좋아.':(ids.length?this.line:KEEP.empty))}</div><div class="grid">${tc||'<div style="grid-column:1/-1;opacity:.6;padding:10px 4px">여기에 올려놔</div>'}</div>
       <div class="ft"><span>받을 시간 <b>${tot}</b>초</span><button class="go"${tot?'':' disabled'}>바꾸기</button></div><div class="sub">가진 시간 ${(Me.d.sec||0).toLocaleString()}초</div></div>`;
     shopBody.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const id=b.dataset.a,it=ITEMS[id];
       if(it.nosell){this.line='그건 안 받아. 그런 건 주인이 따로 있는 법이지.';this.render();return;}
@@ -1815,23 +1815,24 @@ const FURN={
   side:{n:'협탁',sw:0.55,fw:0.5,fd:0.42,ar:309/306,rot:[['f']]},
   win:{n:'창문',wall:1,sw:1.05,ar:437/455,rot:[['f']]}};
 // 만물상 왼쪽 벤치: 가구 진열 (뒷단 고정 4 + 앞단 날마다 4)
-const FURN_DESC={table:'테이블. 위에 뭘 올려도 불평 안 해.',chair:'의자. 앉으면 앉아져. 그게 다야.',plant:'화분. 물 안 줘도 돼. 여긴 시간이 안 가거든.',side:'협탁. 침대 옆에 두면 협탁, 아무 데나 두면 그냥 탁.',
- armchair:'안락의자. 한번 앉으면 일어나기 싫어져. 반품 사유는 아니야.',stove:'난로. 따뜻해. 장작은 알아서 들어와 있어.',shelf:'수집 선반. 주운 걸 올려 두면 좀 귀해 보여.',rack:'편지꽂이. 받은 편지를 꽂아 둬. 안 받으면 그냥 꽂이.',
- lamp:'스탠드. 해질녘이 조금 더 길어지는 기분이야.',rug:'러그. 발이 덜 외로워.','win:forest':'숲이 보이는 창. 벽에 걸면 숲이 생겨. 진짜 숲은 아님.','win:sky':'하늘이 보이는 창. 늘 노을이야. 다른 하늘은 재고가 없어.','win:sea':'바다가 보이는 창. 파도 소리는 안 들어 있어. 대신 조용해.'};
+const FURN_DESC={table:'그 테이블? 뭘 올려도 불평 한마디 안 하지. 나보다 낫구먼.',chair:'앉으면 앉아지는 의자야. 그게 다냐고? 의자한테 뭘 더 바라나.',plant:'물 안 줘도 돼. 여긴 시간이 안 가니까 시들 틈이 없어.',side:'협탁이야. 침대 옆에 두면 협탁, 아무 데나 두면 그냥 탁이지.',
+ armchair:'한번 앉으면 일어나기 싫어질걸. 미리 말했다. 반품 사유는 아니야.',stove:'따뜻하다네. 장작은 어디서 오냐고? …묻지 않는 게 예의야.',shelf:'주운 걸 올려 두면 좀 귀해 보이지. 물건도 자리빨이 있어.',rack:'받은 편지 꽂아 두는 거야. 안 받으면 그냥 꽂이고. 슬프구먼.',
+ lamp:'켜 두면 해질녘이 조금 더 길어지는 기분이 들지. 기분만.',rug:'발이 덜 외로워져. 발도 외로움을 타거든.','win:forest':'벽에 걸면 숲이 생겨. 진짜 숲은 아니니까 나무는 심지 말게.','win:sky':'늘 노을인 하늘이야. 다른 하늘은 재고가 없어.','win:sea':'바다가 보이는 창. 파도 소리는 안 들어 있어. 대신 조용하지.'};
+const BENCH_SIDE={chair:1,armchair:1,stove:1,rack:1,shelf:1}; // 옆으로 돌려 진열 (통로 쪽을 보게)
 const BENCH_FIX=['chair','table','plant','side'],BENCH_ROT=['armchair','stove','shelf','rack','lamp','rug','win:forest','win:sky','win:sea'];
 const BENCH_SLOT=[[16.6,63.4],[13.3,67.5],[10,71.6],[6.8,75.6],[21.4,68.6],[17.9,73.8],[14.4,79],[10.9,84.2]];
 const Bench={
   today(){const d=Quest.today(),h=[...d].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,11),idx=[...BENCH_ROT.keys()];
     for(let i=idx.length-1;i>0;i--){const j=(h*(i+5)+i*3)%(i+1);[idx[i],idx[j]]=[idx[j],idx[i]];}return idx.slice(0,4).map(i=>BENCH_ROT[i]);},
-  img(k){const [kk,v]=k.split(':');return kk==='win'?`home/win_${v}.webp`:`home/${kk}.webp`;},
+  img(k){const [kk,v]=k.split(':');return kk==='win'?`home/win_${v}.webp`:`home/${kk}${BENCH_SIDE[kk]?'_s':''}.webp`;},
   nm(k){const [kk,v]=k.split(':');return kk==='win'?josa(HVIEWN[v],'이','가')+' 보이는 창':FURN[kk].n;},
   price(k){const f=FURN_SHOP.find(x=>x[0]===k);return f?f[1]:20;},
   apply(){const L=BENCH_FIX.concat(this.today());
     PLACES.curio.bld=L.map((k,i)=>{const [x,y]=BENCH_SLOT[i],kk=k.split(':')[0],sw=Math.min(FURN[kk].sw,1.1),w=(6.4+(y-63)*0.2)*(0.62+0.42*sw)*(kk==='win'?0.85:1),key='fx_'+k.replace(':','_');
-      window.MAPS['b_'+key]=this.img(k);return {img:key,cx:x,by:y,w,z:y,fp:[[x-w/2,y-1],[x+w/2,y]],furn:k,rot:i>=4,noShadow:1};});},
+      window.MAPS['b_'+key]=this.img(k);return {img:key,cx:x,by:y,w:BENCH_SIDE[kk]?w*0.85:w,z:y,fp:[[x-w/2,y-1],[x+w/2,y]],furn:k,rot:i>=4,noShadow:1,flip:!!BENCH_SIDE[kk]};});},
   card(k){Snd.syn&&Snd.syn('tap');let el=document.getElementById('fcard');if(!el){el=document.createElement('div');el.id='fcard';document.body.appendChild(el);el.addEventListener('pointerup',e=>{if(e.target===el)el.classList.remove('on');});}
     const R=Home.room(),own=R.inv.concat(R.items).filter(o=>(o.k==='win'?'win:'+(o.v||'sea'):o.k)===k).length,p=this.price(k),nm=this.nm(k),rot=BENCH_FIX.indexOf(k)<0;
-    const draw=(line,done)=>{el.innerHTML=`<div class="c"><div class="tg">🔮 달무리 · 만물상${rot?' <i>오늘 들어온 물건</i>':''}</div><img src="${this.img(k)}" alt=""><b>${esc(nm)}</b><p>${esc(line)}</p>
+    const draw=(line,done)=>{el.innerHTML=`<div class="c"><div class="tg">🔮 달무리 · 만물상${rot?' <i>오늘 들어온 물건</i>':''}</div><img src="${this.img(k)}" alt="" style="${BENCH_SIDE[k]?'transform:scaleX(-1)':''}"><b>${esc(nm)}</b><p>“${esc(line)}”</p>
       <div class="pr">${p}초${own?` · 텐트에 ${own}개 있음`:''} <span>가진 시간 ${(Me.d.sec||0).toLocaleString()}초</span></div>
       <div class="bt">${done?'<button data-x class="go">고마워</button>':`<button data-x>그냥 볼게</button><button data-y class="go">${p}초에 살래</button>`}</div></div>`;
       el.querySelector('[data-x]').onclick=()=>el.classList.remove('on');
@@ -3074,7 +3075,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126l';
+const APP_V='v1126m';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
