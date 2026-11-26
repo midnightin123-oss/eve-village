@@ -746,7 +746,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126o</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1126p</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -968,17 +968,21 @@ const Acc={
       [-1,1].forEach(s=>{const q=new THREE.Mesh(new THREE.CylinderGeometry(0.075,0.075,0.05,20),cu);q.rotation.x=Math.PI/2;q.position.set(-0.02,0.12,s*0.33);H.add(q);});}
   }};
 function setLook(c,look){look=Object.assign({h:0,s:0,p:0,k:0,o:0,hs:0,cl:0,ac:''},look||{});c.look=look;c.u.uOut.value=look.cl||0;if(c.body)Acc.apply(c,look);const t=c.u.uTints.value;t[0].copy(tintFor('k',look.k));t[1].copy(tintFor('h',look.h));t[2].copy(tintFor('s',look.s));t[3].copy(tintFor('p',look.p));t[4].copy(tintFor('o',look.o));}
-function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uOut:{value:0},uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uKnee:{value:0},uShin:{value:0},uArm:{value:0},uArmR:{value:0},uHead:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
+const FABRIC={};['knit','denim','check'].forEach(k=>{const t=new THREE.TextureLoader().load('tex/'+k+'.jpg');t.wrapS=t.wrapT=THREE.RepeatWrapping;FABRIC[k]=t;});
+function charMaterial(){const m=new THREE.MeshLambertMaterial({map:baseMap});const u={uKnit:{value:FABRIC.knit},uDenim:{value:FABRIC.denim},uCheck:{value:FABRIC.check},uOut:{value:0},uPhase:{value:0},uWalk:{value:0},uSit:{value:0},uKnee:{value:0},uShin:{value:0},uArm:{value:0},uArmR:{value:0},uHead:{value:0},uRegion:{value:regionTex},uTints:{value:[0,1,2,3,4].map(()=>new THREE.Vector3(1,1,1))}};
   m.onBeforeCompile=(sh)=>{Object.assign(sh.uniforms,u);sh.vertexShader='varying vec3 vOP;uniform float uPhase;uniform float uWalk;uniform float uSit;uniform float uKnee;uniform float uShin;uniform float uArm;uniform float uArmR;uniform float uHead;\n'+sh.vertexShader.replace('#include <begin_vertex>',DEFORM+'vOP=position;');
-    sh.fragmentShader='varying vec3 vOP;uniform float uOut;uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+    sh.fragmentShader='varying vec3 vOP;uniform float uOut;uniform sampler2D uKnit;uniform sampler2D uDenim;uniform sampler2D uCheck;uniform sampler2D uRegion;uniform vec3 uTints[5];\n'+sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
     float rg=texture2D(uRegion,vMapUv).r;vec3 tn=vec3(1.);
     if(rg<0.13)tn=uTints[0];else if(rg<0.32)tn=uTints[1];else if(rg<0.45)tn=vec3(1.);else if(rg<0.62)tn=uTints[2];else if(rg<0.87)tn=uTints[3];else tn=uTints[4];
     diffuseColor.rgb=min(diffuseColor.rgb*tn,vec3(1.));
     bool shR=rg>=0.45&&rg<0.62,paR=rg>=0.62&&rg<0.87;vec3 pc=min(vec3(0.27,0.28,0.115)*uTints[3],vec3(1.));
-    if(uOut>0.5&&uOut<1.5&&shR){float r=0.5+0.5*sin(vOP.z*150.+sin(vOP.y*260.)*0.9);diffuseColor.rgb*=0.84+0.16*r;if(vOP.y<-0.27)diffuseColor.rgb*=0.86;}
-    else if(uOut>1.5&&uOut<2.5&&shR&&vOP.x>0.&&(abs(abs(vOP.z)-0.075)<0.022||(vOP.y<-0.205&&abs(vOP.z)<0.098))){diffuseColor.rgb=pc;if(vOP.y>-0.215&&vOP.y<-0.19&&abs(abs(vOP.z)-0.075)<0.016)diffuseColor.rgb=vec3(0.75,0.6,0.3);}
+    vec2 fu=vec2(vOP.z+vOP.x*0.55,vOP.y);
+    if(uOut>0.5&&uOut<1.5&&shR){diffuseColor.rgb*=mix(1.,texture2D(uKnit,fu*vec2(3.2,1.8)).r*1.25,0.9);if(vOP.y<-0.27)diffuseColor.rgb*=0.88;}
+    else if(uOut>1.5&&uOut<2.5){float dn=texture2D(uDenim,fu*vec2(4.,2.2)).r*1.25;
+      if(shR&&vOP.x>0.&&(abs(abs(vOP.z)-0.075)<0.022||(vOP.y<-0.205&&abs(vOP.z)<0.098))){diffuseColor.rgb=pc*dn;if(vOP.y>-0.215&&vOP.y<-0.19&&abs(abs(vOP.z)-0.075)<0.016)diffuseColor.rgb=vec3(0.75,0.6,0.3);}
+      else if(paR)diffuseColor.rgb*=mix(1.,dn,0.9);}
     else if(uOut>2.5&&uOut<3.5&&shR&&vOP.x>0.05&&vOP.y<-0.235&&vOP.y>-0.3&&abs(vOP.z)<0.085)diffuseColor.rgb*=0.84;
-    else if(uOut>3.5&&uOut<4.5&&(shR||paR)){float ck=mod(floor(vOP.z*26.)+floor((vOP.y+vOP.x*0.3)*26.),2.);diffuseColor.rgb*=mix(0.8,1.,ck);}
+    else if(uOut>3.5&&uOut<4.5&&(shR||paR)){diffuseColor.rgb*=clamp(1.+(texture2D(uCheck,fu*vec2(2.2,1.25)).r*1.25-1.)*1.8,0.45,1.25);}
     float lum=dot(diffuseColor.rgb,vec3(0.299,0.587,0.114));diffuseColor.rgb=mix(vec3(lum),diffuseColor.rgb,0.85);`);};
   m.customProgramCacheKey=()=>'villagerDeform';return {m,u};}
 const shCan=document.createElement('canvas');shCan.width=shCan.height=64;const sx=shCan.getContext('2d');const sgr=sx.createRadialGradient(32,32,0,32,32,32);sgr.addColorStop(0,'rgba(30,15,35,.5)');sgr.addColorStop(1,'rgba(30,15,35,0)');sx.fillStyle=sgr;sx.fillRect(0,0,64,64);
@@ -3104,7 +3108,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1126o';
+const APP_V='v1126p';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
