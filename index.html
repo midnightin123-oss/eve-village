@@ -748,7 +748,7 @@
 <div id="note" class="ov"><div class="nb"><button class="x" aria-label="닫기">×</button><div class="tabs"><button data-t="cal">달력</button><button data-t="day">일기</button><button data-t="req">부탁</button><button data-t="mys">수수께끼</button><button data-t="fr">친구</button></div><div class="pgs"><div id="noteL"></div><div id="noteR"></div></div></div></div><div id="toast"></div><div id="tutb"></div><div id="hTip"></div><div id="coach"></div><div id="cs"><div class="card"><button class="x" aria-label="닫기">×</button><div id="csBody"></div></div></div><div id="csd"></div><button id="admBtn" aria-label="관리자">⚙</button><div id="admTag">테스트 중 · 기록이 저장되지 않아요</div><div id="adm" class="ov"><div class="card"><button class="x" aria-label="닫기">×</button><div id="admBody"></div></div></div><div id="pst"><div class="card"><button class="x" aria-label="닫기">×</button><div id="pstBody"></div></div></div><div id="shop"><div class="card"><button class="x" aria-label="닫기">×</button><div id="shopBody"></div></div></div><button id="sndBtn" aria-label="소리"><img src="ui/i_snd_on.webp" alt=""></button><div id="dress"></div><div id="who">1명 접속 중</div>
 <button id="standBtn">일어나기</button><button id="fireBtn">🔥 모닥불 앞에서 뭐 할까</button><button id="focusBtn"></button><button id="outBtn">나가기</button><button id="decoBtn">꾸미기</button><div id="homeEdit"></div><div id="homeBar"></div><form id="chat" autocomplete="off"><input id="msg" maxlength="60" placeholder="이웃에게 한마디"><button type="submit">보내기</button></form>
 <div id="fade"><div class="fcap" id="fcap"></div></div>
-<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128p</div>
+<div id="title"><div style="position:absolute;right:10px;bottom:8px;font-size:11px;opacity:.45">v1128q</div>
 <div class="scr" id="invScr"><div class="env" id="envBtn"><div class="flap"></div><div class="seal">H</div></div><p class="tt">현디에게서 초대장이 왔어요</p><p class="hint">봉투를 눌러 열어봐</p>
   <div class="letter" id="invLetter"><div class="lt">이브 빌리지로의 초대</div>
     <p>내가 아는 소중한 사람들을 전부 이 마을에 불렀어.<br>그러니까 여기 오는 사람은 다 내 친구야. 너희끼리는 처음 보는 사이일 수도 있지만.</p>
@@ -1512,6 +1512,7 @@ async function sendReal(){let rl='';try{rl=LS.getItem('ev_real')||'';}catch(e){}
   try{const D=Net.fn;await D.push(D.ref(Net.db,'mail/'+hu),{k:'rn',from:Net.uid,fromName:me.name,text:rl,toH:true,ts:D.serverTimestamp()});Me.d.realSent=1;Me.save();}catch(e){console.warn('진짜 이름 전달 실패',e&&e.code);}}
 const Mail={
   async deliver(d){const toH=String(d.to).startsWith('H:');let to=String(d.to).replace(/^H:/,'');
+    if(FIREBASE_CONFIG&&!Me.test&&!Net.online){toast('마을이랑 연결이 끊겨서 편지를 못 보냈어. 새로고침하면 다시 보낼게',2600);return false;}
     // H 주소를 못 찾아 연습용(demoH)으로 적힌 편지: 진짜 접속 중이면 다시 찾아서 보내고, 못 찾으면 보내지 말고 들고 있기
     if(toH&&to.startsWith('demo')&&Net.online&&!Me.test){Res.at=0;await Res.load();const hu=(Res.list.find(r=>r.name===H_NAME)||{}).uid;if(!hu){reportErr('H 주소 못 찾음','deliver');return false;}to=hu;d.to='H:'+hu;}
     if(Me.test||!Net.online||to.startsWith('demo')){const ib=Me.d.inbox||(Me.d.inbox=[]);if(!toH&&to!=='demoH')ib.push({id:'t'+Date.now(),k:d.k,from:'demo1',fromName:'연습 이웃',pen:d.k==='p'?'바닷바람':undefined,text:d.text||'',items:d.k==='c'?d.items:undefined,ts:Date.now()});if(ib.length>30)ib.shift();if(typeof Camp!=='undefined'&&Camp.base)Camp.local();return true;}const D=Net.fn;
@@ -1687,9 +1688,11 @@ function hexN(h){return [parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)
 const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:null,
   init(){if(!this.base)this.base=PLACES.camp.bld.slice();this.apply();
     if(!Net.online&&FIREBASE_CONFIG&&!Me.test&&(this._w=(this._w||0)+1)<20){this.local();setTimeout(()=>this.init(),3000);return;}
-    if(Net.online&&!Me.test){const D=Net.fn;if(this._sub)return;this._sub=1;D.onValue(D.ref(Net.db,'camp'),s=>{this._ok=1;this.claims=s.val()||{};this.apply();if(!this._pub){const m=this.mine();if(m!=null){this._pub=1;if(!this.claims[m].room&&Home.room().items.length)Home.pub();}}},e=>{reportErr(e,'camp구독');this._sub=0;setTimeout(()=>this.init(),5000);});
+    if(Net.online&&!Me.test){const D=Net.fn;if(this._sub)return;this._sub=1;D.onValue(D.ref(Net.db,'camp'),s=>{this._ok=1;this.claims=s.val()||{};this.apply();this.heal();if(!this._pub){const m=this.mine();if(m!=null){this._pub=1;if(!this.claims[m].room&&Home.room().items.length)Home.pub();}}},e=>{reportErr(e,'camp구독');this._sub=0;setTimeout(()=>this.init(),5000);});
       D.onValue(D.ref(Net.db,'mail/'+Net.uid),s=>{const v=s.val()||{};const ms=(Me.d&&Me.d.mailSince)||0,raw=Object.entries(v).map(([id,m])=>Object.assign({id},m)),all=raw.filter(m=>(m.ts||0)>=ms);this._hraw=raw.filter(m=>m.toH&&m.k!=='rn');Talk.mail(all.filter(m=>m.k==='w'));this.rn=all.filter(m=>m.k==='rn');if(this.rn.length!==(this._rnN||0)){this._rnN=this.rn.length;try{if(admEl.classList.contains('on'))Admin.render();}catch(e){}}this.hbox=this._hraw.sort((a,b)=>(b.ts||0)-(a.ts||0));if(this.hbox.length!==(this._hbN||0)){this._hbN=this.hbox.length;try{if(admEl.classList.contains('on'))Admin.render();}catch(e){}}const dflt=m=>m.fromH&&m.from===Net.uid&&String(m.text||'').includes('우리 처음 만났던 날 기억나?');this._all=all.filter(m=>!dflt(m));this.inbox=this._all.filter(m=>m.k!=='w'&&m.k!=='rn'&&!m.toH&&!(m.showAt&&m.showAt>Date.now())).sort((a,b)=>(b.ts||0)-(a.ts||0));this.inbox.forEach(m=>{if(m.k!=='p'&&!m.fromH&&m.fromName)Friends.add(m.from,m.fromName,'mail');});this.count();this.hAlert();});}
     else this.local();},
+  heal(){if(this._heal||Me.test||!Net.online)return;const H=Me.d.home;if(!H||H.id==null||this.mine()!=null)return;this._heal=1;const D=Net.fn,rec={uid:Net.uid,name:me.name,t:H.t||'dome',c:H.c||0,f:H.f||0};
+    D.runTransaction(D.ref(Net.db,'camp/'+H.id),cur=>cur?undefined:rec).then(r=>{if(r.committed){setTimeout(()=>Home.pub(),1500);think('내 텐트, 제자리에 다시 세워 뒀어.');}else{delete Me.d.home;Me.save();think('내 텐트 자리에 다른 친구가 텐트를 쳤네. 들판에서 새 자리를 골라야겠다.');}}).catch(e=>reportErr(e,'heal'));},
   local(){this.claims={};const h=Me.d.home;if(h)this.claims[h.id]={uid:'me',name:me?me.name:'나',t:h.t,c:h.c,f:h.f};this.inbox=(Me.d.inbox||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));this.count();this.apply();},
   // 현디 계정: 친구가 H에게 편지 보내면 누가 썼는지 알림
   hAlert(){if(!me||me.name!==H_NAME||Me.test)return;const seen=Me.d.hSeen||0,nw=(this.hbox||[]).filter(m=>(m.ts||0)>seen);if(!nw.length)return;
@@ -1766,7 +1769,7 @@ const Camp={claims:{},base:null,inbox:[],unread:0,sel:{t:'dome',c:0,f:0},cur:nul
     pstBody.querySelectorAll('[data-tt]').forEach(b=>b.onclick=()=>{s.t=b.dataset.tt;this.form(mode);});
     pstBody.querySelectorAll('[data-tc]').forEach(b=>b.onclick=()=>{s.c=+b.dataset.tc;this.form(mode);});
     pstBody.querySelector('[data-claim]').onclick=()=>this.claim(mode);},
-  async claim(mode){const id=mode==='edit'?this.mine():this.cur,old=this.mine(),s=this.sel,rec={uid:this.myUid(),name:me.name,t:s.t,c:s.c,f:s.f};
+  async claim(mode){if(FIREBASE_CONFIG&&!Me.test&&!Net.online){this.show('<div class="hd">앗</div><div class="say"><b>🍃 바람</b>마을이랑 연결이 끊겼어. 화면을 새로고침하고 다시 쳐 줘.</div>');return;}const id=mode==='edit'?this.mine():this.cur,old=this.mine(),s=this.sel,rec={uid:this.myUid(),name:me.name,t:s.t,c:s.c,f:s.f};
     const btn=pstBody.querySelector('[data-claim]');if(btn)btn.disabled=true;
     if(Net.online&&!Me.test){const D=Net.fn;try{
         if(mode==='edit'){const old0=this.claims[id];if(old0&&old0.room)rec.room=old0.room;await D.set(D.ref(Net.db,'camp/'+id),rec);}
@@ -3257,7 +3260,7 @@ if(window.visualViewport){const vv=visualViewport,fix=()=>{const kb=Math.max(0,i
     if(kb>80){const top=vv.offsetTop+vv.height;ch.style.bottom='auto';ch.style.top=(top-ch.offsetHeight-8)+'px';if(tk){tk.style.top=(vv.offsetTop+12)+'px';tk.style.bottom='auto';tk.style.height=Math.max(120,vv.height-ch.offsetHeight-32)+'px';}}
     else{ch.style.top='';ch.style.bottom='';if(tk){tk.style.top='';tk.style.bottom='';tk.style.height='';}}};vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);setInterval(fix,400);}
 // 새 버전 알림: 열어 둔 채로 있으면 예전 버전이 남아 있으니, 새 버전이 올라오면 새로고침 버튼을 띄움
-const APP_V='v1128p';
+const APP_V='v1128q';
 setInterval(()=>{fetch('index.html?u='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/>(v\d{4}[a-z]*)</);if(m&&m[1]!==APP_V&&!document.getElementById('newV')){const b=document.createElement('button');b.id='newV';b.textContent='✨ 새 버전이 나왔어 · 눌러서 새로고침';b.onclick=()=>{location.replace(location.pathname+'?v='+m[1]+location.hash);};document.body.appendChild(b);}}).catch(()=>{});},120000);
 // 앱 나갔다 오면 소리 다시 켜기 (아이폰은 화면을 한 번 눌러야 켜짐)
 {const wake=()=>{try{if(Snd.ctx&&Snd.ctx.state!=='running')Snd.ctx.resume();}catch(e){}};document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake();});addEventListener('pageshow',wake);addEventListener('focus',wake);document.addEventListener('pointerdown',wake,true);}
@@ -3435,7 +3438,7 @@ dressBtn.addEventListener('pointerup',e=>{e.stopPropagation();openDress();});
 /* ===================== 9. 게임 루프 ===================== */
 let last=performance.now();
 // 오류가 나면 기록해 두고(관리자 화면에서 확인) 게임은 계속 돌게
-function reportErr(e,where){try{const m=String((e&&e.message)||e),st=String((e&&e.stack)||'').split('\n').slice(0,3).join(' | ');if(!window._errOnce)window._errOnce={};const k=m+where;if(window._errOnce[k])return;window._errOnce[k]=1;
+function reportErr(e,where){try{if(/audio device|AudioContext|NotAllowedError|play\(\) request/i.test(String((e&&e.message)||e)))return;const m=String((e&&e.message)||e),st=String((e&&e.stack)||'').split('\n').slice(0,3).join(' | ');if(!window._errOnce)window._errOnce={};const k=m+where;if(window._errOnce[k])return;window._errOnce[k]=1;
   console.warn('[오류]',where,m,st);LS.setItem('ev_err',JSON.stringify({m,st,where,pl:typeof placeKey!=='undefined'?placeKey:'',t:Date.now()}));try{if(Net.online&&Net.uid){const D=Net.fn;D.set(D.ref(Net.db,'residents/'+Net.uid+'/err'),{m:m.slice(0,160),w:String(where).slice(0,30),s:st.slice(0,300),v:APP_V,t:Date.now()}).catch(()=>{});}}catch(_){}}catch(_){}}
 window.addEventListener('error',e=>reportErr(e.error||e.message,'window'));window.addEventListener('unhandledrejection',e=>reportErr(e.reason,'promise'));
 function frame(now){requestAnimationFrame(frame);try{frameBody(now);}catch(e){reportErr(e,'frame');}}
